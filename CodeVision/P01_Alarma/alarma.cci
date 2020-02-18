@@ -1,9 +1,9 @@
-VERSION:3 SOURCE_TIMESTAMP:505284C2
-NODE:I LEVEL:0 LINE:27 "C:\cvavreval\inc\90usb1286.h"
-NODE:I LEVEL:0 LINE:28 "C:\cvavreval\inc\ds1302.h"
-NODE:I LEVEL:0 LINE:29 "C:\cvavreval\inc\display.h"
-NODE:I LEVEL:0 LINE:30 "C:\cvavreval\inc\delay.h"
-NODE:I LEVEL:0 LINE:31 "C:\cvavreval\inc\stdio.h"
+VERSION:3 SOURCE_TIMESTAMP:50528596
+NODE:I LEVEL:0 LINE:27 "C:\cvavr\inc\90usb1286.h"
+NODE:I LEVEL:0 LINE:28 "C:\cvavr\inc\ds1302.h"
+NODE:I LEVEL:0 LINE:29 "C:\cvavr\inc\display.h"
+NODE:I LEVEL:0 LINE:30 "C:\cvavr\inc\delay.h"
+NODE:I LEVEL:0 LINE:31 "C:\cvavr\inc\stdio.h"
 NODE:V LEVEL:0 LINE:35 "alarmFlag -> RAM:????"
 NODE:V LEVEL:0 LINE:36 "AH -> EEPROM:????"
 NODE:V LEVEL:0 LINE:36 "AM -> EEPROM:????"

@@ -2,7 +2,7 @@
  * alarma.c
  *
  * Created: 11-Feb-20 5:39:55 PM
- * Author: javie
+ * Author: iavie
  */
 
 // LCD config
@@ -45,8 +45,8 @@ unsigned char time[16];
 float temperature;
 unsigned int Temp;
 
-// Voltage Reference: Int., cap. on AREF
-#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
+// Voltage Reference: AREF pin
+#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))
 
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
@@ -72,7 +72,7 @@ void updateADC(){
 }
 
 // Counter
-unsigned char j=0;
+unsigned char i=0;
 
 // Tone
 // Play frequency function
@@ -159,7 +159,7 @@ while (1){
         
         // Counter
         delay_ms(50);
-        j++;
+        i++;
         
         // ADC 
         updateADC();
@@ -170,7 +170,7 @@ while (1){
         printTime();
         
         // 100 ms delay
-        if(j%2==0){ 
+        if(i%2==0){ 
            if(alarmFlag==1) {
             playTone();
            }   
@@ -179,8 +179,8 @@ while (1){
         } 
 
         // 500 ms delay, reset counter
-        if(j%10==0)
-            j=0;
+        if(i%10==0)
+            i=0;
         // Turns alarm flag on when H, M and S match
         if(S==0 && M==AM && H==AH)
             alarmFlag=1;
