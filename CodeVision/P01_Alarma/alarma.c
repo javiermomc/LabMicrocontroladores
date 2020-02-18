@@ -48,6 +48,7 @@ unsigned int Temp;
 // Voltage Reference: Int., cap. on AREF
 #define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
+
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
 {
@@ -129,14 +130,14 @@ void main(void)
 {
 
 // ADC initialization
-// ADC Clock frequency: 125.000 kHz
+// ADC Clock frequency: 1000.000 kHz
 // ADC Voltage Reference: Int., cap. on AREF
-// ADC High Speed Mode: Off
+// ADC High Speed Mode: On
 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
 DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 ADMUX=ADC_VREF_TYPE;
-ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (1<<ADPS1) | (0<<ADPS0);
+ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 ADCSRB=(1<<ADHSM);
 
 // LCD
