@@ -7,7 +7,7 @@ A=Freeware, for evaluation andC=
 D=11-Feb-20 5:39:55 PM
 Files=1
 OpenedFiles=1
-AllowDisplayFunctionCallTree=0
+AllowDisplayFunctionCallTree=1
 CleanUp=2
 DebugOutputListFilesDirectory=Debug\List
 DebugOutputObjectFilesDirectory=Debug
@@ -20,7 +20,7 @@ OutputLinkerFilesDirectory=Release\Link
 F1=alarma.c
 ActiveTab=1
 OF1=alarma.c
-TimeStamp1=1347131051
+TimeStamp1=1347183318
 non-commercial use only
 [CompilerDebug]
 Chip=AT90USB1286
@@ -127,7 +127,7 @@ DisplayCodeSizeError=0
 RebuildAll=0
 LinkageInformationPresent=1
 COFFileTimeStamp=1347183291
-Build=94
+Build=95
 GlobalVarAddr=2334
 EEPROMVarAddr=2
 [DefinedSymbolsDebug]
@@ -237,7 +237,7 @@ DisplayCodeSizeError=0
 RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=94
+Build=95
 IncludePath0=C:\cvavreval\inc
 IncludePath1=
 IncludePath2=
@@ -545,17 +545,17 @@ Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
-TimeStamp=1347131094
+TimeStamp=1347183689
 [BookmarksFoldedCode]
 Files=2
 F1=alarma.c
 F2=Debug\List\alarma.asm
 [Bookmarks1]
-TimeStamp=1347131051
-Row=53
-Column=15
+TimeStamp=1347183318
+Row=170
+Column=8
 ScrollPosX=0
-ScrollPosY=40
+ScrollPosY=164
 BK0=-1
 BK1=-1
 BK2=-1
@@ -566,8 +566,6 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
-[FoldedCode1]
-Blocks=0
 [Bookmarks2]
 TimeStamp=1347179129
 Row=1881
@@ -599,3 +597,5 @@ F5=C:\cvavreval\inc\delay.h
 F6=C:\cvavreval\inc\stdio.h
 F7=C:\cvavreval\inc\io.h
 F8=C:\cvavreval\inc\stdarg.h
+[FoldedCode1]
+Blocks=0
