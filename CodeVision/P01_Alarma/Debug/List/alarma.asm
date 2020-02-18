@@ -1459,52 +1459,54 @@ _0x1A:
 ;float temperature;
 ;unsigned int Temp;
 ;
-;// Voltage Reference: AREF pin
-;#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))
+;// Voltage Reference: Int., cap. on AREF
+;#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
+;
 ;
 ;// Read the AD conversion result
 ;unsigned int read_adc(unsigned char adc_input)
-; 0000 0035 {
+; 0000 0036 {
 _read_adc:
 ; .FSTART _read_adc
-; 0000 0036 ADMUX=adc_input | ADC_VREF_TYPE;
+; 0000 0037 ADMUX=adc_input | ADC_VREF_TYPE;
 	ST   -Y,R26
 ;	adc_input -> Y+0
 	LD   R30,Y
+	ORI  R30,LOW(0xC0)
 	STS  124,R30
-; 0000 0037 // Delay needed for the stabilization of the ADC input voltage
-; 0000 0038 delay_us(10);
+; 0000 0038 // Delay needed for the stabilization of the ADC input voltage
+; 0000 0039 delay_us(10);
 	__DELAY_USB 27
-; 0000 0039 // Start the AD conversion
-; 0000 003A ADCSRA|=(1<<ADSC);
+; 0000 003A // Start the AD conversion
+; 0000 003B ADCSRA|=(1<<ADSC);
 	LDS  R30,122
 	ORI  R30,0x40
 	STS  122,R30
-; 0000 003B // Wait for the AD conversion to complete
-; 0000 003C while ((ADCSRA & (1<<ADIF))==0);
+; 0000 003C // Wait for the AD conversion to complete
+; 0000 003D while ((ADCSRA & (1<<ADIF))==0);
 _0x22:
 	LDS  R30,122
 	ANDI R30,LOW(0x10)
 	BREQ _0x22
-; 0000 003D ADCSRA|=(1<<ADIF);
+; 0000 003E ADCSRA|=(1<<ADIF);
 	LDS  R30,122
 	ORI  R30,0x10
 	STS  122,R30
-; 0000 003E return ADCW;
+; 0000 003F return ADCW;
 	LDS  R30,120
 	LDS  R31,120+1
 	JMP  _0x20A0005
-; 0000 003F }
+; 0000 0040 }
 ; .FEND
 ;
 ;
 ;// Update ADC function
 ;void updateADC(){
-; 0000 0043 void updateADC(){
+; 0000 0044 void updateADC(){
 _updateADC:
 ; .FSTART _updateADC
-; 0000 0044     // Convert ADC values to temperature
-; 0000 0045     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
+; 0000 0045     // Convert ADC values to temperature
+; 0000 0046     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
 	LDI  R26,LOW(7)
 	RCALL _read_adc
 	CLR  R22
@@ -1520,14 +1522,14 @@ _updateADC:
 	STS  _temperature+1,R31
 	STS  _temperature+2,R22
 	STS  _temperature+3,R23
-; 0000 0046     Temp = temperature;
+; 0000 0047     Temp = temperature;
 	LDI  R26,LOW(_Temp)
 	LDI  R27,HIGH(_Temp)
 	CALL __CFD1U
 	ST   X+,R30
 	ST   X,R31
-; 0000 0047     // TEMPORAL print statement for DEV purposes only
-; 0000 0048 }
+; 0000 0048     // TEMPORAL print statement for DEV purposes only
+; 0000 0049 }
 	RET
 ; .FEND
 ;
@@ -1537,25 +1539,25 @@ _updateADC:
 ;// Tone
 ;// Play frequency function
 ;void tono(float freq){
-; 0000 004F void tono(float freq){
+; 0000 0050 void tono(float freq){
 _tono:
 ; .FSTART _tono
-; 0000 0050     if(freq == 0)
+; 0000 0051     if(freq == 0)
 	CALL __PUTPARD2
 ;	freq -> Y+0
 	CALL __GETD1S0
 	CALL __CPD10
 	BRNE _0x25
-; 0000 0051         TCCR1B=0x00;
+; 0000 0052         TCCR1B=0x00;
 	LDI  R30,LOW(0)
 	STS  129,R30
-; 0000 0052     else{
+; 0000 0053     else{
 	RJMP _0x26
 _0x25:
-; 0000 0053         float cuentas;
-; 0000 0054         unsigned int cuentasEnt;
-; 0000 0055 
-; 0000 0056         cuentas = 500000.0/freq;
+; 0000 0054         float cuentas;
+; 0000 0055         unsigned int cuentasEnt;
+; 0000 0056 
+; 0000 0057         cuentas = 500000.0/freq;
 	SBIW R28,6
 ;	freq -> Y+6
 ;	cuentas -> Y+2
@@ -1564,12 +1566,12 @@ _0x25:
 	__GETD2N 0x48F42400
 	CALL __DIVF21
 	__PUTD1S 2
-; 0000 0057         cuentasEnt = cuentas;
+; 0000 0058         cuentasEnt = cuentas;
 	MOVW R26,R28
 	CALL __CFD1U
 	ST   X+,R30
 	ST   X,R31
-; 0000 0058         if(cuentas-cuentasEnt>=0.5)
+; 0000 0059         if(cuentas-cuentasEnt>=0.5)
 	LD   R30,Y
 	LDD  R31,Y+1
 	__GETD2S 2
@@ -1583,13 +1585,13 @@ _0x25:
 	__GETD1N 0x3F000000
 	CALL __CMPF12
 	BRLO _0x27
-; 0000 0059             cuentasEnt++;
+; 0000 005A             cuentasEnt++;
 	LD   R30,Y
 	LDD  R31,Y+1
 	ADIW R30,1
 	ST   Y,R30
 	STD  Y+1,R31
-; 0000 005A         OCR1AH=(cuentasEnt-1)/256;
+; 0000 005B         OCR1AH=(cuentasEnt-1)/256;
 _0x27:
 	LD   R30,Y
 	LDD  R31,Y+1
@@ -1597,20 +1599,20 @@ _0x27:
 	MOV  R30,R31
 	LDI  R31,0
 	STS  137,R30
-; 0000 005B         OCR1AL=(cuentasEnt-1)%256;
+; 0000 005C         OCR1AL=(cuentasEnt-1)%256;
 	LD   R30,Y
 	SUBI R30,LOW(1)
 	STS  136,R30
-; 0000 005C         TCCR1A=0x40;    // Timer 1 en modo de CTC
+; 0000 005D         TCCR1A=0x40;    // Timer 1 en modo de CTC
 	LDI  R30,LOW(64)
 	STS  128,R30
-; 0000 005D         TCCR1B=0x09;    // Timer en CK (sin pre-escalador)
+; 0000 005E         TCCR1B=0x09;    // Timer en CK (sin pre-escalador)
 	LDI  R30,LOW(9)
 	STS  129,R30
-; 0000 005E     }
+; 0000 005F     }
 	ADIW R28,6
 _0x26:
-; 0000 005F }
+; 0000 0060 }
 	ADIW R28,4
 	RET
 ; .FEND
@@ -1620,63 +1622,63 @@ _0x26:
 ;
 ;// Play tone or song function
 ;void playTone(){
-; 0000 0065 void playTone(){
+; 0000 0066 void playTone(){
 _playTone:
 ; .FSTART _playTone
-; 0000 0066     tono(k);
+; 0000 0067     tono(k);
 	CALL SUBOPT_0x4
 	CALL __CWD1
 	CALL __CDF1
 	MOVW R26,R30
 	MOVW R24,R22
 	RCALL _tono
-; 0000 0067     if(kFlag==0)
+; 0000 0068     if(kFlag==0)
 	LDS  R30,_kFlag
 	CPI  R30,0
 	BRNE _0x28
-; 0000 0068         k+=50;
+; 0000 0069         k+=50;
 	CALL SUBOPT_0x4
 	ADIW R30,50
 	RJMP _0x4E
-; 0000 0069     else
+; 0000 006A     else
 _0x28:
-; 0000 006A         k-=50;
+; 0000 006B         k-=50;
 	CALL SUBOPT_0x4
 	SBIW R30,50
 _0x4E:
 	STS  _k,R30
 	STS  _k+1,R31
-; 0000 006B     if(k>500)
+; 0000 006C     if(k>500)
 	LDS  R26,_k
 	LDS  R27,_k+1
 	CPI  R26,LOW(0x1F5)
 	LDI  R30,HIGH(0x1F5)
 	CPC  R27,R30
 	BRLT _0x2A
-; 0000 006C         kFlag=1;
+; 0000 006D         kFlag=1;
 	LDI  R30,LOW(1)
 	RJMP _0x4F
-; 0000 006D     else if (k<=50)
+; 0000 006E     else if (k<=50)
 _0x2A:
 	LDS  R26,_k
 	LDS  R27,_k+1
 	SBIW R26,51
 	BRGE _0x2C
-; 0000 006E         kFlag=0;
+; 0000 006F         kFlag=0;
 	LDI  R30,LOW(0)
 _0x4F:
 	STS  _kFlag,R30
-; 0000 006F }
+; 0000 0070 }
 _0x2C:
 	RET
 ; .FEND
 ;
 ;// LCD
 ;void printTime(){
-; 0000 0072 void printTime(){
+; 0000 0073 void printTime(){
 _printTime:
 ; .FSTART _printTime
-; 0000 0073     sprintf(time, "H:%02i:%02i:%02i T:%02i", H, M, S, Temp);
+; 0000 0074     sprintf(time, "H:%02i:%02i:%02i T:%02i", H, M, S, Temp);
 	LDI  R30,LOW(_time)
 	LDI  R31,HIGH(_time)
 	ST   -Y,R31
@@ -1698,13 +1700,13 @@ _printTime:
 	LDI  R24,16
 	CALL _sprintf
 	ADIW R28,20
-; 0000 0074     MoveCursor(0,0);
+; 0000 0075     MoveCursor(0,0);
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	CALL SUBOPT_0x6
-; 0000 0075     StringLCDVar(time);
-; 0000 0076     sprintf(time, "A: %02i:%02i   ", AH, AM);
+; 0000 0076     StringLCDVar(time);
+; 0000 0077     sprintf(time, "A: %02i:%02i   ", AH, AM);
 	LDI  R30,LOW(_time)
 	LDI  R31,HIGH(_time)
 	ST   -Y,R31
@@ -1719,104 +1721,104 @@ _printTime:
 	LDI  R24,8
 	CALL _sprintf
 	ADIW R28,12
-; 0000 0077     MoveCursor(0,1);
+; 0000 0078     MoveCursor(0,1);
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	LDI  R26,LOW(1)
 	CALL SUBOPT_0x6
-; 0000 0078     StringLCDVar(time);
-; 0000 0079 }
+; 0000 0079     StringLCDVar(time);
+; 0000 007A }
 	RET
 ; .FEND
 ;
 ;// Clock
 ;void updateClock(){
-; 0000 007C void updateClock(){
+; 0000 007D void updateClock(){
 _updateClock:
 ; .FSTART _updateClock
-; 0000 007D     rtc_get_time(&H, &M, &S);
+; 0000 007E     rtc_get_time(&H, &M, &S);
 	CALL SUBOPT_0x9
-; 0000 007E }
+; 0000 007F }
 	RET
 ; .FEND
 ;
 ;void main(void)
-; 0000 0081 {
+; 0000 0082 {
 _main:
 ; .FSTART _main
-; 0000 0082 
-; 0000 0083 // ADC initialization
-; 0000 0084 // ADC Clock frequency: 1000.000 kHz
-; 0000 0085 // ADC Voltage Reference: AREF pin
-; 0000 0086 // ADC High Speed Mode: On
-; 0000 0087 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
-; 0000 0088 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
-; 0000 0089 DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
+; 0000 0083 
+; 0000 0084 // ADC initialization
+; 0000 0085 // ADC Clock frequency: 1000.000 kHz
+; 0000 0086 // ADC Voltage Reference: Int., cap. on AREF
+; 0000 0087 // ADC High Speed Mode: On
+; 0000 0088 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
+; 0000 0089 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
+; 0000 008A DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 	LDI  R30,LOW(128)
 	STS  126,R30
-; 0000 008A ADMUX=ADC_VREF_TYPE;
-	LDI  R30,LOW(0)
+; 0000 008B ADMUX=ADC_VREF_TYPE;
+	LDI  R30,LOW(192)
 	STS  124,R30
-; 0000 008B ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+; 0000 008C ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 	LDI  R30,LOW(131)
 	STS  122,R30
-; 0000 008C ADCSRB=(1<<ADHSM);
+; 0000 008D ADCSRB=(1<<ADHSM);
 	LDI  R30,LOW(128)
 	STS  123,R30
-; 0000 008D 
-; 0000 008E // LCD
-; 0000 008F 
-; 0000 0090 SetupLCD();
+; 0000 008E 
+; 0000 008F // LCD
+; 0000 0090 
+; 0000 0091 SetupLCD();
 	CALL _SetupLCD
-; 0000 0091 
-; 0000 0092 // DS1302
-; 0000 0093 rtc_init(0,0,0);
+; 0000 0092 
+; 0000 0093 // DS1302
+; 0000 0094 rtc_init(0,0,0);
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	CALL _rtc_init
-; 0000 0094 
-; 0000 0095 // Tone
-; 0000 0096 DDRB.5=1;
+; 0000 0095 
+; 0000 0096 // Tone
+; 0000 0097 DDRB.5=1;
 	SBI  0x4,5
-; 0000 0097 
-; 0000 0098 // First actions
-; 0000 0099 PORTC = 0x0F;
+; 0000 0098 
+; 0000 0099 // First actions
+; 0000 009A PORTC = 0x0F;
 	LDI  R30,LOW(15)
 	OUT  0x8,R30
-; 0000 009A rtc_get_time(&H, &M, &S);
+; 0000 009B rtc_get_time(&H, &M, &S);
 	CALL SUBOPT_0x9
-; 0000 009B printTime();
+; 0000 009C printTime();
 	RCALL _printTime
-; 0000 009C 
-; 0000 009D while (1){
+; 0000 009D 
+; 0000 009E while (1){
 _0x2F:
-; 0000 009E     // Please write your application code here
-; 0000 009F 
-; 0000 00A0         // Counter
-; 0000 00A1         delay_ms(50);
+; 0000 009F     // Please write your application code here
+; 0000 00A0 
+; 0000 00A1         // Counter
+; 0000 00A2         delay_ms(50);
 	LDI  R26,LOW(50)
 	LDI  R27,0
 	CALL _delay_ms
-; 0000 00A2         i++;
+; 0000 00A3         i++;
 	LDS  R30,_i
 	SUBI R30,-LOW(1)
 	STS  _i,R30
-; 0000 00A3 
-; 0000 00A4         // ADC
-; 0000 00A5         updateADC();
+; 0000 00A4 
+; 0000 00A5         // ADC
+; 0000 00A6         updateADC();
 	RCALL _updateADC
-; 0000 00A6 
-; 0000 00A7         // Update clock
-; 0000 00A8         updateClock();
+; 0000 00A7 
+; 0000 00A8         // Update clock
+; 0000 00A9         updateClock();
 	RCALL _updateClock
-; 0000 00A9         // Print values un LCD display
-; 0000 00AA         printTime();
+; 0000 00AA         // Print values un LCD display
+; 0000 00AB         printTime();
 	RCALL _printTime
-; 0000 00AB 
-; 0000 00AC         // 100 ms delay
-; 0000 00AD         if(i%2==0){
+; 0000 00AC 
+; 0000 00AD         // 100 ms delay
+; 0000 00AE         if(i%2==0){
 	LDS  R26,_i
 	CLR  R27
 	LDI  R30,LOW(2)
@@ -1824,24 +1826,24 @@ _0x2F:
 	CALL __MODW21
 	SBIW R30,0
 	BRNE _0x32
-; 0000 00AE            if(alarmFlag==1) {
+; 0000 00AF            if(alarmFlag==1) {
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
 	BRNE _0x33
-; 0000 00AF             playTone();
+; 0000 00B0             playTone();
 	RCALL _playTone
-; 0000 00B0            }
-; 0000 00B1            else
+; 0000 00B1            }
+; 0000 00B2            else
 	RJMP _0x34
 _0x33:
-; 0000 00B2             tono(0);
+; 0000 00B3             tono(0);
 	__GETD2N 0x0
 	RCALL _tono
-; 0000 00B3         }
+; 0000 00B4         }
 _0x34:
-; 0000 00B4 
-; 0000 00B5         // 500 ms delay, reset counter
-; 0000 00B6         if(i%10==0)
+; 0000 00B5 
+; 0000 00B6         // 500 ms delay, reset counter
+; 0000 00B7         if(i%10==0)
 _0x32:
 	LDS  R26,_i
 	CLR  R27
@@ -1850,11 +1852,11 @@ _0x32:
 	CALL __MODW21
 	SBIW R30,0
 	BRNE _0x35
-; 0000 00B7             i=0;
+; 0000 00B8             i=0;
 	LDI  R30,LOW(0)
 	STS  _i,R30
-; 0000 00B8         // Turns alarm flag on when H, M and S match
-; 0000 00B9         if(S==0 && M==AM && H==AH)
+; 0000 00B9         // Turns alarm flag on when H, M and S match
+; 0000 00BA         if(S==0 && M==AM && H==AH)
 _0x35:
 	LDS  R26,_S
 	CPI  R26,LOW(0x0)
@@ -1870,179 +1872,179 @@ _0x35:
 _0x37:
 	RJMP _0x36
 _0x38:
-; 0000 00BA             alarmFlag=1;
+; 0000 00BB             alarmFlag=1;
 	LDI  R30,LOW(1)
 	STS  _alarmFlag,R30
-; 0000 00BB 
-; 0000 00BC         // Clock
-; 0000 00BD 
-; 0000 00BE         // If alarm is on, switch will turn alarm off without
-; 0000 00BF         //  changing the default variable
-; 0000 00C0         if(!PINC.0){
+; 0000 00BC 
+; 0000 00BD         // Clock
+; 0000 00BE 
+; 0000 00BF         // If alarm is on, switch will turn alarm off without
+; 0000 00C0         //  changing the default variable
+; 0000 00C1         if(!PINC.0){
 _0x36:
 	SBIC 0x6,0
 	RJMP _0x39
-; 0000 00C1             if(alarmFlag==1)
+; 0000 00C2             if(alarmFlag==1)
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
 	BRNE _0x3A
-; 0000 00C2                 alarmFlag = 0;
+; 0000 00C3                 alarmFlag = 0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00C3             else{
+; 0000 00C4             else{
 	RJMP _0x3B
 _0x3A:
-; 0000 00C4                 H++;
+; 0000 00C5                 H++;
 	LDS  R30,_H
 	SUBI R30,-LOW(1)
 	STS  _H,R30
-; 0000 00C5                 rtc_set_time(H, M, S);
+; 0000 00C6                 rtc_set_time(H, M, S);
 	CALL SUBOPT_0xA
-; 0000 00C6             }
+; 0000 00C7             }
 _0x3B:
-; 0000 00C7         }
-; 0000 00C8         // If alarm is on, switch will turn alarm off without
-; 0000 00C9         //  changing the default variable
-; 0000 00CA         if(!PINC.1){
+; 0000 00C8         }
+; 0000 00C9         // If alarm is on, switch will turn alarm off without
+; 0000 00CA         //  changing the default variable
+; 0000 00CB         if(!PINC.1){
 _0x39:
 	SBIC 0x6,1
 	RJMP _0x3C
-; 0000 00CB             if(alarmFlag==1)
+; 0000 00CC             if(alarmFlag==1)
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
 	BRNE _0x3D
-; 0000 00CC                 alarmFlag = 0;
+; 0000 00CD                 alarmFlag = 0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00CD             else{
+; 0000 00CE             else{
 	RJMP _0x3E
 _0x3D:
-; 0000 00CE                 M++;
+; 0000 00CF                 M++;
 	LDS  R30,_M
 	SUBI R30,-LOW(1)
 	STS  _M,R30
-; 0000 00CF                 rtc_set_time(H, M, S);
+; 0000 00D0                 rtc_set_time(H, M, S);
 	CALL SUBOPT_0xA
-; 0000 00D0             }
+; 0000 00D1             }
 _0x3E:
-; 0000 00D1         }
-; 0000 00D2         // Verify the correct range on clock time
-; 0000 00D3         if(S>59)
+; 0000 00D2         }
+; 0000 00D3         // Verify the correct range on clock time
+; 0000 00D4         if(S>59)
 _0x3C:
 	LDS  R26,_S
 	CPI  R26,LOW(0x3C)
 	BRLO _0x3F
-; 0000 00D4             S=0;
+; 0000 00D5             S=0;
 	LDI  R30,LOW(0)
 	STS  _S,R30
-; 0000 00D5         if(M>59)
+; 0000 00D6         if(M>59)
 _0x3F:
 	LDS  R26,_M
 	CPI  R26,LOW(0x3C)
 	BRLO _0x40
-; 0000 00D6             M=0;
+; 0000 00D7             M=0;
 	LDI  R30,LOW(0)
 	STS  _M,R30
-; 0000 00D7         if(H>23)
+; 0000 00D8         if(H>23)
 _0x40:
 	LDS  R26,_H
 	CPI  R26,LOW(0x18)
 	BRLO _0x41
-; 0000 00D8             H=0;
+; 0000 00D9             H=0;
 	LDI  R30,LOW(0)
 	STS  _H,R30
-; 0000 00D9         if(AM>59)
+; 0000 00DA         if(AM>59)
 _0x41:
 	CALL SUBOPT_0x8
 	CPI  R30,LOW(0x3C)
 	BRLO _0x42
-; 0000 00DA             AM=0;
+; 0000 00DB             AM=0;
 	LDI  R26,LOW(_AM)
 	LDI  R27,HIGH(_AM)
 	LDI  R30,LOW(0)
 	CALL __EEPROMWRB
-; 0000 00DB         if(AH>23)
+; 0000 00DC         if(AH>23)
 _0x42:
 	CALL SUBOPT_0x7
 	CPI  R30,LOW(0x18)
 	BRLO _0x43
-; 0000 00DC             AH=0;
+; 0000 00DD             AH=0;
 	LDI  R26,LOW(_AH)
 	LDI  R27,HIGH(_AH)
 	LDI  R30,LOW(0)
 	CALL __EEPROMWRB
-; 0000 00DD 
-; 0000 00DE         // Alarm
-; 0000 00DF 
-; 0000 00E0         // If alarm is on, switch will turn alarm off without
-; 0000 00E1         //  changing the default variable
-; 0000 00E2         if(!PINC.2){
+; 0000 00DE 
+; 0000 00DF         // Alarm
+; 0000 00E0 
+; 0000 00E1         // If alarm is on, switch will turn alarm off without
+; 0000 00E2         //  changing the default variable
+; 0000 00E3         if(!PINC.2){
 _0x43:
 	SBIC 0x6,2
 	RJMP _0x44
-; 0000 00E3             if(alarmFlag==1)
+; 0000 00E4             if(alarmFlag==1)
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
 	BRNE _0x45
-; 0000 00E4                 alarmFlag = 0;
+; 0000 00E5                 alarmFlag = 0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00E5             else
+; 0000 00E6             else
 	RJMP _0x46
 _0x45:
-; 0000 00E6                 AH++;
+; 0000 00E7                 AH++;
 	CALL SUBOPT_0x7
 	SUBI R30,-LOW(1)
 	CALL __EEPROMWRB
-; 0000 00E7         }
+; 0000 00E8         }
 _0x46:
-; 0000 00E8         // If alarm is on, switch will turn alarm off without
-; 0000 00E9         //  changing the default variable
-; 0000 00EA         if(!PINC.3){
+; 0000 00E9         // If alarm is on, switch will turn alarm off without
+; 0000 00EA         //  changing the default variable
+; 0000 00EB         if(!PINC.3){
 _0x44:
 	SBIC 0x6,3
 	RJMP _0x47
-; 0000 00EB             if(alarmFlag==1)
+; 0000 00EC             if(alarmFlag==1)
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
 	BRNE _0x48
-; 0000 00EC                 alarmFlag = 0;
+; 0000 00ED                 alarmFlag = 0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00ED             else
+; 0000 00EE             else
 	RJMP _0x49
 _0x48:
-; 0000 00EE                 AM++;
+; 0000 00EF                 AM++;
 	CALL SUBOPT_0x8
 	SUBI R30,-LOW(1)
 	CALL __EEPROMWRB
-; 0000 00EF         }
+; 0000 00F0         }
 _0x49:
-; 0000 00F0         // Verify the correct range on alarm time
-; 0000 00F1         if(AM>59)
+; 0000 00F1         // Verify the correct range on alarm time
+; 0000 00F2         if(AM>59)
 _0x47:
 	CALL SUBOPT_0x8
 	CPI  R30,LOW(0x3C)
 	BRLO _0x4A
-; 0000 00F2             AM=0;
+; 0000 00F3             AM=0;
 	LDI  R26,LOW(_AM)
 	LDI  R27,HIGH(_AM)
 	LDI  R30,LOW(0)
 	CALL __EEPROMWRB
-; 0000 00F3         if(AH>23)
+; 0000 00F4         if(AH>23)
 _0x4A:
 	CALL SUBOPT_0x7
 	CPI  R30,LOW(0x18)
 	BRLO _0x4B
-; 0000 00F4             AH=0;
+; 0000 00F5             AH=0;
 	LDI  R26,LOW(_AH)
 	LDI  R27,HIGH(_AH)
 	LDI  R30,LOW(0)
 	CALL __EEPROMWRB
-; 0000 00F5     }
+; 0000 00F6     }
 _0x4B:
 	RJMP _0x2F
-; 0000 00F6 }
+; 0000 00F7 }
 _0x4C:
 	RJMP _0x4C
 ; .FEND

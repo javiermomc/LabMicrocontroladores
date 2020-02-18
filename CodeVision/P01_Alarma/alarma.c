@@ -45,8 +45,9 @@ unsigned char time[16];
 float temperature;
 unsigned int Temp;
 
-// Voltage Reference: AREF pin
-#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))
+// Voltage Reference: Int., cap. on AREF
+#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
+
 
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
@@ -130,7 +131,7 @@ void main(void)
 
 // ADC initialization
 // ADC Clock frequency: 1000.000 kHz
-// ADC Voltage Reference: AREF pin
+// ADC Voltage Reference: Int., cap. on AREF
 // ADC High Speed Mode: On
 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
