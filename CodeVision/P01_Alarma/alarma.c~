@@ -33,7 +33,7 @@
 // Alarm
 
 unsigned char alarmFlag; // Alarm flag to turn alarm on and off
-eeprom unsigned char AH, AM; // Variables for alarm on EEPROM
+eeprom unsigned char AH=16, AM=00; // Variables for alarm on EEPROM
 
 unsigned char H=0,M=0,S=0; // Variables for clock
             
@@ -42,10 +42,11 @@ unsigned char time[16];
 // ADC
 
 // ADC variables
-float temperature = 0;
+float temperature;
+unsigned int Temp;
 
-// Voltage Reference: AREF pin
-#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))
+// Voltage Reference: Int., cap. on AREF
+#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
@@ -66,18 +67,14 @@ return ADCW;
 void updateADC(){
     // Convert ADC values to temperature
     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
+    Temp = temperature;
     // TEMPORAL print statement for DEV purposes only
-    sprintf(time, "Temp: %d      ",read_adc(7));
-    MoveCursor(0,0);
-    StringLCDVar(time);
 }
 
 // Counter
-
 unsigned char i=0, j=0;
 
 // Tone
-
 // Play frequency function
 void tono(float freq){
     if(freq == 0)
@@ -114,14 +111,13 @@ void playTone(){
 }
 
 // LCD 
- 
 void printTime(){ 
-//    sprintf(time, "Hora: %02i:%02i:%02i Temp: %f", H, M, S, temperature);
-//    MoveCursor(0,0);
-//    StringLCDVar(time);
-//    sprintf(time, "Alarma: %02i:%02i   ", AH, AM);
-//    MoveCursor(0,1);
-//    StringLCDVar(time);
+    sprintf(time, "H:%02i:%02i:%02i T:%02i", H, M, S, Temp);
+    MoveCursor(0,0);
+    StringLCDVar(time);
+    sprintf(time, "A: %02i:%02i   ", AH, AM);
+    MoveCursor(0,1);
+    StringLCDVar(time);     
 }
 
 // Clock
@@ -132,17 +128,15 @@ void updateClock(){
 void main(void)
 {
 
-// ADC
-
 // ADC initialization
-// ADC Clock frequency: 1000.000 kHz
-// ADC Voltage Reference: AREF pin
-// ADC High Speed Mode: On
+// ADC Clock frequency: 125.000 kHz
+// ADC Voltage Reference: Int., cap. on AREF
+// ADC High Speed Mode: Off
 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
-// ADC4: On, ADC5: On, ADC6: On, ADC7: On
-DIDR0=(0<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
+// ADC4: On, ADC5: On, ADC6: On, ADC7: Off
+DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 ADMUX=ADC_VREF_TYPE;
-ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (1<<ADPS1) | (0<<ADPS0);
 ADCSRB=(1<<ADHSM);
 
 // LCD
@@ -156,19 +150,19 @@ rtc_init(0,0,0);
 DDRB.5=1;
 
 // First actions
-printTime();
 PORTC = 0x0F;
 rtc_get_time(&H, &M, &S);
+printTime();
 
 while (1){
     // Please write your application code here
+        
         // Counter
         delay_ms(50);
         j++;
         
         // ADC 
         updateADC();
-        
         
         // 100 ms delay
         if(j%2==0){ 
@@ -191,10 +185,11 @@ while (1){
         // 1 s delay
         if (i==4)
         {   
+            i=0;
             // Update clock
             updateClock();
             // Print values un LCD display
-            printTime(); 
+            printTime();  
         }
         
         // Clock
