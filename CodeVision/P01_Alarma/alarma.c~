@@ -33,7 +33,7 @@
 // Alarm
 
 unsigned char alarmFlag; // Alarm flag to turn alarm on and off
-eeprom unsigned char AH=16, AM=00; // Variables for alarm on EEPROM
+eeprom unsigned char AH, AM; // Variables for alarm on EEPROM
 
 unsigned char H=0,M=0,S=0; // Variables for clock
             
@@ -72,7 +72,7 @@ void updateADC(){
 }
 
 // Counter
-unsigned char i=0, j=0;
+unsigned char j=0;
 
 // Tone
 // Play frequency function
@@ -164,6 +164,11 @@ while (1){
         // ADC 
         updateADC();
         
+        // Update clock
+        updateClock();
+        // Print values un LCD display
+        printTime();
+        
         // 100 ms delay
         if(j%2==0){ 
            if(alarmFlag==1) {
@@ -172,25 +177,13 @@ while (1){
            else
             tono(0);
         } 
-        // 250 ms delay, add counter
-        if(j%5==0)
-            i++;
+
         // 500 ms delay, reset counter
         if(j%10==0)
             j=0;
         // Turns alarm flag on when H, M and S match
         if(S==0 && M==AM && H==AH)
             alarmFlag=1;
-                  
-        // 1 s delay
-        if (i==4)
-        {   
-            i=0;
-            // Update clock
-            updateClock();
-            // Print values un LCD display
-            printTime();  
-        }
         
         // Clock
         

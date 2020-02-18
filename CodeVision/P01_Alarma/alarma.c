@@ -2,7 +2,7 @@
  * alarma.c
  *
  * Created: 11-Feb-20 5:39:55 PM
- * Author: javie
+ * Author: iavie
  */
 
 // LCD config
@@ -72,7 +72,7 @@ void updateADC(){
 }
 
 // Counter
-unsigned char i=0, j=0;
+unsigned char i=0;
 
 // Tone
 // Play frequency function
@@ -159,38 +159,31 @@ while (1){
         
         // Counter
         delay_ms(50);
-        j++;
+        i++;
         
         // ADC 
         updateADC();
         
+        // Update clock
+        updateClock();
+        // Print values un LCD display
+        printTime();
+        
         // 100 ms delay
-        if(j%2==0){ 
+        if(i%2==0){ 
            if(alarmFlag==1) {
             playTone();
            }   
            else
             tono(0);
         } 
-        // 250 ms delay, add counter
-        if(j%5==0)
-            i++;
+
         // 500 ms delay, reset counter
-        if(j%10==0)
-            j=0;
+        if(i%10==0)
+            i=0;
         // Turns alarm flag on when H, M and S match
         if(S==0 && M==AM && H==AH)
             alarmFlag=1;
-                  
-        // 1 s delay
-        if (i==4)
-        {   
-            i=0;
-            // Update clock
-            updateClock();
-            // Print values un LCD display
-            printTime();  
-        }
         
         // Clock
         
