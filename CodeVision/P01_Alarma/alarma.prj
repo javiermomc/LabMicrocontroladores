@@ -6,7 +6,7 @@ CV=3.38 Evaluation
 A=Freeware, for evaluation andC=
 D=11-Feb-20 5:39:55 PM
 Files=1
-OpenedFiles=2
+OpenedFiles=1
 AllowDisplayFunctionCallTree=1
 CleanUp=2
 DebugOutputListFilesDirectory=Debug\List
@@ -17,10 +17,11 @@ OutputListFilesDirectory=Release\List
 OutputObjectFilesDirectory=Release
 OutputExecutableFilesDirectory=Release\Exe
 OutputLinkerFilesDirectory=Release\Link
+F1=alarma.c
 ActiveTab=1
 OF1=alarma.c
 <<<<<<< HEAD
-TimeStamp1=1347588640
+TimeStamp1=1347516007
 EditorPanelMode=0
 ActiveEditorPanel=0
 Active0=0
@@ -31,18 +32,12 @@ EditorPanel1=0
 PageIndex1=1
 =======
 TimeStamp1=1347183318
-F1=alarma.c
-OF2=Alarm1.C
-Active2=0
-EditorPanel2=0
-TimeStamp2=1347586936
-PageIndex2=2
 >>>>>>> a9118113ea95a337dd2e82a7348d2018d71ad889
 non-commercial use only
 [CompilerDebug]
 Chip=AT90USB1286
 CPUClock=8000000
-MemoryModel=2
+MemoryModel=1
 OptimizeSize=1
 OptimizationLevel=2
 OutputFormat=1
@@ -67,7 +62,7 @@ PromoteCharToInt=1
 CharIsUnsigned=1
 GlobalConstInFlash=0
 8BitEnums=1
-EnhancedFunctionParameterPassing=1
+EnhancedFunctionParameterPassing=2
 AutomaticRegisterAllocation=0
 SmartRegisterAllocation=0
 PreprocessorOutput=0
@@ -144,8 +139,8 @@ DisplayCodeSizeError=0
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1347587765
-Build=137
+COFFileTimeStamp=1347585597
+Build=126
 =======
 COFFileTimeStamp=1347183291
 Build=95
@@ -157,7 +152,7 @@ Count=0
 [Compiler]
 Chip=AT90USB1286
 CPUClock=8000000
-MemoryModel=2
+MemoryModel=1
 OptimizeSize=1
 OptimizationLevel=2
 OutputFormat=1
@@ -182,7 +177,7 @@ PromoteCharToInt=1
 CharIsUnsigned=1
 GlobalConstInFlash=0
 8BitEnums=1
-EnhancedFunctionParameterPassing=1
+EnhancedFunctionParameterPassing=2
 AutomaticRegisterAllocation=1
 SmartRegisterAllocation=1
 PreprocessorOutput=0
@@ -260,7 +255,7 @@ RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
 <<<<<<< HEAD
-Build=137
+Build=126
 =======
 Build=95
 >>>>>>> a9118113ea95a337dd2e82a7348d2018d71ad889
@@ -447,7 +442,7 @@ WaitUserProgFinish=1
 ProgrammChip=0
 MergeROMFile=0
 ROMFilePath=
-SCKFrequency=28800
+SCKFrequency=31013
 LockBits=0
 BootLockBits0=0
 BootLockBits1=0
@@ -517,7 +512,7 @@ L1=Build configuration: Debug
 L2=Chip: AT90USB1286
 L3=Clock frequency: 8.000000 MHz
 L4=Program type: Application
-L5=Memory model: Medium
+L5=Memory model: Small
 L6=Optimize for: Size
 L7=(s)printf features: int, width
 L8=(s)scanf features: int, width
@@ -529,8 +524,8 @@ L13=Enhanced function parameters passing: Yes
 L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
-L17=Build: 136
-L18=23253 line(s) compiled
+L17=Build: 126
+L18=11525 line(s) compiled
 L19=No errors
 L20=No warnings
 L21=
@@ -538,7 +533,7 @@ L22=Bit variables size: 0 byte(s)
 L23=
 L24=Data Stack area: 0x100 to 0x8FF
 L25=Data Stack size: 2048 byte(s)
-L26=Estimated Data Stack usage: 44 byte(s)
+L26=Estimated Data Stack usage: 36 byte(s)
 L27=
 L28=RAM Global variables area: 0x900 to 0x91E
 L29=RAM Global variables size: 31 byte(s)
@@ -550,44 +545,43 @@ L34=Heap size: 0 byte(s)
 Lines=38
 L35=
 L36=EEPROM usage: 2 byte(s), 0.0% of EEPROM
-L37=Program size: 49036 words (98072 bytes), 74.8% of FLASH
-L38=102 words (204 bytes), 0.2% reduced by Code Compression
+L37=Program size: 2086 words (4172 bytes), 3.2% of FLASH
+L38=80 words (160 bytes), 3.7% reduced by Code Compression
 [BuildInfoAssembler]
-Lines=10
+Lines=11
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=AT90USB1286 memory use summary [bytes]:
-L5=Segment   Begin    End      Code   Data   Used    Size   Use%
-L6=---------------------------------------------------------------
-L7=[.cseg] 0x000000 0x017f18   4266  93806  98072  131072  74.8%
-L8=[.dseg] 0x000100 0x00091f      0     31     31    8192   0.4%
-L9=[.eseg] 0x000000 0x000002      0      2      2    4096   0.0%
-L10=
+L4=
+L5=AT90USB1286 memory use summary [bytes]:
+L6=Segment   Begin    End      Code   Data   Used    Size   Use%
+L7=---------------------------------------------------------------
+L8=[.cseg] 0x000000 0x00104c   4102     70   4172  131072   3.2%
+L9=[.dseg] 0x000100 0x00091f      0     31     31    8192   0.4%
+L10=[.eseg] 0x000000 0x000002      0      2      2    4096   0.0%
 L11=
-L12=Assembly complete, 0 errors. 0 warnings
+L12=
 [Bookmarks0]
 Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
 <<<<<<< HEAD
-TimeStamp=1347588642
+TimeStamp=1347516123
 =======
 TimeStamp=1347183689
 >>>>>>> a9118113ea95a337dd2e82a7348d2018d71ad889
 [BookmarksFoldedCode]
-Files=3
+Files=2
 F1=alarma.c
 F2=Debug\List\alarma.asm
-F3=Alarm1.C
 [Bookmarks1]
 <<<<<<< HEAD
-TimeStamp=1347588640
-Row=115
-Column=8
+TimeStamp=1347516007
+Row=41
+Column=41
 ScrollPosX=0
-ScrollPosY=87
+ScrollPosY=12
 =======
 TimeStamp=1347183318
 Row=170
@@ -623,27 +617,13 @@ BK8=-1
 BK9=-1
 [FoldedCode2]
 Blocks=0
-[Bookmarks3]
-TimeStamp=1347586936
-Row=11
-Column=20
-ScrollPosX=0
-ScrollPosY=0
-BK0=-1
-BK1=-1
-BK2=-1
-BK3=-1
-BK4=-1
-BK5=-1
-BK6=-1
-BK7=-1
-BK8=-1
-BK9=-1
+[FoldedCode1]
+Blocks=0
 [HeadersList]
 Files=1
 F1=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P01_Alarma\alarma.c
 [Header1]
-Files=9
+Files=8
 F1=C:\cvavr\inc\90usb1286.h
 F2=C:\cvavr\inc\90usb128x_bits.h
 F3=C:\cvavr\inc\ds1302.h
@@ -652,8 +632,3 @@ F5=C:\cvavr\inc\delay.h
 F6=C:\cvavr\inc\stdio.h
 F7=C:\cvavr\inc\io.h
 F8=C:\cvavr\inc\stdarg.h
-F9=Alarm1.c
-[FoldedCode1]
-Blocks=0
-[FoldedCode3]
-Blocks=0
