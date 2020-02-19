@@ -43,7 +43,7 @@ unsigned char time[16];
 
 // ADC variables
 float temperature;
-unsigned int Temp;
+unsigned int TempDec, TempEnt;
 
 // Voltage Reference: Int., cap. on AREF
 #define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
@@ -66,7 +66,12 @@ return ADCW;
 void updateADC(){
     // Convert ADC values to temperature
     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
-    Temp = temperature;
+    TempEnt = temperature;
+    temperature=temperature-TempEnt;
+    temperature=temperature*10;
+    TempDec=temperature;
+    if((temperature-TempDec)>=0.5)
+       TempDec++;
     // TEMPORAL print statement for DEV purposes only
 }
 
@@ -111,7 +116,7 @@ void playTone(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "H:%02i:%02i:%02i T:%02i", H, M, S, Temp);
+    sprintf(time, "%02i:%02i:%02i T:%02i.02i", H, M, S, TempEnt,TempDec);
     MoveCursor(0,0);
     StringLCDVar(time);
     sprintf(time, "A: %02i:%02i   ", AH, AM);
