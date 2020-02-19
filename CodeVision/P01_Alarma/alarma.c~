@@ -43,8 +43,6 @@ unsigned char time[16];
 
 // ADC variables
 float temperature;
-unsigned int Temp;
-
 // Voltage Reference: Int., cap. on AREF
 #define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
@@ -66,8 +64,6 @@ return ADCW;
 void updateADC(){
     // Convert ADC values to temperature
     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
-    Temp = temperature;
-    // TEMPORAL print statement for DEV purposes only
 }
 
 // Counter
@@ -111,7 +107,7 @@ void playTone(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "H:%02i:%02i:%02i T:%02i", H, M, S, Temp);
+    sprintf(time, "%02i:%02i:%02i T:%02f", H, M, S, temperature);
     MoveCursor(0,0);
     StringLCDVar(time);
     sprintf(time, "A: %02i:%02i   ", AH, AM);
@@ -169,14 +165,12 @@ while (1){
         // Print values un LCD display
         printTime();
         
-        // 100 ms delay
-        if(i%2==0){ 
-           if(alarmFlag==1) {
+        // Play alarm
+        if(alarmFlag==1) {
             playTone();
-           }   
-           else
+        }   
+        else
             tono(0);
-        } 
 
         // 500 ms delay, reset counter
         if(i%10==0)
@@ -222,12 +216,6 @@ while (1){
             H=0;
             rtc_set_time(H, M, S);
             updateClock();   
-        }
-        if(AM>59){
-            AM=0;  
-        }
-        if(AH>23) {
-            AH=0;
         }
         
         // Alarm

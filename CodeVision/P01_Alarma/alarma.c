@@ -43,8 +43,6 @@ unsigned char time[16];
 
 // ADC variables
 float temperature;
-unsigned int TempDec, TempEnt;
-
 // Voltage Reference: Int., cap. on AREF
 #define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
@@ -52,13 +50,13 @@ unsigned int TempDec, TempEnt;
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
 {
-ADMUX=adc_input | ADC_VREF_TYPE;
-// Start the AD conversion
-ADCSRA|=(1<<ADSC);
-// Wait for the AD conversion to complete
-while ((ADCSRA & (1<<ADIF))==0);
-ADCSRA|=(1<<ADIF);
-return ADCW;
+    ADMUX=adc_input | ADC_VREF_TYPE;
+    // Start the AD conversion
+    ADCSRA|=(1<<ADSC);
+    // Wait for the AD conversion to complete
+    while ((ADCSRA & (1<<ADIF))==0);
+    ADCSRA|=(1<<ADIF);
+    return ADCW;
 }
 
 
@@ -66,13 +64,6 @@ return ADCW;
 void updateADC(){
     // Convert ADC values to temperature
     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
-    TempEnt = temperature;
-    temperature=temperature-TempEnt;
-    temperature=temperature*10;
-    TempDec=temperature;
-    if((temperature-TempDec)>=0.5)
-       TempDec++;
-    // TEMPORAL print statement for DEV purposes only
 }
 
 // Counter
@@ -116,7 +107,7 @@ void playTone(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i T:%02i.02i", H, M, S, TempEnt,TempDec);
+    sprintf(time, "%02i:%02i:%02i T:%02f", H, M, S, temperature);
     MoveCursor(0,0);
     StringLCDVar(time);
     sprintf(time, "A: %02i:%02i   ", AH, AM);
@@ -213,18 +204,15 @@ while (1){
         // Verify the correct range on clock time
         if(S>59){
             S=0;
-            rtc_set_time(H, M, S);
-            updateClock(); 
+            rtc_set_time(H, M, S); 
         }
         if(M>59){
             M=0;
             rtc_set_time(H, M, S);
-            updateClock(); 
         }
         if(H>23){
             H=0;
-            rtc_set_time(H, M, S);
-            updateClock();   
+            rtc_set_time(H, M, S);  
         }
         
         // Alarm
