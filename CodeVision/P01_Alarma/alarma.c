@@ -43,6 +43,7 @@ unsigned char time[16];
 
 // ADC variables
 float temperature;
+int tempInt, tempDec;
 // Voltage Reference: Int., cap. on AREF
 #define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
@@ -63,7 +64,9 @@ unsigned int read_adc(unsigned char adc_input)
 // Update ADC function
 void updateADC(){
     // Convert ADC values to temperature
-    temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
+    temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion  
+    tempInt = (int)temperature;
+    tempDec = (int)((temperature - (float)tempInt)*100.0);
 }
 
 // Counter
@@ -107,7 +110,7 @@ void playTone(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i T:%02f", H, M, S, temperature);
+    sprintf(time, "%02i:%02i:%02i T:%02i.%02i", H, M, S, tempInt, tempDec);
     MoveCursor(0,0);
     StringLCDVar(time);
     sprintf(time, "A: %02i:%02i   ", AH, AM);

@@ -43,6 +43,7 @@ unsigned char time[16];
 
 // ADC variables
 float temperature;
+int tempInt, tempDec;
 // Voltage Reference: Int., cap. on AREF
 #define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
@@ -50,20 +51,22 @@ float temperature;
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
 {
-ADMUX=adc_input | ADC_VREF_TYPE;
-// Start the AD conversion
-ADCSRA|=(1<<ADSC);
-// Wait for the AD conversion to complete
-while ((ADCSRA & (1<<ADIF))==0);
-ADCSRA|=(1<<ADIF);
-return ADCW;
+    ADMUX=adc_input | ADC_VREF_TYPE;
+    // Start the AD conversion
+    ADCSRA|=(1<<ADSC);
+    // Wait for the AD conversion to complete
+    while ((ADCSRA & (1<<ADIF))==0);
+    ADCSRA|=(1<<ADIF);
+    return ADCW;
 }
 
 
 // Update ADC function
 void updateADC(){
     // Convert ADC values to temperature
-    temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
+    temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion  
+    tempInt = (int)temperature;
+    tempDec = (int)((temperature - (float)tempInt)*100.0);
 }
 
 // Counter
@@ -204,18 +207,15 @@ while (1){
         // Verify the correct range on clock time
         if(S>59){
             S=0;
-            rtc_set_time(H, M, S);
-            updateClock(); 
+            rtc_set_time(H, M, S); 
         }
         if(M>59){
             M=0;
             rtc_set_time(H, M, S);
-            updateClock(); 
         }
         if(H>23){
             H=0;
-            rtc_set_time(H, M, S);
-            updateClock();   
+            rtc_set_time(H, M, S);  
         }
         
         // Alarm
