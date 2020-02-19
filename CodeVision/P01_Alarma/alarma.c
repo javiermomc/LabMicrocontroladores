@@ -53,8 +53,6 @@ unsigned int Temp;
 unsigned int read_adc(unsigned char adc_input)
 {
 ADMUX=adc_input | ADC_VREF_TYPE;
-// Delay needed for the stabilization of the ADC input voltage
-delay_us(10);
 // Start the AD conversion
 ADCSRA|=(1<<ADSC);
 // Wait for the AD conversion to complete
@@ -159,7 +157,6 @@ while (1){
     // Please write your application code here
         
         // Counter
-        delay_ms(50);
         i++;
         
         // ADC 
@@ -209,16 +206,27 @@ while (1){
             }       
         }
         // Verify the correct range on clock time
-        if(S>59)
+        if(S>59){
             S=0;
-        if(M>59)
+            rtc_set_time(H, M, S);
+            updateClock(); 
+        }
+        if(M>59){
             M=0;
-        if(H>23)
+            rtc_set_time(H, M, S);
+            updateClock(); 
+        }
+        if(H>23){
             H=0;
-        if(AM>59)
-            AM=0;
-        if(AH>23)
+            rtc_set_time(H, M, S);
+            updateClock();   
+        }
+        if(AM>59){
+            AM=0;  
+        }
+        if(AH>23) {
             AH=0;
+        }
         
         // Alarm
          

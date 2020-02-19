@@ -45,15 +45,14 @@ unsigned char time[16];
 float temperature;
 unsigned int Temp;
 
-// Voltage Reference: AREF pin
-#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))
+// Voltage Reference: Int., cap. on AREF
+#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
+
 
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
 {
 ADMUX=adc_input | ADC_VREF_TYPE;
-// Delay needed for the stabilization of the ADC input voltage
-delay_us(10);
 // Start the AD conversion
 ADCSRA|=(1<<ADSC);
 // Wait for the AD conversion to complete
@@ -130,7 +129,7 @@ void main(void)
 
 // ADC initialization
 // ADC Clock frequency: 1000.000 kHz
-// ADC Voltage Reference: AREF pin
+// ADC Voltage Reference: Int., cap. on AREF
 // ADC High Speed Mode: On
 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
@@ -158,7 +157,7 @@ while (1){
     // Please write your application code here
         
         // Counter
-        delay_ms(50);
+        delay_us(40);
         i++;
         
         // ADC 
@@ -208,16 +207,27 @@ while (1){
             }       
         }
         // Verify the correct range on clock time
-        if(S>59)
+        if(S>59){
             S=0;
-        if(M>59)
+            rtc_set_time(H, M, S);
+            updateClock(); 
+        }
+        if(M>59){
             M=0;
-        if(H>23)
+            rtc_set_time(H, M, S);
+            updateClock(); 
+        }
+        if(H>23){
             H=0;
-        if(AM>59)
-            AM=0;
-        if(AH>23)
+            rtc_set_time(H, M, S);
+            updateClock();   
+        }
+        if(AM>59){
+            AM=0;  
+        }
+        if(AH>23) {
             AH=0;
+        }
         
         // Alarm
          

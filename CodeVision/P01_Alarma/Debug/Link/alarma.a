@@ -76,22 +76,22 @@
 ;PCODE: $00000021 VOL: 0
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
+;PCODE: $00000024 VOL: 0
 ;	TableSetup -> Y+1
 ;	i -> R16
-;PCODE: $00000024 VOL: 0
+;PCODE: $00000025 VOL: 0
 ; 0000 001D     SBI __lcd_port-1,__lcd_EN
     SBI __lcd_port-1,__lcd_EN
-;PCODE: $00000025 VOL: 0
-    SBI __lcd_port-1,__lcd_RS
 ;PCODE: $00000026 VOL: 0
-    SBI __lcd_port-1,__lcd_D4
+    SBI __lcd_port-1,__lcd_RS
 ;PCODE: $00000027 VOL: 0
-    SBI __lcd_port-1,__lcd_D5
+    SBI __lcd_port-1,__lcd_D4
 ;PCODE: $00000028 VOL: 0
-    SBI __lcd_port-1,__lcd_D6
+    SBI __lcd_port-1,__lcd_D5
 ;PCODE: $00000029 VOL: 0
-    SBI __lcd_port-1,__lcd_D7
+    SBI __lcd_port-1,__lcd_D6
 ;PCODE: $0000002A VOL: 0
+    SBI __lcd_port-1,__lcd_D7
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
 ;PCODE: $0000002D VOL: 0
@@ -132,65 +132,65 @@
 ;PCODE: $00000050 VOL: 0
 ;PCODE: $00000051 VOL: 0
 ;PCODE: $00000052 VOL: 0
-    SBI __lcd_port,__lcd_EN  // EN=1;
 ;PCODE: $00000053 VOL: 0
-    CBI __lcd_port,__lcd_EN // EN=0;
+    SBI __lcd_port,__lcd_EN  // EN=1;
 ;PCODE: $00000054 VOL: 0
+    CBI __lcd_port,__lcd_EN // EN=0;
 ;PCODE: $00000055 VOL: 0
 ;PCODE: $00000056 VOL: 0
 ;PCODE: $00000057 VOL: 0
 ;PCODE: $00000058 VOL: 0
 ;PCODE: $00000059 VOL: 0
 ;PCODE: $0000005A VOL: 0
-;	dato -> Y+0
 ;PCODE: $0000005B VOL: 0
 ;PCODE: $0000005C VOL: 0
+;	dato -> R16
 ;PCODE: $0000005D VOL: 0
 ;PCODE: $0000005E VOL: 0
-	SBI __lcd_port,__lcd_D7
 ;PCODE: $0000005F VOL: 0
 ;PCODE: $00000060 VOL: 0
+	SBI __lcd_port,__lcd_D7
 ;PCODE: $00000061 VOL: 0
 ;PCODE: $00000062 VOL: 0
-	CBI __lcd_port,__lcd_D7
 ;PCODE: $00000063 VOL: 0
 ;PCODE: $00000064 VOL: 0
+	CBI __lcd_port,__lcd_D7
 ;PCODE: $00000065 VOL: 0
 ;PCODE: $00000066 VOL: 0
 ;PCODE: $00000067 VOL: 0
 ;PCODE: $00000068 VOL: 0
-	SBI __lcd_port,__lcd_D6
 ;PCODE: $00000069 VOL: 0
 ;PCODE: $0000006A VOL: 0
+	SBI __lcd_port,__lcd_D6
 ;PCODE: $0000006B VOL: 0
 ;PCODE: $0000006C VOL: 0
-	CBI __lcd_port,__lcd_D6
 ;PCODE: $0000006D VOL: 0
 ;PCODE: $0000006E VOL: 0
+	CBI __lcd_port,__lcd_D6
 ;PCODE: $0000006F VOL: 0
 ;PCODE: $00000070 VOL: 0
 ;PCODE: $00000071 VOL: 0
 ;PCODE: $00000072 VOL: 0
-	SBI __lcd_port,__lcd_D5
 ;PCODE: $00000073 VOL: 0
 ;PCODE: $00000074 VOL: 0
+	SBI __lcd_port,__lcd_D5
 ;PCODE: $00000075 VOL: 0
 ;PCODE: $00000076 VOL: 0
-	CBI __lcd_port,__lcd_D5
 ;PCODE: $00000077 VOL: 0
 ;PCODE: $00000078 VOL: 0
+	CBI __lcd_port,__lcd_D5
 ;PCODE: $00000079 VOL: 0
 ;PCODE: $0000007A VOL: 0
 ;PCODE: $0000007B VOL: 0
 ;PCODE: $0000007C VOL: 0
-	SBI __lcd_port,__lcd_D4
 ;PCODE: $0000007D VOL: 0
 ;PCODE: $0000007E VOL: 0
+	SBI __lcd_port,__lcd_D4
 ;PCODE: $0000007F VOL: 0
 ;PCODE: $00000080 VOL: 0
-	CBI __lcd_port,__lcd_D4
 ;PCODE: $00000081 VOL: 0
 ;PCODE: $00000082 VOL: 0
+	CBI __lcd_port,__lcd_D4
 ;PCODE: $00000083 VOL: 0
 ;PCODE: $00000084 VOL: 0
 ;PCODE: $00000085 VOL: 0
@@ -198,13 +198,13 @@
 ;PCODE: $00000087 VOL: 0
 ;PCODE: $00000088 VOL: 0
 ;PCODE: $00000089 VOL: 0
-;	Comando -> Y+1
-;	tempComando -> R16
 ;PCODE: $0000008A VOL: 0
-	CBI __lcd_port,__lcd_RS
 ;PCODE: $0000008B VOL: 0
 ;PCODE: $0000008C VOL: 0
+;	Comando -> R17
+;	tempComando -> R16
 ;PCODE: $0000008D VOL: 0
+	CBI __lcd_port,__lcd_RS
 ;PCODE: $0000008E VOL: 0
 ;PCODE: $0000008F VOL: 0
 ;PCODE: $00000090 VOL: 0
@@ -231,12 +231,12 @@
 ;PCODE: $000000A5 VOL: 0
 ;PCODE: $000000A6 VOL: 0
 ;PCODE: $000000A7 VOL: 0
-;	dato -> Y+1
-;	tempdato -> R16
 ;PCODE: $000000A8 VOL: 0
-	SBI __lcd_port,__lcd_RS
 ;PCODE: $000000A9 VOL: 0
+;	dato -> R17
+;	tempdato -> R16
 ;PCODE: $000000AA VOL: 0
+	SBI __lcd_port,__lcd_RS
 ;PCODE: $000000AB VOL: 0
 ;PCODE: $000000AC VOL: 0
 ;PCODE: $000000AD VOL: 0
@@ -264,6 +264,7 @@
 ;PCODE: $000000C3 VOL: 0
 ;PCODE: $000000C4 VOL: 0
 ;PCODE: $000000C5 VOL: 0
+;	Mensaje -> R17,R18
 ;	i -> R16
 ;PCODE: $000000C6 VOL: 0
 ;PCODE: $000000C7 VOL: 0
@@ -294,9 +295,10 @@
 ;PCODE: $000000E0 VOL: 0
 ;PCODE: $000000E1 VOL: 0
 ;PCODE: $000000E2 VOL: 0
-;PCODE: $000000E3 VOL: 0
-;	tiempo -> Y+1
+;	Mensaje -> R19,R20
+;	tiempo -> R17,R18
 ;	i -> R16
+;PCODE: $000000E3 VOL: 0
 ;PCODE: $000000E4 VOL: 0
 ;PCODE: $000000E5 VOL: 0
 ;PCODE: $000000E6 VOL: 0
@@ -325,12 +327,12 @@
 ;PCODE: $000000FD VOL: 0
 ;PCODE: $000000FE VOL: 0
 ;PCODE: $000000FF VOL: 0
+;	Mensaje -> R17,R18
+;	i -> R16
 ;PCODE: $00000100 VOL: 0
 ;PCODE: $00000101 VOL: 0
 ;PCODE: $00000102 VOL: 0
 ;PCODE: $00000103 VOL: 0
-;	Mensaje -> Y+1
-;	i -> R16
 ;PCODE: $00000104 VOL: 0
 ;PCODE: $00000105 VOL: 0
 ;PCODE: $00000106 VOL: 0
@@ -362,10 +364,10 @@
 ;PCODE: $00000120 VOL: 0
 ;PCODE: $00000121 VOL: 0
 ;PCODE: $00000122 VOL: 0
+;	x -> R17
+;	y -> R16
 ;PCODE: $00000123 VOL: 0
 ;PCODE: $00000124 VOL: 0
-;	x -> Y+1
-;	y -> Y+0
 ;PCODE: $00000125 VOL: 0
 ;PCODE: $00000126 VOL: 0
 ;PCODE: $00000127 VOL: 0
@@ -439,13 +441,13 @@
 ;PCODE: $0000016B VOL: 0
 ;PCODE: $0000016C VOL: 0
 ;PCODE: $0000016D VOL: 0
-;	NoCaracter -> Y+3
-;	datos -> Y+1
-;	i -> R16
 ;PCODE: $0000016E VOL: 0
 ;PCODE: $0000016F VOL: 0
 ;PCODE: $00000170 VOL: 0
 ;PCODE: $00000171 VOL: 0
+;	NoCaracter -> R19
+;	datos -> R17,R18
+;	i -> R16
 ;PCODE: $00000172 VOL: 0
 ;PCODE: $00000173 VOL: 0
 ;PCODE: $00000174 VOL: 0
@@ -472,6 +474,9 @@
 ;PCODE: $00000189 VOL: 0
 ;PCODE: $0000018A VOL: 0
 ;PCODE: $0000018B VOL: 0
+;PCODE: $0000018C VOL: 0
+;PCODE: $0000018D VOL: 0
+;PCODE: $0000018E VOL: 0
 ;#include <delay.h>
 ;#include <stdio.h>
 ;
@@ -497,67 +502,65 @@
 ;// Read the AD conversion result
 ;unsigned int read_adc(unsigned char adc_input)
 ; 0000 0036 {
-;PCODE: $0000018C VOL: 0
-;PCODE: $0000018D VOL: 0
-; 0000 0037 ADMUX=adc_input | ADC_VREF_TYPE;
-;PCODE: $0000018E VOL: 0
-;	adc_input -> Y+0
 ;PCODE: $0000018F VOL: 0
 ;PCODE: $00000190 VOL: 0
+; 0000 0037 ADMUX=adc_input | ADC_VREF_TYPE;
 ;PCODE: $00000191 VOL: 0
-; 0000 0038 // Delay needed for the stabilization of the ADC input voltage
-; 0000 0039 delay_us(10);
 ;PCODE: $00000192 VOL: 0
-; 0000 003A // Start the AD conversion
-; 0000 003B ADCSRA|=(1<<ADSC);
+;	adc_input -> R16
 ;PCODE: $00000193 VOL: 0
 ;PCODE: $00000194 VOL: 0
 ;PCODE: $00000195 VOL: 0
-; 0000 003C // Wait for the AD conversion to complete
-; 0000 003D while ((ADCSRA & (1<<ADIF))==0);
+; 0000 0038 // Start the AD conversion
+; 0000 0039 ADCSRA|=(1<<ADSC);
 ;PCODE: $00000196 VOL: 0
 ;PCODE: $00000197 VOL: 0
 ;PCODE: $00000198 VOL: 0
+; 0000 003A // Wait for the AD conversion to complete
+; 0000 003B while ((ADCSRA & (1<<ADIF))==0);
 ;PCODE: $00000199 VOL: 0
 ;PCODE: $0000019A VOL: 0
 ;PCODE: $0000019B VOL: 0
-; 0000 003E ADCSRA|=(1<<ADIF);
 ;PCODE: $0000019C VOL: 0
 ;PCODE: $0000019D VOL: 0
 ;PCODE: $0000019E VOL: 0
-; 0000 003F return ADCW;
+; 0000 003C ADCSRA|=(1<<ADIF);
 ;PCODE: $0000019F VOL: 0
 ;PCODE: $000001A0 VOL: 0
 ;PCODE: $000001A1 VOL: 0
-; 0000 0040 }
+; 0000 003D return ADCW;
 ;PCODE: $000001A2 VOL: 0
+;PCODE: $000001A3 VOL: 0
+;PCODE: $000001A4 VOL: 0
+; 0000 003E }
+;PCODE: $000001A5 VOL: 0
 ;
 ;
 ;// Update ADC function
 ;void updateADC(){
-; 0000 0044 void updateADC(){
-;PCODE: $000001A3 VOL: 0
-;PCODE: $000001A4 VOL: 0
-; 0000 0045     // Convert ADC values to temperature
-; 0000 0046     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
-;PCODE: $000001A5 VOL: 0
+; 0000 0042 void updateADC(){
 ;PCODE: $000001A6 VOL: 0
 ;PCODE: $000001A7 VOL: 0
+; 0000 0043     // Convert ADC values to temperature
+; 0000 0044     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion
 ;PCODE: $000001A8 VOL: 0
 ;PCODE: $000001A9 VOL: 0
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
 ;PCODE: $000001AC VOL: 0
 ;PCODE: $000001AD VOL: 0
-; 0000 0047     Temp = temperature;
 ;PCODE: $000001AE VOL: 0
 ;PCODE: $000001AF VOL: 0
 ;PCODE: $000001B0 VOL: 0
+; 0000 0045     Temp = temperature;
 ;PCODE: $000001B1 VOL: 0
-; 0000 0048     // TEMPORAL print statement for DEV purposes only
-; 0000 0049 }
 ;PCODE: $000001B2 VOL: 0
 ;PCODE: $000001B3 VOL: 0
+;PCODE: $000001B4 VOL: 0
+; 0000 0046     // TEMPORAL print statement for DEV purposes only
+; 0000 0047 }
+;PCODE: $000001B5 VOL: 0
+;PCODE: $000001B6 VOL: 0
 ;
 ;// Counter
 ;unsigned char i=0;
@@ -565,137 +568,134 @@
 ;// Tone
 ;// Play frequency function
 ;void tono(float freq){
-; 0000 0050 void tono(float freq){
-;PCODE: $000001B4 VOL: 0
-;PCODE: $000001B5 VOL: 0
-; 0000 0051     if(freq == 0)
-;PCODE: $000001B6 VOL: 0
-;	freq -> Y+0
+; 0000 004E void tono(float freq){
 ;PCODE: $000001B7 VOL: 0
 ;PCODE: $000001B8 VOL: 0
+; 0000 004F     if(freq == 0)
 ;PCODE: $000001B9 VOL: 0
-; 0000 0052         TCCR1B=0x00;
+;	freq -> Y+0
 ;PCODE: $000001BA VOL: 0
 ;PCODE: $000001BB VOL: 0
-; 0000 0053     else{
 ;PCODE: $000001BC VOL: 0
+; 0000 0050         TCCR1B=0x00;
 ;PCODE: $000001BD VOL: 0
-; 0000 0054         float cuentas;
-; 0000 0055         unsigned int cuentasEnt;
-; 0000 0056 
-; 0000 0057         cuentas = 500000.0/freq;
 ;PCODE: $000001BE VOL: 0
+; 0000 0051     else{
+;PCODE: $000001BF VOL: 0
+;PCODE: $000001C0 VOL: 0
+; 0000 0052         float cuentas;
+; 0000 0053         unsigned int cuentasEnt;
+; 0000 0054 
+; 0000 0055         cuentas = 500000.0/freq;
+;PCODE: $000001C1 VOL: 0
 ;	freq -> Y+6
 ;	cuentas -> Y+2
 ;	cuentasEnt -> Y+0
-;PCODE: $000001BF VOL: 0
-;PCODE: $000001C0 VOL: 0
-;PCODE: $000001C1 VOL: 0
 ;PCODE: $000001C2 VOL: 0
-; 0000 0058         cuentasEnt = cuentas;
 ;PCODE: $000001C3 VOL: 0
 ;PCODE: $000001C4 VOL: 0
 ;PCODE: $000001C5 VOL: 0
+; 0000 0056         cuentasEnt = cuentas;
 ;PCODE: $000001C6 VOL: 0
-; 0000 0059         if(cuentas-cuentasEnt>=0.5)
 ;PCODE: $000001C7 VOL: 0
 ;PCODE: $000001C8 VOL: 0
 ;PCODE: $000001C9 VOL: 0
+; 0000 0057         if(cuentas-cuentasEnt>=0.5)
 ;PCODE: $000001CA VOL: 0
 ;PCODE: $000001CB VOL: 0
 ;PCODE: $000001CC VOL: 0
 ;PCODE: $000001CD VOL: 0
 ;PCODE: $000001CE VOL: 0
 ;PCODE: $000001CF VOL: 0
-; 0000 005A             cuentasEnt++;
 ;PCODE: $000001D0 VOL: 0
 ;PCODE: $000001D1 VOL: 0
 ;PCODE: $000001D2 VOL: 0
-; 0000 005B         OCR1AH=(cuentasEnt-1)/256;
+; 0000 0058             cuentasEnt++;
 ;PCODE: $000001D3 VOL: 0
 ;PCODE: $000001D4 VOL: 0
 ;PCODE: $000001D5 VOL: 0
+; 0000 0059         OCR1AH=(cuentasEnt-1)/256;
 ;PCODE: $000001D6 VOL: 0
 ;PCODE: $000001D7 VOL: 0
-; 0000 005C         OCR1AL=(cuentasEnt-1)%256;
 ;PCODE: $000001D8 VOL: 0
 ;PCODE: $000001D9 VOL: 0
 ;PCODE: $000001DA VOL: 0
+; 0000 005A         OCR1AL=(cuentasEnt-1)%256;
 ;PCODE: $000001DB VOL: 0
-; 0000 005D         TCCR1A=0x40;    // Timer 1 en modo de CTC
 ;PCODE: $000001DC VOL: 0
 ;PCODE: $000001DD VOL: 0
-; 0000 005E         TCCR1B=0x09;    // Timer en CK (sin pre-escalador)
 ;PCODE: $000001DE VOL: 0
+; 0000 005B         TCCR1A=0x40;    // Timer 1 en modo de CTC
 ;PCODE: $000001DF VOL: 0
-; 0000 005F     }
 ;PCODE: $000001E0 VOL: 0
+; 0000 005C         TCCR1B=0x09;    // Timer en CK (sin pre-escalador)
 ;PCODE: $000001E1 VOL: 0
-; 0000 0060 }
 ;PCODE: $000001E2 VOL: 0
+; 0000 005D     }
 ;PCODE: $000001E3 VOL: 0
 ;PCODE: $000001E4 VOL: 0
+; 0000 005E }
+;PCODE: $000001E5 VOL: 0
+;PCODE: $000001E6 VOL: 0
+;PCODE: $000001E7 VOL: 0
 ;
 ;int k=0;
 ;char kFlag=0;
 ;
 ;// Play tone or song function
 ;void playTone(){
-; 0000 0066 void playTone(){
-;PCODE: $000001E5 VOL: 0
-;PCODE: $000001E6 VOL: 0
-; 0000 0067     tono(k);
-;PCODE: $000001E7 VOL: 0
+; 0000 0064 void playTone(){
 ;PCODE: $000001E8 VOL: 0
 ;PCODE: $000001E9 VOL: 0
+; 0000 0065     tono(k);
 ;PCODE: $000001EA VOL: 0
-; 0000 0068     if(kFlag==0)
 ;PCODE: $000001EB VOL: 0
 ;PCODE: $000001EC VOL: 0
 ;PCODE: $000001ED VOL: 0
-; 0000 0069         k+=50;
+; 0000 0066     if(kFlag==0)
 ;PCODE: $000001EE VOL: 0
 ;PCODE: $000001EF VOL: 0
 ;PCODE: $000001F0 VOL: 0
-; 0000 006A     else
+; 0000 0067         k+=50;
 ;PCODE: $000001F1 VOL: 0
 ;PCODE: $000001F2 VOL: 0
-; 0000 006B         k-=50;
 ;PCODE: $000001F3 VOL: 0
+; 0000 0068     else
 ;PCODE: $000001F4 VOL: 0
 ;PCODE: $000001F5 VOL: 0
-; 0000 006C     if(k>500)
+; 0000 0069         k-=50;
 ;PCODE: $000001F6 VOL: 0
 ;PCODE: $000001F7 VOL: 0
 ;PCODE: $000001F8 VOL: 0
+; 0000 006A     if(k>500)
 ;PCODE: $000001F9 VOL: 0
-; 0000 006D         kFlag=1;
 ;PCODE: $000001FA VOL: 0
 ;PCODE: $000001FB VOL: 0
-; 0000 006E     else if (k<=50)
 ;PCODE: $000001FC VOL: 0
+; 0000 006B         kFlag=1;
 ;PCODE: $000001FD VOL: 0
 ;PCODE: $000001FE VOL: 0
+; 0000 006C     else if (k<=50)
 ;PCODE: $000001FF VOL: 0
 ;PCODE: $00000200 VOL: 0
-; 0000 006F         kFlag=0;
 ;PCODE: $00000201 VOL: 0
 ;PCODE: $00000202 VOL: 0
-; 0000 0070 }
 ;PCODE: $00000203 VOL: 0
+; 0000 006D         kFlag=0;
 ;PCODE: $00000204 VOL: 0
 ;PCODE: $00000205 VOL: 0
+; 0000 006E }
 ;PCODE: $00000206 VOL: 0
+;PCODE: $00000207 VOL: 0
+;PCODE: $00000208 VOL: 0
+;PCODE: $00000209 VOL: 0
 ;
 ;// LCD
 ;void printTime(){
-; 0000 0073 void printTime(){
-;PCODE: $00000207 VOL: 0
-;PCODE: $00000208 VOL: 0
-; 0000 0074     sprintf(time, "H:%02i:%02i:%02i T:%02i", H, M, S, Temp);
-;PCODE: $00000209 VOL: 0
+; 0000 0071 void printTime(){
 ;PCODE: $0000020A VOL: 0
 ;PCODE: $0000020B VOL: 0
+; 0000 0072     sprintf(time, "H:%02i:%02i:%02i T:%02i", H, M, S, Temp);
 ;PCODE: $0000020C VOL: 0
 ;PCODE: $0000020D VOL: 0
 ;PCODE: $0000020E VOL: 0
@@ -714,18 +714,18 @@
 ;PCODE: $0000021B VOL: 0
 ;PCODE: $0000021C VOL: 0
 ;PCODE: $0000021D VOL: 0
-; 0000 0075     MoveCursor(0,0);
 ;PCODE: $0000021E VOL: 0
 ;PCODE: $0000021F VOL: 0
 ;PCODE: $00000220 VOL: 0
+; 0000 0073     MoveCursor(0,0);
 ;PCODE: $00000221 VOL: 0
-; 0000 0076     StringLCDVar(time);
 ;PCODE: $00000222 VOL: 0
 ;PCODE: $00000223 VOL: 0
-; 0000 0077     sprintf(time, "A: %02i:%02i   ", AH, AM);
 ;PCODE: $00000224 VOL: 0
+; 0000 0074     StringLCDVar(time);
 ;PCODE: $00000225 VOL: 0
 ;PCODE: $00000226 VOL: 0
+; 0000 0075     sprintf(time, "A: %02i:%02i   ", AH, AM);
 ;PCODE: $00000227 VOL: 0
 ;PCODE: $00000228 VOL: 0
 ;PCODE: $00000229 VOL: 0
@@ -740,141 +740,140 @@
 ;PCODE: $00000232 VOL: 0
 ;PCODE: $00000233 VOL: 0
 ;PCODE: $00000234 VOL: 0
-; 0000 0078     MoveCursor(0,1);
 ;PCODE: $00000235 VOL: 0
 ;PCODE: $00000236 VOL: 0
 ;PCODE: $00000237 VOL: 0
+; 0000 0076     MoveCursor(0,1);
 ;PCODE: $00000238 VOL: 0
-; 0000 0079     StringLCDVar(time);
 ;PCODE: $00000239 VOL: 0
 ;PCODE: $0000023A VOL: 0
-; 0000 007A }
 ;PCODE: $0000023B VOL: 0
+; 0000 0077     StringLCDVar(time);
 ;PCODE: $0000023C VOL: 0
+;PCODE: $0000023D VOL: 0
+; 0000 0078 }
+;PCODE: $0000023E VOL: 0
+;PCODE: $0000023F VOL: 0
 ;
 ;// Clock
 ;void updateClock(){
-; 0000 007D void updateClock(){
-;PCODE: $0000023D VOL: 0
-;PCODE: $0000023E VOL: 0
-; 0000 007E     rtc_get_time(&H, &M, &S);
-;PCODE: $0000023F VOL: 0
+; 0000 007B void updateClock(){
 ;PCODE: $00000240 VOL: 0
 ;PCODE: $00000241 VOL: 0
+; 0000 007C     rtc_get_time(&H, &M, &S);
 ;PCODE: $00000242 VOL: 0
 ;PCODE: $00000243 VOL: 0
 ;PCODE: $00000244 VOL: 0
-; 0000 007F }
 ;PCODE: $00000245 VOL: 0
 ;PCODE: $00000246 VOL: 0
-;
-;void main(void)
-; 0000 0082 {
 ;PCODE: $00000247 VOL: 0
-; 0000 0083 
-; 0000 0084 // ADC initialization
-; 0000 0085 // ADC Clock frequency: 1000.000 kHz
-; 0000 0086 // ADC Voltage Reference: Int., cap. on AREF
-; 0000 0087 // ADC High Speed Mode: On
-; 0000 0088 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
-; 0000 0089 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
-; 0000 008A DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
+; 0000 007D }
 ;PCODE: $00000248 VOL: 0
 ;PCODE: $00000249 VOL: 0
-; 0000 008B ADMUX=ADC_VREF_TYPE;
+;
+;void main(void)
+; 0000 0080 {
 ;PCODE: $0000024A VOL: 0
+; 0000 0081 
+; 0000 0082 // ADC initialization
+; 0000 0083 // ADC Clock frequency: 1000.000 kHz
+; 0000 0084 // ADC Voltage Reference: Int., cap. on AREF
+; 0000 0085 // ADC High Speed Mode: On
+; 0000 0086 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
+; 0000 0087 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
+; 0000 0088 DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 ;PCODE: $0000024B VOL: 0
-; 0000 008C ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 ;PCODE: $0000024C VOL: 0
+; 0000 0089 ADMUX=ADC_VREF_TYPE;
 ;PCODE: $0000024D VOL: 0
-; 0000 008D ADCSRB=(1<<ADHSM);
 ;PCODE: $0000024E VOL: 0
+; 0000 008A ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 ;PCODE: $0000024F VOL: 0
-; 0000 008E 
-; 0000 008F // LCD
-; 0000 0090 
-; 0000 0091 SetupLCD();
 ;PCODE: $00000250 VOL: 0
-; 0000 0092 
-; 0000 0093 // DS1302
-; 0000 0094 rtc_init(0,0,0);
+; 0000 008B ADCSRB=(1<<ADHSM);
 ;PCODE: $00000251 VOL: 0
 ;PCODE: $00000252 VOL: 0
+; 0000 008C 
+; 0000 008D // LCD
+; 0000 008E 
+; 0000 008F SetupLCD();
 ;PCODE: $00000253 VOL: 0
+; 0000 0090 
+; 0000 0091 // DS1302
+; 0000 0092 rtc_init(0,0,0);
 ;PCODE: $00000254 VOL: 0
 ;PCODE: $00000255 VOL: 0
 ;PCODE: $00000256 VOL: 0
-; 0000 0095 
-; 0000 0096 // Tone
-; 0000 0097 DDRB.5=1;
 ;PCODE: $00000257 VOL: 0
 ;PCODE: $00000258 VOL: 0
-; 0000 0098 
-; 0000 0099 // First actions
-; 0000 009A PORTC = 0x0F;
 ;PCODE: $00000259 VOL: 0
+; 0000 0093 
+; 0000 0094 // Tone
+; 0000 0095 DDRB.5=1;
 ;PCODE: $0000025A VOL: 0
-; 0000 009B rtc_get_time(&H, &M, &S);
 ;PCODE: $0000025B VOL: 0
+; 0000 0096 
+; 0000 0097 // First actions
+; 0000 0098 PORTC = 0x0F;
 ;PCODE: $0000025C VOL: 0
 ;PCODE: $0000025D VOL: 0
+; 0000 0099 rtc_get_time(&H, &M, &S);
 ;PCODE: $0000025E VOL: 0
 ;PCODE: $0000025F VOL: 0
 ;PCODE: $00000260 VOL: 0
-; 0000 009C printTime();
 ;PCODE: $00000261 VOL: 0
-; 0000 009D 
-; 0000 009E while (1){
 ;PCODE: $00000262 VOL: 0
-; 0000 009F     // Please write your application code here
-; 0000 00A0 
-; 0000 00A1         // Counter
-; 0000 00A2         delay_ms(50);
 ;PCODE: $00000263 VOL: 0
+; 0000 009A printTime();
 ;PCODE: $00000264 VOL: 0
+; 0000 009B 
+; 0000 009C while (1){
 ;PCODE: $00000265 VOL: 0
-; 0000 00A3         i++;
+; 0000 009D     // Please write your application code here
+; 0000 009E 
+; 0000 009F         // Counter
+; 0000 00A0         i++;
 ;PCODE: $00000266 VOL: 0
 ;PCODE: $00000267 VOL: 0
 ;PCODE: $00000268 VOL: 0
-; 0000 00A4 
-; 0000 00A5         // ADC
-; 0000 00A6         updateADC();
+; 0000 00A1 
+; 0000 00A2         // ADC
+; 0000 00A3         updateADC();
 ;PCODE: $00000269 VOL: 0
-; 0000 00A7 
-; 0000 00A8         // Update clock
-; 0000 00A9         updateClock();
+; 0000 00A4 
+; 0000 00A5         // Update clock
+; 0000 00A6         updateClock();
 ;PCODE: $0000026A VOL: 0
-; 0000 00AA         // Print values un LCD display
-; 0000 00AB         printTime();
+; 0000 00A7         // Print values un LCD display
+; 0000 00A8         printTime();
 ;PCODE: $0000026B VOL: 0
-; 0000 00AC 
-; 0000 00AD         // 100 ms delay
-; 0000 00AE         if(i%2==0){
+; 0000 00A9 
+; 0000 00AA         // 100 ms delay
+; 0000 00AB         if(i%2==0){
 ;PCODE: $0000026C VOL: 0
 ;PCODE: $0000026D VOL: 0
 ;PCODE: $0000026E VOL: 0
 ;PCODE: $0000026F VOL: 0
 ;PCODE: $00000270 VOL: 0
 ;PCODE: $00000271 VOL: 0
-; 0000 00AF            if(alarmFlag==1) {
+; 0000 00AC            if(alarmFlag==1) {
 ;PCODE: $00000272 VOL: 0
 ;PCODE: $00000273 VOL: 0
 ;PCODE: $00000274 VOL: 0
-; 0000 00B0             playTone();
+; 0000 00AD             playTone();
 ;PCODE: $00000275 VOL: 0
-; 0000 00B1            }
-; 0000 00B2            else
+; 0000 00AE            }
+; 0000 00AF            else
 ;PCODE: $00000276 VOL: 0
 ;PCODE: $00000277 VOL: 0
-; 0000 00B3             tono(0);
+; 0000 00B0             tono(0);
 ;PCODE: $00000278 VOL: 0
 ;PCODE: $00000279 VOL: 0
-; 0000 00B4         }
+; 0000 00B1         }
 ;PCODE: $0000027A VOL: 0
-; 0000 00B5 
-; 0000 00B6         // 500 ms delay, reset counter
-; 0000 00B7         if(i%10==0)
+; 0000 00B2 
+; 0000 00B3         // 500 ms delay, reset counter
+; 0000 00B4         if(i%10==0)
 ;PCODE: $0000027B VOL: 0
 ;PCODE: $0000027C VOL: 0
 ;PCODE: $0000027D VOL: 0
@@ -882,11 +881,11 @@
 ;PCODE: $0000027F VOL: 0
 ;PCODE: $00000280 VOL: 0
 ;PCODE: $00000281 VOL: 0
-; 0000 00B8             i=0;
+; 0000 00B5             i=0;
 ;PCODE: $00000282 VOL: 0
 ;PCODE: $00000283 VOL: 0
-; 0000 00B9         // Turns alarm flag on when H, M and S match
-; 0000 00BA         if(S==0 && M==AM && H==AH)
+; 0000 00B6         // Turns alarm flag on when H, M and S match
+; 0000 00B7         if(S==0 && M==AM && H==AH)
 ;PCODE: $00000284 VOL: 0
 ;PCODE: $00000285 VOL: 0
 ;PCODE: $00000286 VOL: 0
@@ -905,196 +904,228 @@
 ;PCODE: $00000293 VOL: 0
 ;PCODE: $00000294 VOL: 0
 ;PCODE: $00000295 VOL: 0
-; 0000 00BB             alarmFlag=1;
+; 0000 00B8             alarmFlag=1;
 ;PCODE: $00000296 VOL: 0
 ;PCODE: $00000297 VOL: 0
-; 0000 00BC 
-; 0000 00BD         // Clock
-; 0000 00BE 
-; 0000 00BF         // If alarm is on, switch will turn alarm off without
-; 0000 00C0         //  changing the default variable
-; 0000 00C1         if(!PINC.0){
+; 0000 00B9 
+; 0000 00BA         // Clock
+; 0000 00BB 
+; 0000 00BC         // If alarm is on, switch will turn alarm off without
+; 0000 00BD         //  changing the default variable
+; 0000 00BE         if(!PINC.0){
 ;PCODE: $00000298 VOL: 0
 ;PCODE: $00000299 VOL: 0
 ;PCODE: $0000029A VOL: 0
 ;PCODE: $0000029B VOL: 0
-; 0000 00C2             if(alarmFlag==1)
+; 0000 00BF             if(alarmFlag==1)
 ;PCODE: $0000029C VOL: 0
 ;PCODE: $0000029D VOL: 0
 ;PCODE: $0000029E VOL: 0
-; 0000 00C3                 alarmFlag = 0;
+; 0000 00C0                 alarmFlag = 0;
 ;PCODE: $0000029F VOL: 0
 ;PCODE: $000002A0 VOL: 0
-; 0000 00C4             else{
+; 0000 00C1             else{
 ;PCODE: $000002A1 VOL: 0
 ;PCODE: $000002A2 VOL: 0
-; 0000 00C5                 H++;
+; 0000 00C2                 H++;
 ;PCODE: $000002A3 VOL: 0
 ;PCODE: $000002A4 VOL: 0
 ;PCODE: $000002A5 VOL: 0
-; 0000 00C6                 rtc_set_time(H, M, S);
+; 0000 00C3                 rtc_set_time(H, M, S);
 ;PCODE: $000002A6 VOL: 0
 ;PCODE: $000002A7 VOL: 0
 ;PCODE: $000002A8 VOL: 0
 ;PCODE: $000002A9 VOL: 0
 ;PCODE: $000002AA VOL: 0
 ;PCODE: $000002AB VOL: 0
-; 0000 00C7             }
+; 0000 00C4             }
 ;PCODE: $000002AC VOL: 0
-; 0000 00C8         }
-; 0000 00C9         // If alarm is on, switch will turn alarm off without
-; 0000 00CA         //  changing the default variable
-; 0000 00CB         if(!PINC.1){
+; 0000 00C5         }
+; 0000 00C6         // If alarm is on, switch will turn alarm off without
+; 0000 00C7         //  changing the default variable
+; 0000 00C8         if(!PINC.1){
 ;PCODE: $000002AD VOL: 0
 ;PCODE: $000002AE VOL: 0
 ;PCODE: $000002AF VOL: 0
 ;PCODE: $000002B0 VOL: 0
-; 0000 00CC             if(alarmFlag==1)
+; 0000 00C9             if(alarmFlag==1)
 ;PCODE: $000002B1 VOL: 0
 ;PCODE: $000002B2 VOL: 0
 ;PCODE: $000002B3 VOL: 0
-; 0000 00CD                 alarmFlag = 0;
+; 0000 00CA                 alarmFlag = 0;
 ;PCODE: $000002B4 VOL: 0
 ;PCODE: $000002B5 VOL: 0
-; 0000 00CE             else{
+; 0000 00CB             else{
 ;PCODE: $000002B6 VOL: 0
 ;PCODE: $000002B7 VOL: 0
-; 0000 00CF                 M++;
+; 0000 00CC                 M++;
 ;PCODE: $000002B8 VOL: 0
 ;PCODE: $000002B9 VOL: 0
 ;PCODE: $000002BA VOL: 0
-; 0000 00D0                 rtc_set_time(H, M, S);
+; 0000 00CD                 rtc_set_time(H, M, S);
 ;PCODE: $000002BB VOL: 0
 ;PCODE: $000002BC VOL: 0
 ;PCODE: $000002BD VOL: 0
 ;PCODE: $000002BE VOL: 0
 ;PCODE: $000002BF VOL: 0
 ;PCODE: $000002C0 VOL: 0
-; 0000 00D1             }
+; 0000 00CE             }
 ;PCODE: $000002C1 VOL: 0
-; 0000 00D2         }
-; 0000 00D3         // Verify the correct range on clock time
-; 0000 00D4         if(S>59)
+; 0000 00CF         }
+; 0000 00D0         // Verify the correct range on clock time
+; 0000 00D1         if(S>59){
 ;PCODE: $000002C2 VOL: 0
 ;PCODE: $000002C3 VOL: 0
 ;PCODE: $000002C4 VOL: 0
 ;PCODE: $000002C5 VOL: 0
-; 0000 00D5             S=0;
+; 0000 00D2             S=0;
 ;PCODE: $000002C6 VOL: 0
 ;PCODE: $000002C7 VOL: 0
-; 0000 00D6         if(M>59)
+; 0000 00D3             rtc_set_time(H, M, S);
 ;PCODE: $000002C8 VOL: 0
 ;PCODE: $000002C9 VOL: 0
 ;PCODE: $000002CA VOL: 0
 ;PCODE: $000002CB VOL: 0
-; 0000 00D7             M=0;
 ;PCODE: $000002CC VOL: 0
 ;PCODE: $000002CD VOL: 0
-; 0000 00D8         if(H>23)
+; 0000 00D4             updateClock();
 ;PCODE: $000002CE VOL: 0
+; 0000 00D5         }
+; 0000 00D6         if(M>59){
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
 ;PCODE: $000002D1 VOL: 0
-; 0000 00D9             H=0;
 ;PCODE: $000002D2 VOL: 0
+; 0000 00D7             M=0;
 ;PCODE: $000002D3 VOL: 0
-; 0000 00DA         if(AM>59)
 ;PCODE: $000002D4 VOL: 0
+; 0000 00D8             rtc_set_time(H, M, S);
 ;PCODE: $000002D5 VOL: 0
 ;PCODE: $000002D6 VOL: 0
 ;PCODE: $000002D7 VOL: 0
 ;PCODE: $000002D8 VOL: 0
-; 0000 00DB             AM=0;
 ;PCODE: $000002D9 VOL: 0
 ;PCODE: $000002DA VOL: 0
+; 0000 00D9             updateClock();
 ;PCODE: $000002DB VOL: 0
-; 0000 00DC         if(AH>23)
+; 0000 00DA         }
+; 0000 00DB         if(H>23){
 ;PCODE: $000002DC VOL: 0
 ;PCODE: $000002DD VOL: 0
 ;PCODE: $000002DE VOL: 0
 ;PCODE: $000002DF VOL: 0
+; 0000 00DC             H=0;
 ;PCODE: $000002E0 VOL: 0
-; 0000 00DD             AH=0;
 ;PCODE: $000002E1 VOL: 0
+; 0000 00DD             rtc_set_time(H, M, S);
 ;PCODE: $000002E2 VOL: 0
 ;PCODE: $000002E3 VOL: 0
-; 0000 00DE 
-; 0000 00DF         // Alarm
-; 0000 00E0 
-; 0000 00E1         // If alarm is on, switch will turn alarm off without
-; 0000 00E2         //  changing the default variable
-; 0000 00E3         if(!PINC.2){
 ;PCODE: $000002E4 VOL: 0
 ;PCODE: $000002E5 VOL: 0
 ;PCODE: $000002E6 VOL: 0
 ;PCODE: $000002E7 VOL: 0
-; 0000 00E4             if(alarmFlag==1)
+; 0000 00DE             updateClock();
 ;PCODE: $000002E8 VOL: 0
+; 0000 00DF         }
+; 0000 00E0         if(AM>59){
 ;PCODE: $000002E9 VOL: 0
 ;PCODE: $000002EA VOL: 0
-; 0000 00E5                 alarmFlag = 0;
 ;PCODE: $000002EB VOL: 0
 ;PCODE: $000002EC VOL: 0
-; 0000 00E6             else
 ;PCODE: $000002ED VOL: 0
+; 0000 00E1             AM=0;
 ;PCODE: $000002EE VOL: 0
-; 0000 00E7                 AH++;
 ;PCODE: $000002EF VOL: 0
 ;PCODE: $000002F0 VOL: 0
+; 0000 00E2         }
+; 0000 00E3         if(AH>23) {
 ;PCODE: $000002F1 VOL: 0
 ;PCODE: $000002F2 VOL: 0
-; 0000 00E8         }
 ;PCODE: $000002F3 VOL: 0
-; 0000 00E9         // If alarm is on, switch will turn alarm off without
-; 0000 00EA         //  changing the default variable
-; 0000 00EB         if(!PINC.3){
 ;PCODE: $000002F4 VOL: 0
 ;PCODE: $000002F5 VOL: 0
+; 0000 00E4             AH=0;
 ;PCODE: $000002F6 VOL: 0
 ;PCODE: $000002F7 VOL: 0
-; 0000 00EC             if(alarmFlag==1)
 ;PCODE: $000002F8 VOL: 0
+; 0000 00E5         }
+; 0000 00E6 
+; 0000 00E7         // Alarm
+; 0000 00E8 
+; 0000 00E9         // If alarm is on, switch will turn alarm off without
+; 0000 00EA         //  changing the default variable
+; 0000 00EB         if(!PINC.2){
 ;PCODE: $000002F9 VOL: 0
 ;PCODE: $000002FA VOL: 0
-; 0000 00ED                 alarmFlag = 0;
 ;PCODE: $000002FB VOL: 0
 ;PCODE: $000002FC VOL: 0
-; 0000 00EE             else
+; 0000 00EC             if(alarmFlag==1)
 ;PCODE: $000002FD VOL: 0
 ;PCODE: $000002FE VOL: 0
-; 0000 00EF                 AM++;
 ;PCODE: $000002FF VOL: 0
+; 0000 00ED                 alarmFlag = 0;
 ;PCODE: $00000300 VOL: 0
 ;PCODE: $00000301 VOL: 0
+; 0000 00EE             else
 ;PCODE: $00000302 VOL: 0
-; 0000 00F0         }
 ;PCODE: $00000303 VOL: 0
-; 0000 00F1         // Verify the correct range on alarm time
-; 0000 00F2         if(AM>59)
+; 0000 00EF                 AH++;
 ;PCODE: $00000304 VOL: 0
 ;PCODE: $00000305 VOL: 0
 ;PCODE: $00000306 VOL: 0
 ;PCODE: $00000307 VOL: 0
+; 0000 00F0         }
 ;PCODE: $00000308 VOL: 0
-; 0000 00F3             AM=0;
+; 0000 00F1         // If alarm is on, switch will turn alarm off without
+; 0000 00F2         //  changing the default variable
+; 0000 00F3         if(!PINC.3){
 ;PCODE: $00000309 VOL: 0
 ;PCODE: $0000030A VOL: 0
 ;PCODE: $0000030B VOL: 0
-; 0000 00F4         if(AH>23)
 ;PCODE: $0000030C VOL: 0
+; 0000 00F4             if(alarmFlag==1)
 ;PCODE: $0000030D VOL: 0
 ;PCODE: $0000030E VOL: 0
 ;PCODE: $0000030F VOL: 0
+; 0000 00F5                 alarmFlag = 0;
 ;PCODE: $00000310 VOL: 0
-; 0000 00F5             AH=0;
 ;PCODE: $00000311 VOL: 0
+; 0000 00F6             else
 ;PCODE: $00000312 VOL: 0
 ;PCODE: $00000313 VOL: 0
-; 0000 00F6     }
+; 0000 00F7                 AM++;
 ;PCODE: $00000314 VOL: 0
 ;PCODE: $00000315 VOL: 0
 ;PCODE: $00000316 VOL: 0
-; 0000 00F7 }
 ;PCODE: $00000317 VOL: 0
+; 0000 00F8         }
 ;PCODE: $00000318 VOL: 0
+; 0000 00F9         // Verify the correct range on alarm time
+; 0000 00FA         if(AM>59)
 ;PCODE: $00000319 VOL: 0
+;PCODE: $0000031A VOL: 0
+;PCODE: $0000031B VOL: 0
+;PCODE: $0000031C VOL: 0
+;PCODE: $0000031D VOL: 0
+; 0000 00FB             AM=0;
+;PCODE: $0000031E VOL: 0
+;PCODE: $0000031F VOL: 0
+;PCODE: $00000320 VOL: 0
+; 0000 00FC         if(AH>23)
+;PCODE: $00000321 VOL: 0
+;PCODE: $00000322 VOL: 0
+;PCODE: $00000323 VOL: 0
+;PCODE: $00000324 VOL: 0
+;PCODE: $00000325 VOL: 0
+; 0000 00FD             AH=0;
+;PCODE: $00000326 VOL: 0
+;PCODE: $00000327 VOL: 0
+;PCODE: $00000328 VOL: 0
+; 0000 00FE     }
+;PCODE: $00000329 VOL: 0
+;PCODE: $0000032A VOL: 0
+;PCODE: $0000032B VOL: 0
+; 0000 00FF }
+;PCODE: $0000032C VOL: 0
+;PCODE: $0000032D VOL: 0
+;PCODE: $0000032E VOL: 0
