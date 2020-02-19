@@ -9,9 +9,9 @@
 * Bits/Sample:		8
 **********************************************************************/
 
-#define Limit 93735
+#define NUM_ELEMENTS 93735
 
-flash unsigned char elephant[Limit] = {
+flash unsigned char alarma[NUM_ELEMENTS] = {
 117, 115, 115, 116, 117, 119, 122, 125, // 0-7
 128, 131, 134, 136, 139, 140, 141, 142, // 8-15
 141, 140, 138, 136, 133, 131, 129, 127, // 16-23

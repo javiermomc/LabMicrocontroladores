@@ -29,6 +29,7 @@
 #include <display.h>
 #include <delay.h>
 #include <stdio.h>
+#include "Alarm1.c" 
 
 // Alarm
 
@@ -73,7 +74,7 @@ void updateADC(){
 }
 
 // Counter
-unsigned char i=0;
+unsigned long i=0;
 
 // Tone
 // Play frequency function
@@ -95,20 +96,23 @@ void tono(float freq){
     }
 }
 
-int k=0;
-char kFlag=0;
-
+int startSong=0;
 // Play tone or song function
 void playTone(){
-    tono(k);
-    if(kFlag==0)
-        k+=50;
-    else
-        k-=50;
-    if(k>500)
-        kFlag=1;
-    else if (k<=50)
-        kFlag=0;
+    TCCR0A=0x83;    //Fast PWM
+    TCCR0B=0x01;    //Sin pre-escalador
+    if (alarmFlag==1&&startSong==0){
+        j=0;
+        startSong=1;
+        
+    }
+    if (j<Limit){
+        OCR0A=elephant[j];
+        delay_us(125);
+        j++;   
+    }           
+    TCCR0A = 0x00;
+    TCCR0B = 0x00;        
 }
 
 // LCD 
@@ -191,8 +195,10 @@ while (1){
         // If alarm is on, switch will turn alarm off without
         //  changing the default variable 
         if(!PINC.0){
-            if(alarmFlag==1)
+            if(alarmFlag==1){
                 alarmFlag = 0;
+                startSong=0;
+            }
             else{
                 H++;
                 rtc_set_time(H, M, S);
@@ -201,8 +207,10 @@ while (1){
         // If alarm is on, switch will turn alarm off without
         //  changing the default variable
         if(!PINC.1){
-            if(alarmFlag==1)
+            if(alarmFlag==1){
                 alarmFlag = 0;
+                startSong=0;
+            }
             else{
                 M++;
                 rtc_set_time(H, M, S);
@@ -225,16 +233,20 @@ while (1){
         // If alarm is on, switch will turn alarm off without
         //  changing the default variable
         if(!PINC.2){
-            if(alarmFlag==1)
+            if(alarmFlag==1){
                 alarmFlag = 0;
+                startSong=0;
+            }
             else
                 AH++;
         }
         // If alarm is on, switch will turn alarm off without
         //  changing the default variable
         if(!PINC.3){
-            if(alarmFlag==1)
+            if(alarmFlag==1){
                 alarmFlag = 0;
+                startSong=0;
+            }
             else
                 AM++;
         }
