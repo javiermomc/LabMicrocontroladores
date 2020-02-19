@@ -127,6 +127,8 @@ void updateClock(){
 void main(void)
 {
 
+// ADC
+
 // ADC initialization
 // ADC Clock frequency: 1000.000 kHz
 // ADC Voltage Reference: Int., cap. on AREF
@@ -167,14 +169,12 @@ while (1){
         // Print values un LCD display
         printTime();
         
-        // 100 ms delay
-        if(i%2==0){ 
-           if(alarmFlag==1) {
+        // Play alarm
+        if(alarmFlag==1) {
             playTone();
-           }   
-           else
+        }   
+        else
             tono(0);
-        } 
 
         // 500 ms delay, reset counter
         if(i%10==0)
@@ -220,12 +220,6 @@ while (1){
             H=0;
             rtc_set_time(H, M, S);
             updateClock();   
-        }
-        if(AM>59){
-            AM=0;  
-        }
-        if(AH>23) {
-            AH=0;
         }
         
         // Alarm

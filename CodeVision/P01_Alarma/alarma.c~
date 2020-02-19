@@ -127,6 +127,8 @@ void updateClock(){
 void main(void)
 {
 
+// ADC
+
 // ADC initialization
 // ADC Clock frequency: 1000.000 kHz
 // ADC Voltage Reference: Int., cap. on AREF
@@ -157,7 +159,6 @@ while (1){
     // Please write your application code here
         
         // Counter
-        delay_us(40);
         i++;
         
         // ADC 
