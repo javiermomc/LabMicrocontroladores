@@ -555,7 +555,7 @@
 ;PCODE: $000001B1 VOL: 0
 ;PCODE: $000001B2 VOL: 0
 ;PCODE: $000001B3 VOL: 0
-; 0000 0045     tempDec = (int)((temperature - (float)tempInt)*100.0);
+; 0000 0045     tempDec = (int)((temperature - (float)tempInt)*10.0);
 ;PCODE: $000001B4 VOL: 0
 ;PCODE: $000001B5 VOL: 0
 ;PCODE: $000001B6 VOL: 0
@@ -702,7 +702,7 @@
 ; 0000 0070 void printTime(){
 ;PCODE: $00000212 VOL: 0
 ;PCODE: $00000213 VOL: 0
-; 0000 0071     sprintf(time, "%02i:%02i:%02i T:%02i.%02i", H, M, S, tempInt, tempDec);
+; 0000 0071     sprintf(time, "%02i:%02i:%02i  %02i.%i%cC", H, M, S, tempInt, tempDec, 223);
 ;PCODE: $00000214 VOL: 0
 ;PCODE: $00000215 VOL: 0
 ;PCODE: $00000216 VOL: 0
@@ -727,17 +727,17 @@
 ;PCODE: $00000229 VOL: 0
 ;PCODE: $0000022A VOL: 0
 ;PCODE: $0000022B VOL: 0
-; 0000 0072     MoveCursor(0,0);
 ;PCODE: $0000022C VOL: 0
 ;PCODE: $0000022D VOL: 0
+; 0000 0072     MoveCursor(0,0);
 ;PCODE: $0000022E VOL: 0
 ;PCODE: $0000022F VOL: 0
-; 0000 0073     StringLCDVar(time);
 ;PCODE: $00000230 VOL: 0
 ;PCODE: $00000231 VOL: 0
-; 0000 0074     sprintf(time, "A: %02i:%02i   ", AH, AM);
+; 0000 0073     StringLCDVar(time);
 ;PCODE: $00000232 VOL: 0
 ;PCODE: $00000233 VOL: 0
+; 0000 0074     sprintf(time, "  Alarma %02i:%02i   ", AH, AM);
 ;PCODE: $00000234 VOL: 0
 ;PCODE: $00000235 VOL: 0
 ;PCODE: $00000236 VOL: 0
@@ -753,37 +753,39 @@
 ;PCODE: $00000240 VOL: 0
 ;PCODE: $00000241 VOL: 0
 ;PCODE: $00000242 VOL: 0
-; 0000 0075     MoveCursor(0,1);
 ;PCODE: $00000243 VOL: 0
 ;PCODE: $00000244 VOL: 0
+; 0000 0075     MoveCursor(0,1);
 ;PCODE: $00000245 VOL: 0
 ;PCODE: $00000246 VOL: 0
-; 0000 0076     StringLCDVar(time);
 ;PCODE: $00000247 VOL: 0
 ;PCODE: $00000248 VOL: 0
-; 0000 0077 }
+; 0000 0076     StringLCDVar(time);
 ;PCODE: $00000249 VOL: 0
 ;PCODE: $0000024A VOL: 0
+; 0000 0077 }
+;PCODE: $0000024B VOL: 0
+;PCODE: $0000024C VOL: 0
 ;
 ;// Clock
 ;void updateClock(){
 ; 0000 007A void updateClock(){
-;PCODE: $0000024B VOL: 0
-;PCODE: $0000024C VOL: 0
-; 0000 007B     rtc_get_time(&H, &M, &S);
 ;PCODE: $0000024D VOL: 0
 ;PCODE: $0000024E VOL: 0
+; 0000 007B     rtc_get_time(&H, &M, &S);
 ;PCODE: $0000024F VOL: 0
 ;PCODE: $00000250 VOL: 0
 ;PCODE: $00000251 VOL: 0
 ;PCODE: $00000252 VOL: 0
-; 0000 007C }
 ;PCODE: $00000253 VOL: 0
 ;PCODE: $00000254 VOL: 0
+; 0000 007C }
+;PCODE: $00000255 VOL: 0
+;PCODE: $00000256 VOL: 0
 ;
 ;void main(void)
 ; 0000 007F {
-;PCODE: $00000255 VOL: 0
+;PCODE: $00000257 VOL: 0
 ; 0000 0080 
 ; 0000 0081 // ADC
 ; 0000 0082 
@@ -794,103 +796,101 @@
 ; 0000 0087 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
 ; 0000 0088 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
 ; 0000 0089 DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
-;PCODE: $00000256 VOL: 0
-;PCODE: $00000257 VOL: 0
-; 0000 008A ADMUX=ADC_VREF_TYPE;
 ;PCODE: $00000258 VOL: 0
 ;PCODE: $00000259 VOL: 0
-; 0000 008B ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+; 0000 008A ADMUX=ADC_VREF_TYPE;
 ;PCODE: $0000025A VOL: 0
 ;PCODE: $0000025B VOL: 0
-; 0000 008C ADCSRB=(1<<ADHSM);
+; 0000 008B ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 ;PCODE: $0000025C VOL: 0
 ;PCODE: $0000025D VOL: 0
+; 0000 008C ADCSRB=(1<<ADHSM);
+;PCODE: $0000025E VOL: 0
+;PCODE: $0000025F VOL: 0
 ; 0000 008D 
 ; 0000 008E // LCD
 ; 0000 008F 
 ; 0000 0090 SetupLCD();
-;PCODE: $0000025E VOL: 0
+;PCODE: $00000260 VOL: 0
 ; 0000 0091 
 ; 0000 0092 // DS1302
 ; 0000 0093 rtc_init(0,0,0);
-;PCODE: $0000025F VOL: 0
-;PCODE: $00000260 VOL: 0
 ;PCODE: $00000261 VOL: 0
 ;PCODE: $00000262 VOL: 0
 ;PCODE: $00000263 VOL: 0
 ;PCODE: $00000264 VOL: 0
+;PCODE: $00000265 VOL: 0
+;PCODE: $00000266 VOL: 0
 ; 0000 0094 
 ; 0000 0095 // Tone
 ; 0000 0096 DDRB.5=1;
-;PCODE: $00000265 VOL: 0
-;PCODE: $00000266 VOL: 0
+;PCODE: $00000267 VOL: 0
+;PCODE: $00000268 VOL: 0
 ; 0000 0097 
 ; 0000 0098 // First actions
 ; 0000 0099 PORTC = 0x0F;
-;PCODE: $00000267 VOL: 0
-;PCODE: $00000268 VOL: 0
-; 0000 009A rtc_get_time(&H, &M, &S);
 ;PCODE: $00000269 VOL: 0
 ;PCODE: $0000026A VOL: 0
+; 0000 009A rtc_get_time(&H, &M, &S);
 ;PCODE: $0000026B VOL: 0
 ;PCODE: $0000026C VOL: 0
 ;PCODE: $0000026D VOL: 0
 ;PCODE: $0000026E VOL: 0
-; 0000 009B printTime();
 ;PCODE: $0000026F VOL: 0
+;PCODE: $00000270 VOL: 0
+; 0000 009B printTime();
+;PCODE: $00000271 VOL: 0
 ; 0000 009C 
 ; 0000 009D while (1){
-;PCODE: $00000270 VOL: 0
+;PCODE: $00000272 VOL: 0
 ; 0000 009E     // Please write your application code here
 ; 0000 009F 
 ; 0000 00A0         // Counter
 ; 0000 00A1         i++;
-;PCODE: $00000271 VOL: 0
-;PCODE: $00000272 VOL: 0
 ;PCODE: $00000273 VOL: 0
+;PCODE: $00000274 VOL: 0
+;PCODE: $00000275 VOL: 0
 ; 0000 00A2 
 ; 0000 00A3         // ADC
 ; 0000 00A4         updateADC();
-;PCODE: $00000274 VOL: 0
+;PCODE: $00000276 VOL: 0
 ; 0000 00A5 
 ; 0000 00A6         // Update clock
 ; 0000 00A7         updateClock();
-;PCODE: $00000275 VOL: 0
+;PCODE: $00000277 VOL: 0
 ; 0000 00A8         // Print values un LCD display
 ; 0000 00A9         printTime();
-;PCODE: $00000276 VOL: 0
+;PCODE: $00000278 VOL: 0
 ; 0000 00AA 
 ; 0000 00AB         // Play alarm
 ; 0000 00AC         if(alarmFlag==1) {
-;PCODE: $00000277 VOL: 0
-;PCODE: $00000278 VOL: 0
 ;PCODE: $00000279 VOL: 0
-; 0000 00AD             playTone();
 ;PCODE: $0000027A VOL: 0
+;PCODE: $0000027B VOL: 0
+; 0000 00AD             playTone();
+;PCODE: $0000027C VOL: 0
 ; 0000 00AE         }
 ; 0000 00AF         else
-;PCODE: $0000027B VOL: 0
-;PCODE: $0000027C VOL: 0
-; 0000 00B0             tono(0);
 ;PCODE: $0000027D VOL: 0
 ;PCODE: $0000027E VOL: 0
+; 0000 00B0             tono(0);
+;PCODE: $0000027F VOL: 0
+;PCODE: $00000280 VOL: 0
 ; 0000 00B1 
 ; 0000 00B2         // 500 ms delay, reset counter
 ; 0000 00B3         if(i%10==0)
-;PCODE: $0000027F VOL: 0
-;PCODE: $00000280 VOL: 0
 ;PCODE: $00000281 VOL: 0
 ;PCODE: $00000282 VOL: 0
 ;PCODE: $00000283 VOL: 0
 ;PCODE: $00000284 VOL: 0
 ;PCODE: $00000285 VOL: 0
-; 0000 00B4             i=0;
 ;PCODE: $00000286 VOL: 0
 ;PCODE: $00000287 VOL: 0
-; 0000 00B5         // Turns alarm flag on when H, M and S match
-; 0000 00B6         if(S==0 && M==AM && H==AH)
+; 0000 00B4             i=0;
 ;PCODE: $00000288 VOL: 0
 ;PCODE: $00000289 VOL: 0
+; 0000 00B5         // Turns alarm flag on when H, M and S match
+; 0000 00B6         if(S==0 && M==AM && H==AH)
 ;PCODE: $0000028A VOL: 0
 ;PCODE: $0000028B VOL: 0
 ;PCODE: $0000028C VOL: 0
@@ -907,200 +907,230 @@
 ;PCODE: $00000297 VOL: 0
 ;PCODE: $00000298 VOL: 0
 ;PCODE: $00000299 VOL: 0
-; 0000 00B7             alarmFlag=1;
 ;PCODE: $0000029A VOL: 0
 ;PCODE: $0000029B VOL: 0
-; 0000 00B8 
-; 0000 00B9         // Clock
-; 0000 00BA 
-; 0000 00BB         // If alarm is on, switch will turn alarm off without
-; 0000 00BC         //  changing the default variable
-; 0000 00BD         if(!PINC.0){
+; 0000 00B7             alarmFlag=1;
 ;PCODE: $0000029C VOL: 0
 ;PCODE: $0000029D VOL: 0
+; 0000 00B8         if(S==0 && M==AM+1 && H==AH && alarmFlag==1)
 ;PCODE: $0000029E VOL: 0
 ;PCODE: $0000029F VOL: 0
-; 0000 00BE             if(alarmFlag==1)
 ;PCODE: $000002A0 VOL: 0
 ;PCODE: $000002A1 VOL: 0
 ;PCODE: $000002A2 VOL: 0
-; 0000 00BF                 alarmFlag = 0;
 ;PCODE: $000002A3 VOL: 0
 ;PCODE: $000002A4 VOL: 0
-; 0000 00C0             else{
 ;PCODE: $000002A5 VOL: 0
 ;PCODE: $000002A6 VOL: 0
-; 0000 00C1                 H++;
 ;PCODE: $000002A7 VOL: 0
 ;PCODE: $000002A8 VOL: 0
 ;PCODE: $000002A9 VOL: 0
-; 0000 00C2                 rtc_set_time(H, M, S);
 ;PCODE: $000002AA VOL: 0
 ;PCODE: $000002AB VOL: 0
 ;PCODE: $000002AC VOL: 0
 ;PCODE: $000002AD VOL: 0
 ;PCODE: $000002AE VOL: 0
 ;PCODE: $000002AF VOL: 0
-; 0000 00C3             }
 ;PCODE: $000002B0 VOL: 0
-; 0000 00C4         }
-; 0000 00C5         // If alarm is on, switch will turn alarm off without
-; 0000 00C6         //  changing the default variable
-; 0000 00C7         if(!PINC.1){
 ;PCODE: $000002B1 VOL: 0
 ;PCODE: $000002B2 VOL: 0
 ;PCODE: $000002B3 VOL: 0
 ;PCODE: $000002B4 VOL: 0
-; 0000 00C8             if(alarmFlag==1)
 ;PCODE: $000002B5 VOL: 0
+; 0000 00B9             alarmFlag=0;
 ;PCODE: $000002B6 VOL: 0
 ;PCODE: $000002B7 VOL: 0
-; 0000 00C9                 alarmFlag = 0;
+; 0000 00BA 
+; 0000 00BB         // Clock
+; 0000 00BC 
+; 0000 00BD         // If alarm is on, switch will turn alarm off without
+; 0000 00BE         //  changing the default variable
+; 0000 00BF         if(!PINC.0){
 ;PCODE: $000002B8 VOL: 0
 ;PCODE: $000002B9 VOL: 0
-; 0000 00CA             else{
 ;PCODE: $000002BA VOL: 0
 ;PCODE: $000002BB VOL: 0
-; 0000 00CB                 M++;
+; 0000 00C0             if(alarmFlag==1)
 ;PCODE: $000002BC VOL: 0
 ;PCODE: $000002BD VOL: 0
 ;PCODE: $000002BE VOL: 0
-; 0000 00CC                 rtc_set_time(H, M, S);
+; 0000 00C1                 alarmFlag = 0;
 ;PCODE: $000002BF VOL: 0
 ;PCODE: $000002C0 VOL: 0
+; 0000 00C2             else{
 ;PCODE: $000002C1 VOL: 0
 ;PCODE: $000002C2 VOL: 0
+; 0000 00C3                 H++;
 ;PCODE: $000002C3 VOL: 0
 ;PCODE: $000002C4 VOL: 0
-; 0000 00CD             }
 ;PCODE: $000002C5 VOL: 0
-; 0000 00CE         }
-; 0000 00CF         // Verify the correct range on clock time
-; 0000 00D0         if(S>59){
+; 0000 00C4                 rtc_set_time(H, M, S);
 ;PCODE: $000002C6 VOL: 0
 ;PCODE: $000002C7 VOL: 0
 ;PCODE: $000002C8 VOL: 0
 ;PCODE: $000002C9 VOL: 0
-; 0000 00D1             S=0;
 ;PCODE: $000002CA VOL: 0
 ;PCODE: $000002CB VOL: 0
-; 0000 00D2             rtc_set_time(H, M, S);
+; 0000 00C5             }
 ;PCODE: $000002CC VOL: 0
+; 0000 00C6         }
+; 0000 00C7         // If alarm is on, switch will turn alarm off without
+; 0000 00C8         //  changing the default variable
+; 0000 00C9         if(!PINC.1){
 ;PCODE: $000002CD VOL: 0
 ;PCODE: $000002CE VOL: 0
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
+; 0000 00CA             if(alarmFlag==1)
 ;PCODE: $000002D1 VOL: 0
-; 0000 00D3         }
-; 0000 00D4         if(M>59){
 ;PCODE: $000002D2 VOL: 0
 ;PCODE: $000002D3 VOL: 0
+; 0000 00CB                 alarmFlag = 0;
 ;PCODE: $000002D4 VOL: 0
 ;PCODE: $000002D5 VOL: 0
-; 0000 00D5             M=0;
+; 0000 00CC             else{
 ;PCODE: $000002D6 VOL: 0
 ;PCODE: $000002D7 VOL: 0
-; 0000 00D6             rtc_set_time(H, M, S);
+; 0000 00CD                 M++;
 ;PCODE: $000002D8 VOL: 0
 ;PCODE: $000002D9 VOL: 0
 ;PCODE: $000002DA VOL: 0
+; 0000 00CE                 rtc_set_time(H, M, S);
 ;PCODE: $000002DB VOL: 0
 ;PCODE: $000002DC VOL: 0
 ;PCODE: $000002DD VOL: 0
-; 0000 00D7         }
-; 0000 00D8         if(H>23){
 ;PCODE: $000002DE VOL: 0
 ;PCODE: $000002DF VOL: 0
 ;PCODE: $000002E0 VOL: 0
+; 0000 00CF             }
 ;PCODE: $000002E1 VOL: 0
-; 0000 00D9             H=0;
+; 0000 00D0         }
+; 0000 00D1         // Verify the correct range on clock time
+; 0000 00D2         if(S>59){
 ;PCODE: $000002E2 VOL: 0
 ;PCODE: $000002E3 VOL: 0
-; 0000 00DA             rtc_set_time(H, M, S);
 ;PCODE: $000002E4 VOL: 0
 ;PCODE: $000002E5 VOL: 0
+; 0000 00D3             S=0;
 ;PCODE: $000002E6 VOL: 0
 ;PCODE: $000002E7 VOL: 0
+; 0000 00D4             rtc_set_time(H, M, S);
 ;PCODE: $000002E8 VOL: 0
 ;PCODE: $000002E9 VOL: 0
-; 0000 00DB         }
-; 0000 00DC 
-; 0000 00DD         // Alarm
-; 0000 00DE 
-; 0000 00DF         // If alarm is on, switch will turn alarm off without
-; 0000 00E0         //  changing the default variable
-; 0000 00E1         if(!PINC.2){
 ;PCODE: $000002EA VOL: 0
 ;PCODE: $000002EB VOL: 0
 ;PCODE: $000002EC VOL: 0
 ;PCODE: $000002ED VOL: 0
-; 0000 00E2             if(alarmFlag==1)
+; 0000 00D5         }
+; 0000 00D6         if(M>59){
 ;PCODE: $000002EE VOL: 0
 ;PCODE: $000002EF VOL: 0
 ;PCODE: $000002F0 VOL: 0
-; 0000 00E3                 alarmFlag = 0;
 ;PCODE: $000002F1 VOL: 0
+; 0000 00D7             M=0;
 ;PCODE: $000002F2 VOL: 0
-; 0000 00E4             else
 ;PCODE: $000002F3 VOL: 0
+; 0000 00D8             rtc_set_time(H, M, S);
 ;PCODE: $000002F4 VOL: 0
-; 0000 00E5                 AH++;
 ;PCODE: $000002F5 VOL: 0
 ;PCODE: $000002F6 VOL: 0
 ;PCODE: $000002F7 VOL: 0
 ;PCODE: $000002F8 VOL: 0
-; 0000 00E6         }
 ;PCODE: $000002F9 VOL: 0
-; 0000 00E7         // If alarm is on, switch will turn alarm off without
-; 0000 00E8         //  changing the default variable
-; 0000 00E9         if(!PINC.3){
+; 0000 00D9         }
+; 0000 00DA         if(H>23){
 ;PCODE: $000002FA VOL: 0
 ;PCODE: $000002FB VOL: 0
 ;PCODE: $000002FC VOL: 0
 ;PCODE: $000002FD VOL: 0
-; 0000 00EA             if(alarmFlag==1)
+; 0000 00DB             H=0;
 ;PCODE: $000002FE VOL: 0
 ;PCODE: $000002FF VOL: 0
+; 0000 00DC             rtc_set_time(H, M, S);
 ;PCODE: $00000300 VOL: 0
-; 0000 00EB                 alarmFlag = 0;
 ;PCODE: $00000301 VOL: 0
 ;PCODE: $00000302 VOL: 0
-; 0000 00EC             else
 ;PCODE: $00000303 VOL: 0
 ;PCODE: $00000304 VOL: 0
-; 0000 00ED                 AM++;
 ;PCODE: $00000305 VOL: 0
+; 0000 00DD         }
+; 0000 00DE 
+; 0000 00DF         // Alarm
+; 0000 00E0 
+; 0000 00E1         // If alarm is on, switch will turn alarm off without
+; 0000 00E2         //  changing the default variable
+; 0000 00E3         if(!PINC.2){
 ;PCODE: $00000306 VOL: 0
 ;PCODE: $00000307 VOL: 0
 ;PCODE: $00000308 VOL: 0
-; 0000 00EE         }
 ;PCODE: $00000309 VOL: 0
-; 0000 00EF         // Verify the correct range on alarm time
-; 0000 00F0         if(AM>59)
+; 0000 00E4             if(alarmFlag==1)
 ;PCODE: $0000030A VOL: 0
 ;PCODE: $0000030B VOL: 0
 ;PCODE: $0000030C VOL: 0
+; 0000 00E5                 alarmFlag = 0;
 ;PCODE: $0000030D VOL: 0
 ;PCODE: $0000030E VOL: 0
-; 0000 00F1             AM=0;
+; 0000 00E6             else
 ;PCODE: $0000030F VOL: 0
 ;PCODE: $00000310 VOL: 0
+; 0000 00E7                 AH++;
 ;PCODE: $00000311 VOL: 0
-; 0000 00F2         if(AH>23)
 ;PCODE: $00000312 VOL: 0
 ;PCODE: $00000313 VOL: 0
 ;PCODE: $00000314 VOL: 0
+; 0000 00E8         }
 ;PCODE: $00000315 VOL: 0
+; 0000 00E9         // If alarm is on, switch will turn alarm off without
+; 0000 00EA         //  changing the default variable
+; 0000 00EB         if(!PINC.3){
 ;PCODE: $00000316 VOL: 0
-; 0000 00F3             AH=0;
 ;PCODE: $00000317 VOL: 0
 ;PCODE: $00000318 VOL: 0
 ;PCODE: $00000319 VOL: 0
-; 0000 00F4     }
+; 0000 00EC             if(alarmFlag==1)
 ;PCODE: $0000031A VOL: 0
 ;PCODE: $0000031B VOL: 0
 ;PCODE: $0000031C VOL: 0
-; 0000 00F5 }
+; 0000 00ED                 alarmFlag = 0;
 ;PCODE: $0000031D VOL: 0
 ;PCODE: $0000031E VOL: 0
+; 0000 00EE             else
 ;PCODE: $0000031F VOL: 0
+;PCODE: $00000320 VOL: 0
+; 0000 00EF                 AM++;
+;PCODE: $00000321 VOL: 0
+;PCODE: $00000322 VOL: 0
+;PCODE: $00000323 VOL: 0
+;PCODE: $00000324 VOL: 0
+; 0000 00F0         }
+;PCODE: $00000325 VOL: 0
+; 0000 00F1         // Verify the correct range on alarm time
+; 0000 00F2         if(AM>59)
+;PCODE: $00000326 VOL: 0
+;PCODE: $00000327 VOL: 0
+;PCODE: $00000328 VOL: 0
+;PCODE: $00000329 VOL: 0
+;PCODE: $0000032A VOL: 0
+; 0000 00F3             AM=0;
+;PCODE: $0000032B VOL: 0
+;PCODE: $0000032C VOL: 0
+;PCODE: $0000032D VOL: 0
+; 0000 00F4         if(AH>23)
+;PCODE: $0000032E VOL: 0
+;PCODE: $0000032F VOL: 0
+;PCODE: $00000330 VOL: 0
+;PCODE: $00000331 VOL: 0
+;PCODE: $00000332 VOL: 0
+; 0000 00F5             AH=0;
+;PCODE: $00000333 VOL: 0
+;PCODE: $00000334 VOL: 0
+;PCODE: $00000335 VOL: 0
+; 0000 00F6     }
+;PCODE: $00000336 VOL: 0
+;PCODE: $00000337 VOL: 0
+;PCODE: $00000338 VOL: 0
+; 0000 00F7 }
+;PCODE: $00000339 VOL: 0
+;PCODE: $0000033A VOL: 0
+;PCODE: $0000033B VOL: 0

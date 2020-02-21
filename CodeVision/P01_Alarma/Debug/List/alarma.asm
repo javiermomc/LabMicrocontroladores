@@ -6,7 +6,7 @@
 ;Build configuration    : Debug
 ;Chip type              : AT90USB1286
 ;Program type           : Application
-;Clock frequency        : 8.000000 MHz
+;Clock frequency        : 16.000000 MHz
 ;Memory model           : Small
 ;Optimize for           : Size
 ;(s)printf features     : int, width
@@ -1154,11 +1154,12 @@ _0x3:
 	.DB  0x0,0x1,0x0,0x6
 _0x0:
 	.DB  0x25,0x30,0x32,0x69,0x3A,0x25,0x30,0x32
-	.DB  0x69,0x3A,0x25,0x30,0x32,0x69,0x20,0x54
-	.DB  0x3A,0x25,0x30,0x32,0x69,0x2E,0x25,0x30
-	.DB  0x32,0x69,0x0,0x41,0x3A,0x20,0x25,0x30
-	.DB  0x32,0x69,0x3A,0x25,0x30,0x32,0x69,0x20
-	.DB  0x20,0x20,0x0
+	.DB  0x69,0x3A,0x25,0x30,0x32,0x69,0x20,0x20
+	.DB  0x25,0x30,0x32,0x69,0x2E,0x25,0x69,0x25
+	.DB  0x63,0x43,0x0,0x20,0x20,0x41,0x6C,0x61
+	.DB  0x72,0x6D,0x61,0x20,0x25,0x30,0x32,0x69
+	.DB  0x3A,0x25,0x30,0x32,0x69,0x20,0x20,0x20
+	.DB  0x0
 __RESET:
 	CLI
 	CLR  R30
@@ -1429,7 +1430,7 @@ _MoveCursor:
 	BRNE _0x1B
 	MOV  R26,R17
 	SUBI R26,-LOW(128)
-	RJMP _0x4A
+	RJMP _0x4D
 _0x1B:
 	CPI  R30,LOW(0x1)
 	LDI  R26,HIGH(0x1)
@@ -1437,7 +1438,7 @@ _0x1B:
 	BRNE _0x1C
 	MOV  R26,R17
 	SUBI R26,-LOW(192)
-	RJMP _0x4A
+	RJMP _0x4D
 _0x1C:
 	CPI  R30,LOW(0x2)
 	LDI  R26,HIGH(0x2)
@@ -1445,7 +1446,7 @@ _0x1C:
 	BRNE _0x1D
 	MOV  R26,R17
 	SUBI R26,-LOW(148)
-	RJMP _0x4A
+	RJMP _0x4D
 _0x1D:
 	CPI  R30,LOW(0x3)
 	LDI  R26,HIGH(0x3)
@@ -1453,7 +1454,7 @@ _0x1D:
 	BRNE _0x1A
 	MOV  R26,R17
 	SUBI R26,-LOW(212)
-_0x4A:
+_0x4D:
 	RCALL _WriteComandLCD
 _0x1A:
 	JMP  _0x20A0003
@@ -1543,7 +1544,7 @@ _updateADC:
 	RCALL __CFD1
 	STS  _tempInt,R30
 	STS  _tempInt+1,R31
-; 0000 0045     tempDec = (int)((temperature - (float)tempInt)*100.0);
+; 0000 0045     tempDec = (int)((temperature - (float)tempInt)*10.0);
 	RCALL SUBOPT_0x1
 	RCALL __CWD1
 	RCALL __CDF1
@@ -1553,7 +1554,7 @@ _updateADC:
 	LDS  R25,_temperature+3
 	RCALL __SWAPD12
 	RCALL __SUBF12
-	__GETD2N 0x42C80000
+	__GETD2N 0x41200000
 	RCALL __MULF12
 	RCALL __CFD1
 	STS  _tempDec,R30
@@ -1668,13 +1669,13 @@ _playTone:
 ; 0000 0066         k+=50;
 	RCALL SUBOPT_0x2
 	ADIW R30,50
-	RJMP _0x4B
+	RJMP _0x4E
 ; 0000 0067     else
 _0x28:
 ; 0000 0068         k-=50;
 	RCALL SUBOPT_0x2
 	SBIW R30,50
-_0x4B:
+_0x4E:
 	STS  _k,R30
 	STS  _k+1,R31
 ; 0000 0069     if(k>500)
@@ -1685,7 +1686,7 @@ _0x4B:
 	BRLT _0x2A
 ; 0000 006A         kFlag=1;
 	LDI  R30,LOW(1)
-	RJMP _0x4C
+	RJMP _0x4F
 ; 0000 006B     else if (k<=50)
 _0x2A:
 	RCALL SUBOPT_0x3
@@ -1693,7 +1694,7 @@ _0x2A:
 	BRGE _0x2C
 ; 0000 006C         kFlag=0;
 	LDI  R30,LOW(0)
-_0x4C:
+_0x4F:
 	STS  _kFlag,R30
 ; 0000 006D }
 _0x2C:
@@ -1705,7 +1706,7 @@ _0x2C:
 ; 0000 0070 void printTime(){
 _printTime:
 ; .FSTART _printTime
-; 0000 0071     sprintf(time, "%02i:%02i:%02i T:%02i.%02i", H, M, S, tempInt, tempDec);
+; 0000 0071     sprintf(time, "%02i:%02i:%02i  %02i.%i%cC", H, M, S, tempInt, tempDec, 223);
 	RCALL SUBOPT_0x4
 	__POINTW1FN _0x0,0
 	ST   -Y,R31
@@ -1723,16 +1724,18 @@ _printTime:
 	LDS  R31,_tempDec+1
 	RCALL __CWD1
 	RCALL __PUTPARD1
-	LDI  R24,20
+	__GETD1N 0xDF
+	RCALL __PUTPARD1
+	LDI  R24,24
 	RCALL _sprintf
-	ADIW R28,24
+	ADIW R28,28
 ; 0000 0072     MoveCursor(0,0);
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	RCALL SUBOPT_0x6
 ; 0000 0073     StringLCDVar(time);
-; 0000 0074     sprintf(time, "A: %02i:%02i   ", AH, AM);
+; 0000 0074     sprintf(time, "  Alarma %02i:%02i   ", AH, AM);
 	RCALL SUBOPT_0x4
 	__POINTW1FN _0x0,27
 	ST   -Y,R31
@@ -1882,11 +1885,7 @@ _0x34:
 	LDS  R26,_M
 	CP   R30,R26
 	BRNE _0x36
-	LDI  R26,LOW(_AH)
-	LDI  R27,HIGH(_AH)
-	RCALL __EEPROMRDB
-	LDS  R26,_H
-	CP   R30,R26
+	RCALL SUBOPT_0x8
 	BREQ _0x37
 _0x36:
 	RJMP _0x35
@@ -1894,183 +1893,209 @@ _0x37:
 ; 0000 00B7             alarmFlag=1;
 	LDI  R30,LOW(1)
 	STS  _alarmFlag,R30
-; 0000 00B8 
-; 0000 00B9         // Clock
-; 0000 00BA 
-; 0000 00BB         // If alarm is on, switch will turn alarm off without
-; 0000 00BC         //  changing the default variable
-; 0000 00BD         if(!PINC.0){
+; 0000 00B8         if(S==0 && M==AM+1 && H==AH && alarmFlag==1)
 _0x35:
-	SBIC 0x6,0
-	RJMP _0x38
-; 0000 00BE             if(alarmFlag==1)
+	LDS  R26,_S
+	CPI  R26,LOW(0x0)
+	BRNE _0x39
+	LDI  R26,LOW(_AM)
+	LDI  R27,HIGH(_AM)
+	RCALL __EEPROMRDB
+	LDI  R31,0
+	ADIW R30,1
+	LDS  R26,_M
+	LDI  R27,0
+	CP   R30,R26
+	CPC  R31,R27
+	BRNE _0x39
+	RCALL SUBOPT_0x8
+	BRNE _0x39
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
-	BRNE _0x39
-; 0000 00BF                 alarmFlag = 0;
+	BREQ _0x3A
+_0x39:
+	RJMP _0x38
+_0x3A:
+; 0000 00B9             alarmFlag=0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00C0             else{
-	RJMP _0x3A
-_0x39:
-; 0000 00C1                 H++;
-	LDS  R30,_H
-	SUBI R30,-LOW(1)
-	RCALL SUBOPT_0x8
-; 0000 00C2                 rtc_set_time(H, M, S);
-; 0000 00C3             }
-_0x3A:
-; 0000 00C4         }
-; 0000 00C5         // If alarm is on, switch will turn alarm off without
-; 0000 00C6         //  changing the default variable
-; 0000 00C7         if(!PINC.1){
+; 0000 00BA 
+; 0000 00BB         // Clock
+; 0000 00BC 
+; 0000 00BD         // If alarm is on, switch will turn alarm off without
+; 0000 00BE         //  changing the default variable
+; 0000 00BF         if(!PINC.0){
 _0x38:
-	SBIC 0x6,1
+	SBIC 0x6,0
 	RJMP _0x3B
-; 0000 00C8             if(alarmFlag==1)
+; 0000 00C0             if(alarmFlag==1)
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
 	BRNE _0x3C
-; 0000 00C9                 alarmFlag = 0;
+; 0000 00C1                 alarmFlag = 0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00CA             else{
+; 0000 00C2             else{
 	RJMP _0x3D
 _0x3C:
-; 0000 00CB                 M++;
-	LDS  R30,_M
+; 0000 00C3                 H++;
+	LDS  R30,_H
 	SUBI R30,-LOW(1)
 	RCALL SUBOPT_0x9
-; 0000 00CC                 rtc_set_time(H, M, S);
-; 0000 00CD             }
+; 0000 00C4                 rtc_set_time(H, M, S);
+; 0000 00C5             }
 _0x3D:
-; 0000 00CE         }
-; 0000 00CF         // Verify the correct range on clock time
-; 0000 00D0         if(S>59){
+; 0000 00C6         }
+; 0000 00C7         // If alarm is on, switch will turn alarm off without
+; 0000 00C8         //  changing the default variable
+; 0000 00C9         if(!PINC.1){
 _0x3B:
+	SBIC 0x6,1
+	RJMP _0x3E
+; 0000 00CA             if(alarmFlag==1)
+	LDS  R26,_alarmFlag
+	CPI  R26,LOW(0x1)
+	BRNE _0x3F
+; 0000 00CB                 alarmFlag = 0;
+	LDI  R30,LOW(0)
+	STS  _alarmFlag,R30
+; 0000 00CC             else{
+	RJMP _0x40
+_0x3F:
+; 0000 00CD                 M++;
+	LDS  R30,_M
+	SUBI R30,-LOW(1)
+	RCALL SUBOPT_0xA
+; 0000 00CE                 rtc_set_time(H, M, S);
+; 0000 00CF             }
+_0x40:
+; 0000 00D0         }
+; 0000 00D1         // Verify the correct range on clock time
+; 0000 00D2         if(S>59){
+_0x3E:
 	LDS  R26,_S
 	CPI  R26,LOW(0x3C)
-	BRLO _0x3E
-; 0000 00D1             S=0;
+	BRLO _0x41
+; 0000 00D3             S=0;
 	LDI  R30,LOW(0)
 	STS  _S,R30
-; 0000 00D2             rtc_set_time(H, M, S);
+; 0000 00D4             rtc_set_time(H, M, S);
 	LDS  R30,_H
 	ST   -Y,R30
 	LDS  R30,_M
 	ST   -Y,R30
 	LDS  R26,_S
 	RCALL _rtc_set_time
-; 0000 00D3         }
-; 0000 00D4         if(M>59){
-_0x3E:
+; 0000 00D5         }
+; 0000 00D6         if(M>59){
+_0x41:
 	LDS  R26,_M
 	CPI  R26,LOW(0x3C)
-	BRLO _0x3F
-; 0000 00D5             M=0;
+	BRLO _0x42
+; 0000 00D7             M=0;
 	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x9
-; 0000 00D6             rtc_set_time(H, M, S);
-; 0000 00D7         }
-; 0000 00D8         if(H>23){
-_0x3F:
+	RCALL SUBOPT_0xA
+; 0000 00D8             rtc_set_time(H, M, S);
+; 0000 00D9         }
+; 0000 00DA         if(H>23){
+_0x42:
 	LDS  R26,_H
 	CPI  R26,LOW(0x18)
-	BRLO _0x40
-; 0000 00D9             H=0;
+	BRLO _0x43
+; 0000 00DB             H=0;
 	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x8
-; 0000 00DA             rtc_set_time(H, M, S);
-; 0000 00DB         }
-; 0000 00DC 
-; 0000 00DD         // Alarm
+	RCALL SUBOPT_0x9
+; 0000 00DC             rtc_set_time(H, M, S);
+; 0000 00DD         }
 ; 0000 00DE 
-; 0000 00DF         // If alarm is on, switch will turn alarm off without
-; 0000 00E0         //  changing the default variable
-; 0000 00E1         if(!PINC.2){
-_0x40:
+; 0000 00DF         // Alarm
+; 0000 00E0 
+; 0000 00E1         // If alarm is on, switch will turn alarm off without
+; 0000 00E2         //  changing the default variable
+; 0000 00E3         if(!PINC.2){
+_0x43:
 	SBIC 0x6,2
-	RJMP _0x41
-; 0000 00E2             if(alarmFlag==1)
+	RJMP _0x44
+; 0000 00E4             if(alarmFlag==1)
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
-	BRNE _0x42
-; 0000 00E3                 alarmFlag = 0;
+	BRNE _0x45
+; 0000 00E5                 alarmFlag = 0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00E4             else
-	RJMP _0x43
-_0x42:
-; 0000 00E5                 AH++;
+; 0000 00E6             else
+	RJMP _0x46
+_0x45:
+; 0000 00E7                 AH++;
 	LDI  R26,LOW(_AH)
 	LDI  R27,HIGH(_AH)
 	RCALL __EEPROMRDB
 	SUBI R30,-LOW(1)
 	RCALL __EEPROMWRB
-; 0000 00E6         }
-_0x43:
-; 0000 00E7         // If alarm is on, switch will turn alarm off without
-; 0000 00E8         //  changing the default variable
-; 0000 00E9         if(!PINC.3){
-_0x41:
+; 0000 00E8         }
+_0x46:
+; 0000 00E9         // If alarm is on, switch will turn alarm off without
+; 0000 00EA         //  changing the default variable
+; 0000 00EB         if(!PINC.3){
+_0x44:
 	SBIC 0x6,3
-	RJMP _0x44
-; 0000 00EA             if(alarmFlag==1)
+	RJMP _0x47
+; 0000 00EC             if(alarmFlag==1)
 	LDS  R26,_alarmFlag
 	CPI  R26,LOW(0x1)
-	BRNE _0x45
-; 0000 00EB                 alarmFlag = 0;
+	BRNE _0x48
+; 0000 00ED                 alarmFlag = 0;
 	LDI  R30,LOW(0)
 	STS  _alarmFlag,R30
-; 0000 00EC             else
-	RJMP _0x46
-_0x45:
-; 0000 00ED                 AM++;
+; 0000 00EE             else
+	RJMP _0x49
+_0x48:
+; 0000 00EF                 AM++;
 	LDI  R26,LOW(_AM)
 	LDI  R27,HIGH(_AM)
 	RCALL __EEPROMRDB
 	SUBI R30,-LOW(1)
 	RCALL __EEPROMWRB
-; 0000 00EE         }
-_0x46:
-; 0000 00EF         // Verify the correct range on alarm time
-; 0000 00F0         if(AM>59)
-_0x44:
+; 0000 00F0         }
+_0x49:
+; 0000 00F1         // Verify the correct range on alarm time
+; 0000 00F2         if(AM>59)
+_0x47:
 	LDI  R26,LOW(_AM)
 	LDI  R27,HIGH(_AM)
 	RCALL __EEPROMRDB
 	CPI  R30,LOW(0x3C)
-	BRLO _0x47
-; 0000 00F1             AM=0;
+	BRLO _0x4A
+; 0000 00F3             AM=0;
 	LDI  R26,LOW(_AM)
 	LDI  R27,HIGH(_AM)
 	LDI  R30,LOW(0)
 	RCALL __EEPROMWRB
-; 0000 00F2         if(AH>23)
-_0x47:
+; 0000 00F4         if(AH>23)
+_0x4A:
 	LDI  R26,LOW(_AH)
 	LDI  R27,HIGH(_AH)
 	RCALL __EEPROMRDB
 	CPI  R30,LOW(0x18)
-	BRLO _0x48
-; 0000 00F3             AH=0;
+	BRLO _0x4B
+; 0000 00F5             AH=0;
 	LDI  R26,LOW(_AH)
 	LDI  R27,HIGH(_AH)
 	LDI  R30,LOW(0)
 	RCALL __EEPROMWRB
-; 0000 00F4     }
-_0x48:
+; 0000 00F6     }
+_0x4B:
 	RJMP _0x2F
-; 0000 00F5 }
-_0x49:
-	RJMP _0x49
+; 0000 00F7 }
+_0x4C:
+	RJMP _0x4C
 ; .FEND
 
 	.CSEG
 _ds1302_rst0_G100:
 ; .FSTART _ds1302_rst0_G100
 	cbi  __ds1302_port,__ds1302_rst
-	__DELAY_USB 13
+	__DELAY_USB 27
 	RET
 ; .FEND
 _ds1302_write0_G100:
@@ -2081,7 +2106,7 @@ _ds1302_write0_G100:
     sbi  __ds1302_port-1,__ds1302_io
     sbi  __ds1302_port-1,__ds1302_rst
     sbi  __ds1302_port,__ds1302_rst
-	__DELAY_USB 13
+	__DELAY_USB 27
 	MOV  R26,R16
 	RCALL _ds1302_write1_G100
 	JMP  _0x20A0005
@@ -2102,9 +2127,9 @@ ds1302_write3:
     nop
     nop
     sbi  __ds1302_port,__ds1302_sclk
-	__DELAY_USB 5
+	__DELAY_USB 11
 	cbi  __ds1302_port,__ds1302_sclk
-	__DELAY_USB 5
+	__DELAY_USB 11
     dec  r26
     brne ds1302_write2
     ret
@@ -2126,9 +2151,9 @@ ds1302_read0:
     sec
     ror  r30
     sbi  __ds1302_port,__ds1302_sclk
-	__DELAY_USB 5
+	__DELAY_USB 11
 	cbi  __ds1302_port,__ds1302_sclk
-	__DELAY_USB 5
+	__DELAY_USB 11
     dec  r26
     brne ds1302_read0
 	RCALL _ds1302_rst0_G100
@@ -2155,7 +2180,7 @@ _0x20A0004:
 ; .FEND
 _rtc_init:
 ; .FSTART _rtc_init
-	RCALL SUBOPT_0xA
+	RCALL SUBOPT_0xB
 	ANDI R16,LOW(3)
 	CPI  R18,0
 	BREQ _0x2000003
@@ -2174,7 +2199,7 @@ _0x2000006:
 	LDI  R16,LOW(0)
 _0x2000007:
 _0x2000005:
-	RCALL SUBOPT_0xB
+	RCALL SUBOPT_0xC
 	LDI  R30,LOW(144)
 	ST   -Y,R30
 	MOV  R26,R16
@@ -2210,8 +2235,8 @@ _rtc_get_time:
 ; .FEND
 _rtc_set_time:
 ; .FSTART _rtc_set_time
-	RCALL SUBOPT_0xA
 	RCALL SUBOPT_0xB
+	RCALL SUBOPT_0xC
 	LDI  R30,LOW(132)
 	ST   -Y,R30
 	MOV  R26,R18
@@ -2276,7 +2301,7 @@ _put_buff_G101:
 _0x2020018:
 	MOVW R26,R18
 	ADIW R26,2
-	RCALL SUBOPT_0xC
+	RCALL SUBOPT_0xD
 	SBIW R30,1
 	ST   Z,R20
 _0x2020019:
@@ -2284,7 +2309,7 @@ _0x2020019:
 	RCALL __GETW1P
 	TST  R31
 	BRMI _0x202001A
-	RCALL SUBOPT_0xC
+	RCALL SUBOPT_0xD
 _0x202001A:
 	RJMP _0x202001B
 _0x2020016:
@@ -2331,7 +2356,7 @@ _0x202001C:
 	LDI  R16,LOW(1)
 	RJMP _0x2020024
 _0x2020023:
-	RCALL SUBOPT_0xD
+	RCALL SUBOPT_0xE
 _0x2020024:
 	RJMP _0x2020021
 _0x2020022:
@@ -2339,7 +2364,7 @@ _0x2020022:
 	BRNE _0x2020025
 	CPI  R19,37
 	BRNE _0x2020026
-	RCALL SUBOPT_0xD
+	RCALL SUBOPT_0xE
 	RJMP _0x20200D2
 _0x2020026:
 	LDI  R16,LOW(2)
@@ -2396,26 +2421,26 @@ _0x202002F:
 	MOV  R30,R19
 	CPI  R30,LOW(0x63)
 	BRNE _0x2020035
-	RCALL SUBOPT_0xE
+	RCALL SUBOPT_0xF
 	LDD  R30,Y+16
 	LDD  R31,Y+16+1
 	LDD  R26,Z+4
 	ST   -Y,R26
-	RCALL SUBOPT_0xF
+	RCALL SUBOPT_0x10
 	RJMP _0x2020036
 _0x2020035:
 	CPI  R30,LOW(0x73)
 	BRNE _0x2020038
-	RCALL SUBOPT_0xE
-	RCALL SUBOPT_0x10
+	RCALL SUBOPT_0xF
+	RCALL SUBOPT_0x11
 	RCALL _strlen
 	MOV  R16,R30
 	RJMP _0x2020039
 _0x2020038:
 	CPI  R30,LOW(0x70)
 	BRNE _0x202003B
-	RCALL SUBOPT_0xE
-	RCALL SUBOPT_0x10
+	RCALL SUBOPT_0xF
+	RCALL SUBOPT_0x11
 	RCALL _strlenf
 	MOV  R16,R30
 	ORI  R17,LOW(8)
@@ -2460,7 +2485,7 @@ _0x2020046:
 _0x2020043:
 	SBRS R17,2
 	RJMP _0x2020048
-	RCALL SUBOPT_0xE
+	RCALL SUBOPT_0xF
 	LDD  R26,Y+16
 	LDD  R27,Y+16+1
 	ADIW R26,4
@@ -2485,7 +2510,7 @@ _0x202004A:
 _0x202004B:
 	RJMP _0x202004C
 _0x2020048:
-	RCALL SUBOPT_0xE
+	RCALL SUBOPT_0xF
 	LDD  R26,Y+16
 	LDD  R27,Y+16+1
 	ADIW R26,4
@@ -2514,7 +2539,7 @@ _0x2020053:
 _0x2020051:
 	LDI  R19,LOW(32)
 _0x2020054:
-	RCALL SUBOPT_0xD
+	RCALL SUBOPT_0xE
 	SUBI R20,LOW(1)
 	RJMP _0x202004E
 _0x2020050:
@@ -2540,7 +2565,7 @@ _0x2020059:
 	STD  Y+6,R26
 	STD  Y+6+1,R27
 _0x202005A:
-	RCALL SUBOPT_0xD
+	RCALL SUBOPT_0xE
 	CPI  R20,0
 	BREQ _0x202005B
 	SUBI R20,LOW(1)
@@ -2619,7 +2644,7 @@ _0x20200D3:
 	RJMP _0x2020070
 	ANDI R17,LOW(251)
 	ST   -Y,R21
-	RCALL SUBOPT_0xF
+	RCALL SUBOPT_0x10
 	CPI  R20,0
 	BREQ _0x2020071
 	SUBI R20,LOW(1)
@@ -2627,7 +2652,7 @@ _0x2020071:
 _0x2020070:
 _0x202006F:
 _0x2020067:
-	RCALL SUBOPT_0xD
+	RCALL SUBOPT_0xE
 	CPI  R20,0
 	BREQ _0x2020072
 	SUBI R20,LOW(1)
@@ -2649,7 +2674,7 @@ _0x2020074:
 	SUBI R20,LOW(1)
 	LDI  R30,LOW(32)
 	ST   -Y,R30
-	RCALL SUBOPT_0xF
+	RCALL SUBOPT_0x10
 	RJMP _0x2020074
 _0x2020076:
 _0x2020073:
@@ -2891,8 +2916,17 @@ SUBOPT_0x7:
 	LDI  R27,HIGH(_S)
 	RJMP _rtc_get_time
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
 SUBOPT_0x8:
+	LDI  R26,LOW(_AH)
+	LDI  R27,HIGH(_AH)
+	RCALL __EEPROMRDB
+	LDS  R26,_H
+	CP   R30,R26
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
+SUBOPT_0x9:
 	STS  _H,R30
 	ST   -Y,R30
 	LDS  R30,_M
@@ -2901,7 +2935,7 @@ SUBOPT_0x8:
 	RJMP _rtc_set_time
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x9:
+SUBOPT_0xA:
 	STS  _M,R30
 	LDS  R30,_H
 	ST   -Y,R30
@@ -2911,7 +2945,7 @@ SUBOPT_0x9:
 	RJMP _rtc_set_time
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0xA:
+SUBOPT_0xB:
 	RCALL __SAVELOCR3
 	MOV  R16,R26
 	LDD  R17,Y+3
@@ -2919,14 +2953,14 @@ SUBOPT_0xA:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0xB:
+SUBOPT_0xC:
 	LDI  R30,LOW(142)
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	RJMP _ds1302_write
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
-SUBOPT_0xC:
+SUBOPT_0xD:
 	LD   R30,X+
 	LD   R31,X+
 	ADIW R30,1
@@ -2935,7 +2969,7 @@ SUBOPT_0xC:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:18 WORDS
-SUBOPT_0xD:
+SUBOPT_0xE:
 	ST   -Y,R19
 	LDD  R26,Y+13
 	LDD  R27,Y+13+1
@@ -2945,7 +2979,7 @@ SUBOPT_0xD:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:14 WORDS
-SUBOPT_0xE:
+SUBOPT_0xF:
 	LDD  R30,Y+16
 	LDD  R31,Y+16+1
 	SBIW R30,4
@@ -2954,7 +2988,7 @@ SUBOPT_0xE:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:6 WORDS
-SUBOPT_0xF:
+SUBOPT_0x10:
 	LDD  R26,Y+13
 	LDD  R27,Y+13+1
 	LDD  R30,Y+15
@@ -2963,7 +2997,7 @@ SUBOPT_0xF:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:6 WORDS
-SUBOPT_0x10:
+SUBOPT_0x11:
 	LDD  R26,Y+16
 	LDD  R27,Y+16+1
 	ADIW R26,4
@@ -3696,7 +3730,7 @@ _delay_ms:
 	breq __delay_ms1
 __delay_ms0:
 	wdr
-	__DELAY_USW 0x7D0
+	__DELAY_USW 0xFA0
 	sbiw r26,1
 	brne __delay_ms0
 __delay_ms1:

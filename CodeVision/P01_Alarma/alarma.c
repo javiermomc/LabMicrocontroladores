@@ -66,7 +66,7 @@ void updateADC(){
     // Convert ADC values to temperature
     temperature = (read_adc(7)*256.0)/1024.0; // Agus nos dio esta funcion  
     tempInt = (int)temperature;
-    tempDec = (int)((temperature - (float)tempInt)*100.0);
+    tempDec = (int)((temperature - (float)tempInt)*10.0);
 }
 
 // Counter
@@ -110,10 +110,10 @@ void playTone(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i T:%02i.%02i", H, M, S, tempInt, tempDec);
+    sprintf(time, "%02i:%02i:%02i  %02i.%i%cC", H, M, S, tempInt, tempDec, 223);
     MoveCursor(0,0);
     StringLCDVar(time);
-    sprintf(time, "A: %02i:%02i   ", AH, AM);
+    sprintf(time, "  Alarma %02i:%02i   ", AH, AM);
     MoveCursor(0,1);
     StringLCDVar(time);     
 }
@@ -181,6 +181,8 @@ while (1){
         // Turns alarm flag on when H, M and S match
         if(S==0 && M==AM && H==AH)
             alarmFlag=1;
+        if(S==0 && M==AM+1 && H==AH && alarmFlag==1)
+            alarmFlag=0;
         
         // Clock
         

@@ -20,7 +20,7 @@ OutputLinkerFilesDirectory=Release\Link
 ActiveTab=1
 OF1=alarma.c
 <<<<<<< HEAD
-TimeStamp1=1347648007
+TimeStamp1=1347648644
 EditorPanelMode=0
 ActiveEditorPanel=0
 Active0=0
@@ -139,8 +139,8 @@ DisplayCodeSizeError=0
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1347648659
-Build=148
+COFFileTimeStamp=1347771414
+Build=149
 =======
 COFFileTimeStamp=1347183291
 Build=95
@@ -255,7 +255,7 @@ RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
 <<<<<<< HEAD
-Build=148
+Build=149
 =======
 Build=95
 >>>>>>> a9118113ea95a337dd2e82a7348d2018d71ad889
@@ -524,7 +524,7 @@ L13=Enhanced function parameters passing: Mode 2
 L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
-L17=Build: 148
+L17=Build: 149
 L18=12105 line(s) compiled
 L19=No errors
 L20=No warnings
@@ -545,20 +545,20 @@ L34=Heap size: 0 byte(s)
 Lines=38
 L35=
 L36=EEPROM usage: 2 byte(s), 0.0% of EEPROM
-L37=Program size: 1984 words (3968 bytes), 3.0% of FLASH
+L37=Program size: 1986 words (3972 bytes), 3.0% of FLASH
 L38=91 words (182 bytes), 4.4% reduced by Code Compression
 [BuildInfoAssembler]
-Lines=10
+Lines=11
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=AT90USB1286 memory use summary [bytes]:
-L5=Segment   Begin    End      Code   Data   Used    Size   Use%
-L6=---------------------------------------------------------------
-L7=[.cseg] 0x000000 0x000f80   3894     74   3968  131072   3.0%
-L8=[.dseg] 0x000100 0x000921      0     33     33    8192   0.4%
-L9=[.eseg] 0x000000 0x000002      0      2      2    4096   0.0%
-L10=
+L4=
+L5=AT90USB1286 memory use summary [bytes]:
+L6=Segment   Begin    End      Code   Data   Used    Size   Use%
+L7=---------------------------------------------------------------
+L8=[.cseg] 0x000000 0x000f84   3894     78   3972  131072   3.0%
+L9=[.dseg] 0x000100 0x000921      0     33     33    8192   0.4%
+L10=[.eseg] 0x000000 0x000002      0      2      2    4096   0.0%
 L11=
 L12=
 [Bookmarks0]
@@ -567,7 +567,7 @@ Column=0
 ScrollPosX=0
 ScrollPosY=0
 <<<<<<< HEAD
-TimeStamp=1347648292
+TimeStamp=1347648733
 =======
 TimeStamp=1347183689
 >>>>>>> a9118113ea95a337dd2e82a7348d2018d71ad889
@@ -577,11 +577,11 @@ F1=alarma.c
 F2=Debug\List\alarma.asm
 [Bookmarks1]
 <<<<<<< HEAD
-TimeStamp=1347648007
-Row=214
-Column=34
+TimeStamp=1347648644
+Row=112
+Column=45
 ScrollPosX=0
-ScrollPosY=219
+ScrollPosY=96
 =======
 TimeStamp=1347183318
 Row=170

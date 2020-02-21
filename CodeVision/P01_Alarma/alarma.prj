@@ -7,7 +7,7 @@ A=Freeware, for evaluation andC=
 D=11-Feb-20 5:39:55 PM
 Files=1
 OpenedFiles=1
-AllowDisplayFunctionCallTree=0
+AllowDisplayFunctionCallTree=1
 CleanUp=2
 DebugOutputListFilesDirectory=Debug\List
 DebugOutputObjectFilesDirectory=Debug
@@ -20,7 +20,7 @@ OutputLinkerFilesDirectory=Release\Link
 ActiveTab=1
 OF1=alarma.c
 <<<<<<< HEAD
-TimeStamp1=1347648644
+TimeStamp1=1347772996
 EditorPanelMode=0
 ActiveEditorPanel=0
 Active0=0
@@ -36,7 +36,7 @@ F1=alarma.c
 non-commercial use only
 [CompilerDebug]
 Chip=AT90USB1286
-CPUClock=8000000
+CPUClock=16000000
 MemoryModel=1
 OptimizeSize=1
 OptimizationLevel=2
@@ -136,11 +136,11 @@ DebugBootLoader=0
 WatchAVR8LAutoVariables=0
 UseEEPROMLocation0=1
 DisplayCodeSizeError=0
-RebuildAll=1
-LinkageInformationPresent=0
+RebuildAll=0
+LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1347648659
-Build=149
+COFFileTimeStamp=1347772997
+Build=155
 =======
 COFFileTimeStamp=1347183291
 Build=95
@@ -151,7 +151,7 @@ EEPROMVarAddr=2
 Count=0
 [Compiler]
 Chip=AT90USB1286
-CPUClock=8000000
+CPUClock=16000000
 MemoryModel=1
 OptimizeSize=1
 OptimizationLevel=2
@@ -255,7 +255,7 @@ RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
 <<<<<<< HEAD
-Build=149
+Build=155
 =======
 Build=95
 >>>>>>> a9118113ea95a337dd2e82a7348d2018d71ad889
@@ -510,7 +510,7 @@ WaitUserProgFinish=1
 [BuildInfoCompiler]
 L1=Build configuration: Debug
 L2=Chip: AT90USB1286
-L3=Clock frequency: 8.000000 MHz
+L3=Clock frequency: 16.000000 MHz
 L4=Program type: Application
 L5=Memory model: Small
 L6=Optimize for: Size
@@ -524,8 +524,8 @@ L13=Enhanced function parameters passing: Mode 2
 L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
-L17=Build: 148
-L18=12105 line(s) compiled
+L17=Build: 154
+L18=12107 line(s) compiled
 L19=No errors
 L20=No warnings
 L21=
@@ -545,8 +545,8 @@ L34=Heap size: 0 byte(s)
 Lines=38
 L35=
 L36=EEPROM usage: 2 byte(s), 0.0% of EEPROM
-L37=Program size: 1984 words (3968 bytes), 3.0% of FLASH
-L38=91 words (182 bytes), 4.4% reduced by Code Compression
+L37=Program size: 2019 words (4038 bytes), 3.1% of FLASH
+L38=94 words (188 bytes), 4.4% reduced by Code Compression
 [BuildInfoAssembler]
 Lines=10
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
@@ -555,7 +555,7 @@ L3=
 L4=AT90USB1286 memory use summary [bytes]:
 L5=Segment   Begin    End      Code   Data   Used    Size   Use%
 L6=---------------------------------------------------------------
-L7=[.cseg] 0x000000 0x000f80   3894     74   3968  131072   3.0%
+L7=[.cseg] 0x000000 0x000fc6   3958     80   4038  131072   3.1%
 L8=[.dseg] 0x000100 0x000921      0     33     33    8192   0.4%
 L9=[.eseg] 0x000000 0x000002      0      2      2    4096   0.0%
 L10=
@@ -567,7 +567,7 @@ Column=0
 ScrollPosX=0
 ScrollPosY=0
 <<<<<<< HEAD
-TimeStamp=1347648733
+TimeStamp=1347773417
 =======
 TimeStamp=1347183689
 >>>>>>> a9118113ea95a337dd2e82a7348d2018d71ad889
@@ -577,11 +577,11 @@ F1=alarma.c
 F2=Debug\List\alarma.asm
 [Bookmarks1]
 <<<<<<< HEAD
-TimeStamp=1347648644
-Row=112
-Column=45
+TimeStamp=1347772996
+Row=168
+Column=20
 ScrollPosX=0
-ScrollPosY=96
+ScrollPosY=71
 =======
 TimeStamp=1347183318
 Row=170
