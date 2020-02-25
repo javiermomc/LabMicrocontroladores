@@ -32,7 +32,7 @@
 #include <ff.h>
 
 // SD
-char Archivo[]  = "0:Hola.txt";
+char fileName[]  = "0:muestra.txt";
 
 interrupt [TIM1_COMPA] void timer1_compa_isr(void)
 {
@@ -117,6 +117,18 @@ unsigned int read_adc(unsigned char adc_input)
     while ((ADCSRA & (1<<ADIF))==0);
     ADCSRA|=(1<<ADIF);
     return ADCW;
+}
+
+float v1, v2;
+int v1I, v1D, v2I, v2D;
+
+void updateADC(){
+    v1 = read_adc(7);
+    v2 = read_adc(6);
+    v1I = (int)v1;
+    v1D = (int)((v1 - (float)v1I)*10.0);
+    v2I = (int)v2;
+    v2D = (int)((v2 - (float)v2I)*10.0);
 }
 
 
