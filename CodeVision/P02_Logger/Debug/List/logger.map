@@ -1,0 +1,61 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+cursor                                                                            0x0900       1
+prtc_get_time                                                                     0x0901       2
+prtc_get_date                                                                     0x0903       2
+v1                                                                                0x0905       4
+v2                                                                                0x0909       4
+v1I                                                                               0x090D       2
+v1D                                                                               0x090F       2
+v2I                                                                               0x0911       2
+v2D                                                                               0x0913       2
+H                                                                                 0x0915       1
+M                                                                                 0x0916       1
+S                                                                                 0x0917       1
+D                                                                                 0x0918       1
+Mes                                                                               0x0919       1
+A                                                                                 0x091A       1
+time                                                                              0x091B      16
+status (sdcard.lib)                                                               0x092B       1
+timer1 (sdcard.lib)                                                               0x092C       1
+timer2 (sdcard.lib)                                                               0x092D       1
+card_type (sdcard.lib)                                                            0x092E       1
+flags_S101000C000 (sdcard.lib)                                                    0x092F       1
+FatFs (ff.lib)                                                                    0x0930       2
+Fsid (ff.lib)                                                                     0x0932       2
+Drive (ff.lib)                                                                    0x0934       1
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+SetupLCD                                                                          0x00107     43
+PulseEn                                                                           0x00132      3
+SendDataBitsLCD                                                                   0x00135     24
+WriteComandLCD                                                                    0x0014D     27
+read_adc                                                                          0x00168     26
+updateADC                                                                         0x00182     67
+timer1_compa_isr                                                                  0x001C5     28
+main                                                                              0x001E1    109
+ds1302_rst0_G100                                                                  0x0024E      5
+ds1302_write0_G100                                                                0x00253     13
+ds1302_write1_G100                                                                0x00260     22
+ds1302_write                                                                      0x00276     14
+rtc_init                                                                          0x00284     19
+rtc_set_time                                                                      0x00297      8
+rtc_set_date                                                                      0x0029F     19
+wait_ready_G101                                                                   0x002B2     25
+deselect_card_G101                                                                0x002CB      7
+send_cmd_G101                                                                     0x002D2     87
+rx_spi4_G101                                                                      0x00329     22
+disk_initialize                                                                   0x0033F    204
+disk_timerproc                                                                    0x0040B     54
+bin2bcd                                                                           0x00441     10
