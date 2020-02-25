@@ -41,8 +41,8 @@ disk_timerproc();
 }
 
 // Open SD
-char TextoEscritura[];
-void sd(char NombreArchivo[]){
+
+void sd(char NombreArchivo[], char *TextoEscritura){
 
     unsigned int br;
     char buffer[100];

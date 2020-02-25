@@ -83,19 +83,20 @@ void sd(char NombreArchivo[], char *TextoEscritura){
 }
 
 // Clock
-unsigned char H=0,M=0,S=0; // Variables for clock
+unsigned char H=0,M=0,S=0, D=0,Mes=0,A=0; // Variables for clock
+
 unsigned char time[16];
+
+void updateClock(){
+    rtc_get_time(&H, &M, &S);
+    rtc_get_date(&D, &Mes, &A);
+}
 
 // LCD 
 void printTime(){ 
     sprintf(time, "%02i:%02i:%02i", H, M, S);
     MoveCursor(0,0);
     StringLCDVar(time);     
-}
-
-// Clock
-void updateClock(){
-    rtc_get_time(&H, &M, &S);
 }
 
 
