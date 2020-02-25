@@ -41,9 +41,10 @@ disk_timerproc();
 }
 
 // Open SD
-void sd(char NombreArchivo[], char TextoEscritura[]){
 
-    unsigned int  br;
+void sd(char NombreArchivo[], char *TextoEscritura){
+
+    unsigned int br;
     char buffer[100];
     
     /* FAT function result */

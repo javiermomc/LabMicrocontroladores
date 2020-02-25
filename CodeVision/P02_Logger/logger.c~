@@ -32,7 +32,7 @@
 #include <ff.h>
 
 // SD
-char Archivo[]  = "0:muestra.txt";
+char fileName[]  = "0:muestra.txt";
 
 interrupt [TIM1_COMPA] void timer1_compa_isr(void)
 {
@@ -41,9 +41,10 @@ disk_timerproc();
 }
 
 // Open SD
-void sd(char NombreArchivo[], char TextoEscritura[]){
+char TextoEscritura[];
+void sd(char NombreArchivo[]){
 
-    unsigned int  br;
+    unsigned int br;
     char buffer[100];
     
     /* FAT function result */
