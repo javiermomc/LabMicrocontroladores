@@ -21,7 +21,7 @@ F1=logger.c
 non-commercial use only
 [CompilerDebug]
 Chip=AT90USB1286
-CPUClock=8000000
+CPUClock=2000000
 MemoryModel=1
 OptimizeSize=1
 OptimizationLevel=2
@@ -129,7 +129,7 @@ Build=1
 Count=0
 [Compiler]
 Chip=AT90USB1286
-CPUClock=8000000
+CPUClock=2000000
 MemoryModel=1
 OptimizeSize=1
 OptimizationLevel=2
@@ -390,10 +390,20 @@ Use1Wire=0
 UseI2C=0
 I2CBitRate=100
 UseDS1302=0
-UseFATFS=0
+UseFATFS=1
 UseAlphanumericLCD=0
 GLCDDisplayIndex=0
 UseResistiveTouchscreen=0
+SDSPIController=B
+SDCSPort=1
+SDCSPortBit=0
+SDCDPort=1
+SDCDPortBit=4
+SDWPPort=1
+SDWPPortBit=5
+SDSPISlow=0
+SDWPUsage=1
+SDCDUsage=2
 [USBLibrary]
 UseSuspend=0
 CDCVirtualSerialPort=0
