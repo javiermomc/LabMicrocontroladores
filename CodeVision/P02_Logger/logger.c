@@ -31,6 +31,39 @@
 #include <stdio.h>
 #include <ff.h>
 
+// ADC
+
+// ADC variables
+
+
+// Voltage Reference: Int., cap. on AREF
+#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
+
+
+// Read the AD conversion result
+unsigned int read_adc(unsigned char adc_input)
+{
+    ADMUX=adc_input | ADC_VREF_TYPE;
+    // Start the AD conversion
+    ADCSRA|=(1<<ADSC);
+    // Wait for the AD conversion to complete
+    while ((ADCSRA & (1<<ADIF))==0);
+    ADCSRA|=(1<<ADIF);
+    return ADCW;
+}
+
+float v1, v2;
+int v1I, v1D, v2I, v2D;
+
+void updateADC(){
+    v1 = read_adc(7);
+    v2 = read_adc(6);
+    v1I = (int)v1;
+    v1D = (int)((v1 - (float)v1I)*10.0);
+    v2I = (int)v2;
+    v2D = (int)((v2 - (float)v2I)*10.0);
+}
+
 // SD
 char fileName[]  = "0:muestra.txt";
 
@@ -94,43 +127,18 @@ void updateClock(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i", H, M, S);
+    sprintf(time, "%02i:%02i:%02i V1: %i.%i", H, M, S, v1I, v1D);
     MoveCursor(0,0);
+    StringLCDVar(time);
+    sprintf(time, "%02i:%02i:%02i V2: %i.%i", D, Mes, A, v2I, v2D);
+    MoveCursor(0,1);
     StringLCDVar(time);     
 }
-
-
-// ADC
-
-// ADC variables
-
-
-// Voltage Reference: Int., cap. on AREF
-#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
-
-
-// Read the AD conversion result
-unsigned int read_adc(unsigned char adc_input)
-{
-    ADMUX=adc_input | ADC_VREF_TYPE;
-    // Start the AD conversion
-    ADCSRA|=(1<<ADSC);
-    // Wait for the AD conversion to complete
-    while ((ADCSRA & (1<<ADIF))==0);
-    ADCSRA|=(1<<ADIF);
-    return ADCW;
-}
-
-float v1, v2;
-int v1I, v1D, v2I, v2D;
-
-void updateADC(){
-    v1 = read_adc(7);
-    v2 = read_adc(6);
-    v1I = (int)v1;
-    v1D = (int)((v1 - (float)v1I)*10.0);
-    v2I = (int)v2;
-    v2D = (int)((v2 - (float)v2I)*10.0);
+void eraseLCD(){
+    MoveCursor(0,0);
+    StringLCD("                ");
+    MoveCursor(0,1);
+    StringLCD("                ");
 }
 
 
@@ -175,9 +183,68 @@ SetupLCD();
 disk_initialize(0);
 delay_ms(200);
 
+// First actions
+PORTC = 0xFF;
+
 while (1)
     {
     // Please write your application code here
-
+        // Verify the correct range on clock time
+        
+        // ADC
+        updateADC();
+        
+        // Clock
+        
+        // If alarm is on, switch will turn alarm off without
+        //  changing the default variable 
+        if(!PINC.0){
+            H++;
+            rtc_set_time(H, M, S);
+        }
+        if(!PINC.1){
+            M++;
+            rtc_set_time(H, M, S);      
+        }
+        if(!PINC.2){
+            S=0;
+            rtc_set_time(H, M, S);      
+        }
+        if(!PINC.3){
+            D++;
+            rtc_set_date(D, Mes, A);      
+        }
+        if(!PINC.3){
+            Mes++;
+            rtc_set_date(D, Mes, A);      
+        }
+        if(!PINC.3){
+            A++;
+            rtc_set_date(D, Mes, A);      
+        }
+        if(S>59){
+            S=0;
+            rtc_set_time(H, M, S); 
+        }
+        if(M>59){
+            M=0;
+            rtc_set_time(H, M, S);
+        }
+        if(H>23){
+            H=0;
+            rtc_set_time(H, M, S);  
+        }
+        if(D>31){
+            D=0;
+            rtc_set_date(D, Mes, A); 
+        }
+        if(Mes>12){
+            Mes=0;
+            rtc_set_date(D, Mes, A); 
+        }
+        if(A>25){
+            A=00;
+            rtc_set_date(D, Mes, A); 
+        }
     }
 }
