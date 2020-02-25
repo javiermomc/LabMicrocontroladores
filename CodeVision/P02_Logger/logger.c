@@ -29,6 +29,57 @@
 #include <display.h>
 #include <delay.h>
 #include <stdio.h>
+#include <ff.h>
+
+// SD
+char Archivo[]  = "0:Hola.txt";
+
+interrupt [TIM1_COMPA] void timer1_compa_isr(void)
+{
+disk_timerproc();
+/* MMC/SD/SD HC card access low level timing function */
+}
+
+// Open SD
+void sd(char NombreArchivo[], char TextoEscritura[]){
+
+    unsigned int  br;
+    char buffer[100];
+    
+    /* FAT function result */
+    FRESULT res;
+    
+    /* will hold the information for logical drive 0: */
+    FATFS drive;
+    FIL archivo; // file objects
+    
+    /* mount logical drive 0: */
+    if ((res=f_mount(0,&drive))==FR_OK){
+        
+        /*Lectura de Archivo*/
+        res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
+        if (res==FR_OK){
+            
+            f_read(&archivo, buffer, 10,&br); //leer archivo en buffer
+           
+            f_lseek(&archivo,archivo.fsize);
+            
+            buffer[0] = 0x0D;                //Carriage return   
+            buffer[1] = 0x0A;                //Line Feed
+            f_write(&archivo,buffer,2,&br);
+            /*Escribiendo el Texto*/            
+            f_write(&archivo,TextoEscritura,sizeof(TextoEscritura),&br);   // Write of TextoEscritura
+            f_close(&archivo);             
+        }              
+        else{
+            StringLCD("Archivo NO Encontrado");
+        }
+    }
+    else{
+         StringLCD("Drive NO Detectado");
+    }
+    f_mount(0, 0); //Cerrar drive de SD
+}
 
 // Clock
 unsigned char H=0,M=0,S=0; // Variables for clock
@@ -36,11 +87,8 @@ unsigned char time[16];
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i  %02i.%i%cC", H, M, S, tempInt, tempDec, 223);
+    sprintf(time, "%02i:%02i:%02i", H, M, S);
     MoveCursor(0,0);
-    StringLCDVar(time);
-    sprintf(time, "  Alarma %02i:%02i   ", AH, AM);
-    MoveCursor(0,1);
     StringLCDVar(time);     
 }
 
@@ -95,6 +143,23 @@ SetupLCD();
 
 // DS1302
 rtc_init(0,0,0);
+
+// SD
+// Código para hacer una interrupción periódica cada 10ms
+// Timer/Counter 1 initialization
+// Clock source: System Clock
+// Clock value: 1000.000 kHz
+// Mode: CTC top=OCR1A
+// Compare A Match Interrupt: On
+TCCR1B=0x09;
+OCR1AH=19999/256;
+OCR1AL=19999%256;   //20000cuentas a 0.5us por cuenta=10mseg
+TIMSK1=0x02;
+SetupLCD();
+#asm("sei")
+/* Inicia el puerto SPI para la SD */
+disk_initialize(0);
+delay_ms(200);
 
 while (1)
     {
