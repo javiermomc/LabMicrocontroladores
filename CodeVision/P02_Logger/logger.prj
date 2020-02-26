@@ -524,10 +524,10 @@ L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
 <<<<<<< HEAD
-L17=Build: 10
-L18=21041 line(s) compiled
-L19=No errors
-L20=4 warning(s)
+L17=Build: 11
+L18=4345 line(s) compiled
+L19=1 error(s)
+L20=No warnings
 =======
 L17=Build: 2
 L18=21908 line(s) compiled
@@ -539,17 +539,17 @@ L22=Bit variables size: 0 byte(s)
 L23=
 L24=Data Stack area: 0x100 to 0x8FF
 L25=Data Stack size: 2048 byte(s)
-L26=Estimated Data Stack usage: 49 byte(s)
+L26=Estimated Data Stack usage: 0 byte(s)
 L27=
-L28=RAM Global variables area: 0x900 to 0x934
-L29=RAM Global variables size: 53 byte(s)
-L30=
-L31=Hardware Stack area: 0x935 to 0x20FF
-L32=Hardware Stack size: 6091 byte(s)
-L33=
-L34=Heap size: 0 byte(s)
-Lines=38
-L35=
+L28=RAM Global variables size: 0 byte(s)
+L29=
+L30=Hardware Stack area: 0x900 to 0x20FF
+L31=Hardware Stack size: 6144 byte(s)
+L32=
+L33=Heap size: 0 byte(s)
+L34=
+Lines=35
+L35=EEPROM usage: 0 byte(s), 0.0% of EEPROM
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
 <<<<<<< HEAD
 L37=Program size: 2537 words (5074 bytes), 3.9% of FLASH
@@ -559,7 +559,7 @@ L37=Program size: 1575 words (3150 bytes), 2.4% of FLASH
 L38=67 words (134 bytes), 4.1% reduced by Code Compression
 >>>>>>> 092dbc174c977cd91988b5c347588191fc16334a
 [BuildInfoAssembler]
-Lines=12
+Lines=0
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
@@ -580,22 +580,6 @@ L9=[.cseg] 0x000000 0x000c4e   2872    278   3150  131072   2.4%
 L10=[.dseg] 0x000100 0x000935      0     53     53    8192   0.6%
 L11=[.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 L12=
-[HeadersList]
-Files=1
-F1=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\logger.c
-[Header1]
-Files=11
-F1=C:\cvavr\inc\90usb1286.h
-F2=C:\cvavr\inc\90usb128x_bits.h
-F3=C:\cvavr\inc\ds1302.h
-F4=C:\cvavr\inc\display.h
-F5=C:\cvavr\inc\delay.h
-F6=C:\cvavr\inc\stdio.h
-F7=C:\cvavr\inc\io.h
-F8=C:\cvavr\inc\stdarg.h
-F9=C:\cvavr\inc\ff.h
-F10=C:\cvavr\inc\sdcard.h
-F11=C:\cvavr\inc\stdbool.h
 [Bookmarks0]
 Row=0
 Column=0
@@ -623,3 +607,19 @@ BK8=-1
 BK9=-1
 [FoldedCode1]
 Blocks=0
+[HeadersList]
+Files=1
+F1=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\logger.c
+[Header1]
+Files=11
+F1=C:\cvavr\inc\90usb1286.h
+F2=C:\cvavr\inc\90usb128x_bits.h
+F3=C:\cvavr\inc\ds1302.h
+F4=C:\cvavr\inc\display.h
+F5=C:\cvavr\inc\delay.h
+F6=C:\cvavr\inc\stdio.h
+F7=C:\cvavr\inc\io.h
+F8=C:\cvavr\inc\stdarg.h
+F9=C:\cvavr\inc\ff.h
+F10=C:\cvavr\inc\sdcard.h
+F11=C:\cvavr\inc\stdbool.h

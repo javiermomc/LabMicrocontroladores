@@ -78,7 +78,7 @@ disk_timerproc();
 
 // Open SD
 
-void sd(char NombreArchivo[], char *TextoEscritura){
+void sd(char NombreArchivo[], char TextoEscritura[]){
 
     unsigned int br;
     char buffer[100];
@@ -179,6 +179,12 @@ delay_ms(200);
 // First actions
 PORTC = 0xFF;
 
+GS = S + STM; 
+
+if(GS>59){
+    GS = GS-59;
+}
+
 while (1)
     {
     // Please write your application code here
@@ -213,9 +219,19 @@ while (1)
             Mes++;
             rtc_set_date(D, Mes, A);      
         }
-        if(!PINC.3){
+        if(!PINC.4){
             A++;
             rtc_set_date(D, Mes, A);      
+        }
+        if(!PINC.5){
+            STM = STM + 5;
+            if(STM>60){
+                STM = 5;
+            }           
+            GS = S+STM;
+            if(GS>59){
+                GS = GS-59;
+            }
         }
         if(S>59){
             S=0;
@@ -240,6 +256,15 @@ while (1)
         if(A>25){
             A=00;
             rtc_set_date(D, Mes, A); 
+        }
+        if(S == GS){
+        //SD here        
+            sprintf(time, "Fecha: %02i/%02i/02i V1: %i.%i, V2: %i.%i", D, Mes, A, v1I, v1D, v2I, v2D);
+            sd(fileName, &time);
+            GS = S + STM;
+            if(GS>59){
+                GS = GS-59;
+            }
         }
     }
 }

@@ -604,8 +604,8 @@
 ;
 ;// Open SD
 ;
-;void sd(char NombreArchivo[], char *TextoEscritura){
-; 0000 0051 void sd(char NombreArchivo[], char *TextoEscritura){
+;void sd(char NombreArchivo[], char TextoEscritura[]){
+; 0000 0051 void sd(char NombreArchivo[], char TextoEscritura[]){
 ;PCODE: $000001D7 VOL: 0
 ;PCODE: $000001D8 VOL: 0
 ; 0000 0052 
@@ -625,7 +625,7 @@
 ;PCODE: $000001DA VOL: 0
 ;PCODE: $000001DB VOL: 0
 ;	NombreArchivo -> Y+1211
-;	*TextoEscritura -> Y+1209
+;	TextoEscritura -> Y+1209
 ;	br -> R16,R17
 ;	buffer -> Y+1109
 ;	res -> R18
@@ -921,225 +921,345 @@
 ;PCODE: $000002A2 VOL: 0
 ;PCODE: $000002A3 VOL: 0
 ; 0000 00B5 
-; 0000 00B6 while (1)
+; 0000 00B6 GS = S + STM;
 ;PCODE: $000002A4 VOL: 0
-; 0000 00B7     {
-; 0000 00B8     // Please write your application code here
-; 0000 00B9         // Verify the correct range on clock time
-; 0000 00BA 
-; 0000 00BB         // ADC
-; 0000 00BC         updateADC();
 ;PCODE: $000002A5 VOL: 0
-; 0000 00BD 
-; 0000 00BE         // Clock
-; 0000 00BF         updateClock();
 ;PCODE: $000002A6 VOL: 0
-; 0000 00C0         printTime();
 ;PCODE: $000002A7 VOL: 0
-; 0000 00C1 
-; 0000 00C2         // If alarm is on, switch will turn alarm off without
-; 0000 00C3         //  changing the default variable
-; 0000 00C4         if(!PINC.0){
 ;PCODE: $000002A8 VOL: 0
 ;PCODE: $000002A9 VOL: 0
+; 0000 00B7 
+; 0000 00B8 if(GS>59){
 ;PCODE: $000002AA VOL: 0
-; 0000 00C5             H++;
 ;PCODE: $000002AB VOL: 0
 ;PCODE: $000002AC VOL: 0
+; 0000 00B9     GS = GS-59;
 ;PCODE: $000002AD VOL: 0
-; 0000 00C6             rtc_set_time(H, M, S);
 ;PCODE: $000002AE VOL: 0
 ;PCODE: $000002AF VOL: 0
 ;PCODE: $000002B0 VOL: 0
+; 0000 00BA }
+; 0000 00BB 
+; 0000 00BC while (1)
 ;PCODE: $000002B1 VOL: 0
 ;PCODE: $000002B2 VOL: 0
+; 0000 00BD     {
+; 0000 00BE     // Please write your application code here
+; 0000 00BF         // Verify the correct range on clock time
+; 0000 00C0 
+; 0000 00C1         // ADC
+; 0000 00C2         updateADC();
 ;PCODE: $000002B3 VOL: 0
-; 0000 00C7         }
-; 0000 00C8         if(!PINC.1){
+; 0000 00C3 
+; 0000 00C4         // Clock
+; 0000 00C5         updateClock();
 ;PCODE: $000002B4 VOL: 0
+; 0000 00C6         printTime();
 ;PCODE: $000002B5 VOL: 0
+; 0000 00C7 
+; 0000 00C8         // If alarm is on, switch will turn alarm off without
+; 0000 00C9         //  changing the default variable
+; 0000 00CA         if(!PINC.0){
 ;PCODE: $000002B6 VOL: 0
 ;PCODE: $000002B7 VOL: 0
-; 0000 00C9             M++;
 ;PCODE: $000002B8 VOL: 0
+; 0000 00CB             H++;
 ;PCODE: $000002B9 VOL: 0
 ;PCODE: $000002BA VOL: 0
-; 0000 00CA             rtc_set_time(H, M, S);
 ;PCODE: $000002BB VOL: 0
+; 0000 00CC             rtc_set_time(H, M, S);
 ;PCODE: $000002BC VOL: 0
 ;PCODE: $000002BD VOL: 0
 ;PCODE: $000002BE VOL: 0
 ;PCODE: $000002BF VOL: 0
 ;PCODE: $000002C0 VOL: 0
-; 0000 00CB         }
-; 0000 00CC         if(!PINC.2){
 ;PCODE: $000002C1 VOL: 0
+; 0000 00CD         }
+; 0000 00CE         if(!PINC.1){
 ;PCODE: $000002C2 VOL: 0
 ;PCODE: $000002C3 VOL: 0
 ;PCODE: $000002C4 VOL: 0
-; 0000 00CD             S=0;
 ;PCODE: $000002C5 VOL: 0
+; 0000 00CF             M++;
 ;PCODE: $000002C6 VOL: 0
-; 0000 00CE             rtc_set_time(H, M, S);
 ;PCODE: $000002C7 VOL: 0
 ;PCODE: $000002C8 VOL: 0
+; 0000 00D0             rtc_set_time(H, M, S);
 ;PCODE: $000002C9 VOL: 0
 ;PCODE: $000002CA VOL: 0
 ;PCODE: $000002CB VOL: 0
 ;PCODE: $000002CC VOL: 0
-; 0000 00CF         }
-; 0000 00D0         if(!PINC.3){
 ;PCODE: $000002CD VOL: 0
 ;PCODE: $000002CE VOL: 0
+; 0000 00D1         }
+; 0000 00D2         if(!PINC.2){
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
-; 0000 00D1             D++;
 ;PCODE: $000002D1 VOL: 0
 ;PCODE: $000002D2 VOL: 0
+; 0000 00D3             S=0;
 ;PCODE: $000002D3 VOL: 0
-; 0000 00D2             rtc_set_date(D, Mes, A);
 ;PCODE: $000002D4 VOL: 0
+; 0000 00D4             rtc_set_time(H, M, S);
 ;PCODE: $000002D5 VOL: 0
 ;PCODE: $000002D6 VOL: 0
 ;PCODE: $000002D7 VOL: 0
 ;PCODE: $000002D8 VOL: 0
 ;PCODE: $000002D9 VOL: 0
-; 0000 00D3         }
-; 0000 00D4         if(!PINC.3){
 ;PCODE: $000002DA VOL: 0
+; 0000 00D5         }
+; 0000 00D6         if(!PINC.3){
 ;PCODE: $000002DB VOL: 0
 ;PCODE: $000002DC VOL: 0
 ;PCODE: $000002DD VOL: 0
-; 0000 00D5             Mes++;
 ;PCODE: $000002DE VOL: 0
+; 0000 00D7             D++;
 ;PCODE: $000002DF VOL: 0
 ;PCODE: $000002E0 VOL: 0
-; 0000 00D6             rtc_set_date(D, Mes, A);
 ;PCODE: $000002E1 VOL: 0
+; 0000 00D8             rtc_set_date(D, Mes, A);
 ;PCODE: $000002E2 VOL: 0
 ;PCODE: $000002E3 VOL: 0
 ;PCODE: $000002E4 VOL: 0
 ;PCODE: $000002E5 VOL: 0
 ;PCODE: $000002E6 VOL: 0
-; 0000 00D7         }
-; 0000 00D8         if(!PINC.3){
 ;PCODE: $000002E7 VOL: 0
+; 0000 00D9         }
+; 0000 00DA         if(!PINC.3){
 ;PCODE: $000002E8 VOL: 0
 ;PCODE: $000002E9 VOL: 0
 ;PCODE: $000002EA VOL: 0
-; 0000 00D9             A++;
 ;PCODE: $000002EB VOL: 0
+; 0000 00DB             Mes++;
 ;PCODE: $000002EC VOL: 0
 ;PCODE: $000002ED VOL: 0
-; 0000 00DA             rtc_set_date(D, Mes, A);
 ;PCODE: $000002EE VOL: 0
+; 0000 00DC             rtc_set_date(D, Mes, A);
 ;PCODE: $000002EF VOL: 0
 ;PCODE: $000002F0 VOL: 0
 ;PCODE: $000002F1 VOL: 0
 ;PCODE: $000002F2 VOL: 0
 ;PCODE: $000002F3 VOL: 0
-; 0000 00DB         }
-; 0000 00DC         if(S>59){
 ;PCODE: $000002F4 VOL: 0
+; 0000 00DD         }
+; 0000 00DE         if(!PINC.4){
 ;PCODE: $000002F5 VOL: 0
 ;PCODE: $000002F6 VOL: 0
 ;PCODE: $000002F7 VOL: 0
-; 0000 00DD             S=0;
 ;PCODE: $000002F8 VOL: 0
+; 0000 00DF             A++;
 ;PCODE: $000002F9 VOL: 0
-; 0000 00DE             rtc_set_time(H, M, S);
 ;PCODE: $000002FA VOL: 0
 ;PCODE: $000002FB VOL: 0
+; 0000 00E0             rtc_set_date(D, Mes, A);
 ;PCODE: $000002FC VOL: 0
 ;PCODE: $000002FD VOL: 0
 ;PCODE: $000002FE VOL: 0
 ;PCODE: $000002FF VOL: 0
-; 0000 00DF         }
-; 0000 00E0         if(M>59){
 ;PCODE: $00000300 VOL: 0
 ;PCODE: $00000301 VOL: 0
+; 0000 00E1         }
+; 0000 00E2         if(!PINC.5){
 ;PCODE: $00000302 VOL: 0
 ;PCODE: $00000303 VOL: 0
-; 0000 00E1             M=0;
 ;PCODE: $00000304 VOL: 0
 ;PCODE: $00000305 VOL: 0
-; 0000 00E2             rtc_set_time(H, M, S);
+; 0000 00E3             STM = STM + 5;
 ;PCODE: $00000306 VOL: 0
 ;PCODE: $00000307 VOL: 0
 ;PCODE: $00000308 VOL: 0
 ;PCODE: $00000309 VOL: 0
+; 0000 00E4             if(STM>60){
 ;PCODE: $0000030A VOL: 0
 ;PCODE: $0000030B VOL: 0
-; 0000 00E3         }
-; 0000 00E4         if(H>23){
 ;PCODE: $0000030C VOL: 0
+; 0000 00E5                 STM = 5;
 ;PCODE: $0000030D VOL: 0
 ;PCODE: $0000030E VOL: 0
+; 0000 00E6             }
+; 0000 00E7             GS = S+STM;
 ;PCODE: $0000030F VOL: 0
-; 0000 00E5             H=0;
 ;PCODE: $00000310 VOL: 0
 ;PCODE: $00000311 VOL: 0
-; 0000 00E6             rtc_set_time(H, M, S);
 ;PCODE: $00000312 VOL: 0
 ;PCODE: $00000313 VOL: 0
 ;PCODE: $00000314 VOL: 0
 ;PCODE: $00000315 VOL: 0
+; 0000 00E8             if(GS>59){
 ;PCODE: $00000316 VOL: 0
 ;PCODE: $00000317 VOL: 0
-; 0000 00E7         }
-; 0000 00E8         if(D>31){
 ;PCODE: $00000318 VOL: 0
+; 0000 00E9                 GS = GS-59;
 ;PCODE: $00000319 VOL: 0
 ;PCODE: $0000031A VOL: 0
 ;PCODE: $0000031B VOL: 0
-; 0000 00E9             D=0;
 ;PCODE: $0000031C VOL: 0
+; 0000 00EA             }
+; 0000 00EB         }
 ;PCODE: $0000031D VOL: 0
-; 0000 00EA             rtc_set_date(D, Mes, A);
+; 0000 00EC         if(S>59){
 ;PCODE: $0000031E VOL: 0
 ;PCODE: $0000031F VOL: 0
 ;PCODE: $00000320 VOL: 0
 ;PCODE: $00000321 VOL: 0
+; 0000 00ED             S=0;
 ;PCODE: $00000322 VOL: 0
 ;PCODE: $00000323 VOL: 0
-; 0000 00EB         }
-; 0000 00EC         if(Mes>12){
+; 0000 00EE             rtc_set_time(H, M, S);
 ;PCODE: $00000324 VOL: 0
 ;PCODE: $00000325 VOL: 0
 ;PCODE: $00000326 VOL: 0
 ;PCODE: $00000327 VOL: 0
-; 0000 00ED             Mes=0;
 ;PCODE: $00000328 VOL: 0
 ;PCODE: $00000329 VOL: 0
-; 0000 00EE             rtc_set_date(D, Mes, A);
+; 0000 00EF         }
+; 0000 00F0         if(M>59){
 ;PCODE: $0000032A VOL: 0
 ;PCODE: $0000032B VOL: 0
 ;PCODE: $0000032C VOL: 0
 ;PCODE: $0000032D VOL: 0
+; 0000 00F1             M=0;
 ;PCODE: $0000032E VOL: 0
 ;PCODE: $0000032F VOL: 0
-; 0000 00EF         }
-; 0000 00F0         if(A>25){
+; 0000 00F2             rtc_set_time(H, M, S);
 ;PCODE: $00000330 VOL: 0
 ;PCODE: $00000331 VOL: 0
 ;PCODE: $00000332 VOL: 0
 ;PCODE: $00000333 VOL: 0
-; 0000 00F1             A=00;
 ;PCODE: $00000334 VOL: 0
 ;PCODE: $00000335 VOL: 0
-; 0000 00F2             rtc_set_date(D, Mes, A);
+; 0000 00F3         }
+; 0000 00F4         if(H>23){
 ;PCODE: $00000336 VOL: 0
 ;PCODE: $00000337 VOL: 0
 ;PCODE: $00000338 VOL: 0
 ;PCODE: $00000339 VOL: 0
+; 0000 00F5             H=0;
 ;PCODE: $0000033A VOL: 0
 ;PCODE: $0000033B VOL: 0
-; 0000 00F3         }
-; 0000 00F4     }
+; 0000 00F6             rtc_set_time(H, M, S);
 ;PCODE: $0000033C VOL: 0
 ;PCODE: $0000033D VOL: 0
 ;PCODE: $0000033E VOL: 0
-; 0000 00F5 }
 ;PCODE: $0000033F VOL: 0
 ;PCODE: $00000340 VOL: 0
 ;PCODE: $00000341 VOL: 0
+; 0000 00F7         }
+; 0000 00F8         if(D>31){
+;PCODE: $00000342 VOL: 0
+;PCODE: $00000343 VOL: 0
+;PCODE: $00000344 VOL: 0
+;PCODE: $00000345 VOL: 0
+; 0000 00F9             D=0;
+;PCODE: $00000346 VOL: 0
+;PCODE: $00000347 VOL: 0
+; 0000 00FA             rtc_set_date(D, Mes, A);
+;PCODE: $00000348 VOL: 0
+;PCODE: $00000349 VOL: 0
+;PCODE: $0000034A VOL: 0
+;PCODE: $0000034B VOL: 0
+;PCODE: $0000034C VOL: 0
+;PCODE: $0000034D VOL: 0
+; 0000 00FB         }
+; 0000 00FC         if(Mes>12){
+;PCODE: $0000034E VOL: 0
+;PCODE: $0000034F VOL: 0
+;PCODE: $00000350 VOL: 0
+;PCODE: $00000351 VOL: 0
+; 0000 00FD             Mes=0;
+;PCODE: $00000352 VOL: 0
+;PCODE: $00000353 VOL: 0
+; 0000 00FE             rtc_set_date(D, Mes, A);
+;PCODE: $00000354 VOL: 0
+;PCODE: $00000355 VOL: 0
+;PCODE: $00000356 VOL: 0
+;PCODE: $00000357 VOL: 0
+;PCODE: $00000358 VOL: 0
+;PCODE: $00000359 VOL: 0
+; 0000 00FF         }
+; 0000 0100         if(A>25){
+;PCODE: $0000035A VOL: 0
+;PCODE: $0000035B VOL: 0
+;PCODE: $0000035C VOL: 0
+;PCODE: $0000035D VOL: 0
+; 0000 0101             A=00;
+;PCODE: $0000035E VOL: 0
+;PCODE: $0000035F VOL: 0
+; 0000 0102             rtc_set_date(D, Mes, A);
+;PCODE: $00000360 VOL: 0
+;PCODE: $00000361 VOL: 0
+;PCODE: $00000362 VOL: 0
+;PCODE: $00000363 VOL: 0
+;PCODE: $00000364 VOL: 0
+;PCODE: $00000365 VOL: 0
+; 0000 0103         }
+; 0000 0104         if(S == GS){
+;PCODE: $00000366 VOL: 0
+;PCODE: $00000367 VOL: 0
+;PCODE: $00000368 VOL: 0
+;PCODE: $00000369 VOL: 0
+;PCODE: $0000036A VOL: 0
+; 0000 0105         //SD here
+; 0000 0106             sprintf(time, "Fecha: %02i/%02i/02i V1: %i.%i, V2: %i.%i", D, Mes, A, v1I, v1D, v2I, v2D);
+;PCODE: $0000036B VOL: 0
+;PCODE: $0000036C VOL: 0
+;PCODE: $0000036D VOL: 0
+;PCODE: $0000036E VOL: 0
+;PCODE: $0000036F VOL: 0
+;PCODE: $00000370 VOL: 0
+;PCODE: $00000371 VOL: 0
+;PCODE: $00000372 VOL: 0
+;PCODE: $00000373 VOL: 0
+;PCODE: $00000374 VOL: 0
+;PCODE: $00000375 VOL: 0
+;PCODE: $00000376 VOL: 0
+;PCODE: $00000377 VOL: 0
+;PCODE: $00000378 VOL: 0
+;PCODE: $00000379 VOL: 0
+;PCODE: $0000037A VOL: 0
+;PCODE: $0000037B VOL: 0
+;PCODE: $0000037C VOL: 0
+;PCODE: $0000037D VOL: 0
+;PCODE: $0000037E VOL: 0
+;PCODE: $0000037F VOL: 0
+;PCODE: $00000380 VOL: 0
+;PCODE: $00000381 VOL: 0
+;PCODE: $00000382 VOL: 0
+;PCODE: $00000383 VOL: 0
+;PCODE: $00000384 VOL: 0
+;PCODE: $00000385 VOL: 0
+;PCODE: $00000386 VOL: 0
+;PCODE: $00000387 VOL: 0
+;PCODE: $00000388 VOL: 0
+; 0000 0107             sd(fileName, &time);
+;PCODE: $00000389 VOL: 0
+;PCODE: $0000038A VOL: 0
+;PCODE: $0000038B VOL: 0
+;PCODE: $0000038C VOL: 0
+; 0000 0108             GS = S + STM;
+;PCODE: $0000038D VOL: 0
+;PCODE: $0000038E VOL: 0
+;PCODE: $0000038F VOL: 0
+;PCODE: $00000390 VOL: 0
+;PCODE: $00000391 VOL: 0
+;PCODE: $00000392 VOL: 0
+; 0000 0109             if(GS>59){
+;PCODE: $00000393 VOL: 0
+;PCODE: $00000394 VOL: 0
+;PCODE: $00000395 VOL: 0
+; 0000 010A                 GS = GS-59;
+;PCODE: $00000396 VOL: 0
+;PCODE: $00000397 VOL: 0
+;PCODE: $00000398 VOL: 0
+;PCODE: $00000399 VOL: 0
+; 0000 010B             }
+; 0000 010C         }
+;PCODE: $0000039A VOL: 0
+; 0000 010D     }
+;PCODE: $0000039B VOL: 0
+;PCODE: $0000039C VOL: 0
+;PCODE: $0000039D VOL: 0
+; 0000 010E }
+;PCODE: $0000039E VOL: 0
+;PCODE: $0000039F VOL: 0
+;PCODE: $000003A0 VOL: 0
