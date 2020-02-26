@@ -1163,7 +1163,7 @@ _tbl16_G103:
 _0x3:
 	.DB  0x3,0x3,0x3,0x2,0x2,0xC,0x0,0x8
 	.DB  0x0,0x1,0x0,0x6
-_0x25:
+_0x22:
 	.DB  0x30,0x3A,0x6D,0x75,0x65,0x73,0x74,0x72
 	.DB  0x61,0x2E,0x74,0x78,0x74
 _0x0:
@@ -1173,14 +1173,7 @@ _0x0:
 	.DB  0x69,0x76,0x65,0x20,0x4E,0x4F,0x20,0x44
 	.DB  0x65,0x74,0x65,0x63,0x74,0x61,0x64,0x6F
 	.DB  0x0,0x25,0x30,0x32,0x69,0x3A,0x25,0x30
-	.DB  0x32,0x69,0x3A,0x25,0x30,0x32,0x69,0x20
-	.DB  0x56,0x31,0x3A,0x20,0x25,0x69,0x2E,0x25
-	.DB  0x69,0x0,0x25,0x30,0x32,0x69,0x3A,0x25
-	.DB  0x30,0x32,0x69,0x3A,0x25,0x30,0x32,0x69
-	.DB  0x20,0x56,0x32,0x3A,0x20,0x25,0x69,0x2E
-	.DB  0x25,0x69,0x0,0x20,0x20,0x20,0x20,0x20
-	.DB  0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20
-	.DB  0x20,0x20,0x20,0x0
+	.DB  0x32,0x69,0x3A,0x25,0x30,0x32,0x69,0x0
 _0x2020003:
 	.DB  0x1
 _0x20200FE:
@@ -1467,115 +1460,13 @@ _WriteComandLCD:
 ;#include <stdio.h>
 ;#include <ff.h>
 ;
-;// ADC
-;
-;// ADC variables
-;
-;
-;// Voltage Reference: Int., cap. on AREF
-;#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
-;
-;
-;// Read the AD conversion result
-;unsigned int read_adc(unsigned char adc_input)
-; 0000 002D {
-_read_adc:
-; .FSTART _read_adc
-; 0000 002E     ADMUX=adc_input | ADC_VREF_TYPE;
-	ST   -Y,R16
-	MOV  R16,R26
-;	adc_input -> R16
-	MOV  R30,R16
-	ORI  R30,LOW(0xC0)
-	STS  124,R30
-; 0000 002F     // Start the AD conversion
-; 0000 0030     ADCSRA|=(1<<ADSC);
-	LDS  R30,122
-	ORI  R30,0x40
-	STS  122,R30
-; 0000 0031     // Wait for the AD conversion to complete
-; 0000 0032     while ((ADCSRA & (1<<ADIF))==0);
-_0x22:
-	LDS  R30,122
-	ANDI R30,LOW(0x10)
-	BREQ _0x22
-; 0000 0033     ADCSRA|=(1<<ADIF);
-	LDS  R30,122
-	ORI  R30,0x10
-	STS  122,R30
-; 0000 0034     return ADCW;
-	LDS  R30,120
-	LDS  R31,120+1
-	JMP  _0x20E0001
-; 0000 0035 }
-; .FEND
-;
-;float v1, v2;
-;int v1I, v1D, v2I, v2D;
-;
-;void updateADC(){
-; 0000 003A void updateADC(){
-_updateADC:
-; .FSTART _updateADC
-; 0000 003B     v1 = read_adc(7);
-	LDI  R26,LOW(7)
-	RCALL _read_adc
-	LDI  R26,LOW(_v1)
-	LDI  R27,HIGH(_v1)
-	RCALL SUBOPT_0x0
-; 0000 003C     v2 = read_adc(6);
-	LDI  R26,LOW(6)
-	RCALL _read_adc
-	LDI  R26,LOW(_v2)
-	LDI  R27,HIGH(_v2)
-	RCALL SUBOPT_0x0
-; 0000 003D     v1I = (int)v1;
-	LDS  R30,_v1
-	LDS  R31,_v1+1
-	LDS  R22,_v1+2
-	LDS  R23,_v1+3
-	RCALL __CFD1
-	STS  _v1I,R30
-	STS  _v1I+1,R31
-; 0000 003E     v1D = (int)((v1 - (float)v1I)*10.0);
-	RCALL __CWD1
-	RCALL __CDF1
-	LDS  R26,_v1
-	LDS  R27,_v1+1
-	LDS  R24,_v1+2
-	LDS  R25,_v1+3
-	RCALL SUBOPT_0x1
-	STS  _v1D,R30
-	STS  _v1D+1,R31
-; 0000 003F     v2I = (int)v2;
-	LDS  R30,_v2
-	LDS  R31,_v2+1
-	LDS  R22,_v2+2
-	LDS  R23,_v2+3
-	RCALL __CFD1
-	STS  _v2I,R30
-	STS  _v2I+1,R31
-; 0000 0040     v2D = (int)((v2 - (float)v2I)*10.0);
-	RCALL __CWD1
-	RCALL __CDF1
-	LDS  R26,_v2
-	LDS  R27,_v2+1
-	LDS  R24,_v2+2
-	LDS  R25,_v2+3
-	RCALL SUBOPT_0x1
-	STS  _v2D,R30
-	STS  _v2D+1,R31
-; 0000 0041 }
-	RET
-; .FEND
-;
 ;// SD
 ;char fileName[]  = "0:muestra.txt";
 
 	.DSEG
 ;
 ;interrupt [TIM1_COMPA] void timer1_compa_isr(void)
-; 0000 0047 {
+; 0000 0026 {
 
 	.CSEG
 _timer1_compa_isr:
@@ -1593,10 +1484,10 @@ _timer1_compa_isr:
 	ST   -Y,R31
 	IN   R30,SREG
 	ST   -Y,R30
-; 0000 0048 disk_timerproc();
+; 0000 0027 disk_timerproc();
 	RCALL _disk_timerproc
-; 0000 0049 /* MMC/SD/SD HC card access low level timing function */
-; 0000 004A }
+; 0000 0028 /* MMC/SD/SD HC card access low level timing function */
+; 0000 0029 }
 	LD   R30,Y+
 	OUT  SREG,R30
 	LD   R31,Y+
@@ -1616,20 +1507,20 @@ _timer1_compa_isr:
 ;// Open SD
 ;
 ;void sd(char NombreArchivo[], char *TextoEscritura){
-; 0000 004E void sd(char NombreArchivo[], char *TextoEscritura){
-; 0000 004F 
-; 0000 0050     unsigned int br;
-; 0000 0051     char buffer[100];
-; 0000 0052 
-; 0000 0053     /* FAT function result */
-; 0000 0054     FRESULT res;
-; 0000 0055 
-; 0000 0056     /* will hold the information for logical drive 0: */
-; 0000 0057     FATFS drive;
-; 0000 0058     FIL archivo; // file objects
-; 0000 0059 
-; 0000 005A     /* mount logical drive 0: */
-; 0000 005B     if ((res=f_mount(0,&drive))==FR_OK){
+; 0000 002D void sd(char NombreArchivo[], char *TextoEscritura){
+; 0000 002E 
+; 0000 002F     unsigned int br;
+; 0000 0030     char buffer[100];
+; 0000 0031 
+; 0000 0032     /* FAT function result */
+; 0000 0033     FRESULT res;
+; 0000 0034 
+; 0000 0035     /* will hold the information for logical drive 0: */
+; 0000 0036     FATFS drive;
+; 0000 0037     FIL archivo; // file objects
+; 0000 0038 
+; 0000 0039     /* mount logical drive 0: */
+; 0000 003A     if ((res=f_mount(0,&drive))==FR_OK){
 ;	NombreArchivo -> Y+1211
 ;	*TextoEscritura -> R19,R20
 ;	br -> R16,R17
@@ -1637,274 +1528,168 @@ _timer1_compa_isr:
 ;	res -> R18
 ;	drive -> Y+549
 ;	archivo -> Y+5
-; 0000 005C 
-; 0000 005D         /*Lectura de Archivo*/
-; 0000 005E         res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
-; 0000 005F         if (res==FR_OK){
-; 0000 0060 
-; 0000 0061             f_read(&archivo, buffer, 10,&br); //leer archivo en buffer
-; 0000 0062 
-; 0000 0063             f_lseek(&archivo,archivo.fsize);
-; 0000 0064 
-; 0000 0065             buffer[0] = 0x0D;                //Carriage return
-; 0000 0066             buffer[1] = 0x0A;                //Line Feed
-; 0000 0067             f_write(&archivo,buffer,2,&br);
-; 0000 0068             /*Escribiendo el Texto*/
-; 0000 0069             f_write(&archivo,TextoEscritura,sizeof(TextoEscritura),&br);   // Write of TextoEscritura
-; 0000 006A             f_close(&archivo);
-; 0000 006B         }
-; 0000 006C         else{
-; 0000 006D             StringLCD("Archivo NO Encontrado");
-; 0000 006E         }
-; 0000 006F     }
-; 0000 0070     else{
-; 0000 0071          StringLCD("Drive NO Detectado");
-; 0000 0072     }
-; 0000 0073     f_mount(0, 0); //Cerrar drive de SD
-; 0000 0074 }
+; 0000 003B 
+; 0000 003C         /*Lectura de Archivo*/
+; 0000 003D         res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
+; 0000 003E         if (res==FR_OK){
+; 0000 003F 
+; 0000 0040             f_read(&archivo, buffer, 10,&br); //leer archivo en buffer
+; 0000 0041 
+; 0000 0042             f_lseek(&archivo,archivo.fsize);
+; 0000 0043 
+; 0000 0044             buffer[0] = 0x0D;                //Carriage return
+; 0000 0045             buffer[1] = 0x0A;                //Line Feed
+; 0000 0046             f_write(&archivo,buffer,2,&br);
+; 0000 0047             /*Escribiendo el Texto*/
+; 0000 0048             f_write(&archivo,TextoEscritura,sizeof(TextoEscritura),&br);   // Write of TextoEscritura
+; 0000 0049             f_close(&archivo);
+; 0000 004A         }
+; 0000 004B         else{
+; 0000 004C             StringLCD("Archivo NO Encontrado");
+; 0000 004D         }
+; 0000 004E     }
+; 0000 004F     else{
+; 0000 0050          StringLCD("Drive NO Detectado");
+; 0000 0051     }
+; 0000 0052     f_mount(0, 0); //Cerrar drive de SD
+; 0000 0053 }
 ;
 ;// Clock
-;unsigned char H=0,M=0,S=0, D=0,Mes=0,A=0; // Variables for clock
-;
+;unsigned char H=0,M=0,S=0; // Variables for clock
 ;unsigned char time[16];
-;
-;void updateClock(){
-; 0000 007B void updateClock(){
-; 0000 007C     rtc_get_time(&H, &M, &S);
-; 0000 007D     rtc_get_date(&D, &Mes, &A);
-; 0000 007E }
 ;
 ;// LCD
 ;void printTime(){
-; 0000 0081 void printTime(){
-; 0000 0082     sprintf(time, "%02i:%02i:%02i V1: %i.%i", H, M, S, v1I, v1D);
-; 0000 0083     MoveCursor(0,0);
-; 0000 0084     StringLCDVar(time);
-; 0000 0085     sprintf(time, "%02i:%02i:%02i V2: %i.%i", D, Mes, A, v2I, v2D);
-; 0000 0086     MoveCursor(0,1);
-; 0000 0087     StringLCDVar(time);
-; 0000 0088 }
-;void eraseLCD(){
-; 0000 0089 void eraseLCD(){
-; 0000 008A     MoveCursor(0,0);
-; 0000 008B     StringLCD("                ");
-; 0000 008C     MoveCursor(0,1);
-; 0000 008D     StringLCD("                ");
-; 0000 008E }
+; 0000 005A void printTime(){
+; 0000 005B     sprintf(time, "%02i:%02i:%02i", H, M, S);
+; 0000 005C     MoveCursor(0,0);
+; 0000 005D     StringLCDVar(time);
+; 0000 005E }
+;
+;// Clock
+;void updateClock(){
+; 0000 0061 void updateClock(){
+; 0000 0062     rtc_get_time(&H, &M, &S);
+; 0000 0063 }
+;
+;
+;// ADC
+;
+;// ADC variables
+;
+;
+;// Voltage Reference: Int., cap. on AREF
+;#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
+;
+;
+;// Read the AD conversion result
+;unsigned int read_adc(unsigned char adc_input)
+; 0000 0071 {
+; 0000 0072     ADMUX=adc_input | ADC_VREF_TYPE;
+;	adc_input -> R16
+; 0000 0073     // Start the AD conversion
+; 0000 0074     ADCSRA|=(1<<ADSC);
+; 0000 0075     // Wait for the AD conversion to complete
+; 0000 0076     while ((ADCSRA & (1<<ADIF))==0);
+; 0000 0077     ADCSRA|=(1<<ADIF);
+; 0000 0078     return ADCW;
+; 0000 0079 }
+;
+;float v1, v2;
+;int v1I, v1D, v2I, v2D;
+;
+;void updateADC(){
+; 0000 007E void updateADC(){
+; 0000 007F     v1 = read_adc(7);
+; 0000 0080     v2 = read_adc(6);
+; 0000 0081     v1I = (int)v1;
+; 0000 0082     v1D = (int)((v1 - (float)v1I)*10.0);
+; 0000 0083     v2I = (int)v2;
+; 0000 0084     v2D = (int)((v2 - (float)v2I)*10.0);
+; 0000 0085 }
 ;
 ;
 ;
 ;void main(void)
-; 0000 0093 {
+; 0000 008A {
 _main:
 ; .FSTART _main
-; 0000 0094 
-; 0000 0095 // ADC
-; 0000 0096 
-; 0000 0097 // ADC initialization
-; 0000 0098 // ADC Clock frequency: 1000.000 kHz
-; 0000 0099 // ADC Voltage Reference: Int., cap. on AREF
-; 0000 009A // ADC High Speed Mode: On
-; 0000 009B // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
-; 0000 009C // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
-; 0000 009D DIDR0=(1<<ADC7D) | (1<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
+; 0000 008B 
+; 0000 008C // ADC
+; 0000 008D 
+; 0000 008E // ADC initialization
+; 0000 008F // ADC Clock frequency: 1000.000 kHz
+; 0000 0090 // ADC Voltage Reference: Int., cap. on AREF
+; 0000 0091 // ADC High Speed Mode: On
+; 0000 0092 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
+; 0000 0093 // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
+; 0000 0094 DIDR0=(1<<ADC7D) | (1<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 	LDI  R30,LOW(192)
 	STS  126,R30
-; 0000 009E ADMUX=ADC_VREF_TYPE;
+; 0000 0095 ADMUX=ADC_VREF_TYPE;
 	STS  124,R30
-; 0000 009F ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+; 0000 0096 ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 	LDI  R30,LOW(131)
 	STS  122,R30
-; 0000 00A0 ADCSRB=(1<<ADHSM);
+; 0000 0097 ADCSRB=(1<<ADHSM);
 	LDI  R30,LOW(128)
 	STS  123,R30
-; 0000 00A1 
-; 0000 00A2 // LCD
-; 0000 00A3 
-; 0000 00A4 SetupLCD();
+; 0000 0098 
+; 0000 0099 // LCD
+; 0000 009A 
+; 0000 009B SetupLCD();
 	RCALL _SetupLCD
-; 0000 00A5 
-; 0000 00A6 // DS1302
-; 0000 00A7 rtc_init(0,0,0);
+; 0000 009C 
+; 0000 009D // DS1302
+; 0000 009E rtc_init(0,0,0);
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	RCALL _rtc_init
-; 0000 00A8 
-; 0000 00A9 // SD
-; 0000 00AA // Código para hacer una interrupción periódica cada 10ms
-; 0000 00AB // Timer/Counter 1 initialization
-; 0000 00AC // Clock source: System Clock
-; 0000 00AD // Clock value: 1000.000 kHz
-; 0000 00AE // Mode: CTC top=OCR1A
-; 0000 00AF // Compare A Match Interrupt: On
-; 0000 00B0 TCCR1B=0x09;
+; 0000 009F 
+; 0000 00A0 // SD
+; 0000 00A1 // Código para hacer una interrupción periódica cada 10ms
+; 0000 00A2 // Timer/Counter 1 initialization
+; 0000 00A3 // Clock source: System Clock
+; 0000 00A4 // Clock value: 1000.000 kHz
+; 0000 00A5 // Mode: CTC top=OCR1A
+; 0000 00A6 // Compare A Match Interrupt: On
+; 0000 00A7 TCCR1B=0x09;
 	LDI  R30,LOW(9)
 	STS  129,R30
-; 0000 00B1 OCR1AH=19999/256;
+; 0000 00A8 OCR1AH=19999/256;
 	LDI  R30,LOW(78)
 	STS  137,R30
-; 0000 00B2 OCR1AL=19999%256;   //20000cuentas a 0.5us por cuenta=10mseg
+; 0000 00A9 OCR1AL=19999%256;   //20000cuentas a 0.5us por cuenta=10mseg
 	LDI  R30,LOW(31)
 	STS  136,R30
-; 0000 00B3 TIMSK1=0x02;
+; 0000 00AA TIMSK1=0x02;
 	LDI  R30,LOW(2)
 	STS  111,R30
-; 0000 00B4 SetupLCD();
+; 0000 00AB SetupLCD();
 	RCALL _SetupLCD
-; 0000 00B5 #asm("sei")
+; 0000 00AC #asm("sei")
 	SEI
-; 0000 00B6 /* Inicia el puerto SPI para la SD */
-; 0000 00B7 disk_initialize(0);
+; 0000 00AD /* Inicia el puerto SPI para la SD */
+; 0000 00AE disk_initialize(0);
 	LDI  R26,LOW(0)
 	RCALL _disk_initialize
-; 0000 00B8 delay_ms(200);
+; 0000 00AF delay_ms(200);
 	LDI  R26,LOW(200)
 	LDI  R27,0
 	RCALL _delay_ms
-; 0000 00B9 
-; 0000 00BA // First actions
-; 0000 00BB PORTC = 0xFF;
-	LDI  R30,LOW(255)
-	OUT  0x8,R30
-; 0000 00BC 
-; 0000 00BD while (1)
+; 0000 00B0 
+; 0000 00B1 while (1)
 _0x2A:
-; 0000 00BE     {
-; 0000 00BF     // Please write your application code here
-; 0000 00C0         // Verify the correct range on clock time
-; 0000 00C1 
-; 0000 00C2         // ADC
-; 0000 00C3         updateADC();
-	RCALL _updateADC
-; 0000 00C4 
-; 0000 00C5         // Clock
-; 0000 00C6 
-; 0000 00C7         // If alarm is on, switch will turn alarm off without
-; 0000 00C8         //  changing the default variable
-; 0000 00C9         if(!PINC.0){
-	SBIC 0x6,0
-	RJMP _0x2D
-; 0000 00CA             H++;
-	LDS  R30,_H
-	SUBI R30,-LOW(1)
-	RCALL SUBOPT_0x2
-; 0000 00CB             rtc_set_time(H, M, S);
-; 0000 00CC         }
-; 0000 00CD         if(!PINC.1){
-_0x2D:
-	SBIC 0x6,1
-	RJMP _0x2E
-; 0000 00CE             M++;
-	LDS  R30,_M
-	SUBI R30,-LOW(1)
-	RCALL SUBOPT_0x3
-; 0000 00CF             rtc_set_time(H, M, S);
-; 0000 00D0         }
-; 0000 00D1         if(!PINC.2){
-_0x2E:
-	SBIC 0x6,2
-	RJMP _0x2F
-; 0000 00D2             S=0;
-	RCALL SUBOPT_0x4
-; 0000 00D3             rtc_set_time(H, M, S);
-; 0000 00D4         }
-; 0000 00D5         if(!PINC.3){
-_0x2F:
-	SBIC 0x6,3
-	RJMP _0x30
-; 0000 00D6             D++;
-	LDS  R30,_D
-	SUBI R30,-LOW(1)
-	RCALL SUBOPT_0x5
-; 0000 00D7             rtc_set_date(D, Mes, A);
-; 0000 00D8         }
-; 0000 00D9         if(!PINC.3){
-_0x30:
-	SBIC 0x6,3
-	RJMP _0x31
-; 0000 00DA             Mes++;
-	LDS  R30,_Mes
-	SUBI R30,-LOW(1)
-	RCALL SUBOPT_0x6
-; 0000 00DB             rtc_set_date(D, Mes, A);
-; 0000 00DC         }
-; 0000 00DD         if(!PINC.3){
-_0x31:
-	SBIC 0x6,3
-	RJMP _0x32
-; 0000 00DE             A++;
-	LDS  R30,_A
-	SUBI R30,-LOW(1)
-	RCALL SUBOPT_0x7
-; 0000 00DF             rtc_set_date(D, Mes, A);
-; 0000 00E0         }
-; 0000 00E1         if(S>59){
-_0x32:
-	LDS  R26,_S
-	CPI  R26,LOW(0x3C)
-	BRLO _0x33
-; 0000 00E2             S=0;
-	RCALL SUBOPT_0x4
-; 0000 00E3             rtc_set_time(H, M, S);
-; 0000 00E4         }
-; 0000 00E5         if(M>59){
-_0x33:
-	LDS  R26,_M
-	CPI  R26,LOW(0x3C)
-	BRLO _0x34
-; 0000 00E6             M=0;
-	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x3
-; 0000 00E7             rtc_set_time(H, M, S);
-; 0000 00E8         }
-; 0000 00E9         if(H>23){
-_0x34:
-	LDS  R26,_H
-	CPI  R26,LOW(0x18)
-	BRLO _0x35
-; 0000 00EA             H=0;
-	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x2
-; 0000 00EB             rtc_set_time(H, M, S);
-; 0000 00EC         }
-; 0000 00ED         if(D>31){
-_0x35:
-	LDS  R26,_D
-	CPI  R26,LOW(0x20)
-	BRLO _0x36
-; 0000 00EE             D=0;
-	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x5
-; 0000 00EF             rtc_set_date(D, Mes, A);
-; 0000 00F0         }
-; 0000 00F1         if(Mes>12){
-_0x36:
-	LDS  R26,_Mes
-	CPI  R26,LOW(0xD)
-	BRLO _0x37
-; 0000 00F2             Mes=0;
-	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x6
-; 0000 00F3             rtc_set_date(D, Mes, A);
-; 0000 00F4         }
-; 0000 00F5         if(A>25){
-_0x37:
-	LDS  R26,_A
-	CPI  R26,LOW(0x1A)
-	BRLO _0x38
-; 0000 00F6             A=00;
-	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x7
-; 0000 00F7             rtc_set_date(D, Mes, A);
-; 0000 00F8         }
-; 0000 00F9     }
-_0x38:
+; 0000 00B2     {
+; 0000 00B3     // Please write your application code here
+; 0000 00B4 
+; 0000 00B5     }
 	RJMP _0x2A
-; 0000 00FA }
-_0x39:
-	RJMP _0x39
+; 0000 00B6 }
+_0x2D:
+	RJMP _0x2D
 ; .FEND
 
 	.CSEG
@@ -1969,7 +1754,10 @@ _ds1302_write:
 ; .FEND
 _rtc_init:
 ; .FSTART _rtc_init
-	RCALL SUBOPT_0x8
+	RCALL __SAVELOCR3
+	MOV  R16,R26
+	LDD  R17,Y+3
+	LDD  R18,Y+4
 	ANDI R16,LOW(3)
 	CPI  R18,0
 	BREQ _0x2000003
@@ -1988,38 +1776,13 @@ _0x2000006:
 	LDI  R16,LOW(0)
 _0x2000007:
 _0x2000005:
-	RCALL SUBOPT_0x9
+	LDI  R30,LOW(142)
+	ST   -Y,R30
+	LDI  R26,LOW(0)
+	RCALL _ds1302_write
 	LDI  R30,LOW(144)
 	ST   -Y,R30
 	MOV  R26,R16
-	RJMP _0x20E0007
-; .FEND
-_rtc_set_time:
-; .FSTART _rtc_set_time
-	RCALL SUBOPT_0x8
-	RCALL SUBOPT_0x9
-	LDI  R30,LOW(132)
-	RCALL SUBOPT_0xA
-	LDI  R30,LOW(130)
-	RCALL SUBOPT_0xB
-	LDI  R30,LOW(128)
-	RJMP _0x20E0006
-; .FEND
-_rtc_set_date:
-; .FSTART _rtc_set_date
-	RCALL SUBOPT_0x8
-	RCALL SUBOPT_0x9
-	LDI  R30,LOW(134)
-	RCALL SUBOPT_0xA
-	LDI  R30,LOW(136)
-	RCALL SUBOPT_0xB
-	LDI  R30,LOW(140)
-_0x20E0006:
-	ST   -Y,R30
-	MOV  R26,R16
-	RCALL _bin2bcd
-	MOV  R26,R30
-_0x20E0007:
 	RCALL _ds1302_write
 	LDI  R30,LOW(142)
 	ST   -Y,R30
@@ -2504,21 +2267,6 @@ _0x20E0001:
 	.CSEG
 
 	.CSEG
-_bin2bcd:
-; .FSTART _bin2bcd
-	ST   -Y,R26
-    ld   r26,y+
-    clr  r30
-bin2bcd0:
-    subi r26,10
-    brmi bin2bcd1
-    subi r30,-16
-    rjmp bin2bcd0
-bin2bcd1:
-    subi r26,-10
-    add  r30,r26
-    ret
-; .FEND
 
 	.CSEG
 
@@ -2531,6 +2279,14 @@ _prtc_get_time:
 	.BYTE 0x2
 _prtc_get_date:
 	.BYTE 0x2
+_H:
+	.BYTE 0x1
+_M:
+	.BYTE 0x1
+_S:
+	.BYTE 0x1
+_time:
+	.BYTE 0x10
 _v1:
 	.BYTE 0x4
 _v2:
@@ -2543,20 +2299,6 @@ _v2I:
 	.BYTE 0x2
 _v2D:
 	.BYTE 0x2
-_H:
-	.BYTE 0x1
-_M:
-	.BYTE 0x1
-_S:
-	.BYTE 0x1
-_D:
-	.BYTE 0x1
-_Mes:
-	.BYTE 0x1
-_A:
-	.BYTE 0x1
-_time:
-	.BYTE 0x10
 _status_G101:
 	.BYTE 0x1
 _timer1_G101:
@@ -2575,113 +2317,6 @@ _Drive_G102:
 	.BYTE 0x1
 
 	.CSEG
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x0:
-	CLR  R22
-	CLR  R23
-	RCALL __CDF1
-	RCALL __PUTDP1
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
-SUBOPT_0x1:
-	RCALL __SWAPD12
-	RCALL __SUBF12
-	__GETD2N 0x41200000
-	RCALL __MULF12
-	RCALL __CFD1
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x2:
-	STS  _H,R30
-	ST   -Y,R30
-	LDS  R30,_M
-	ST   -Y,R30
-	LDS  R26,_S
-	RJMP _rtc_set_time
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x3:
-	STS  _M,R30
-	LDS  R30,_H
-	ST   -Y,R30
-	LDS  R30,_M
-	ST   -Y,R30
-	LDS  R26,_S
-	RJMP _rtc_set_time
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:9 WORDS
-SUBOPT_0x4:
-	LDI  R30,LOW(0)
-	STS  _S,R30
-	LDS  R30,_H
-	ST   -Y,R30
-	LDS  R30,_M
-	ST   -Y,R30
-	LDS  R26,_S
-	RJMP _rtc_set_time
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x5:
-	STS  _D,R30
-	ST   -Y,R30
-	LDS  R30,_Mes
-	ST   -Y,R30
-	LDS  R26,_A
-	RJMP _rtc_set_date
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x6:
-	STS  _Mes,R30
-	LDS  R30,_D
-	ST   -Y,R30
-	LDS  R30,_Mes
-	ST   -Y,R30
-	LDS  R26,_A
-	RJMP _rtc_set_date
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x7:
-	STS  _A,R30
-	LDS  R30,_D
-	ST   -Y,R30
-	LDS  R30,_Mes
-	ST   -Y,R30
-	LDS  R26,_A
-	RJMP _rtc_set_date
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:4 WORDS
-SUBOPT_0x8:
-	RCALL __SAVELOCR3
-	MOV  R16,R26
-	LDD  R17,Y+3
-	LDD  R18,Y+4
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:4 WORDS
-SUBOPT_0x9:
-	LDI  R30,LOW(142)
-	ST   -Y,R30
-	LDI  R26,LOW(0)
-	RJMP _ds1302_write
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
-SUBOPT_0xA:
-	ST   -Y,R30
-	MOV  R26,R18
-	RCALL _bin2bcd
-	MOV  R26,R30
-	RJMP _ds1302_write
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
-SUBOPT_0xB:
-	ST   -Y,R30
-	MOV  R26,R17
-	RCALL _bin2bcd
-	MOV  R26,R30
-	RJMP _ds1302_write
-
 ;RUNTIME LIBRARY
 
 	.CSEG
@@ -2719,437 +2354,11 @@ __INITLOC0:
 	POP  R26
 	RET
 
-__ANEGD1:
-	COM  R31
-	COM  R22
-	COM  R23
-	NEG  R30
-	SBCI R31,-1
-	SBCI R22,-1
-	SBCI R23,-1
-	RET
-
-__CWD1:
-	MOV  R22,R31
-	ADD  R22,R22
-	SBC  R22,R22
-	MOV  R23,R22
-	RET
-
-__PUTDP1:
-	ST   X+,R30
-	ST   X+,R31
-	ST   X+,R22
-	ST   X,R23
-	RET
-
 __PUTPARD2:
 	ST   -Y,R25
 	ST   -Y,R24
 	ST   -Y,R27
 	ST   -Y,R26
-	RET
-
-__SWAPD12:
-	MOV  R1,R24
-	MOV  R24,R22
-	MOV  R22,R1
-	MOV  R1,R25
-	MOV  R25,R23
-	MOV  R23,R1
-
-__SWAPW12:
-	MOV  R1,R27
-	MOV  R27,R31
-	MOV  R31,R1
-
-__SWAPB12:
-	MOV  R1,R26
-	MOV  R26,R30
-	MOV  R30,R1
-	RET
-
-__ROUND_REPACK:
-	TST  R21
-	BRPL __REPACK
-	CPI  R21,0x80
-	BRNE __ROUND_REPACK0
-	SBRS R30,0
-	RJMP __REPACK
-__ROUND_REPACK0:
-	ADIW R30,1
-	ADC  R22,R25
-	ADC  R23,R25
-	BRVS __REPACK1
-
-__REPACK:
-	LDI  R21,0x80
-	EOR  R21,R23
-	BRNE __REPACK0
-	PUSH R21
-	RJMP __ZERORES
-__REPACK0:
-	CPI  R21,0xFF
-	BREQ __REPACK1
-	LSL  R22
-	LSL  R0
-	ROR  R21
-	ROR  R22
-	MOV  R23,R21
-	RET
-__REPACK1:
-	PUSH R21
-	TST  R0
-	BRMI __REPACK2
-	RJMP __MAXRES
-__REPACK2:
-	RJMP __MINRES
-
-__UNPACK:
-	LDI  R21,0x80
-	MOV  R1,R25
-	AND  R1,R21
-	LSL  R24
-	ROL  R25
-	EOR  R25,R21
-	LSL  R21
-	ROR  R24
-
-__UNPACK1:
-	LDI  R21,0x80
-	MOV  R0,R23
-	AND  R0,R21
-	LSL  R22
-	ROL  R23
-	EOR  R23,R21
-	LSL  R21
-	ROR  R22
-	RET
-
-__CFD1U:
-	SET
-	RJMP __CFD1U0
-__CFD1:
-	CLT
-__CFD1U0:
-	PUSH R21
-	RCALL __UNPACK1
-	CPI  R23,0x80
-	BRLO __CFD10
-	CPI  R23,0xFF
-	BRCC __CFD10
-	RJMP __ZERORES
-__CFD10:
-	LDI  R21,22
-	SUB  R21,R23
-	BRPL __CFD11
-	NEG  R21
-	CPI  R21,8
-	BRTC __CFD19
-	CPI  R21,9
-__CFD19:
-	BRLO __CFD17
-	SER  R30
-	SER  R31
-	SER  R22
-	LDI  R23,0x7F
-	BLD  R23,7
-	RJMP __CFD15
-__CFD17:
-	CLR  R23
-	TST  R21
-	BREQ __CFD15
-__CFD18:
-	LSL  R30
-	ROL  R31
-	ROL  R22
-	ROL  R23
-	DEC  R21
-	BRNE __CFD18
-	RJMP __CFD15
-__CFD11:
-	CLR  R23
-__CFD12:
-	CPI  R21,8
-	BRLO __CFD13
-	MOV  R30,R31
-	MOV  R31,R22
-	MOV  R22,R23
-	SUBI R21,8
-	RJMP __CFD12
-__CFD13:
-	TST  R21
-	BREQ __CFD15
-__CFD14:
-	LSR  R23
-	ROR  R22
-	ROR  R31
-	ROR  R30
-	DEC  R21
-	BRNE __CFD14
-__CFD15:
-	TST  R0
-	BRPL __CFD16
-	RCALL __ANEGD1
-__CFD16:
-	POP  R21
-	RET
-
-__CDF1U:
-	SET
-	RJMP __CDF1U0
-__CDF1:
-	CLT
-__CDF1U0:
-	SBIW R30,0
-	SBCI R22,0
-	SBCI R23,0
-	BREQ __CDF10
-	CLR  R0
-	BRTS __CDF11
-	TST  R23
-	BRPL __CDF11
-	COM  R0
-	RCALL __ANEGD1
-__CDF11:
-	MOV  R1,R23
-	LDI  R23,30
-	TST  R1
-__CDF12:
-	BRMI __CDF13
-	DEC  R23
-	LSL  R30
-	ROL  R31
-	ROL  R22
-	ROL  R1
-	RJMP __CDF12
-__CDF13:
-	MOV  R30,R31
-	MOV  R31,R22
-	MOV  R22,R1
-	PUSH R21
-	RCALL __REPACK
-	POP  R21
-__CDF10:
-	RET
-
-__SWAPACC:
-	PUSH R20
-	MOVW R20,R30
-	MOVW R30,R26
-	MOVW R26,R20
-	MOVW R20,R22
-	MOVW R22,R24
-	MOVW R24,R20
-	MOV  R20,R0
-	MOV  R0,R1
-	MOV  R1,R20
-	POP  R20
-	RET
-
-__UADD12:
-	ADD  R30,R26
-	ADC  R31,R27
-	ADC  R22,R24
-	RET
-
-__NEGMAN1:
-	COM  R30
-	COM  R31
-	COM  R22
-	SUBI R30,-1
-	SBCI R31,-1
-	SBCI R22,-1
-	RET
-
-__SUBF12:
-	PUSH R21
-	RCALL __UNPACK
-	CPI  R25,0x80
-	BREQ __ADDF129
-	LDI  R21,0x80
-	EOR  R1,R21
-
-__ADDF120:
-	CPI  R23,0x80
-	BREQ __ADDF128
-__ADDF121:
-	MOV  R21,R23
-	SUB  R21,R25
-	BRVS __ADDF1211
-	BRPL __ADDF122
-	RCALL __SWAPACC
-	RJMP __ADDF121
-__ADDF122:
-	CPI  R21,24
-	BRLO __ADDF123
-	CLR  R26
-	CLR  R27
-	CLR  R24
-__ADDF123:
-	CPI  R21,8
-	BRLO __ADDF124
-	MOV  R26,R27
-	MOV  R27,R24
-	CLR  R24
-	SUBI R21,8
-	RJMP __ADDF123
-__ADDF124:
-	TST  R21
-	BREQ __ADDF126
-__ADDF125:
-	LSR  R24
-	ROR  R27
-	ROR  R26
-	DEC  R21
-	BRNE __ADDF125
-__ADDF126:
-	MOV  R21,R0
-	EOR  R21,R1
-	BRMI __ADDF127
-	RCALL __UADD12
-	BRCC __ADDF129
-	ROR  R22
-	ROR  R31
-	ROR  R30
-	INC  R23
-	BRVC __ADDF129
-	RJMP __MAXRES
-__ADDF128:
-	RCALL __SWAPACC
-__ADDF129:
-	RCALL __REPACK
-	POP  R21
-	RET
-__ADDF1211:
-	BRCC __ADDF128
-	RJMP __ADDF129
-__ADDF127:
-	SUB  R30,R26
-	SBC  R31,R27
-	SBC  R22,R24
-	BREQ __ZERORES
-	BRCC __ADDF1210
-	COM  R0
-	RCALL __NEGMAN1
-__ADDF1210:
-	TST  R22
-	BRMI __ADDF129
-	LSL  R30
-	ROL  R31
-	ROL  R22
-	DEC  R23
-	BRVC __ADDF1210
-
-__ZERORES:
-	CLR  R30
-	CLR  R31
-	MOVW R22,R30
-	POP  R21
-	RET
-
-__MINRES:
-	SER  R30
-	SER  R31
-	LDI  R22,0x7F
-	SER  R23
-	POP  R21
-	RET
-
-__MAXRES:
-	SER  R30
-	SER  R31
-	LDI  R22,0x7F
-	LDI  R23,0x7F
-	POP  R21
-	RET
-
-__MULF12:
-	PUSH R21
-	RCALL __UNPACK
-	CPI  R23,0x80
-	BREQ __ZERORES
-	CPI  R25,0x80
-	BREQ __ZERORES
-	EOR  R0,R1
-	SEC
-	ADC  R23,R25
-	BRVC __MULF124
-	BRLT __ZERORES
-__MULF125:
-	TST  R0
-	BRMI __MINRES
-	RJMP __MAXRES
-__MULF124:
-	PUSH R0
-	PUSH R17
-	PUSH R18
-	PUSH R19
-	PUSH R20
-	CLR  R17
-	CLR  R18
-	CLR  R25
-	MUL  R22,R24
-	MOVW R20,R0
-	MUL  R24,R31
-	MOV  R19,R0
-	ADD  R20,R1
-	ADC  R21,R25
-	MUL  R22,R27
-	ADD  R19,R0
-	ADC  R20,R1
-	ADC  R21,R25
-	MUL  R24,R30
-	RCALL __MULF126
-	MUL  R27,R31
-	RCALL __MULF126
-	MUL  R22,R26
-	RCALL __MULF126
-	MUL  R27,R30
-	RCALL __MULF127
-	MUL  R26,R31
-	RCALL __MULF127
-	MUL  R26,R30
-	ADD  R17,R1
-	ADC  R18,R25
-	ADC  R19,R25
-	ADC  R20,R25
-	ADC  R21,R25
-	MOV  R30,R19
-	MOV  R31,R20
-	MOV  R22,R21
-	MOV  R21,R18
-	POP  R20
-	POP  R19
-	POP  R18
-	POP  R17
-	POP  R0
-	TST  R22
-	BRMI __MULF122
-	LSL  R21
-	ROL  R30
-	ROL  R31
-	ROL  R22
-	RJMP __MULF123
-__MULF122:
-	INC  R23
-	BRVS __MULF125
-__MULF123:
-	RCALL __ROUND_REPACK
-	POP  R21
-	RET
-
-__MULF127:
-	ADD  R17,R0
-	ADC  R18,R1
-	ADC  R19,R25
-	RJMP __MULF128
-__MULF126:
-	ADD  R18,R0
-	ADC  R19,R1
-__MULF128:
-	ADC  R20,R25
-	ADC  R21,R25
 	RET
 
 _delay_ms:

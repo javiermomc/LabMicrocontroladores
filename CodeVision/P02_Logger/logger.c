@@ -194,10 +194,7 @@ while (1)
         // ADC
         updateADC();
         
-        // Clock 
-        
-        updateClock();
-        printTime();
+        // Clock
         
         // If alarm is on, switch will turn alarm off without
         //  changing the default variable 

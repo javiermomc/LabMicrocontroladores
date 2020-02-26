@@ -1,7 +1,7 @@
-main DSTACK_USAGE:0 DSTACK_LEVEL:0 FILE:"logger.c" LINE:146
-disk_initialize DSTACK_USAGE:9 DSTACK_LEVEL:9 FILE:"" LINE:377
-send_cmd DSTACK_USAGE:8 DSTACK_LEVEL:17 FILE:"" LINE:305
-send_cmd DSTACK_USAGE:8 DSTACK_LEVEL:25 FILE:"" LINE:305
-wait_ready DSTACK_USAGE:1 DSTACK_LEVEL:26 FILE:"" LINE:209
-timer1_compa_isr DSTACK_USAGE:12 DSTACK_LEVEL:38 FILE:"logger.c" LINE:70
-disk_timerproc DSTACK_USAGE:1 DSTACK_LEVEL:39 FILE:"" LINE:820
+main DSTACK_USAGE:0 DSTACK_LEVEL:0 FILE:"logger.c" LINE:137
+disk_initialize DSTACK_USAGE:9 DSTACK_LEVEL:9 FILE:"C:\cvavreval\lib\sdcard.lib" LINE:377
+send_cmd DSTACK_USAGE:8 DSTACK_LEVEL:17 FILE:"C:\cvavreval\lib\sdcard.lib" LINE:305
+send_cmd DSTACK_USAGE:8 DSTACK_LEVEL:25 FILE:"C:\cvavreval\lib\sdcard.lib" LINE:305
+wait_ready DSTACK_USAGE:1 DSTACK_LEVEL:26 FILE:"C:\cvavreval\lib\sdcard.lib" LINE:209
+timer1_compa_isr DSTACK_USAGE:12 DSTACK_LEVEL:38 FILE:"logger.c" LINE:37
+disk_timerproc DSTACK_USAGE:1 DSTACK_LEVEL:39 FILE:"C:\cvavreval\lib\sdcard.lib" LINE:820

@@ -207,7 +207,7 @@ while (1)
             rtc_set_time(H, M, S);      
         }
         if(!PINC.2){
-            S=0;
+            S++;
             rtc_set_time(H, M, S);      
         }
         if(!PINC.3){
