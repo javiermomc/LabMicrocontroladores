@@ -39,33 +39,36 @@
 // Voltage Reference: Int., cap. on AREF
 #define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
-
 // Read the AD conversion result
 unsigned int read_adc(unsigned char adc_input)
 {
-    ADMUX=adc_input | ADC_VREF_TYPE;
-    // Start the AD conversion
-    ADCSRA|=(1<<ADSC);
-    // Wait for the AD conversion to complete
-    while ((ADCSRA & (1<<ADIF))==0);
-    ADCSRA|=(1<<ADIF);
-    return ADCW;
+ADMUX=adc_input | ADC_VREF_TYPE;
+// Delay needed for the stabilization of the ADC input voltage
+delay_us(10);
+// Start the AD conversion
+ADCSRA|=(1<<ADSC);
+// Wait for the AD conversion to complete
+while ((ADCSRA & (1<<ADIF))==0);
+ADCSRA|=(1<<ADIF);
+return ADCW;
 }
 
 float v1, v2;
 int v1I, v1D, v2I, v2D;
 
 void updateADC(){
-    v1 = read_adc(7);
-    v2 = read_adc(6);
+
+    v1 = (read_adc(6)*5.0)/1024.0;   
+    v2 = (read_adc(7)*5.0)/1024.0;  
     v1I = (int)v1;
-    v1D = (int)((v1 - (float)v1I)*10.0);
+    v1D = (int)((v1 - (float)v1I)*100.0);
     v2I = (int)v2;
-    v2D = (int)((v2 - (float)v2I)*10.0);
+    v2D = (int)((v2 - (float)v2I)*100.0);
 }
 
 // SD
 char fileName[]  = "0:muestra.txt";
+unsigned char STM=5, GS=0;
 
 interrupt [TIM1_COMPA] void timer1_compa_isr(void)
 {
@@ -127,40 +130,30 @@ void updateClock(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i V1: %i.%i", H, M, S, v1I, v1D);
+    sprintf(time, "%02i:%02i:%02i V1: %i.%i", H, M, S, v1I,v1D);
     MoveCursor(0,0);
     StringLCDVar(time);
-    sprintf(time, "%02i:%02i:%02i V2: %i.%i", D, Mes, A, v2I, v2D);
+    sprintf(time, "%02i:%02i:%02i V2: %i.%i", D, Mes, A, v2I,v2D);
     MoveCursor(0,1);
     StringLCDVar(time);     
 }
-void eraseLCD(){
-    MoveCursor(0,0);
-    StringLCD("                ");
-    MoveCursor(0,1);
-    StringLCD("                ");
-}
-
 
 
 void main(void)
 {
-
-// ADC
 
 // ADC initialization
 // ADC Clock frequency: 1000.000 kHz
 // ADC Voltage Reference: Int., cap. on AREF
 // ADC High Speed Mode: On
 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
-// ADC4: On, ADC5: On, ADC6: On, ADC7: Off
+// ADC4: On, ADC5: On, ADC6: Off, ADC7: Off
 DIDR0=(1<<ADC7D) | (1<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 ADMUX=ADC_VREF_TYPE;
-ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (0<<ADPS1) | (1<<ADPS0);
 ADCSRB=(1<<ADHSM);
 
 // LCD
-
 SetupLCD();
 
 // DS1302
@@ -194,7 +187,9 @@ while (1)
         // ADC
         updateADC();
         
-        // Clock
+        // Clock      
+        updateClock();
+        printTime();
         
         // If alarm is on, switch will turn alarm off without
         //  changing the default variable 
