@@ -105,7 +105,7 @@ void sd(char NombreArchivo[], char *TextoEscritura[]){
             buffer[1] = 0x0A;                //Line Feed
             f_write(&archivo,buffer,2,&br);
             /*Escribiendo el Texto*/            
-            f_write(&archivo,TextoEscritura,sizeof(TextoEscritura),&br);   // Write of TextoEscritura
+            f_write(&archivo,&TextoEscritura,sizeof(&TextoEscritura),&br);   // Write of TextoEscritura
             f_close(&archivo);             
         }              
         else{
@@ -258,7 +258,8 @@ while (1)
             rtc_set_date(D, Mes, A); 
         }
         if(S == GS){
-        //SD here        
+        //SD here
+            char text[32];        
             sprintf(time, "Fecha: %02i/%02i/02i V1: %i.%i, V2: %i.%i", D, Mes, A, v1I, v1D, v2I, v2D);
             sd(fileName, &time);
             GS = S + STM;

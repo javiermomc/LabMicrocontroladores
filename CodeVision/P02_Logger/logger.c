@@ -68,6 +68,7 @@ void updateADC(){
 
 // SD
 char fileName[]  = "0:muestra.txt";
+char text[32];
 unsigned char STM=5, GS=0;
 
 interrupt [TIM1_COMPA] void timer1_compa_isr(void)
@@ -78,7 +79,7 @@ disk_timerproc();
 
 // Open SD
 
-void sd(char NombreArchivo[], char TextoEscritura[]){
+void sd(char NombreArchivo[], char *TextoEscritura[]){
 
     unsigned int br;
     char buffer[100];
@@ -105,7 +106,7 @@ void sd(char NombreArchivo[], char TextoEscritura[]){
             buffer[1] = 0x0A;                //Line Feed
             f_write(&archivo,buffer,2,&br);
             /*Escribiendo el Texto*/            
-            f_write(&archivo,TextoEscritura,sizeof(TextoEscritura),&br);   // Write of TextoEscritura
+            f_write(&archivo,&TextoEscritura,sizeof(&TextoEscritura),&br);   // Write of TextoEscritura
             f_close(&archivo);             
         }              
         else{
@@ -259,8 +260,8 @@ while (1)
         }
         if(S == GS){
         //SD here        
-            sprintf(time, "Fecha: %02i/%02i/02i V1: %i.%i, V2: %i.%i", D, Mes, A, v1I, v1D, v2I, v2D);
-            sd(fileName, &time);
+            sprintf(text, "Fecha: %02i/%02i/02i V1: %i.%i, V2: %i.%i", D, Mes, A, v1I, v1D, v2I, v2D);
+            sd(fileName, &text);
             GS = S + STM;
             if(GS>59){
                 GS = GS-59;
