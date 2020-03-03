@@ -71,17 +71,7 @@ char fileName[]  = "0:muestra.txt";
 char text[32];
 unsigned char STM=5, GS=0;
 
-interrupt [TIM1_COMPA] void timer1_compa_isr(void)
-{
-disk_timerproc();
-/* MMC/SD/SD HC card access low level timing function */
-}
-
-// Open SD
-
-void sd(char NombreArchivo[], char *TextoEscritura[]){
-
-    unsigned int br;
+    unsigned int br, br1;
     char buffer[100];
     
     /* FAT function result */
@@ -91,6 +81,17 @@ void sd(char NombreArchivo[], char *TextoEscritura[]){
     FATFS drive;
     FIL archivo; // file objects
     
+interrupt [TIM1_COMPA] void timer1_compa_isr(void)
+{
+disk_timerproc();
+/* MMC/SD/SD HC card access low level timing function */
+}
+
+int sizeTExt;
+// Open SD
+void sd(char NombreArchivo[], char *TextoEscritura[]){
+    
+    
     /* mount logical drive 0: */
     if ((res=f_mount(0,&drive))==FR_OK){
         
@@ -98,15 +99,16 @@ void sd(char NombreArchivo[], char *TextoEscritura[]){
         res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
         if (res==FR_OK){
             
-            f_read(&archivo, buffer, 10,&br); //leer archivo en buffer
+            f_read(&archivo, buffer, sizeof(buffer)-1,&br); //leer archivo en buffer
            
             f_lseek(&archivo,archivo.fsize);
             
-            buffer[0] = 0x0D;                //Carriage return   
-            buffer[1] = 0x0A;                //Line Feed
+            //buffer[0] = 0x0D;                //Carriage return   
+            //buffer[1] = 0x0A;                //Line Feed
             f_write(&archivo,buffer,2,&br);
-            /*Escribiendo el Texto*/            
-            f_write(&archivo,&TextoEscritura,sizeof(&TextoEscritura),&br);   // Write of TextoEscritura
+            /*Escribiendo el Texto*/      
+            sizeTExt = sizeof(text);
+            f_write(&archivo,&TextoEscritura,32,&br1);   // Write of TextoEscritura
             f_close(&archivo);             
         }              
         else{
@@ -260,7 +262,7 @@ while (1)
         }
         if(S == GS){
         //SD here        
-            sprintf(text, "Fecha: %02i/%02i/02i V1: %i.%i, V2: %i.%i", D, Mes, A, v1I, v1D, v2I, v2D);
+            sprintf(text, "Fecha:%02i/%02i/%02i V1:%i.%i, V2:%i.%i", D, Mes, A, v1I, v1D, v2I, v2D); 
             sd(fileName, &text);
             GS = S + STM;
             if(GS>59){
