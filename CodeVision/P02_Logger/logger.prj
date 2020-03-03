@@ -135,8 +135,8 @@ DisplayCodeSizeError=0
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1348638004
-Build=31
+COFFileTimeStamp=1348697917
+Build=42
 GlobalVarAddr=2373
 =======
 COFFileTimeStamp=1348046482
@@ -251,7 +251,7 @@ DisplayCodeSizeError=0
 RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=31
+Build=42
 IncludePath0=C:\cvavreval\inc
 IncludePath1=
 IncludePath2=
@@ -525,8 +525,8 @@ L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
 <<<<<<< HEAD
-L17=Build: 31
-L18=21069 line(s) compiled
+L17=Build: 42
+L18=21074 line(s) compiled
 L19=No errors
 L20=No warnings
 =======
@@ -540,21 +540,21 @@ L22=Bit variables size: 0 byte(s)
 L23=
 L24=Data Stack area: 0x100 to 0x8FF
 L25=Data Stack size: 2048 byte(s)
-L26=Estimated Data Stack usage: 159 byte(s)
+L26=Estimated Data Stack usage: 160 byte(s)
 L27=
-L28=RAM Global variables area: 0x900 to 0xE21
-L29=RAM Global variables size: 1314 byte(s)
+L28=RAM Global variables area: 0x900 to 0xE3F
+L29=RAM Global variables size: 1344 byte(s)
 L30=
-L31=Hardware Stack area: 0xE22 to 0x20FF
-L32=Hardware Stack size: 4830 byte(s)
+L31=Hardware Stack area: 0xE40 to 0x20FF
+L32=Hardware Stack size: 4800 byte(s)
 L33=
 L34=Heap size: 0 byte(s)
 Lines=38
 L35=
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
 <<<<<<< HEAD
-L37=Program size: 9059 words (18118 bytes), 13.8% of FLASH
-L38=1075 words (2150 bytes), 10.6% reduced by Code Compression
+L37=Program size: 8678 words (17356 bytes), 13.2% of FLASH
+L38=967 words (1934 bytes), 10.0% reduced by Code Compression
 =======
 L37=Program size: 1575 words (3150 bytes), 2.4% of FLASH
 L38=67 words (134 bytes), 4.1% reduced by Code Compression
@@ -565,7 +565,7 @@ L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
 <<<<<<< HEAD
-L4=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(10213): No EEPROM data, deleting C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
+L4=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(9836): No EEPROM data, deleting C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
 =======
 L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(3168): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
 >>>>>>> 092dbc174c977cd91988b5c347588191fc16334a
@@ -574,11 +574,11 @@ L6=AT90USB1286 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
 <<<<<<< HEAD
-L9=[.cseg] 0x000000 0x0046c6  17802    316  18118  131072  13.8%
+L9=[.cseg] 0x000000 0x0043cc  16994    362  17356  131072  13.2%
 =======
 L9=[.cseg] 0x000000 0x000c4e   2872    278   3150  131072   2.4%
 >>>>>>> 092dbc174c977cd91988b5c347588191fc16334a
-L10=[.dseg] 0x000100 0x000e22      0   1314   1314    8192  16.0%
+L10=[.dseg] 0x000100 0x000e40      0   1344   1344    8192  16.4%
 L11=[.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 L12=
 [Bookmarks0]

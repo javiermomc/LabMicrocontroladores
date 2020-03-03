@@ -68,6 +68,7 @@ void updateADC(){
 
 // SD
 char fileName[]  = "0:muestra.txt";
+char date[32];
 char text[32];
 unsigned char STM=5, GS=0;
 
@@ -87,9 +88,8 @@ disk_timerproc();
 /* MMC/SD/SD HC card access low level timing function */
 }
 
-int sizeTExt;
 // Open SD
-void sd(char NombreArchivo[], char *TextoEscritura[]){
+void sd(char NombreArchivo[], char *TextoEscritura[],unsigned char order){
     
     
     /* mount logical drive 0: */
@@ -99,16 +99,19 @@ void sd(char NombreArchivo[], char *TextoEscritura[]){
         res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
         if (res==FR_OK){
             
-            f_read(&archivo, buffer, sizeof(buffer)-1,&br); //leer archivo en buffer
-           
-            f_lseek(&archivo,archivo.fsize);
+            if (order == 0){    
+                f_lseek(&archivo,archivo.fsize);   
+                f_write(&archivo,&TextoEscritura,32,&br1);   // Write of TextoEscritura
+            }                        
+            else {
+                f_lseek(&archivo,archivo.fsize);   
+                f_write(&archivo,&TextoEscritura,32,&br1);   // Write of TextoEscritura
+                buffer[0] = 0x0D;                //Carriage return   
+                buffer[1] = 0x0A;                //Line Feed
+                f_write(&archivo,buffer,2,&br);
+            } 
             
-            //buffer[0] = 0x0D;                //Carriage return   
-            //buffer[1] = 0x0A;                //Line Feed
-            f_write(&archivo,buffer,2,&br);
-            /*Escribiendo el Texto*/      
-            sizeTExt = sizeof(text);
-            f_write(&archivo,&TextoEscritura,32,&br1);   // Write of TextoEscritura
+            /*Escribiendo el Texto*/
             f_close(&archivo);             
         }              
         else{
@@ -262,8 +265,10 @@ while (1)
         }
         if(S == GS){
         //SD here        
-            sprintf(text, "Fecha:%02i/%02i/%02i V1:%i.%i, V2:%i.%i", D, Mes, A, v1I, v1D, v2I, v2D); 
-            sd(fileName, &text);
+            sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd", D, Mes, A, H, M, S); 
+            sprintf(text, ": Voltage is [V1:%01i.%02i, V2:%01i.%02i]", v1I, v1D, v2I, v2D);             
+            sd(fileName, &date, 0);
+            sd(fileName, &text, 1);
             GS = S + STM;
             if(GS>59){
                 GS = GS-59;
