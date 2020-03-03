@@ -164,6 +164,7 @@ SetupLCD();
 
 // DS1302
 rtc_init(0,0,0);
+updateClock();
 
 // SD
 // Código para hacer una interrupción periódica cada 10ms
@@ -263,12 +264,7 @@ while (1)
             A=00;
             rtc_set_date(D, Mes, A); 
         } 
-        
-        if((S+STM)>GS)
-            if((S+STM)>59&&S+STM>(GS+59))
-                GS = S+STM;
-            else
-                GS = S+STM;        
+               
         if(S == GS){
         //SD here        
             sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd", D, Mes, A, H, M, S); 

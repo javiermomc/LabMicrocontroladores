@@ -879,324 +879,326 @@
 ;PCODE: $0000028B VOL: 0
 ;PCODE: $0000028C VOL: 0
 ;PCODE: $0000028D VOL: 0
-; 0000 00A7 
-; 0000 00A8 // SD
-; 0000 00A9 // Código para hacer una interrupción periódica cada 10ms
-; 0000 00AA // Timer/Counter 1 initialization
-; 0000 00AB // Clock source: System Clock
-; 0000 00AC // Clock value: 1000.000 kHz
-; 0000 00AD // Mode: CTC top=OCR1A
-; 0000 00AE // Compare A Match Interrupt: On
-; 0000 00AF TCCR1B=0x09;
+; 0000 00A7 updateClock();
 ;PCODE: $0000028E VOL: 0
+; 0000 00A8 
+; 0000 00A9 // SD
+; 0000 00AA // Código para hacer una interrupción periódica cada 10ms
+; 0000 00AB // Timer/Counter 1 initialization
+; 0000 00AC // Clock source: System Clock
+; 0000 00AD // Clock value: 1000.000 kHz
+; 0000 00AE // Mode: CTC top=OCR1A
+; 0000 00AF // Compare A Match Interrupt: On
+; 0000 00B0 TCCR1B=0x09;
 ;PCODE: $0000028F VOL: 0
-; 0000 00B0 OCR1AH=19999/256;
 ;PCODE: $00000290 VOL: 0
+; 0000 00B1 OCR1AH=19999/256;
 ;PCODE: $00000291 VOL: 0
-; 0000 00B1 OCR1AL=19999%256;   //20000cuentas a 0.5us por cuenta=10mseg
 ;PCODE: $00000292 VOL: 0
+; 0000 00B2 OCR1AL=19999%256;   //20000cuentas a 0.5us por cuenta=10mseg
 ;PCODE: $00000293 VOL: 0
-; 0000 00B2 TIMSK1=0x02;
 ;PCODE: $00000294 VOL: 0
+; 0000 00B3 TIMSK1=0x02;
 ;PCODE: $00000295 VOL: 0
-; 0000 00B3 SetupLCD();
 ;PCODE: $00000296 VOL: 0
-; 0000 00B4 #asm("sei")
+; 0000 00B4 SetupLCD();
 ;PCODE: $00000297 VOL: 0
-	sei
+; 0000 00B5 #asm("sei")
 ;PCODE: $00000298 VOL: 0
-; 0000 00B5 /* Inicia el puerto SPI para la SD */
-; 0000 00B6 disk_initialize(0);
+	sei
 ;PCODE: $00000299 VOL: 0
+; 0000 00B6 /* Inicia el puerto SPI para la SD */
+; 0000 00B7 disk_initialize(0);
 ;PCODE: $0000029A VOL: 0
-; 0000 00B7 delay_ms(200);
 ;PCODE: $0000029B VOL: 0
+; 0000 00B8 delay_ms(200);
 ;PCODE: $0000029C VOL: 0
 ;PCODE: $0000029D VOL: 0
-; 0000 00B8 
-; 0000 00B9 // First actions
-; 0000 00BA PORTC = 0xFF;
 ;PCODE: $0000029E VOL: 0
+; 0000 00B9 
+; 0000 00BA // First actions
+; 0000 00BB PORTC = 0xFF;
 ;PCODE: $0000029F VOL: 0
-; 0000 00BB 
-; 0000 00BC GS = S + STM;
 ;PCODE: $000002A0 VOL: 0
+; 0000 00BC 
+; 0000 00BD GS = S + STM;
 ;PCODE: $000002A1 VOL: 0
 ;PCODE: $000002A2 VOL: 0
 ;PCODE: $000002A3 VOL: 0
-; 0000 00BD 
-; 0000 00BE if(GS>59){
 ;PCODE: $000002A4 VOL: 0
+; 0000 00BE 
+; 0000 00BF if(GS>59){
 ;PCODE: $000002A5 VOL: 0
 ;PCODE: $000002A6 VOL: 0
-; 0000 00BF     GS = GS-59;
 ;PCODE: $000002A7 VOL: 0
+; 0000 00C0     GS = GS-59;
 ;PCODE: $000002A8 VOL: 0
 ;PCODE: $000002A9 VOL: 0
-; 0000 00C0 }
-; 0000 00C1 
-; 0000 00C2 while (1)
 ;PCODE: $000002AA VOL: 0
+; 0000 00C1 }
+; 0000 00C2 
+; 0000 00C3 while (1)
 ;PCODE: $000002AB VOL: 0
-; 0000 00C3     {
-; 0000 00C4     // Please write your application code here
-; 0000 00C5         // Verify the correct range on clock time
-; 0000 00C6 
-; 0000 00C7         // ADC
-; 0000 00C8         updateADC();
 ;PCODE: $000002AC VOL: 0
-; 0000 00C9 
-; 0000 00CA         // Clock
-; 0000 00CB         updateClock();
+; 0000 00C4     {
+; 0000 00C5     // Please write your application code here
+; 0000 00C6         // Verify the correct range on clock time
+; 0000 00C7 
+; 0000 00C8         // ADC
+; 0000 00C9         updateADC();
 ;PCODE: $000002AD VOL: 0
-; 0000 00CC         printTime();
+; 0000 00CA 
+; 0000 00CB         // Clock
+; 0000 00CC         updateClock();
 ;PCODE: $000002AE VOL: 0
-; 0000 00CD 
-; 0000 00CE         // If alarm is on, switch will turn alarm off without
-; 0000 00CF         //  changing the default variable
-; 0000 00D0         if(!PINC.0){
+; 0000 00CD         printTime();
 ;PCODE: $000002AF VOL: 0
+; 0000 00CE 
+; 0000 00CF         // If alarm is on, switch will turn alarm off without
+; 0000 00D0         //  changing the default variable
+; 0000 00D1         if(!PINC.0){
 ;PCODE: $000002B0 VOL: 0
 ;PCODE: $000002B1 VOL: 0
-; 0000 00D1             H++;
 ;PCODE: $000002B2 VOL: 0
+; 0000 00D2             H++;
 ;PCODE: $000002B3 VOL: 0
 ;PCODE: $000002B4 VOL: 0
-; 0000 00D2             rtc_set_time(H, M, S);
 ;PCODE: $000002B5 VOL: 0
+; 0000 00D3             rtc_set_time(H, M, S);
 ;PCODE: $000002B6 VOL: 0
 ;PCODE: $000002B7 VOL: 0
 ;PCODE: $000002B8 VOL: 0
 ;PCODE: $000002B9 VOL: 0
 ;PCODE: $000002BA VOL: 0
-; 0000 00D3         }
-; 0000 00D4         if(!PINC.1){
 ;PCODE: $000002BB VOL: 0
+; 0000 00D4         }
+; 0000 00D5         if(!PINC.1){
 ;PCODE: $000002BC VOL: 0
 ;PCODE: $000002BD VOL: 0
 ;PCODE: $000002BE VOL: 0
-; 0000 00D5             M++;
 ;PCODE: $000002BF VOL: 0
+; 0000 00D6             M++;
 ;PCODE: $000002C0 VOL: 0
 ;PCODE: $000002C1 VOL: 0
-; 0000 00D6             rtc_set_time(H, M, S);
 ;PCODE: $000002C2 VOL: 0
+; 0000 00D7             rtc_set_time(H, M, S);
 ;PCODE: $000002C3 VOL: 0
 ;PCODE: $000002C4 VOL: 0
 ;PCODE: $000002C5 VOL: 0
 ;PCODE: $000002C6 VOL: 0
 ;PCODE: $000002C7 VOL: 0
-; 0000 00D7         }
-; 0000 00D8         if(!PINC.2){
 ;PCODE: $000002C8 VOL: 0
+; 0000 00D8         }
+; 0000 00D9         if(!PINC.2){
 ;PCODE: $000002C9 VOL: 0
 ;PCODE: $000002CA VOL: 0
 ;PCODE: $000002CB VOL: 0
-; 0000 00D9             S=0;
 ;PCODE: $000002CC VOL: 0
+; 0000 00DA             S=0;
 ;PCODE: $000002CD VOL: 0
-; 0000 00DA             rtc_set_time(H, M, S);
 ;PCODE: $000002CE VOL: 0
+; 0000 00DB             rtc_set_time(H, M, S);
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
 ;PCODE: $000002D1 VOL: 0
 ;PCODE: $000002D2 VOL: 0
 ;PCODE: $000002D3 VOL: 0
-; 0000 00DB         }
-; 0000 00DC         if(!PINC.3){
 ;PCODE: $000002D4 VOL: 0
+; 0000 00DC         }
+; 0000 00DD         if(!PINC.3){
 ;PCODE: $000002D5 VOL: 0
 ;PCODE: $000002D6 VOL: 0
 ;PCODE: $000002D7 VOL: 0
-; 0000 00DD             D++;
 ;PCODE: $000002D8 VOL: 0
+; 0000 00DE             D++;
 ;PCODE: $000002D9 VOL: 0
 ;PCODE: $000002DA VOL: 0
-; 0000 00DE             rtc_set_date(D, Mes, A);
 ;PCODE: $000002DB VOL: 0
+; 0000 00DF             rtc_set_date(D, Mes, A);
 ;PCODE: $000002DC VOL: 0
 ;PCODE: $000002DD VOL: 0
 ;PCODE: $000002DE VOL: 0
 ;PCODE: $000002DF VOL: 0
 ;PCODE: $000002E0 VOL: 0
-; 0000 00DF         }
-; 0000 00E0         if(!PINC.3){
 ;PCODE: $000002E1 VOL: 0
+; 0000 00E0         }
+; 0000 00E1         if(!PINC.3){
 ;PCODE: $000002E2 VOL: 0
 ;PCODE: $000002E3 VOL: 0
 ;PCODE: $000002E4 VOL: 0
-; 0000 00E1             Mes++;
 ;PCODE: $000002E5 VOL: 0
+; 0000 00E2             Mes++;
 ;PCODE: $000002E6 VOL: 0
 ;PCODE: $000002E7 VOL: 0
-; 0000 00E2             rtc_set_date(D, Mes, A);
 ;PCODE: $000002E8 VOL: 0
+; 0000 00E3             rtc_set_date(D, Mes, A);
 ;PCODE: $000002E9 VOL: 0
 ;PCODE: $000002EA VOL: 0
 ;PCODE: $000002EB VOL: 0
 ;PCODE: $000002EC VOL: 0
 ;PCODE: $000002ED VOL: 0
-; 0000 00E3         }
-; 0000 00E4         if(!PINC.4){
 ;PCODE: $000002EE VOL: 0
+; 0000 00E4         }
+; 0000 00E5         if(!PINC.4){
 ;PCODE: $000002EF VOL: 0
 ;PCODE: $000002F0 VOL: 0
 ;PCODE: $000002F1 VOL: 0
-; 0000 00E5             A++;
 ;PCODE: $000002F2 VOL: 0
+; 0000 00E6             A++;
 ;PCODE: $000002F3 VOL: 0
 ;PCODE: $000002F4 VOL: 0
-; 0000 00E6             rtc_set_date(D, Mes, A);
 ;PCODE: $000002F5 VOL: 0
+; 0000 00E7             rtc_set_date(D, Mes, A);
 ;PCODE: $000002F6 VOL: 0
 ;PCODE: $000002F7 VOL: 0
 ;PCODE: $000002F8 VOL: 0
 ;PCODE: $000002F9 VOL: 0
 ;PCODE: $000002FA VOL: 0
-; 0000 00E7         }
-; 0000 00E8         if(!PINC.5){
 ;PCODE: $000002FB VOL: 0
+; 0000 00E8         }
+; 0000 00E9         if(!PINC.5){
 ;PCODE: $000002FC VOL: 0
 ;PCODE: $000002FD VOL: 0
 ;PCODE: $000002FE VOL: 0
-; 0000 00E9             STM = STM + 5;
 ;PCODE: $000002FF VOL: 0
+; 0000 00EA             STM = STM + 5;
 ;PCODE: $00000300 VOL: 0
 ;PCODE: $00000301 VOL: 0
-; 0000 00EA             if(STM>60){
 ;PCODE: $00000302 VOL: 0
+; 0000 00EB             if(STM>60){
 ;PCODE: $00000303 VOL: 0
 ;PCODE: $00000304 VOL: 0
-; 0000 00EB                 STM = 5;
 ;PCODE: $00000305 VOL: 0
+; 0000 00EC                 STM = 5;
 ;PCODE: $00000306 VOL: 0
-; 0000 00EC             }
-; 0000 00ED             GS = S+STM;
 ;PCODE: $00000307 VOL: 0
+; 0000 00ED             }
+; 0000 00EE             GS = S+STM;
 ;PCODE: $00000308 VOL: 0
 ;PCODE: $00000309 VOL: 0
 ;PCODE: $0000030A VOL: 0
 ;PCODE: $0000030B VOL: 0
-; 0000 00EE             if(GS>59){
 ;PCODE: $0000030C VOL: 0
+; 0000 00EF             if(GS>59){
 ;PCODE: $0000030D VOL: 0
 ;PCODE: $0000030E VOL: 0
-; 0000 00EF                 GS = GS-59;
 ;PCODE: $0000030F VOL: 0
+; 0000 00F0                 GS = GS-59;
 ;PCODE: $00000310 VOL: 0
 ;PCODE: $00000311 VOL: 0
-; 0000 00F0             }
-; 0000 00F1         }
 ;PCODE: $00000312 VOL: 0
-; 0000 00F2         if(S>59){
+; 0000 00F1             }
+; 0000 00F2         }
 ;PCODE: $00000313 VOL: 0
+; 0000 00F3         if(S>59){
 ;PCODE: $00000314 VOL: 0
 ;PCODE: $00000315 VOL: 0
 ;PCODE: $00000316 VOL: 0
-; 0000 00F3             S=0;
 ;PCODE: $00000317 VOL: 0
+; 0000 00F4             S=0;
 ;PCODE: $00000318 VOL: 0
-; 0000 00F4             rtc_set_time(H, M, S);
 ;PCODE: $00000319 VOL: 0
+; 0000 00F5             rtc_set_time(H, M, S);
 ;PCODE: $0000031A VOL: 0
 ;PCODE: $0000031B VOL: 0
 ;PCODE: $0000031C VOL: 0
 ;PCODE: $0000031D VOL: 0
 ;PCODE: $0000031E VOL: 0
-; 0000 00F5         }
-; 0000 00F6         if(M>59){
 ;PCODE: $0000031F VOL: 0
+; 0000 00F6         }
+; 0000 00F7         if(M>59){
 ;PCODE: $00000320 VOL: 0
 ;PCODE: $00000321 VOL: 0
 ;PCODE: $00000322 VOL: 0
-; 0000 00F7             M=0;
 ;PCODE: $00000323 VOL: 0
+; 0000 00F8             M=0;
 ;PCODE: $00000324 VOL: 0
-; 0000 00F8             rtc_set_time(H, M, S);
 ;PCODE: $00000325 VOL: 0
+; 0000 00F9             rtc_set_time(H, M, S);
 ;PCODE: $00000326 VOL: 0
 ;PCODE: $00000327 VOL: 0
 ;PCODE: $00000328 VOL: 0
 ;PCODE: $00000329 VOL: 0
 ;PCODE: $0000032A VOL: 0
-; 0000 00F9         }
-; 0000 00FA         if(H>23){
 ;PCODE: $0000032B VOL: 0
+; 0000 00FA         }
+; 0000 00FB         if(H>23){
 ;PCODE: $0000032C VOL: 0
 ;PCODE: $0000032D VOL: 0
 ;PCODE: $0000032E VOL: 0
-; 0000 00FB             H=0;
 ;PCODE: $0000032F VOL: 0
+; 0000 00FC             H=0;
 ;PCODE: $00000330 VOL: 0
-; 0000 00FC             rtc_set_time(H, M, S);
 ;PCODE: $00000331 VOL: 0
+; 0000 00FD             rtc_set_time(H, M, S);
 ;PCODE: $00000332 VOL: 0
 ;PCODE: $00000333 VOL: 0
 ;PCODE: $00000334 VOL: 0
 ;PCODE: $00000335 VOL: 0
 ;PCODE: $00000336 VOL: 0
-; 0000 00FD         }
-; 0000 00FE         if(D>31){
 ;PCODE: $00000337 VOL: 0
+; 0000 00FE         }
+; 0000 00FF         if(D>31){
 ;PCODE: $00000338 VOL: 0
 ;PCODE: $00000339 VOL: 0
 ;PCODE: $0000033A VOL: 0
-; 0000 00FF             D=0;
 ;PCODE: $0000033B VOL: 0
+; 0000 0100             D=0;
 ;PCODE: $0000033C VOL: 0
-; 0000 0100             rtc_set_date(D, Mes, A);
 ;PCODE: $0000033D VOL: 0
+; 0000 0101             rtc_set_date(D, Mes, A);
 ;PCODE: $0000033E VOL: 0
 ;PCODE: $0000033F VOL: 0
 ;PCODE: $00000340 VOL: 0
 ;PCODE: $00000341 VOL: 0
 ;PCODE: $00000342 VOL: 0
-; 0000 0101         }
-; 0000 0102         if(Mes>12){
 ;PCODE: $00000343 VOL: 0
+; 0000 0102         }
+; 0000 0103         if(Mes>12){
 ;PCODE: $00000344 VOL: 0
 ;PCODE: $00000345 VOL: 0
 ;PCODE: $00000346 VOL: 0
-; 0000 0103             Mes=0;
 ;PCODE: $00000347 VOL: 0
+; 0000 0104             Mes=0;
 ;PCODE: $00000348 VOL: 0
-; 0000 0104             rtc_set_date(D, Mes, A);
 ;PCODE: $00000349 VOL: 0
+; 0000 0105             rtc_set_date(D, Mes, A);
 ;PCODE: $0000034A VOL: 0
 ;PCODE: $0000034B VOL: 0
 ;PCODE: $0000034C VOL: 0
 ;PCODE: $0000034D VOL: 0
 ;PCODE: $0000034E VOL: 0
-; 0000 0105         }
-; 0000 0106         if(A>25){
 ;PCODE: $0000034F VOL: 0
+; 0000 0106         }
+; 0000 0107         if(A>25){
 ;PCODE: $00000350 VOL: 0
 ;PCODE: $00000351 VOL: 0
 ;PCODE: $00000352 VOL: 0
-; 0000 0107             A=00;
 ;PCODE: $00000353 VOL: 0
+; 0000 0108             A=00;
 ;PCODE: $00000354 VOL: 0
-; 0000 0108             rtc_set_date(D, Mes, A);
 ;PCODE: $00000355 VOL: 0
+; 0000 0109             rtc_set_date(D, Mes, A);
 ;PCODE: $00000356 VOL: 0
 ;PCODE: $00000357 VOL: 0
 ;PCODE: $00000358 VOL: 0
 ;PCODE: $00000359 VOL: 0
 ;PCODE: $0000035A VOL: 0
-; 0000 0109         }
-; 0000 010A 
-; 0000 010B         if((S+STM)>GS)
 ;PCODE: $0000035B VOL: 0
+; 0000 010A         }
+; 0000 010B 
+; 0000 010C         if(S == GS){
 ;PCODE: $0000035C VOL: 0
 ;PCODE: $0000035D VOL: 0
 ;PCODE: $0000035E VOL: 0
 ;PCODE: $0000035F VOL: 0
 ;PCODE: $00000360 VOL: 0
+; 0000 010D         //SD here
+; 0000 010E             sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd", D, Mes, A, H, M, S);
 ;PCODE: $00000361 VOL: 0
 ;PCODE: $00000362 VOL: 0
 ;PCODE: $00000363 VOL: 0
 ;PCODE: $00000364 VOL: 0
-; 0000 010C             if((S+STM)>59&&S+STM>(GS+59))
 ;PCODE: $00000365 VOL: 0
 ;PCODE: $00000366 VOL: 0
 ;PCODE: $00000367 VOL: 0
@@ -1218,28 +1220,23 @@
 ;PCODE: $00000377 VOL: 0
 ;PCODE: $00000378 VOL: 0
 ;PCODE: $00000379 VOL: 0
-; 0000 010D                 GS = S+STM;
 ;PCODE: $0000037A VOL: 0
 ;PCODE: $0000037B VOL: 0
+; 0000 010F             sprintf(text, ": Voltage is [V1:%01i.%02i, V2:%01i.%02i]", v1I, v1D, v2I, v2D);
 ;PCODE: $0000037C VOL: 0
 ;PCODE: $0000037D VOL: 0
-; 0000 010E             else
 ;PCODE: $0000037E VOL: 0
 ;PCODE: $0000037F VOL: 0
-; 0000 010F                 GS = S+STM;
 ;PCODE: $00000380 VOL: 0
 ;PCODE: $00000381 VOL: 0
 ;PCODE: $00000382 VOL: 0
 ;PCODE: $00000383 VOL: 0
-; 0000 0110         if(S == GS){
 ;PCODE: $00000384 VOL: 0
 ;PCODE: $00000385 VOL: 0
 ;PCODE: $00000386 VOL: 0
 ;PCODE: $00000387 VOL: 0
 ;PCODE: $00000388 VOL: 0
 ;PCODE: $00000389 VOL: 0
-; 0000 0111         //SD here
-; 0000 0112             sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd", D, Mes, A, H, M, S);
 ;PCODE: $0000038A VOL: 0
 ;PCODE: $0000038B VOL: 0
 ;PCODE: $0000038C VOL: 0
@@ -1247,83 +1244,41 @@
 ;PCODE: $0000038E VOL: 0
 ;PCODE: $0000038F VOL: 0
 ;PCODE: $00000390 VOL: 0
+; 0000 0110             sd(fileName, &date, 0);
 ;PCODE: $00000391 VOL: 0
 ;PCODE: $00000392 VOL: 0
 ;PCODE: $00000393 VOL: 0
 ;PCODE: $00000394 VOL: 0
 ;PCODE: $00000395 VOL: 0
 ;PCODE: $00000396 VOL: 0
+; 0000 0111             sd(fileName, &text, 1);
 ;PCODE: $00000397 VOL: 0
 ;PCODE: $00000398 VOL: 0
 ;PCODE: $00000399 VOL: 0
 ;PCODE: $0000039A VOL: 0
 ;PCODE: $0000039B VOL: 0
 ;PCODE: $0000039C VOL: 0
+; 0000 0112             GS = S + STM;
 ;PCODE: $0000039D VOL: 0
 ;PCODE: $0000039E VOL: 0
 ;PCODE: $0000039F VOL: 0
 ;PCODE: $000003A0 VOL: 0
+; 0000 0113             if(GS>59){
 ;PCODE: $000003A1 VOL: 0
 ;PCODE: $000003A2 VOL: 0
 ;PCODE: $000003A3 VOL: 0
+; 0000 0114                 GS = GS-59;
 ;PCODE: $000003A4 VOL: 0
-; 0000 0113             sprintf(text, ": Voltage is [V1:%01i.%02i, V2:%01i.%02i]", v1I, v1D, v2I, v2D);
 ;PCODE: $000003A5 VOL: 0
 ;PCODE: $000003A6 VOL: 0
+; 0000 0115             }
+; 0000 0116         }
 ;PCODE: $000003A7 VOL: 0
+; 0000 0117     }
 ;PCODE: $000003A8 VOL: 0
 ;PCODE: $000003A9 VOL: 0
 ;PCODE: $000003AA VOL: 0
+; 0000 0118 }
 ;PCODE: $000003AB VOL: 0
 ;PCODE: $000003AC VOL: 0
 ;PCODE: $000003AD VOL: 0
-;PCODE: $000003AE VOL: 0
-;PCODE: $000003AF VOL: 0
-;PCODE: $000003B0 VOL: 0
-;PCODE: $000003B1 VOL: 0
-;PCODE: $000003B2 VOL: 0
-;PCODE: $000003B3 VOL: 0
-;PCODE: $000003B4 VOL: 0
-;PCODE: $000003B5 VOL: 0
-;PCODE: $000003B6 VOL: 0
-;PCODE: $000003B7 VOL: 0
-;PCODE: $000003B8 VOL: 0
-;PCODE: $000003B9 VOL: 0
-; 0000 0114             sd(fileName, &date, 0);
-;PCODE: $000003BA VOL: 0
-;PCODE: $000003BB VOL: 0
-;PCODE: $000003BC VOL: 0
-;PCODE: $000003BD VOL: 0
-;PCODE: $000003BE VOL: 0
-;PCODE: $000003BF VOL: 0
-; 0000 0115             sd(fileName, &text, 1);
-;PCODE: $000003C0 VOL: 0
-;PCODE: $000003C1 VOL: 0
-;PCODE: $000003C2 VOL: 0
-;PCODE: $000003C3 VOL: 0
-;PCODE: $000003C4 VOL: 0
-;PCODE: $000003C5 VOL: 0
-; 0000 0116             GS = S + STM;
-;PCODE: $000003C6 VOL: 0
-;PCODE: $000003C7 VOL: 0
-;PCODE: $000003C8 VOL: 0
-;PCODE: $000003C9 VOL: 0
-; 0000 0117             if(GS>59){
-;PCODE: $000003CA VOL: 0
-;PCODE: $000003CB VOL: 0
-;PCODE: $000003CC VOL: 0
-; 0000 0118                 GS = GS-59;
-;PCODE: $000003CD VOL: 0
-;PCODE: $000003CE VOL: 0
-;PCODE: $000003CF VOL: 0
-; 0000 0119             }
-; 0000 011A         }
-;PCODE: $000003D0 VOL: 0
-; 0000 011B     }
-;PCODE: $000003D1 VOL: 0
-;PCODE: $000003D2 VOL: 0
-;PCODE: $000003D3 VOL: 0
-; 0000 011C }
-;PCODE: $000003D4 VOL: 0
-;PCODE: $000003D5 VOL: 0
-;PCODE: $000003D6 VOL: 0
