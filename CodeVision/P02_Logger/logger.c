@@ -262,7 +262,13 @@ while (1)
         if(A>25){
             A=00;
             rtc_set_date(D, Mes, A); 
-        }
+        } 
+        
+        if((S+STM)>GS)
+            if((S+STM)>59&&S+STM>(GS+59))
+                GS = S+STM;
+            else
+                GS = S+STM;        
         if(S == GS){
         //SD here        
             sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd", D, Mes, A, H, M, S); 

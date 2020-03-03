@@ -135,7 +135,7 @@ DisplayCodeSizeError=0
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1348698817
+COFFileTimeStamp=1348699432
 Build=44
 GlobalVarAddr=2373
 =======
@@ -526,7 +526,7 @@ L15=Smart register allocation: No
 L16=
 <<<<<<< HEAD
 L17=Build: 44
-L18=21074 line(s) compiled
+L18=21080 line(s) compiled
 L19=No errors
 L20=No warnings
 =======
@@ -553,8 +553,8 @@ Lines=38
 L35=
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
 <<<<<<< HEAD
-L37=Program size: 8678 words (17356 bytes), 13.2% of FLASH
-L38=967 words (1934 bytes), 10.0% reduced by Code Compression
+L37=Program size: 8716 words (17432 bytes), 13.3% of FLASH
+L38=972 words (1944 bytes), 10.0% reduced by Code Compression
 =======
 L37=Program size: 1575 words (3150 bytes), 2.4% of FLASH
 L38=67 words (134 bytes), 4.1% reduced by Code Compression
@@ -565,7 +565,7 @@ L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
 <<<<<<< HEAD
-L4=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(9836): No EEPROM data, deleting C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
+L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(9876): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
 =======
 L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(3168): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
 >>>>>>> 092dbc174c977cd91988b5c347588191fc16334a
@@ -574,7 +574,7 @@ L6=AT90USB1286 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
 <<<<<<< HEAD
-L9=[.cseg] 0x000000 0x0043cc  16994    362  17356  131072  13.2%
+L9=[.cseg] 0x000000 0x004418  17070    362  17432  131072  13.3%
 =======
 L9=[.cseg] 0x000000 0x000c4e   2872    278   3150  131072   2.4%
 >>>>>>> 092dbc174c977cd91988b5c347588191fc16334a
@@ -610,7 +610,7 @@ BK9=-1
 Blocks=0
 [HeadersList]
 Files=1
-F1=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P02_Logger\logger.c
+F1=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\logger.c
 [Header1]
 Files=11
 F1=C:\cvavr\inc\90usb1286.h
