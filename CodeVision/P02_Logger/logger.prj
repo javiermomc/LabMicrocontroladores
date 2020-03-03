@@ -135,8 +135,8 @@ DisplayCodeSizeError=0
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1348697917
-Build=42
+COFFileTimeStamp=1348698817
+Build=44
 GlobalVarAddr=2373
 =======
 COFFileTimeStamp=1348046482
@@ -251,7 +251,7 @@ DisplayCodeSizeError=0
 RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=42
+Build=44
 IncludePath0=C:\cvavreval\inc
 IncludePath1=
 IncludePath2=
@@ -525,7 +525,7 @@ L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
 <<<<<<< HEAD
-L17=Build: 42
+L17=Build: 44
 L18=21074 line(s) compiled
 L19=No errors
 L20=No warnings

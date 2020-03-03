@@ -99,7 +99,8 @@ void sd(char NombreArchivo[], char *TextoEscritura[],unsigned char order){
         res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
         if (res==FR_OK){
             
-            if (order == 0){
+            if (order == 0){    
+                f_lseek(&archivo,archivo.fsize);   
                 f_write(&archivo,&TextoEscritura,32,&br1);   // Write of TextoEscritura
             }                        
             else {
@@ -265,7 +266,7 @@ while (1)
         if(S == GS){
         //SD here        
             sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd", D, Mes, A, H, M, S); 
-            sprintf(text, ": Voltage is [V1:%01i.%02i, V2:%01i.%02i]", v1I, v1D, v2I, v2D);             
+            sprintf(text, ": Voltage is [V1:%01i.%02i, V2:%01i.%02i] ", v1I, v1D, v2I, v2D);             
             sd(fileName, &date, 0);
             sd(fileName, &text, 1);
             GS = S + STM;
