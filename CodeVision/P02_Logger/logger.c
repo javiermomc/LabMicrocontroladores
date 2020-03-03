@@ -136,10 +136,10 @@ void updateClock(){
 
 // LCD 
 void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i V1: %i.%i", H, M, S, v1I,v1D);
+    sprintf(time, "%02i:%02i:%02i %i.%i-%i.%i", H, M, S, v1I,(v1D/10), v2I,(v2D/10));
     MoveCursor(0,0);
     StringLCDVar(time);
-    sprintf(time, "%02i:%02i:%02i V2: %i.%i", D, Mes, A, v2I,v2D);
+    sprintf(time, "%02i/%02i/%02i M: %i ", D, Mes, A, STM);
     MoveCursor(0,1);
     StringLCDVar(time);     
 }
