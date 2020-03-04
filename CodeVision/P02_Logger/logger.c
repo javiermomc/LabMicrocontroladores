@@ -31,6 +31,16 @@
 #include <stdio.h>
 #include <ff.h>
 
+// Clock
+unsigned char H=0,M=0,S=0, D=0,Mes=0,A=0; // Variables for clock
+
+unsigned char time[16];
+
+void updateClock(){
+    rtc_get_time(&H, &M, &S);
+    rtc_get_date(&D, &Mes, &A);
+}
+
 // ADC
 
 // ADC variables
@@ -66,11 +76,21 @@ void updateADC(){
     v2D = (int)((v2 - (float)v2I)*100.0);
 }
 
+// LCD
+unsigned char STM=5, GS=0; 
+void printTime(){ 
+    sprintf(time, "%02i:%02i:%02i %i.%i-%i.%i", H, M, S, v1I,(v1D/10), v2I,(v2D/10));
+    MoveCursor(0,0);
+    StringLCDVar(time);
+    sprintf(time, "%02i/%02i/%02i M: %i ", D, Mes, A, STM);
+    MoveCursor(0,1);
+    StringLCDVar(time);     
+}
+
 // SD
 char fileName[]  = "0:muestra.txt";
 char date[32];
 char text[32];
-unsigned char STM=5, GS=0;
 
     unsigned int br, br1;
     char buffer[100];
@@ -115,33 +135,29 @@ void sd(char NombreArchivo[], char *TextoEscritura[],unsigned char order){
             f_close(&archivo);             
         }              
         else{
+            EraseLCD();
+            MoveCursor(0,0);
             StringLCD("Archivo NO Encontrado");
+            delay_ms(2000);
+            printTime();
+            GS = S + STM;
+            if(GS>59){
+                GS = GS-59;
+            }
         }
     }
     else{
-         StringLCD("Drive NO Detectado");
+        EraseLCD();
+        MoveCursor(0,0);
+        StringLCD("Drive no detectado");
+        delay_ms(2000);
+        printTime();
+        GS = S + STM;
+        if(GS>59){
+            GS = GS-59;
+        }
     }
     f_mount(0, 0); //Cerrar drive de SD
-}
-
-// Clock
-unsigned char H=0,M=0,S=0, D=0,Mes=0,A=0; // Variables for clock
-
-unsigned char time[16];
-
-void updateClock(){
-    rtc_get_time(&H, &M, &S);
-    rtc_get_date(&D, &Mes, &A);
-}
-
-// LCD 
-void printTime(){ 
-    sprintf(time, "%02i:%02i:%02i %i.%i-%i.%i", H, M, S, v1I,(v1D/10), v2I,(v2D/10));
-    MoveCursor(0,0);
-    StringLCDVar(time);
-    sprintf(time, "%02i/%02i/%02i M: %i ", D, Mes, A, STM);
-    MoveCursor(0,1);
-    StringLCDVar(time);     
 }
 
 
@@ -195,8 +211,7 @@ if(GS>59){
 while (1)
     {
     // Please write your application code here
-        // Verify the correct range on clock time
-        
+        delay_ms(105);
         // ADC
         updateADC();
         
@@ -222,18 +237,28 @@ while (1)
             D++;
             rtc_set_date(D, Mes, A);      
         }
-        if(!PINC.3){
+        if(!PINC.4){
             Mes++;
             rtc_set_date(D, Mes, A);      
         }
-        if(!PINC.4){
+        if(!PINC.5){
             A++;
             rtc_set_date(D, Mes, A);      
         }
-        if(!PINC.5){
+        if(!PINC.6){
             STM = STM + 5;
             if(STM>60){
                 STM = 5;
+            }           
+            GS = S+STM;
+            if(GS>59){
+                GS = GS-59;
+            }
+        }
+        if(!PINC.7){
+            STM = STM - 5;
+            if(STM<=0){
+                STM = 60;
             }           
             GS = S+STM;
             if(GS>59){
