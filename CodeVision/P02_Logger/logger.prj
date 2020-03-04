@@ -135,8 +135,8 @@ DisplayCodeSizeError=0
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1348701477
-Build=55
+COFFileTimeStamp=1348703248
+Build=56
 GlobalVarAddr=2373
 =======
 COFFileTimeStamp=1348046482
@@ -251,7 +251,7 @@ DisplayCodeSizeError=0
 RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=55
+Build=56
 IncludePath0=C:\cvavreval\inc
 IncludePath1=
 IncludePath2=
@@ -525,10 +525,10 @@ L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
 <<<<<<< HEAD
-L17=Build: 55
-L18=21101 line(s) compiled
+L17=Build: 56
+L18=21092 line(s) compiled
 L19=No errors
-L20=No warnings
+L20=1 warning(s)
 =======
 L17=Build: 2
 L18=21908 line(s) compiled
@@ -553,8 +553,8 @@ Lines=38
 L35=
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
 <<<<<<< HEAD
-L37=Program size: 8788 words (17576 bytes), 13.4% of FLASH
-L38=986 words (1972 bytes), 10.1% reduced by Code Compression
+L37=Program size: 8745 words (17490 bytes), 13.3% of FLASH
+L38=975 words (1950 bytes), 10.0% reduced by Code Compression
 =======
 L37=Program size: 1575 words (3150 bytes), 2.4% of FLASH
 L38=67 words (134 bytes), 4.1% reduced by Code Compression
@@ -565,7 +565,7 @@ L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
 <<<<<<< HEAD
-L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(9970): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
+L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(9911): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
 =======
 L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\List\logger.asm(3168): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P02_Logger\Debug\Exe\logger.eep
 >>>>>>> 092dbc174c977cd91988b5c347588191fc16334a
@@ -574,7 +574,7 @@ L6=AT90USB1286 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
 <<<<<<< HEAD
-L9=[.cseg] 0x000000 0x0044a8  17214    362  17576  131072  13.4%
+L9=[.cseg] 0x000000 0x004452  17130    360  17490  131072  13.3%
 =======
 L9=[.cseg] 0x000000 0x000c4e   2872    278   3150  131072   2.4%
 >>>>>>> 092dbc174c977cd91988b5c347588191fc16334a

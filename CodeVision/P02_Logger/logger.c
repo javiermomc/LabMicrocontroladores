@@ -89,8 +89,7 @@ void printTime(){
 
 // SD
 char fileName[]  = "0:muestra.txt";
-char date[32];
-char text[32];
+char date[64];
 
     unsigned int br, br1;
     char buffer[100];
@@ -119,17 +118,11 @@ void sd(char NombreArchivo[], char *TextoEscritura[],unsigned char order){
         res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
         if (res==FR_OK){
             
-            if (order == 0){    
-                f_lseek(&archivo,archivo.fsize);   
-                f_write(&archivo,&TextoEscritura,32,&br1);   // Write of TextoEscritura
-            }                        
-            else {
-                f_lseek(&archivo,archivo.fsize);   
-                f_write(&archivo,&TextoEscritura,32,&br1);   // Write of TextoEscritura
-                buffer[0] = 0x0D;                //Carriage return   
-                buffer[1] = 0x0A;                //Line Feed
-                f_write(&archivo,buffer,2,&br);
-            } 
+            f_lseek(&archivo,archivo.fsize);   
+            f_write(&archivo,&TextoEscritura,sizeof(&TextoEscritura),&br1);   // Write of TextoEscritura
+            buffer[0] = 0x0D;                //Carriage return   
+            buffer[1] = 0x0A;                //Line Feed
+            f_write(&archivo,buffer,2,&br);
             
             /*Escribiendo el Texto*/
             f_close(&archivo);             
@@ -292,10 +285,8 @@ while (1)
                
         if(S == GS){
         //SD here        
-            sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd", D, Mes, A, H, M, S); 
-            sprintf(text, ": Voltage is [V1:%01i.%02i, V2:%01i.%02i]", v1I, v1D, v2I, v2D);             
+            sprintf(date, "[%02i/%02i/%02i %02i:%02i:%02i] New_msg_rcvd: Voltage is [V1:%01i.%02i, V2:%01i.%02i]", D, Mes, A, H, M, S, v1I, v1D, v2I, v2D);             
             sd(fileName, &date, 0);
-            sd(fileName, &text, 1);
             GS = S + STM;
             if(GS>59){
                 GS = GS-59;

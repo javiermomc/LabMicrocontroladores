@@ -76,7 +76,8 @@ void updateADC(){
     v2D = (int)((v2 - (float)v2I)*100.0);
 }
 
-// LCD 
+// LCD
+unsigned char STM=5, GS=0; 
 void printTime(){ 
     sprintf(time, "%02i:%02i:%02i %i.%i-%i.%i", H, M, S, v1I,(v1D/10), v2I,(v2D/10));
     MoveCursor(0,0);
@@ -90,7 +91,6 @@ void printTime(){
 char fileName[]  = "0:muestra.txt";
 char date[32];
 char text[32];
-unsigned char STM=5, GS=0;
 
     unsigned int br, br1;
     char buffer[100];
