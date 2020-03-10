@@ -1,0 +1,91 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+prtc_get_time                                                                     0x090B       2
+prtc_get_date                                                                     0x090D       2
+buffer                                                                            0x090F     256
+fileName                                                                          0x0A0F      12
+drive                                                                             0x0A1B     562
+archivo                                                                           0x0C4D     544
+encabezado                                                                        0x0E6D      62
+output                                                                            0x0EAB      64
+status                                                                            0x0EEB       1
+timer1                                                                            0x0EEC       1
+timer2                                                                            0x0EED       1
+card_type                                                                         0x0EEE       1
+flags_S100000C000                                                                 0x0EEF       1
+FatFs                                                                             0x0EF0       2
+Fsid                                                                              0x0EF2       2
+Drive                                                                             0x0EF4       1
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+cursor                                                                            R4           1
+freq                                                                              R5,R6        2
+br                                                                                R7,R8        2
+j                                                                                 R3           1
+i                                                                                 R9,R10       2
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+SetupLCD                                                                          0x00129     43
+PulseEn                                                                           0x00154      3
+SendDataBitsLCD                                                                   0x00157     27
+WriteComandLCD                                                                    0x00172     12
+CharLCD                                                                           0x0017E     12
+StringLCD                                                                         0x0018A     21
+EraseLCD                                                                          0x0019F      3
+MoveCursor                                                                        0x001A2     31
+read_adc                                                                          0x001C1     28
+frequency                                                                         0x001DD     60
+scope                                                                             0x00219     32
+timer1_compa_isr                                                                  0x00239     33
+sd_openDrive                                                                      0x0025A     16
+sd_closeDrive                                                                     0x0026A     18
+main                                                                              0x0027C    266
+crc7_G100                                                                         0x00386     29
+wait_ready_G100                                                                   0x003A3     25
+deselect_card_G100                                                                0x003BC      7
+rx_datablock_G100                                                                 0x003C3    101
+tx_datablock_G100                                                                 0x00428     67
+send_cmd_G100                                                                     0x0046B     99
+rx_spi4_G100                                                                      0x004CE     20
+disk_initialize                                                                   0x004E2    207
+disk_status                                                                       0x005B1     10
+disk_read                                                                         0x005BB    100
+disk_write                                                                        0x0061F    119
+disk_ioctl                                                                        0x00696    401
+disk_timerproc                                                                    0x00827     54
+get_fattime                                                                       0x0085D    129
+chk_chrf_G101                                                                     0x008DE     33
+move_window_G101                                                                  0x008FF    104
+sync_G101                                                                         0x00967    106
+get_fat                                                                           0x009D1    123
+put_fat                                                                           0x00A4C    160
+remove_chain_G101                                                                 0x00AEC     89
+create_chain_G101                                                                 0x00B45    193
+clust2sect                                                                        0x00C06     56
+dir_seek_G101                                                                     0x00C3E    157
+dir_next_G101                                                                     0x00CDB    239
+dir_find_G101                                                                     0x00DCA     46
+dir_register_G101                                                                 0x00DF8     68
+create_name_G101                                                                  0x00E3C    174
+follow_path_G101                                                                  0x00EEA    134
+check_fs_G101                                                                     0x00F70     50
+chk_mounted                                                                       0x00FA2    499
+validate_G101                                                                     0x01195     34
+f_mount                                                                           0x011B7     48
+f_open                                                                            0x011E7    310
+f_read                                                                            0x0131D    364
+f_write                                                                           0x01489    429
+f_sync                                                                            0x01636    132
+f_close                                                                           0x016BA     17
+memcmp                                                                            0x016CB     25
+memcpy                                                                            0x016E4     18
+memset                                                                            0x016F6     16
