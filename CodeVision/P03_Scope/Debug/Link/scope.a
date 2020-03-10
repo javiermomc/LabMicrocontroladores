@@ -477,53 +477,52 @@
 ;PCODE: $0000018A VOL: 0
 ;PCODE: $0000018B VOL: 0
 ; 0000 0021 // Delay needed for the stabilization of the ADC input voltage
-; 0000 0022 delay_us(10);
+; 0000 0022 // Start the AD conversion
+; 0000 0023 ADCSRA|=(1<<ADSC);
 ;PCODE: $0000018C VOL: 0
-; 0000 0023 // Start the AD conversion
-; 0000 0024 ADCSRA|=(1<<ADSC);
 ;PCODE: $0000018D VOL: 0
 ;PCODE: $0000018E VOL: 0
+; 0000 0024 // Wait for the AD conversion to complete
+; 0000 0025 while ((ADCSRA & (1<<ADIF))==0);
 ;PCODE: $0000018F VOL: 0
-; 0000 0025 // Wait for the AD conversion to complete
-; 0000 0026 while ((ADCSRA & (1<<ADIF))==0);
 ;PCODE: $00000190 VOL: 0
 ;PCODE: $00000191 VOL: 0
 ;PCODE: $00000192 VOL: 0
 ;PCODE: $00000193 VOL: 0
 ;PCODE: $00000194 VOL: 0
+; 0000 0026 ADCSRA|=(1<<ADIF);
 ;PCODE: $00000195 VOL: 0
-; 0000 0027 ADCSRA|=(1<<ADIF);
 ;PCODE: $00000196 VOL: 0
 ;PCODE: $00000197 VOL: 0
+; 0000 0027 return ADCW;
 ;PCODE: $00000198 VOL: 0
-; 0000 0028 return ADCW;
 ;PCODE: $00000199 VOL: 0
 ;PCODE: $0000019A VOL: 0
+; 0000 0028 }
 ;PCODE: $0000019B VOL: 0
-; 0000 0029 }
-;PCODE: $0000019C VOL: 0
 ;
 ;int buffer[128];
 ;
 ;int frequency(){
-; 0000 002D int frequency(){
+; 0000 002C int frequency(){
+;PCODE: $0000019C VOL: 0
 ;PCODE: $0000019D VOL: 0
+; 0000 002D     char i=0, max, iMax, freq;
+; 0000 002E     max = buffer[0];
 ;PCODE: $0000019E VOL: 0
-; 0000 002E     char i=0, max, iMax, freq;
-; 0000 002F     max = buffer[0];
-;PCODE: $0000019F VOL: 0
 ;	i -> R17
 ;	max -> R16
 ;	iMax -> R19
 ;	freq -> R18
+;PCODE: $0000019F VOL: 0
 ;PCODE: $000001A0 VOL: 0
 ;PCODE: $000001A1 VOL: 0
 ;PCODE: $000001A2 VOL: 0
+; 0000 002F     iMax = i;
 ;PCODE: $000001A3 VOL: 0
-; 0000 0030     iMax = i;
 ;PCODE: $000001A4 VOL: 0
+; 0000 0030     for ( i=1;i<128;i++){
 ;PCODE: $000001A5 VOL: 0
-; 0000 0031     for ( i=1;i<128;i++){
 ;PCODE: $000001A6 VOL: 0
 ;PCODE: $000001A7 VOL: 0
 ;PCODE: $000001A8 VOL: 0
@@ -532,8 +531,8 @@
 ;PCODE: $000001AB VOL: 0
 ;PCODE: $000001AC VOL: 0
 ;PCODE: $000001AD VOL: 0
+; 0000 0031         if(max == buffer[i]){
 ;PCODE: $000001AE VOL: 0
-; 0000 0032         if(max == buffer[i]){
 ;PCODE: $000001AF VOL: 0
 ;PCODE: $000001B0 VOL: 0
 ;PCODE: $000001B1 VOL: 0
@@ -543,8 +542,8 @@
 ;PCODE: $000001B5 VOL: 0
 ;PCODE: $000001B6 VOL: 0
 ;PCODE: $000001B7 VOL: 0
+; 0000 0032             freq = 1/(((float)(i - iMax))*0.000039);
 ;PCODE: $000001B8 VOL: 0
-; 0000 0033             freq = 1/(((float)(i - iMax))*0.000039);
 ;PCODE: $000001B9 VOL: 0
 ;PCODE: $000001BA VOL: 0
 ;PCODE: $000001BB VOL: 0
@@ -557,12 +556,12 @@
 ;PCODE: $000001C2 VOL: 0
 ;PCODE: $000001C3 VOL: 0
 ;PCODE: $000001C4 VOL: 0
+; 0000 0033             iMax = i;
 ;PCODE: $000001C5 VOL: 0
-; 0000 0034             iMax = i;
 ;PCODE: $000001C6 VOL: 0
+; 0000 0034         }
+; 0000 0035         if(max<buffer[i]){
 ;PCODE: $000001C7 VOL: 0
-; 0000 0035         }
-; 0000 0036         if(max<buffer[i]){
 ;PCODE: $000001C8 VOL: 0
 ;PCODE: $000001C9 VOL: 0
 ;PCODE: $000001CA VOL: 0
@@ -573,44 +572,44 @@
 ;PCODE: $000001CF VOL: 0
 ;PCODE: $000001D0 VOL: 0
 ;PCODE: $000001D1 VOL: 0
+; 0000 0036             max = buffer[i];
 ;PCODE: $000001D2 VOL: 0
-; 0000 0037             max = buffer[i];
 ;PCODE: $000001D3 VOL: 0
 ;PCODE: $000001D4 VOL: 0
 ;PCODE: $000001D5 VOL: 0
 ;PCODE: $000001D6 VOL: 0
 ;PCODE: $000001D7 VOL: 0
+; 0000 0037             iMax = i;
 ;PCODE: $000001D8 VOL: 0
-; 0000 0038             iMax = i;
 ;PCODE: $000001D9 VOL: 0
+; 0000 0038         }
+; 0000 0039     }
 ;PCODE: $000001DA VOL: 0
-; 0000 0039         }
-; 0000 003A     }
 ;PCODE: $000001DB VOL: 0
 ;PCODE: $000001DC VOL: 0
 ;PCODE: $000001DD VOL: 0
 ;PCODE: $000001DE VOL: 0
 ;PCODE: $000001DF VOL: 0
+; 0000 003A     return (int)freq;
 ;PCODE: $000001E0 VOL: 0
-; 0000 003B     return (int)freq;
 ;PCODE: $000001E1 VOL: 0
 ;PCODE: $000001E2 VOL: 0
 ;PCODE: $000001E3 VOL: 0
 ;PCODE: $000001E4 VOL: 0
+; 0000 003B }
 ;PCODE: $000001E5 VOL: 0
-; 0000 003C }
-;PCODE: $000001E6 VOL: 0
 ;
 ;// Fills the array to sample the scope shot
 ;void scope(){
-; 0000 003F void scope(){
+; 0000 003E void scope(){
+;PCODE: $000001E6 VOL: 0
 ;PCODE: $000001E7 VOL: 0
+; 0000 003F     int i;
+; 0000 0040     for (i=0;i<128;i++){
 ;PCODE: $000001E8 VOL: 0
-; 0000 0040     int i;
-; 0000 0041     for (i=0;i<128;i++){
 ;PCODE: $000001E9 VOL: 0
-;PCODE: $000001EA VOL: 0
 ;	i -> R16,R17
+;PCODE: $000001EA VOL: 0
 ;PCODE: $000001EB VOL: 0
 ;PCODE: $000001EC VOL: 0
 ;PCODE: $000001ED VOL: 0
@@ -619,8 +618,8 @@
 ;PCODE: $000001F0 VOL: 0
 ;PCODE: $000001F1 VOL: 0
 ;PCODE: $000001F2 VOL: 0
+; 0000 0041         buffer[i] = read_adc(7);
 ;PCODE: $000001F3 VOL: 0
-; 0000 0042         buffer[i] = read_adc(7);
 ;PCODE: $000001F4 VOL: 0
 ;PCODE: $000001F5 VOL: 0
 ;PCODE: $000001F6 VOL: 0
@@ -629,19 +628,66 @@
 ;PCODE: $000001F9 VOL: 0
 ;PCODE: $000001FA VOL: 0
 ;PCODE: $000001FB VOL: 0
+; 0000 0042         delay_us(21);
 ;PCODE: $000001FC VOL: 0
-; 0000 0043         delay_us(39);
+; 0000 0043         #asm("NOP");
 ;PCODE: $000001FD VOL: 0
-; 0000 0044     }
+	NOP
 ;PCODE: $000001FE VOL: 0
+; 0000 0044         #asm("NOP");
 ;PCODE: $000001FF VOL: 0
+	NOP
 ;PCODE: $00000200 VOL: 0
+; 0000 0045         #asm("NOP");
 ;PCODE: $00000201 VOL: 0
+	NOP
 ;PCODE: $00000202 VOL: 0
-; 0000 0045 }
+; 0000 0046         #asm("NOP");
 ;PCODE: $00000203 VOL: 0
+	NOP
 ;PCODE: $00000204 VOL: 0
+; 0000 0047         #asm("NOP");
 ;PCODE: $00000205 VOL: 0
+	NOP
+;PCODE: $00000206 VOL: 0
+; 0000 0048         #asm("NOP");
+;PCODE: $00000207 VOL: 0
+	NOP
+;PCODE: $00000208 VOL: 0
+; 0000 0049         #asm("NOP");
+;PCODE: $00000209 VOL: 0
+	NOP
+;PCODE: $0000020A VOL: 0
+; 0000 004A         #asm("NOP");
+;PCODE: $0000020B VOL: 0
+	NOP
+;PCODE: $0000020C VOL: 0
+; 0000 004B         #asm("NOP");
+;PCODE: $0000020D VOL: 0
+	NOP
+;PCODE: $0000020E VOL: 0
+; 0000 004C         #asm("NOP");
+;PCODE: $0000020F VOL: 0
+	NOP
+;PCODE: $00000210 VOL: 0
+; 0000 004D         #asm("NOP");
+;PCODE: $00000211 VOL: 0
+	NOP
+;PCODE: $00000212 VOL: 0
+; 0000 004E         #asm("NOP");
+;PCODE: $00000213 VOL: 0
+	NOP
+;PCODE: $00000214 VOL: 0
+; 0000 004F     }
+;PCODE: $00000215 VOL: 0
+;PCODE: $00000216 VOL: 0
+;PCODE: $00000217 VOL: 0
+;PCODE: $00000218 VOL: 0
+;PCODE: $00000219 VOL: 0
+; 0000 0050 }
+;PCODE: $0000021A VOL: 0
+;PCODE: $0000021B VOL: 0
+;PCODE: $0000021C VOL: 0
 ;
 ;int freq;
 ;
@@ -656,18 +702,18 @@
 ;FIL archivo; // file objects
 ;
 ;interrupt [TIM1_COMPA] void timer1_compa_isr(void)
-; 0000 0052 {
+; 0000 005D {
 
 	.CSEG
-;PCODE: $00000206 VOL: 0
-;PCODE: $00000207 VOL: 0
-; 0000 0053 disk_timerproc();
-;PCODE: $00000208 VOL: 0
-; 0000 0054 /* MMC/SD/SD HC card access low level timing function */
-; 0000 0055 }
-;PCODE: $00000209 VOL: 0
-;PCODE: $0000020A VOL: 0
-;PCODE: $0000020B VOL: 0
+;PCODE: $0000021D VOL: 0
+;PCODE: $0000021E VOL: 0
+; 0000 005E disk_timerproc();
+;PCODE: $0000021F VOL: 0
+; 0000 005F /* MMC/SD/SD HC card access low level timing function */
+; 0000 0060 }
+;PCODE: $00000220 VOL: 0
+;PCODE: $00000221 VOL: 0
+;PCODE: $00000222 VOL: 0
 ;
 ;flash unsigned char Letra0[9] ={0xC7,0xBB,0xBB,0xBB,0xBB,0xBB,0xBB,0xBB,0xC7};
 ;flash unsigned char Letra1[9] ={0xEF,0x8F,0xEF,0xEF,0xEF,0xEF,0xEF,0xEF,0x83};
@@ -683,59 +729,59 @@
 ;flash unsigned char LetraZ[9] ={0xFF,0xFF,0xFF,0x81,0xBB,0xF7,0xEF,0xDD,0x81};
 ;
 ;void sd_openDrive(){
-; 0000 0064 void sd_openDrive(){
-;PCODE: $0000020C VOL: 0
-;PCODE: $0000020D VOL: 0
-; 0000 0065     if (f_mount(0,&drive)!=FR_OK){
-;PCODE: $0000020E VOL: 0
-;PCODE: $0000020F VOL: 0
-;PCODE: $00000210 VOL: 0
-;PCODE: $00000211 VOL: 0
-;PCODE: $00000212 VOL: 0
-;PCODE: $00000213 VOL: 0
-; 0000 0066         EraseLCD();
-;PCODE: $00000214 VOL: 0
-; 0000 0067         MoveCursor(0,0);
-;PCODE: $00000215 VOL: 0
-;PCODE: $00000216 VOL: 0
-;PCODE: $00000217 VOL: 0
-;PCODE: $00000218 VOL: 0
-; 0000 0068         StringLCD("Drive no detectado");
-;PCODE: $00000219 VOL: 0
-;PCODE: $0000021A VOL: 0
-;PCODE: $0000021B VOL: 0
-; 0000 0069     }
-; 0000 006A }
-;PCODE: $0000021C VOL: 0
-;PCODE: $0000021D VOL: 0
-;PCODE: $0000021E VOL: 0
-;void sd_closeDrive(){
-; 0000 006B void sd_closeDrive(){
-;PCODE: $0000021F VOL: 0
-;PCODE: $00000220 VOL: 0
-; 0000 006C     f_mount(0, 0); //Cerrar drive de SD
-;PCODE: $00000221 VOL: 0
-;PCODE: $00000222 VOL: 0
+; 0000 006F void sd_openDrive(){
 ;PCODE: $00000223 VOL: 0
 ;PCODE: $00000224 VOL: 0
+; 0000 0070     if (f_mount(0,&drive)!=FR_OK){
 ;PCODE: $00000225 VOL: 0
-; 0000 006D     EraseLCD();
 ;PCODE: $00000226 VOL: 0
-; 0000 006E     MoveCursor(0,0);
 ;PCODE: $00000227 VOL: 0
 ;PCODE: $00000228 VOL: 0
 ;PCODE: $00000229 VOL: 0
 ;PCODE: $0000022A VOL: 0
-; 0000 006F     StringLCD("Drive cerrado");
+; 0000 0071         EraseLCD();
 ;PCODE: $0000022B VOL: 0
+; 0000 0072         MoveCursor(0,0);
 ;PCODE: $0000022C VOL: 0
 ;PCODE: $0000022D VOL: 0
-; 0000 0070     delay_ms(1000);
 ;PCODE: $0000022E VOL: 0
 ;PCODE: $0000022F VOL: 0
-; 0000 0071 }
+; 0000 0073         StringLCD("Drive no detectado");
 ;PCODE: $00000230 VOL: 0
 ;PCODE: $00000231 VOL: 0
+;PCODE: $00000232 VOL: 0
+; 0000 0074     }
+; 0000 0075 }
+;PCODE: $00000233 VOL: 0
+;PCODE: $00000234 VOL: 0
+;PCODE: $00000235 VOL: 0
+;void sd_closeDrive(){
+; 0000 0076 void sd_closeDrive(){
+;PCODE: $00000236 VOL: 0
+;PCODE: $00000237 VOL: 0
+; 0000 0077     f_mount(0, 0); //Cerrar drive de SD
+;PCODE: $00000238 VOL: 0
+;PCODE: $00000239 VOL: 0
+;PCODE: $0000023A VOL: 0
+;PCODE: $0000023B VOL: 0
+;PCODE: $0000023C VOL: 0
+; 0000 0078     EraseLCD();
+;PCODE: $0000023D VOL: 0
+; 0000 0079     MoveCursor(0,0);
+;PCODE: $0000023E VOL: 0
+;PCODE: $0000023F VOL: 0
+;PCODE: $00000240 VOL: 0
+;PCODE: $00000241 VOL: 0
+; 0000 007A     StringLCD("Drive cerrado");
+;PCODE: $00000242 VOL: 0
+;PCODE: $00000243 VOL: 0
+;PCODE: $00000244 VOL: 0
+; 0000 007B     delay_ms(1000);
+;PCODE: $00000245 VOL: 0
+;PCODE: $00000246 VOL: 0
+; 0000 007C }
+;PCODE: $00000247 VOL: 0
+;PCODE: $00000248 VOL: 0
 ;
 ;char j;
 ;int i;
@@ -745,133 +791,108 @@
 ;char output[64];
 ;
 ;void main(void) {
-; 0000 007A void main(void) {
-;PCODE: $00000232 VOL: 0
-; 0000 007B     SetupLCD();
-;PCODE: $00000233 VOL: 0
-; 0000 007C     // ADC initialization
-; 0000 007D     // ADC Clock frequency: 1000.000 kHz
-; 0000 007E     // ADC Voltage Reference: Int., cap. on AREF
-; 0000 007F     // ADC High Speed Mode: On
-; 0000 0080     // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
-; 0000 0081     // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
-; 0000 0082     DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
-;PCODE: $00000234 VOL: 0
-;PCODE: $00000235 VOL: 0
-; 0000 0083     ADMUX=ADC_VREF_TYPE;
-;PCODE: $00000236 VOL: 0
-;PCODE: $00000237 VOL: 0
-; 0000 0084     ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
-;PCODE: $00000238 VOL: 0
-;PCODE: $00000239 VOL: 0
-; 0000 0085     ADCSRB=(1<<ADHSM);
-;PCODE: $0000023A VOL: 0
-;PCODE: $0000023B VOL: 0
-; 0000 0086 
-; 0000 0087     // Trigger for scope shot
-; 0000 0088     PORTD.7 = 1;
-;PCODE: $0000023C VOL: 0
-;PCODE: $0000023D VOL: 0
-; 0000 0089 
-; 0000 008A     // SD
-; 0000 008B     CLKPR=0x80;
-;PCODE: $0000023E VOL: 0
-;PCODE: $0000023F VOL: 0
-; 0000 008C     CLKPR=0;        //16 MHz
-;PCODE: $00000240 VOL: 0
-;PCODE: $00000241 VOL: 0
-; 0000 008D 
-; 0000 008E     // Código para hacer una interrupción periódica cada 10ms
-; 0000 008F 
-; 0000 0090     TCCR1B=0x0A;             //  CK/8
-;PCODE: $00000242 VOL: 0
-;PCODE: $00000243 VOL: 0
-; 0000 0091     OCR1AH=19999/256;
-;PCODE: $00000244 VOL: 0
-;PCODE: $00000245 VOL: 0
-; 0000 0092     OCR1AL=19999%256;
-;PCODE: $00000246 VOL: 0
-;PCODE: $00000247 VOL: 0
-; 0000 0093     TIMSK1=0x02;
-;PCODE: $00000248 VOL: 0
+; 0000 0085 void main(void) {
 ;PCODE: $00000249 VOL: 0
-; 0000 0094     StringLCD("...");
+; 0000 0086     SetupLCD();
 ;PCODE: $0000024A VOL: 0
+; 0000 0087     // ADC initialization
+; 0000 0088     // ADC Clock frequency: 1000.000 kHz
+; 0000 0089     // ADC Voltage Reference: Int., cap. on AREF
+; 0000 008A     // ADC High Speed Mode: On
+; 0000 008B     // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
+; 0000 008C     // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
+; 0000 008D     CLKPR = 0x80;
 ;PCODE: $0000024B VOL: 0
 ;PCODE: $0000024C VOL: 0
-; 0000 0095     #asm("sei")
+; 0000 008E     CLKPR = 0;
 ;PCODE: $0000024D VOL: 0
-	sei
 ;PCODE: $0000024E VOL: 0
-; 0000 0096     disk_initialize(0);
+; 0000 008F     DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 ;PCODE: $0000024F VOL: 0
 ;PCODE: $00000250 VOL: 0
-; 0000 0097     delay_ms(200);
+; 0000 0090     ADMUX=ADC_VREF_TYPE;
 ;PCODE: $00000251 VOL: 0
 ;PCODE: $00000252 VOL: 0
+; 0000 0091     ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
 ;PCODE: $00000253 VOL: 0
-; 0000 0098 
-; 0000 0099     while (1) {
 ;PCODE: $00000254 VOL: 0
-; 0000 009A     // Please write your application code here
-; 0000 009B     MoveCursor(0,0);
+; 0000 0092     ADCSRB=(1<<ADHSM);
 ;PCODE: $00000255 VOL: 0
 ;PCODE: $00000256 VOL: 0
+; 0000 0093 
+; 0000 0094     // Trigger for scope shot
+; 0000 0095     PORTD.7 = 1;
 ;PCODE: $00000257 VOL: 0
 ;PCODE: $00000258 VOL: 0
-; 0000 009C     StringLCD("Welcome");
+; 0000 0096 
+; 0000 0097     // SD
+; 0000 0098     CLKPR=0x80;
 ;PCODE: $00000259 VOL: 0
 ;PCODE: $0000025A VOL: 0
+; 0000 0099     CLKPR=0;        //16 MHz
 ;PCODE: $0000025B VOL: 0
-; 0000 009D         if (PIND.7 == 0){
 ;PCODE: $0000025C VOL: 0
+; 0000 009A 
+; 0000 009B     // Código para hacer una interrupción periódica cada 10ms
+; 0000 009C 
+; 0000 009D     TCCR1B=0x0A;             //  CK/8
 ;PCODE: $0000025D VOL: 0
 ;PCODE: $0000025E VOL: 0
-; 0000 009E             EraseLCD();
+; 0000 009E     OCR1AH=19999/256;
 ;PCODE: $0000025F VOL: 0
-; 0000 009F             StringLCD("Starting     ");
 ;PCODE: $00000260 VOL: 0
+; 0000 009F     OCR1AL=19999%256;
 ;PCODE: $00000261 VOL: 0
 ;PCODE: $00000262 VOL: 0
-; 0000 00A0             scope();
+; 0000 00A0     TIMSK1=0x02;
 ;PCODE: $00000263 VOL: 0
-; 0000 00A1             freq = frequency();
 ;PCODE: $00000264 VOL: 0
+; 0000 00A1     StringLCD("...");
 ;PCODE: $00000265 VOL: 0
-; 0000 00A2             sd_openDrive();
 ;PCODE: $00000266 VOL: 0
-; 0000 00A3             if(f_open(&archivo,"0:BASE.BMP", FA_OPEN_EXISTING | FA_READ)==FR_OK){
 ;PCODE: $00000267 VOL: 0
+; 0000 00A2     #asm("sei")
 ;PCODE: $00000268 VOL: 0
+	sei
 ;PCODE: $00000269 VOL: 0
+; 0000 00A3     disk_initialize(0);
 ;PCODE: $0000026A VOL: 0
 ;PCODE: $0000026B VOL: 0
+; 0000 00A4     delay_ms(200);
 ;PCODE: $0000026C VOL: 0
 ;PCODE: $0000026D VOL: 0
 ;PCODE: $0000026E VOL: 0
+; 0000 00A5 
+; 0000 00A6     while (1) {
 ;PCODE: $0000026F VOL: 0
-; 0000 00A4                 f_read(&archivo, encabezado, 64, &br);
+; 0000 00A7     // Please write your application code here
+; 0000 00A8     MoveCursor(0,0);
 ;PCODE: $00000270 VOL: 0
 ;PCODE: $00000271 VOL: 0
 ;PCODE: $00000272 VOL: 0
 ;PCODE: $00000273 VOL: 0
+; 0000 00A9     StringLCD("Welcome");
 ;PCODE: $00000274 VOL: 0
 ;PCODE: $00000275 VOL: 0
 ;PCODE: $00000276 VOL: 0
+; 0000 00AA         if (PIND.7 == 0){
 ;PCODE: $00000277 VOL: 0
-; 0000 00A5                 f_close(&archivo);
 ;PCODE: $00000278 VOL: 0
 ;PCODE: $00000279 VOL: 0
-; 0000 00A6                 if (f_open(&archivo,fileName, FA_CREATE_ALWAYS | FA_WRITE)==FR_OK){
+; 0000 00AB             EraseLCD();
 ;PCODE: $0000027A VOL: 0
+; 0000 00AC             StringLCD("Starting     ");
 ;PCODE: $0000027B VOL: 0
 ;PCODE: $0000027C VOL: 0
 ;PCODE: $0000027D VOL: 0
+; 0000 00AD             scope();
 ;PCODE: $0000027E VOL: 0
+; 0000 00AE             freq = frequency();
 ;PCODE: $0000027F VOL: 0
 ;PCODE: $00000280 VOL: 0
+; 0000 00AF             sd_openDrive();
 ;PCODE: $00000281 VOL: 0
-; 0000 00A7                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado
+; 0000 00B0             if(f_open(&archivo,"0:BASE.BMP", FA_OPEN_EXISTING | FA_READ)==FR_OK){
 ;PCODE: $00000282 VOL: 0
 ;PCODE: $00000283 VOL: 0
 ;PCODE: $00000284 VOL: 0
@@ -880,8 +901,8 @@
 ;PCODE: $00000287 VOL: 0
 ;PCODE: $00000288 VOL: 0
 ;PCODE: $00000289 VOL: 0
-; 0000 00A8                     for (i=0;i<256;i++){
 ;PCODE: $0000028A VOL: 0
+; 0000 00B1                 f_read(&archivo, encabezado, 64, &br);
 ;PCODE: $0000028B VOL: 0
 ;PCODE: $0000028C VOL: 0
 ;PCODE: $0000028D VOL: 0
@@ -890,38 +911,38 @@
 ;PCODE: $00000290 VOL: 0
 ;PCODE: $00000291 VOL: 0
 ;PCODE: $00000292 VOL: 0
-; 0000 00A9                         for(j=0; j<64; j++){
+; 0000 00B2                 f_close(&archivo);
 ;PCODE: $00000293 VOL: 0
 ;PCODE: $00000294 VOL: 0
+; 0000 00B3                 if (f_open(&archivo,fileName, FA_CREATE_ALWAYS | FA_WRITE)==FR_OK){
 ;PCODE: $00000295 VOL: 0
 ;PCODE: $00000296 VOL: 0
 ;PCODE: $00000297 VOL: 0
 ;PCODE: $00000298 VOL: 0
 ;PCODE: $00000299 VOL: 0
-; 0000 00AA                             output[j] = 0xFF;
 ;PCODE: $0000029A VOL: 0
 ;PCODE: $0000029B VOL: 0
 ;PCODE: $0000029C VOL: 0
+; 0000 00B4                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado
 ;PCODE: $0000029D VOL: 0
 ;PCODE: $0000029E VOL: 0
-; 0000 00AB                         }
 ;PCODE: $0000029F VOL: 0
 ;PCODE: $000002A0 VOL: 0
 ;PCODE: $000002A1 VOL: 0
 ;PCODE: $000002A2 VOL: 0
-; 0000 00AC                         for(j=0; j<128; j++){
 ;PCODE: $000002A3 VOL: 0
 ;PCODE: $000002A4 VOL: 0
+; 0000 00B5                     for (i=0;i<256;i++){
 ;PCODE: $000002A5 VOL: 0
 ;PCODE: $000002A6 VOL: 0
 ;PCODE: $000002A7 VOL: 0
 ;PCODE: $000002A8 VOL: 0
 ;PCODE: $000002A9 VOL: 0
-; 0000 00AD                             if(buffer[j]*256/1024==i){
 ;PCODE: $000002AA VOL: 0
 ;PCODE: $000002AB VOL: 0
 ;PCODE: $000002AC VOL: 0
 ;PCODE: $000002AD VOL: 0
+; 0000 00B6                         for(j=0; j<64; j++){
 ;PCODE: $000002AE VOL: 0
 ;PCODE: $000002AF VOL: 0
 ;PCODE: $000002B0 VOL: 0
@@ -929,17 +950,18 @@
 ;PCODE: $000002B2 VOL: 0
 ;PCODE: $000002B3 VOL: 0
 ;PCODE: $000002B4 VOL: 0
+; 0000 00B7                             output[j] = 0xFF;
 ;PCODE: $000002B5 VOL: 0
-; 0000 00AE                                 if((j+1)%2==1){
 ;PCODE: $000002B6 VOL: 0
 ;PCODE: $000002B7 VOL: 0
 ;PCODE: $000002B8 VOL: 0
 ;PCODE: $000002B9 VOL: 0
+; 0000 00B8                         }
 ;PCODE: $000002BA VOL: 0
 ;PCODE: $000002BB VOL: 0
 ;PCODE: $000002BC VOL: 0
 ;PCODE: $000002BD VOL: 0
-; 0000 00AF                                     output[j/2] = output[j/2] & 0x0F;
+; 0000 00B9                         for(j=0; j<128; j++){
 ;PCODE: $000002BE VOL: 0
 ;PCODE: $000002BF VOL: 0
 ;PCODE: $000002C0 VOL: 0
@@ -947,13 +969,12 @@
 ;PCODE: $000002C2 VOL: 0
 ;PCODE: $000002C3 VOL: 0
 ;PCODE: $000002C4 VOL: 0
+; 0000 00BA                             if(buffer[j]*256/1024==i){
 ;PCODE: $000002C5 VOL: 0
 ;PCODE: $000002C6 VOL: 0
 ;PCODE: $000002C7 VOL: 0
-; 0000 00B0                                 }else{
 ;PCODE: $000002C8 VOL: 0
 ;PCODE: $000002C9 VOL: 0
-; 0000 00B1                                     output[j/2] = output[j/2] & 0xF0;
 ;PCODE: $000002CA VOL: 0
 ;PCODE: $000002CB VOL: 0
 ;PCODE: $000002CC VOL: 0
@@ -961,32 +982,31 @@
 ;PCODE: $000002CE VOL: 0
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
+; 0000 00BB                                 if((j+1)%2==1){
 ;PCODE: $000002D1 VOL: 0
 ;PCODE: $000002D2 VOL: 0
 ;PCODE: $000002D3 VOL: 0
-; 0000 00B2                                 }
 ;PCODE: $000002D4 VOL: 0
-; 0000 00B3                             }
-; 0000 00B4                             if ((i>=10)&(i<=18)){
 ;PCODE: $000002D5 VOL: 0
 ;PCODE: $000002D6 VOL: 0
 ;PCODE: $000002D7 VOL: 0
 ;PCODE: $000002D8 VOL: 0
+; 0000 00BC                                     output[j/2] = output[j/2] & 0x0F;
 ;PCODE: $000002D9 VOL: 0
 ;PCODE: $000002DA VOL: 0
 ;PCODE: $000002DB VOL: 0
 ;PCODE: $000002DC VOL: 0
 ;PCODE: $000002DD VOL: 0
 ;PCODE: $000002DE VOL: 0
-; 0000 00B5                              output[1]=Letra0[18-i];
 ;PCODE: $000002DF VOL: 0
 ;PCODE: $000002E0 VOL: 0
 ;PCODE: $000002E1 VOL: 0
 ;PCODE: $000002E2 VOL: 0
+; 0000 00BD                                 }else{
 ;PCODE: $000002E3 VOL: 0
 ;PCODE: $000002E4 VOL: 0
+; 0000 00BE                                     output[j/2] = output[j/2] & 0xF0;
 ;PCODE: $000002E5 VOL: 0
-; 0000 00B6                              output[2]=Letra1[18-i];
 ;PCODE: $000002E6 VOL: 0
 ;PCODE: $000002E7 VOL: 0
 ;PCODE: $000002E8 VOL: 0
@@ -994,31 +1014,31 @@
 ;PCODE: $000002EA VOL: 0
 ;PCODE: $000002EB VOL: 0
 ;PCODE: $000002EC VOL: 0
-; 0000 00B7                              output[3]=LetraH[18-i];
 ;PCODE: $000002ED VOL: 0
 ;PCODE: $000002EE VOL: 0
+; 0000 00BF                                 }
 ;PCODE: $000002EF VOL: 0
+; 0000 00C0                             }
+; 0000 00C1                             if ((i>=10)&(i<=18)){
 ;PCODE: $000002F0 VOL: 0
 ;PCODE: $000002F1 VOL: 0
 ;PCODE: $000002F2 VOL: 0
 ;PCODE: $000002F3 VOL: 0
-; 0000 00B8                              output[4]=LetraZ[18-i];
 ;PCODE: $000002F4 VOL: 0
 ;PCODE: $000002F5 VOL: 0
 ;PCODE: $000002F6 VOL: 0
 ;PCODE: $000002F7 VOL: 0
 ;PCODE: $000002F8 VOL: 0
 ;PCODE: $000002F9 VOL: 0
+; 0000 00C2                              output[1]=Letra0[18-i];
 ;PCODE: $000002FA VOL: 0
-; 0000 00B9                             }
-; 0000 00BA                         }
 ;PCODE: $000002FB VOL: 0
 ;PCODE: $000002FC VOL: 0
 ;PCODE: $000002FD VOL: 0
 ;PCODE: $000002FE VOL: 0
 ;PCODE: $000002FF VOL: 0
-; 0000 00BB                         f_write(&archivo,output,sizeof(output),&br);
 ;PCODE: $00000300 VOL: 0
+; 0000 00C3                              output[2]=Letra1[18-i];
 ;PCODE: $00000301 VOL: 0
 ;PCODE: $00000302 VOL: 0
 ;PCODE: $00000303 VOL: 0
@@ -1026,76 +1046,108 @@
 ;PCODE: $00000305 VOL: 0
 ;PCODE: $00000306 VOL: 0
 ;PCODE: $00000307 VOL: 0
-; 0000 00BC                     }
+; 0000 00C4                              output[3]=LetraH[18-i];
 ;PCODE: $00000308 VOL: 0
 ;PCODE: $00000309 VOL: 0
 ;PCODE: $0000030A VOL: 0
 ;PCODE: $0000030B VOL: 0
 ;PCODE: $0000030C VOL: 0
 ;PCODE: $0000030D VOL: 0
-; 0000 00BD                     EraseLCD();
 ;PCODE: $0000030E VOL: 0
-; 0000 00BE                     StringLCD("Listo      ");
+; 0000 00C5                              output[4]=LetraZ[18-i];
 ;PCODE: $0000030F VOL: 0
 ;PCODE: $00000310 VOL: 0
 ;PCODE: $00000311 VOL: 0
-; 0000 00BF                     f_close(&archivo);
 ;PCODE: $00000312 VOL: 0
 ;PCODE: $00000313 VOL: 0
-; 0000 00C0                     delay_ms(1000);
 ;PCODE: $00000314 VOL: 0
 ;PCODE: $00000315 VOL: 0
-; 0000 00C1                 }else{
+; 0000 00C6                             }
+; 0000 00C7                         }
 ;PCODE: $00000316 VOL: 0
 ;PCODE: $00000317 VOL: 0
-; 0000 00C2                     EraseLCD();
 ;PCODE: $00000318 VOL: 0
-; 0000 00C3                     MoveCursor(0,0);
 ;PCODE: $00000319 VOL: 0
 ;PCODE: $0000031A VOL: 0
+; 0000 00C8                         f_write(&archivo,output,sizeof(output),&br);
 ;PCODE: $0000031B VOL: 0
 ;PCODE: $0000031C VOL: 0
-; 0000 00C4                     StringLCD("File error");
 ;PCODE: $0000031D VOL: 0
 ;PCODE: $0000031E VOL: 0
 ;PCODE: $0000031F VOL: 0
-; 0000 00C5                     delay_ms(1000);
 ;PCODE: $00000320 VOL: 0
 ;PCODE: $00000321 VOL: 0
-; 0000 00C6                 }
 ;PCODE: $00000322 VOL: 0
-; 0000 00C7             }else{
+; 0000 00C9                     }
 ;PCODE: $00000323 VOL: 0
 ;PCODE: $00000324 VOL: 0
-; 0000 00C8                EraseLCD();
 ;PCODE: $00000325 VOL: 0
-; 0000 00C9                MoveCursor(0,0);
 ;PCODE: $00000326 VOL: 0
 ;PCODE: $00000327 VOL: 0
 ;PCODE: $00000328 VOL: 0
+; 0000 00CA                     EraseLCD();
 ;PCODE: $00000329 VOL: 0
-; 0000 00CA                StringLCD("base.bmp error");
+; 0000 00CB                     StringLCD("Listo      ");
 ;PCODE: $0000032A VOL: 0
 ;PCODE: $0000032B VOL: 0
 ;PCODE: $0000032C VOL: 0
-; 0000 00CB                delay_ms(1000);
+; 0000 00CC                     f_close(&archivo);
 ;PCODE: $0000032D VOL: 0
 ;PCODE: $0000032E VOL: 0
-; 0000 00CC             }
+; 0000 00CD                     delay_ms(1000);
 ;PCODE: $0000032F VOL: 0
-; 0000 00CD             sd_closeDrive();
 ;PCODE: $00000330 VOL: 0
-; 0000 00CE             EraseLCD();
+; 0000 00CE                 }else{
 ;PCODE: $00000331 VOL: 0
-; 0000 00CF         }
-; 0000 00D0     }
 ;PCODE: $00000332 VOL: 0
+; 0000 00CF                     EraseLCD();
 ;PCODE: $00000333 VOL: 0
+; 0000 00D0                     MoveCursor(0,0);
 ;PCODE: $00000334 VOL: 0
-; 0000 00D1 }
 ;PCODE: $00000335 VOL: 0
 ;PCODE: $00000336 VOL: 0
 ;PCODE: $00000337 VOL: 0
+; 0000 00D1                     StringLCD("File error");
+;PCODE: $00000338 VOL: 0
+;PCODE: $00000339 VOL: 0
+;PCODE: $0000033A VOL: 0
+; 0000 00D2                     delay_ms(1000);
+;PCODE: $0000033B VOL: 0
+;PCODE: $0000033C VOL: 0
+; 0000 00D3                 }
+;PCODE: $0000033D VOL: 0
+; 0000 00D4             }else{
+;PCODE: $0000033E VOL: 0
+;PCODE: $0000033F VOL: 0
+; 0000 00D5                EraseLCD();
+;PCODE: $00000340 VOL: 0
+; 0000 00D6                MoveCursor(0,0);
+;PCODE: $00000341 VOL: 0
+;PCODE: $00000342 VOL: 0
+;PCODE: $00000343 VOL: 0
+;PCODE: $00000344 VOL: 0
+; 0000 00D7                StringLCD("base.bmp error");
+;PCODE: $00000345 VOL: 0
+;PCODE: $00000346 VOL: 0
+;PCODE: $00000347 VOL: 0
+; 0000 00D8                delay_ms(1000);
+;PCODE: $00000348 VOL: 0
+;PCODE: $00000349 VOL: 0
+; 0000 00D9             }
+;PCODE: $0000034A VOL: 0
+; 0000 00DA             sd_closeDrive();
+;PCODE: $0000034B VOL: 0
+; 0000 00DB             EraseLCD();
+;PCODE: $0000034C VOL: 0
+; 0000 00DC         }
+; 0000 00DD     }
+;PCODE: $0000034D VOL: 0
+;PCODE: $0000034E VOL: 0
+;PCODE: $0000034F VOL: 0
+; 0000 00DE }
+;PCODE: $00000350 VOL: 0
+;PCODE: $00000351 VOL: 0
+;PCODE: $00000352 VOL: 0
 
 	.DSEG
 _0x36:

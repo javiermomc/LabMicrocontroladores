@@ -31,7 +31,6 @@ unsigned int read_adc(unsigned char adc_input)
 {
 ADMUX=adc_input | ADC_VREF_TYPE;
 // Delay needed for the stabilization of the ADC input voltage
-delay_us(10);
 // Start the AD conversion
 ADCSRA|=(1<<ADSC);
 // Wait for the AD conversion to complete
@@ -64,7 +63,19 @@ void scope(){
     int i;
     for (i=0;i<128;i++){
         buffer[i] = read_adc(7);
-        delay_us(39);
+        delay_us(21);
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
+        #asm("NOP");
     }
 }
 
@@ -127,6 +138,8 @@ void main(void) {
     // ADC High Speed Mode: On
     // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
     // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
+    CLKPR = 0x80;
+    CLKPR = 0;
     DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
     ADMUX=ADC_VREF_TYPE;
     ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);

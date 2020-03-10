@@ -6,7 +6,7 @@
  </FRAME>
  <MODULE name="VSMDEBUG">
   <PWI>
-   <POPUP w="800" x="48" flags="00008003" y="160" h="200" pid="0" iid="-1">
+   <POPUP w="800" x="48" flags="00000003" y="160" h="200" pid="0" iid="-1">
     <PROPERTIES>
      <ITEM name="Message Column Width">540</ITEM>
      <ITEM name="ShowGrid">No</ITEM>
@@ -38,10 +38,10 @@
    <POPUP w="695" x="207" flags="00000001" y="45" h="459" pid="0" iid="9">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="511" x="1156" flags="00000001" y="575" h="153" pid="0" iid="8">
+   <POPUP w="511" x="1149" flags="00000001" y="687" h="153" pid="0" iid="8">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="500" x="148" flags="0000002b" y="260" h="400" pid="0" iid="5">
+   <POPUP w="500" x="148" flags="0000802b" y="260" h="400" pid="0" iid="5">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="258" x="168" flags="00000008" y="280" h="255" pid="3" iid="7">
@@ -90,7 +90,7 @@
      <ITEM name="TopLineAddress">00000000</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="16" x="288" flags="80000000" y="400" h="32" pid="14" iid="7">
+   <POPUP w="16" x="288" flags="00000000" y="400" h="32" pid="14" iid="7">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>
@@ -122,7 +122,7 @@
    </POPUP>
    <POPUP w="600" x="1235" flags="0000002b" y="117" h="400" pid="1" iid="7">
     <PROPERTIES>
-     <ITEM name="Breakpoint 0">"main",0564,006E,990E,A3BA,1
+     <ITEM name="Breakpoint 0">"scope",043C,0010,4895,A3BA,1
 </ITEM>
      <ITEM name="Breakpoint 1">"main",0636,0140,D31F,A3BA,1
 </ITEM>
