@@ -170,16 +170,13 @@ void main(void) {
                             output[j] = 0xFF;
                         }
                         for(j=0; j<128; j++){ 
-                            
                             if(buffer[j]*256/1024==i){
-                            
                                 if((j+1)%2==1){
                                     output[j/2] = output[j/2] & 0x0F;
                                 }else{
                                     output[j/2] = output[j/2] & 0xF0;
                                 }
                             }
-                            
                             if ((i>=10)&(i<=18)){
                              output[1]=Letra0[18-i];
                              output[2]=Letra1[18-i];

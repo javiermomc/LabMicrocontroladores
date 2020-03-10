@@ -189,7 +189,7 @@ void main(void) {
                     EraseLCD();
                     StringLCD("Listo      ");   
                     f_close(&archivo); 
-                    delay_ms(2000);
+                    delay_ms(1000);
                 }else{
                     EraseLCD();
                     MoveCursor(0,0);
@@ -202,7 +202,8 @@ void main(void) {
                StringLCD("base.bmp error");
                delay_ms(1000);          
             }
-            sd_closeDrive();            
+            sd_closeDrive();
+            EraseLCD();            
         }
     }
 }

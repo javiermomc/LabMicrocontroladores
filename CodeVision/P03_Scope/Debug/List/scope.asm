@@ -1818,7 +1818,6 @@ _sd_closeDrive:
 	__POINTD2FN _0x0,19
 	CALL SUBOPT_0x8
 ; 0000 0070     delay_ms(1000);
-	CALL _delay_ms
 ; 0000 0071 }
 	RET
 ; .FEND
@@ -1963,14 +1962,14 @@ _0x31:
 	LDI  R26,LOW(7)
 	LDI  R27,HIGH(7)
 	CALL _f_write
-; 0000 00A8                     for (i=255;i>0;i--){
-	LDI  R30,LOW(255)
-	LDI  R31,HIGH(255)
-	__PUTW1R 9,10
+; 0000 00A8                     for (i=0;i<256;i++){
+	CLR  R9
+	CLR  R10
 _0x39:
-	CLR  R0
-	CP   R0,R9
-	CPC  R0,R10
+	LDI  R30,LOW(256)
+	LDI  R31,HIGH(256)
+	CP   R9,R30
+	CPC  R10,R31
 	BRLT PC+2
 	RJMP _0x3A
 ; 0000 00A9                         for(j=0; j<64; j++){
@@ -1997,8 +1996,7 @@ _0x3F:
 	CP   R3,R30
 	BRLO PC+2
 	RJMP _0x40
-; 0000 00AD 
-; 0000 00AE                             if(buffer[j]*256/1024==i){
+; 0000 00AD                             if(buffer[j]*256/1024==i){
 	MOV  R30,R3
 	CALL SUBOPT_0x6
 	CALL __GETW1P
@@ -2011,8 +2009,7 @@ _0x3F:
 	CP   R9,R30
 	CPC  R10,R31
 	BRNE _0x41
-; 0000 00AF 
-; 0000 00B0                                 if((j+1)%2==1){
+; 0000 00AE                                 if((j+1)%2==1){
 	MOV  R30,R3
 	LDI  R31,0
 	ADIW R30,1
@@ -2024,22 +2021,21 @@ _0x3F:
 	LDI  R26,HIGH(0x1)
 	CPC  R31,R26
 	BRNE _0x42
-; 0000 00B1                                     output[j/2] = output[j/2] & 0x0F;
+; 0000 00AF                                     output[j/2] = output[j/2] & 0x0F;
 	CALL SUBOPT_0xB
 	ANDI R30,LOW(0xF)
 	RJMP _0x49
-; 0000 00B2                                 }else{
+; 0000 00B0                                 }else{
 _0x42:
-; 0000 00B3                                     output[j/2] = output[j/2] & 0xF0;
+; 0000 00B1                                     output[j/2] = output[j/2] & 0xF0;
 	CALL SUBOPT_0xB
 	ANDI R30,LOW(0xF0)
 _0x49:
 	MOVW R26,R22
 	ST   X,R30
-; 0000 00B4                                 }
-; 0000 00B5                             }
-; 0000 00B6 
-; 0000 00B7                             if ((i>=10)&(i<=18)){
+; 0000 00B2                                 }
+; 0000 00B3                             }
+; 0000 00B4                             if ((i>=10)&(i<=18)){
 _0x41:
 	__GETW2R 9,10
 	LDI  R30,LOW(10)
@@ -2051,97 +2047,98 @@ _0x41:
 	CALL __LEW12
 	AND  R30,R0
 	BREQ _0x44
-; 0000 00B8                              output[1]=Letra0[18-i];
+; 0000 00B5                              output[1]=Letra0[18-i];
 	CALL SUBOPT_0xC
 	SUBI R30,LOW(-_Letra0*2)
 	SBCI R31,HIGH(-_Letra0*2)
 	SBCI R22,BYTE3(-_Letra0*2)
 	__GETBRPF 0
 	__PUTBR0MN _output,1
-; 0000 00B9                              output[2]=Letra1[18-i];
+; 0000 00B6                              output[2]=Letra1[18-i];
 	CALL SUBOPT_0xC
 	SUBI R30,LOW(-_Letra1*2)
 	SBCI R31,HIGH(-_Letra1*2)
 	SBCI R22,BYTE3(-_Letra1*2)
 	__GETBRPF 0
 	__PUTBR0MN _output,2
-; 0000 00BA                              output[3]=LetraH[18-i];
+; 0000 00B7                              output[3]=LetraH[18-i];
 	CALL SUBOPT_0xC
 	SUBI R30,LOW(-_LetraH*2)
 	SBCI R31,HIGH(-_LetraH*2)
 	SBCI R22,BYTE3(-_LetraH*2)
 	__GETBRPF 0
 	__PUTBR0MN _output,3
-; 0000 00BB                              output[4]=LetraZ[18-i];
+; 0000 00B8                              output[4]=LetraZ[18-i];
 	CALL SUBOPT_0xC
 	SUBI R30,LOW(-_LetraZ*2)
 	SBCI R31,HIGH(-_LetraZ*2)
 	SBCI R22,BYTE3(-_LetraZ*2)
 	__GETBRPF 0
 	__PUTBR0MN _output,4
-; 0000 00BC                             }
-; 0000 00BD                         }
+; 0000 00B9                             }
+; 0000 00BA                         }
 _0x44:
 	INC  R3
 	RJMP _0x3F
 _0x40:
-; 0000 00BE                         f_write(&archivo,output,sizeof(output),&br);
+; 0000 00BB                         f_write(&archivo,output,sizeof(output),&br);
 	CALL SUBOPT_0x9
 	LDI  R30,LOW(_output)
 	LDI  R31,HIGH(_output)
 	CALL SUBOPT_0xA
 	CALL _f_write
-; 0000 00BF                     }
-	__GETW1R 9,10
-	SBIW R30,1
-	__PUTW1R 9,10
+; 0000 00BC                     }
+	LDI  R30,LOW(1)
+	LDI  R31,HIGH(1)
+	__ADDWRR 9,10,30,31
 	RJMP _0x39
 _0x3A:
-; 0000 00C0                     EraseLCD();
+; 0000 00BD                     EraseLCD();
 	RCALL _EraseLCD
-; 0000 00C1                     StringLCD("Listo      ");
+; 0000 00BE                     StringLCD("Listo      ");
 	__POINTD2FN _0x0,70
 	RCALL _StringLCD
-; 0000 00C2                     f_close(&archivo);
+; 0000 00BF                     f_close(&archivo);
 	LDI  R26,LOW(_archivo)
 	LDI  R27,HIGH(_archivo)
 	CALL _f_close
-; 0000 00C3                     delay_ms(2000);
-	LDI  R26,LOW(2000)
-	LDI  R27,HIGH(2000)
+; 0000 00C0                     delay_ms(1000);
 	RJMP _0x4A
-; 0000 00C4                 }else{
+; 0000 00C1                 }else{
 _0x37:
-; 0000 00C5                     EraseLCD();
+; 0000 00C2                     EraseLCD();
 	CALL SUBOPT_0x7
-; 0000 00C6                     MoveCursor(0,0);
-; 0000 00C7                     StringLCD("File error");
+; 0000 00C3                     MoveCursor(0,0);
+; 0000 00C4                     StringLCD("File error");
 	__POINTD2FN _0x0,82
-	CALL SUBOPT_0x8
-; 0000 00C8                     delay_ms(1000);
+	RCALL _StringLCD
+; 0000 00C5                     delay_ms(1000);
 _0x4A:
+	LDI  R26,LOW(1000)
+	LDI  R27,HIGH(1000)
 	CALL _delay_ms
-; 0000 00C9                 }
-; 0000 00CA             }else{
+; 0000 00C6                 }
+; 0000 00C7             }else{
 	RJMP _0x46
 _0x35:
-; 0000 00CB                EraseLCD();
+; 0000 00C8                EraseLCD();
 	CALL SUBOPT_0x7
-; 0000 00CC                MoveCursor(0,0);
-; 0000 00CD                StringLCD("base.bmp error");
+; 0000 00C9                MoveCursor(0,0);
+; 0000 00CA                StringLCD("base.bmp error");
 	__POINTD2FN _0x0,93
 	CALL SUBOPT_0x8
-; 0000 00CE                delay_ms(1000);
-	CALL _delay_ms
-; 0000 00CF             }
+; 0000 00CB                delay_ms(1000);
+; 0000 00CC             }
 _0x46:
-; 0000 00D0             sd_closeDrive();
+; 0000 00CD             sd_closeDrive();
 	RCALL _sd_closeDrive
-; 0000 00D1         }
-; 0000 00D2     }
+; 0000 00CE             EraseLCD();
+	RCALL _EraseLCD
+; 0000 00CF         }
+; 0000 00D0     }
 _0x34:
 	RJMP _0x31
-; 0000 00D3 }
+; 0000 00D1 }
 _0x47:
 	RJMP _0x47
 ; .FEND
@@ -6791,12 +6788,12 @@ SUBOPT_0x7:
 	LDI  R26,LOW(0)
 	JMP  _MoveCursor
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
 SUBOPT_0x8:
 	CALL _StringLCD
 	LDI  R26,LOW(1000)
 	LDI  R27,HIGH(1000)
-	RET
+	JMP  _delay_ms
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:5 WORDS
 SUBOPT_0x9:

@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-VERSION:3 SOURCE_TIMESTAMP:506A09EF
-=======
-VERSION:3 SOURCE_TIMESTAMP:506A638B
->>>>>>> Stashed changes
+VERSION:3 SOURCE_TIMESTAMP:506A8154
 NODE:I LEVEL:0 LINE:19 "C:\cvavr\inc\90usb1286.h"
 NODE:I LEVEL:0 LINE:20 "C:\cvavr\inc\display.h"
 NODE:I LEVEL:0 LINE:21 "C:\cvavr\inc\delay.h"
