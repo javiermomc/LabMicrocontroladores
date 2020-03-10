@@ -1978,6 +1978,7 @@ _0x3C:
 	BRLO PC+2
 	RJMP _0x3D
 ; 0000 00A9                             output[j/2] = 0xFF;
+	MOV  R26,R3
 	CALL SUBOPT_0xA
 	LDI  R26,LOW(255)
 	STD  Z+0,R26
@@ -2002,24 +2003,15 @@ _0x3C:
 	LDI  R30,LOW(2)
 	LDI  R31,HIGH(2)
 	CALL __MODW21
-	CPI  R30,LOW(0x1)
-	LDI  R26,HIGH(0x1)
-	CPC  R31,R26
-	BRNE _0x3F
-; 0000 00AC                                     output[j/2] = output[j/2] - 0xF0;
-	CALL SUBOPT_0xA
-	MOVW R22,R30
-	LD   R30,Z
-	SUBI R30,LOW(240)
-	RJMP _0x46
+; 0000 00AC                                     output[j/2] = output[j/2] - 0xF;
 ; 0000 00AD                                 }else{
-_0x3F:
 ; 0000 00AE                                     output[j/2] = output[j/2] - 0x0F;
+_0x46:
+	MOV  R26,R3
 	CALL SUBOPT_0xA
 	MOVW R22,R30
 	LD   R30,Z
 	SUBI R30,LOW(15)
-_0x46:
 	MOVW R26,R22
 	ST   X,R30
 ; 0000 00AF                                 }
@@ -6793,9 +6785,8 @@ SUBOPT_0x9:
 	LDI  R27,HIGH(7)
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:9 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
 SUBOPT_0xA:
-	MOV  R26,R3
 	LDI  R27,0
 	LDI  R30,LOW(2)
 	LDI  R31,HIGH(2)

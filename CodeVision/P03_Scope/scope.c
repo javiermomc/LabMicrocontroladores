@@ -42,10 +42,6 @@ return ADCW;
 
 int buffer[128];
 
-<<<<<<< Updated upstream
-void frequency(){
-    
-=======
 int frequency(){
     char i=0, max, iMax, freq;
     max = buffer[0];
@@ -61,7 +57,6 @@ int frequency(){
         }
     }    
     return (int)freq;
->>>>>>> Stashed changes
 }
 
 // Fills the array to sample the scope shot
@@ -73,12 +68,6 @@ void scope(){
     }
 }
 
-<<<<<<< Updated upstream
-// Trigger for scope shot
-PORTD.7 = 1;
-
-void main(void) {
-=======
 int freq;
 
 
@@ -94,7 +83,6 @@ interrupt [TIM1_COMPA] void timer1_compa_isr(void)
 disk_timerproc();
 /* MMC/SD/SD HC card access low level timing function */
 }
->>>>>>> Stashed changes
 
 flash unsigned char Letra0[9] ={0xC7,0xBB,0xBB,0xBB,0xBB,0xBB,0xBB,0xBB,0xC7};
 flash unsigned char Letra1[9] ={0xEF,0x8F,0xEF,0xEF,0xEF,0xEF,0xEF,0xEF,0x83};
@@ -109,8 +97,6 @@ flash unsigned char Letra9[9] ={0xC7,0xBB,0xBB,0xBB,0xC3,0xFB,0xFB,0xF7,0xCF};
 flash unsigned char LetraH[9] ={0x88,0xDD,0xDD,0xDD,0xC1,0xDD,0xDD,0xDD,0x88};
 flash unsigned char LetraZ[9] ={0xFF,0xFF,0xFF,0x81,0xBB,0xF7,0xEF,0xDD,0x81};
 
-<<<<<<< Updated upstream
-=======
 void sd_openDrive(){
     if (f_mount(0,&drive)!=FR_OK){
         EraseLCD();
@@ -164,7 +150,6 @@ void main(void) {
     disk_initialize(0);
     delay_ms(200);
     
->>>>>>> Stashed changes
     while (1) {
     // Please write your application code here  
     StringLCD("Welcome");
@@ -184,7 +169,7 @@ void main(void) {
                             output[j/2] = 0xFF;
                             if(buffer[j]*256/1024==i){
                                 if((j+1)%2==1){
-                                    output[j/2] = output[j/2] - 0xF0;
+                                    output[j/2] = output[j/2] - 0xF;
                                 }else{
                                     output[j/2] = output[j/2] - 0x0F;
                                 }

@@ -923,7 +923,7 @@
 ;PCODE: $000002AE VOL: 0
 ;PCODE: $000002AF VOL: 0
 ;PCODE: $000002B0 VOL: 0
-; 0000 00AC                                     output[j/2] = output[j/2] - 0xF0;
+; 0000 00AC                                     output[j/2] = output[j/2] - 0xF;
 ;PCODE: $000002B1 VOL: 0
 ;PCODE: $000002B2 VOL: 0
 ;PCODE: $000002B3 VOL: 0
