@@ -22,21 +22,22 @@
 #include <stdio.h>
 #include <ff.h>
 
-// Voltage Reference: Int., cap. on AREF
-#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
+// Voltage Reference: AVCC pin
+#define ADC_VREF_TYPE ((0<<REFS1) | (1<<REFS0) | (1<<ADLAR))
 
-
-// Read the AD conversion result
-unsigned int read_adc(unsigned char adc_input)
+// Read the 8 most significant bits
+// of the AD conversion result
+unsigned char read_adc(unsigned char adc_input)
 {
 ADMUX=adc_input | ADC_VREF_TYPE;
 // Delay needed for the stabilization of the ADC input voltage
+//delay_us(10);
 // Start the AD conversion
 ADCSRA|=(1<<ADSC);
 // Wait for the AD conversion to complete
 while ((ADCSRA & (1<<ADIF))==0);
 ADCSRA|=(1<<ADIF);
-return ADCW;
+return ADCH;
 }
 
 int buffer[128];
@@ -57,10 +58,10 @@ int frequency(){
     }    
     return (int)freq;
 }
-
+int i;
 // Fills the array to sample the scope shot
 void scope(){
-    int i;
+    #asm("cli")
     for (i=0;i<128;i++){
         buffer[i] = read_adc(7);
         delay_us(21);
@@ -77,6 +78,7 @@ void scope(){
         #asm("NOP");
         #asm("NOP");
     }
+    #asm("sei")
 }
 
 int freq;
@@ -124,22 +126,89 @@ void sd_closeDrive(){
 }
 
 char j;
-int i;
 char encabezado[62];
 
 
 char output[64];
+char aNum[9];
+void getNum(int num){
+    char i;
+    switch(num){
+        case 0:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra0[i];
+            break;
+        case 1:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra1[i];
+            break;
+        case 2:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra2[i];
+            break;
+        case 3:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra3[i];
+            break;
+        case 4:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra4[i];
+            break;
+        case 5:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra5[i];
+            break;
+        case 6:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra6[i];
+            break;
+        case 7:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra7[i];
+            break;
+        case 8:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra8[i];
+            break;
+        case 9:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra9[i];
+            break;
+        case 10:
+            for(i=0;i<9;i++)
+            aNum[i] = LetraH[i];
+            break;
+        case 11:
+            for(i=0;i<9;i++)
+            aNum[i] = LetraZ[i];
+            break;
+        default:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra0[i];
+            break;
+    }
+}
+
+char d, c, u;
+void itoa(int n){
+    int num = n;
+    d = num/100;
+    num = num-d*100;
+    c = num/10;
+    num = num-d*10;
+    u = num;    
+}
 
 void main(void) {
     SetupLCD();  
     // ADC initialization
     // ADC Clock frequency: 1000.000 kHz
-    // ADC Voltage Reference: Int., cap. on AREF
+    // ADC Voltage Reference: AVCC pin
     // ADC High Speed Mode: On
+    // Only the 8 most significant bits of
+    // the AD conversion result are used
     // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
     // ADC4: On, ADC5: On, ADC6: On, ADC7: Off
-    CLKPR = 0x80;
-    CLKPR = 0;
     DIDR0=(1<<ADC7D) | (0<<ADC6D) | (0<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
     ADMUX=ADC_VREF_TYPE;
     ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
@@ -191,10 +260,17 @@ void main(void) {
                                 }
                             }
                             if ((i>=10)&(i<=18)){
-                             output[1]=Letra0[18-i];
-                             output[2]=Letra1[18-i];
-                             output[3]=LetraH[18-i];
-                             output[4]=LetraZ[18-i]; 
+                                itoa(freq);
+                                getNum(d);
+                                output[1]=aNum[18-i];
+                                getNum(c);                             
+                                output[2]=aNum[18-i];
+                                getNum(u);
+                                output[3]=aNum[18-i];
+                                getNum(10);
+                                output[4]=aNum[18-i];
+                                getNum(11);
+                                output[5]=aNum[18-i]; 
                             }                   
                         }
                         f_write(&archivo,output,sizeof(output),&br);
