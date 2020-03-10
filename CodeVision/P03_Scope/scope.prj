@@ -136,7 +136,7 @@ RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< Updated upstream
 COFFileTimeStamp=1349159338
-Build=103
+Build=104
 =======
 COFFileTimeStamp=1349149581
 Build=99
@@ -249,7 +249,7 @@ RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
 <<<<<<< Updated upstream
-Build=103
+Build=104
 =======
 Build=99
 >>>>>>> Stashed changes
@@ -541,9 +541,9 @@ L13=Enhanced function parameters passing: Yes
 L14=Automatic register allocation: Yes
 L15=Smart register allocation: Yes
 L16=
-L17=Build: 103
-L18=20797 line(s) compiled
-L19=No errors
+L17=Build: 104
+L18=4320 line(s) compiled
+L19=1 error(s)
 L20=No warnings
 L21=
 L22=Bit variables size: 0 byte(s)
@@ -552,20 +552,20 @@ L24=Data Stack area: 0x100 to 0x8FF
 L25=Data Stack size: 2048 byte(s)
 L26=Estimated Data Stack usage: 159 byte(s)
 L27=
-L28=RAM Global variables area: 0x900 to 0xEFD
-L29=RAM Global variables size: 1534 byte(s)
-L30=
-L31=Hardware Stack area: 0xEFE to 0x20FF
-L32=Hardware Stack size: 4610 byte(s)
-L33=
-L34=Heap size: 0 byte(s)
-L35=
-Lines=38
+L28=RAM Global variables size: 0 byte(s)
+L29=
+L30=Hardware Stack area: 0x900 to 0x20FF
+L31=Hardware Stack size: 6144 byte(s)
+L32=
+L33=Heap size: 0 byte(s)
+L34=
+L35=EEPROM usage: 0 byte(s), 0.0% of EEPROM
+Lines=35
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
 L37=Program size: 7859 words (15718 bytes), 12.0% of FLASH
 L38=835 words (1670 bytes), 9.6% reduced by Code Compression
 [BuildInfoAssembler]
-Lines=12
+Lines=0
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=

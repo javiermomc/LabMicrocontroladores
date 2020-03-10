@@ -259,7 +259,7 @@ void main(void) {
                                 }
                             }
                             if ((i>=10)&(i<=18)){
-                                itoa(freq) 
+                                itoa(freq);
                                 getNum(d);
                                 output[1]=aNum[18-i];
                                 getNum(c);                             

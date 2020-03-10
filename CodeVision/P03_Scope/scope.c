@@ -60,6 +60,7 @@ int frequency(){
 
 // Fills the array to sample the scope shot
 void scope(){
+    #asm("cli")
     int i;
     for (i=0;i<128;i++){
         buffer[i] = read_adc(7);
@@ -77,6 +78,7 @@ void scope(){
         #asm("NOP");
         #asm("NOP");
     }
+    #asm("sei")
 }
 
 int freq;
