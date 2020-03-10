@@ -129,6 +129,74 @@ char encabezado[62];
 
 
 char output[64];
+char aNum[9];
+void getNum(int num){
+    char i;
+    switch(num){
+        case 0:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra0[i];
+            break;
+        case 1:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra1[i];
+            break;
+        case 2:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra2[i];
+            break;
+        case 3:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra3[i];
+            break;
+        case 4:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra4[i];
+            break;
+        case 5:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra5[i];
+            break;
+        case 6:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra6[i];
+            break;
+        case 7:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra7[i];
+            break;
+        case 8:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra8[i];
+            break;
+        case 9:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra9[i];
+            break;
+        case 10:
+            for(i=0;i<9;i++)
+            aNum[i] = LetraH[i];
+            break;
+        case 11:
+            for(i=0;i<9;i++)
+            aNum[i] = LetraZ[i];
+            break;
+        default:
+            for(i=0;i<9;i++)
+            aNum[i] = Letra0[i];
+            break;
+    }
+}
+
+char d, c, u;
+void itoa(int n){
+    int num = n;
+    d = num/100;
+    num = num-d*100;
+    c = num/10;
+    num = num-d*10;
+    u = num;    
+}
 
 void main(void) {
     SetupLCD();  
@@ -191,10 +259,17 @@ void main(void) {
                                 }
                             }
                             if ((i>=10)&(i<=18)){
-                             output[1]=Letra0[18-i];
-                             output[2]=Letra1[18-i];
-                             output[3]=LetraH[18-i];
-                             output[4]=LetraZ[18-i]; 
+                                itoa(freq);
+                                getNum(d);
+                                output[1]=aNum[18-i];
+                                getNum(c);                             
+                                output[2]=aNum[18-i];
+                                getNum(u);
+                                output[3]=aNum[18-i];
+                                getNum(10);
+                                output[4]=aNum[18-i];
+                                getNum(11);
+                                output[5]=aNum[18-i]; 
                             }                   
                         }
                         f_write(&archivo,output,sizeof(output),&br);
