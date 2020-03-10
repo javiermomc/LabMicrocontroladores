@@ -152,6 +152,7 @@ void main(void) {
     
     while (1) {
     // Please write your application code here  
+    MoveCursor(0,0);
     StringLCD("Welcome");
         if (PIND.7 == 0){
             EraseLCD();
@@ -164,14 +165,16 @@ void main(void) {
                 f_close(&archivo); 
                 if (f_open(&archivo,fileName, FA_CREATE_ALWAYS | FA_WRITE)==FR_OK){       
                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado  
-                    for (i=0;i<256;i++){
+                    for (i=0;i<256;i++){      
+                        for(j=0; j<64; j++){
+                            output[j] = 0xFF;
+                        }
                         for(j=0; j<128; j++){ 
-                            output[j/2] = 0xFF;
                             if(buffer[j]*256/1024==i){
                                 if((j+1)%2==1){
-                                    output[j/2] = output[j/2] - 0xF;
+                                    output[j/2] = output[j/2] & 0x0F;
                                 }else{
-                                    output[j/2] = output[j/2] - 0x0F;
+                                    output[j/2] = output[j/2] & 0xF0;
                                 }
                             }
                             if ((i>=10)&(i<=18)){
@@ -190,12 +193,14 @@ void main(void) {
                 }else{
                     EraseLCD();
                     MoveCursor(0,0);
-                    StringLCD("File error"); 
+                    StringLCD("File error");
+                    delay_ms(1000); 
                 }                
             }else{
                EraseLCD();
                MoveCursor(0,0);
-               StringLCD("base.bmp error");          
+               StringLCD("base.bmp error");
+               delay_ms(1000);          
             }
             sd_closeDrive();            
         }
