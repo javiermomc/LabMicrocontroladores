@@ -252,11 +252,18 @@ void main(void) {
                             output[j] = 0xFF;
                         }
                         for(j=0; j<128; j++){ 
+                            if((buffer[j]>i&&buffer[j+1]<i)||(buffer[j]<i&&buffer[j+1]>i)){
+                                if((j+1)%2==1){
+                                    output[j/2] = output[j/2] & 0xEF;
+                                }else{
+                                    output[j/2] = output[j/2] & 0xFE;
+                                }
+                            }
                             if(buffer[j]==i){
                                 if((j+1)%2==1){
-                                    output[j/2] = output[j/2] & 0x7F;
+                                    output[j/2] = output[j/2] & 0x0F;
                                 }else{
-                                    output[j/2] = output[j/2] & 0xF7;
+                                    output[j/2] = output[j/2] & 0xF0;
                                 }
                             }
                             if ((i>=10)&(i<=18)){
