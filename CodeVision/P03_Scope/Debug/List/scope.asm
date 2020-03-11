@@ -2401,16 +2401,10 @@ _0x76:
 	CP   R3,R30
 	BRLO PC+2
 	RJMP _0x77
-; 0000 00FF                             if(buffer[j]*256/1024==i){
+; 0000 00FF                             if(buffer[j]==i){
 	MOV  R30,R3
 	CALL SUBOPT_0x6
 	CALL __GETW1P
-	MOV  R31,R30
-	LDI  R30,0
-	MOVW R26,R30
-	LDI  R30,LOW(1024)
-	LDI  R31,HIGH(1024)
-	CALL __DIVW21
 	CP   R5,R30
 	CPC  R6,R31
 	BRNE _0x78
@@ -2426,15 +2420,15 @@ _0x76:
 	LDI  R26,HIGH(0x1)
 	CPC  R31,R26
 	BRNE _0x79
-; 0000 0101                                     output[j/2] = output[j/2] & 0x0F;
+; 0000 0101                                     output[j/2] = output[j/2] & 0x7F;
 	CALL SUBOPT_0xD
-	ANDI R30,LOW(0xF)
+	ANDI R30,0x7F
 	RJMP _0x80
 ; 0000 0102                                 }else{
 _0x79:
-; 0000 0103                                     output[j/2] = output[j/2] & 0xF0;
+; 0000 0103                                     output[j/2] = output[j/2] & 0xF7;
 	CALL SUBOPT_0xD
-	ANDI R30,LOW(0xF0)
+	ANDI R30,0XF7
 _0x80:
 	MOVW R26,R22
 	ST   X,R30
