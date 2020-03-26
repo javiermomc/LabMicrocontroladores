@@ -192,7 +192,7 @@ void itoa(int n){
 }
     
 void main(void) {
-    SetupLCD();  
+    SetupLCD(); // LCD Setup  
     // ADC initialization
     // ADC Clock frequency: 1000.000 kHz
     // ADC Voltage Reference: AVCC pin
@@ -214,12 +214,11 @@ void main(void) {
     CLKPR=0;        //16 MHz
     
     // Código para hacer una interrupción periódica cada 10ms
-    
     TCCR1B=0x0A;             //  CK/8
     OCR1AH=19999/256;
     OCR1AL=19999%256;
     TIMSK1=0x02;
-    StringLCD("...");
+    StringLCD("Openning disk...");
     #asm("sei")
     disk_initialize(0);
     delay_ms(200);
@@ -227,16 +226,25 @@ void main(void) {
     while (1) {
     // Please write your application code here  
     MoveCursor(0,0);
-    StringLCD("Welcome");
+    StringLCD("Ready");
         if (PIND.7 == 0){
             EraseLCD();
-            StringLCD("Starting     ");
-            getFrequency(); 
+            StringLCD("Loading...");
+            getFrequency(); // Get function frequency 
             scope(); 
             sd_openDrive();
             if(f_open(&archivo,"0:BASE.BMP", FA_OPEN_EXISTING | FA_READ)==FR_OK){
                 f_read(&archivo, encabezado, 64, &br);
-                f_close(&archivo); 
+                f_close(&archivo);
+                i=0;
+                do{
+                f_close(&archivo);
+                sprintf(fileName, "0:IM%03u.BMP", i);
+                i++;
+                }while(f_open(&archivo, fileName, FA_OPEN_EXISTING)==FR_OK); // Check if file exists
+                f_close(&archivo);
+                EraseLCD();
+                StringLCDVar(fileName); 
                 if (f_open(&archivo,fileName, FA_CREATE_ALWAYS | FA_WRITE)==FR_OK){       
                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado  
                     for (i=0;i<256;i++){      
@@ -259,15 +267,15 @@ void main(void) {
                                 }
                             }
                             if ((i>=10)&(i<=18)){
-                                itoa(freq);
-                                getNum(m);
+                                itoa(freq); // Change integer to characters
+                                getNum(m); // Obtain character
                                 if(m!=0)
                                     output[1]=aNum[18-i];
                                 getNum(d);
-                                if(m!=0||c!=0)
+                                if(m!=0||d!=0)
                                     output[2]=aNum[18-i];
                                 getNum(c);
-                                if(m!=0||c!=0||d!=0)                             
+                                if(m!=0||d!=0||c!=0)                             
                                     output[3]=aNum[18-i];
                                 getNum(u);
                                 output[4]=aNum[18-i];
@@ -280,7 +288,7 @@ void main(void) {
                         f_write(&archivo,output,sizeof(output),&br);
                     }
                     EraseLCD();
-                    StringLCD("Listo      ");   
+                    StringLCD("Done);   
                     f_close(&archivo); 
                     delay_ms(1000);
                 }else{
