@@ -40,25 +40,18 @@ ADCSRA|=(1<<ADIF);
 return ADCH;
 }
 
-int buffer[128];
-
-int frequency(){
-    char i=0, max, iMax, freq;
-    max = buffer[0];
-    iMax = i;
-    for ( i=1;i<128;i++){
-        if(max == buffer[i]){
-            freq = 1/(((float)(i - iMax))*0.000039);
-            iMax = i; 
-        }               
-        if(max<buffer[i]){
-            max = buffer[i];
-            iMax = i;
-        }
-    }    
-    return (int)freq;
+int freq;
+void getFrequency(){
+    TCCR3A = 0b00000000;
+    TCCR3B = 0x07;
+    TCNT3H = 0;
+    TCNT3L = 0;
+    delay_ms(998);
+    delay_us(870);
+    freq = TCNT3L + TCNT3H*256;   
 }
-int i;
+
+int i, buffer[128];
 // Fills the array to sample the scope shot
 void scope(){
     #asm("cli")
@@ -80,9 +73,6 @@ void scope(){
     }
     #asm("sei")
 }
-
-int freq;
-
 
 // SD
 char fileName[]  = "0:IM000.BMP";
@@ -189,16 +179,18 @@ void getNum(int num){
     }
 }
 
-char d, c, u;
+char m, d, c, u;
 void itoa(int n){
     int num = n;
+    m = num/1000;
+    num = n - m*1000;
     d = num/100;
     num = num-d*100;
     c = num/10;
-    num = num-d*10;
+    num = num-c*10;
     u = num;    
 }
-
+    
 void main(void) {
     SetupLCD();  
     // ADC initialization
@@ -239,8 +231,8 @@ void main(void) {
         if (PIND.7 == 0){
             EraseLCD();
             StringLCD("Starting     ");
-            scope();
-            freq = frequency(); 
+            getFrequency(); 
+            scope(); 
             sd_openDrive();
             if(f_open(&archivo,"0:BASE.BMP", FA_OPEN_EXISTING | FA_READ)==FR_OK){
                 f_read(&archivo, encabezado, 64, &br);
@@ -268,16 +260,21 @@ void main(void) {
                             }
                             if ((i>=10)&(i<=18)){
                                 itoa(freq);
+                                getNum(m);
+                                if(m!=0)
+                                    output[1]=aNum[18-i];
                                 getNum(d);
-                                output[1]=aNum[18-i];
-                                getNum(c);                             
-                                output[2]=aNum[18-i];
+                                if(m!=0||d!=0)
+                                    output[2]=aNum[18-i];
+                                getNum(c);
+                                if(m!=0||d!=0||c!=0)                             
+                                    output[3]=aNum[18-i];
                                 getNum(u);
-                                output[3]=aNum[18-i];
-                                getNum(10);
                                 output[4]=aNum[18-i];
+                                getNum(10);
+                                output[5]=aNum[18-i];
                                 getNum(11);
-                                output[5]=aNum[18-i]; 
+                                output[6]=aNum[18-i]; 
                             }                   
                         }
                         f_write(&archivo,output,sizeof(output),&br);
