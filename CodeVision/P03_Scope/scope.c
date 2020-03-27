@@ -235,7 +235,7 @@ void main(void) {
             EraseLCD();
             StringLCD("Loading...");
             getFrequency(); // Get function frequency 
-            scope(); 
+            scope(); // Obtain values of the function
             sd_openDrive();
             if(f_open(&archivo,"0:BASE.BMP", FA_OPEN_EXISTING | FA_READ)==FR_OK){
                 f_read(&archivo, encabezado, 64, &br);
@@ -253,21 +253,24 @@ void main(void) {
                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado  
                     for (i=0;i<256;i++){      
                         for(j=0; j<512; j++){
-                            if((i>=buffer[(j/4)+1]&&i<=buffer[(j/4)])||(i<=buffer[(j/4)+1]&&i>=buffer[(j/4)])){
-                                aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+                            if((i>=buffer[(j/4)+1]-2&&i<=buffer[(j/4)]+2)||(i<=buffer[(j/4)+1]+2&&i>=buffer[(j/4)]-2)){
+                                if(j==0)
+                                    aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4; // Calculate the point to draw
+                                else
+                                    aP = nP; // Set actual char
                                 j++;
                                 if(j<509)
-                                    nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+                                    nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4; // Calculate the next point to draw
                                 else
                                     nP = aP;
                                 j--; 
                                 if((i<=aP&&i>=nP)||(i>=aP&&i<=nP))
-                                        temp = temp-k; 
+                                        temp = temp-k; // Add a 0 into char where is going to be the point
                             }
                             if(k==0x01){
-                                output[j/8] = temp;
-                                k=0x100;
-                                temp = 0xFF;
+                                output[j/8] = temp; // Add the char into the line
+                                k=0x100;  // Reset substraction variable
+                                temp = 0xFF;  // Reset char
                             }                 
                             k=k>>1;                              
                         }
@@ -275,7 +278,7 @@ void main(void) {
                                 itoa(freq); // Change integer to characters
                                 getNum(m); // Obtain character
                                 if(m!=0)
-                                    output[1]=aNum[18-i];
+                                    output[1]=aNum[18-i];  // Add numbers into lines of the image
                                 getNum(d);
                                 if(m!=0||d!=0)
                                     output[2]=aNum[18-i];
