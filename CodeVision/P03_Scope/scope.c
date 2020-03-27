@@ -115,7 +115,9 @@ void sd_closeDrive(){
     delay_ms(1000);
 }
 
-char j;
+int j;
+char k = 0x80;
+char temp = 0xFF;
 char encabezado[62];
 
 
@@ -190,6 +192,8 @@ void itoa(int n){
     num = num-c*10;
     u = num;    
 }
+
+char aP, nP;
     
 void main(void) {
     SetupLCD(); // LCD Setup  
@@ -222,10 +226,10 @@ void main(void) {
     #asm("sei")
     disk_initialize(0);
     delay_ms(200);
-    
+    EraseLCD();
     while (1) {
-    // Please write your application code here  
-    MoveCursor(0,0);
+    // Please write your application code here 
+    MoveCursor(0,0); 
     StringLCD("Ready");
         if (PIND.7 == 0){
             EraseLCD();
@@ -243,30 +247,26 @@ void main(void) {
                 i++;
                 }while(f_open(&archivo, fileName, FA_OPEN_EXISTING)==FR_OK); // Check if file exists
                 f_close(&archivo);
-                EraseLCD();
+                MoveCursor(0,1);
                 StringLCDVar(fileName); 
                 if (f_open(&archivo,fileName, FA_CREATE_ALWAYS | FA_WRITE)==FR_OK){       
                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado  
                     for (i=0;i<256;i++){      
-                        for(j=0; j<64; j++){
-                            output[j] = 0xFF;
+                        for(j=0; j<512; j++){
+                        aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+                        j++;
+                        nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+                        j--; 
+                            if((i<=aP&&i>=nP)||(i>=aP&&i<=nP))
+                                temp = temp-k;
+                            if(k==0){
+                                output[j/8] = temp;
+                                k=0x80;
+                                temp = 0xFF;
+                            }                 
+                            k=k>>1;                              
                         }
-                        for(j=0; j<128; j++){ 
-                            if((buffer[j]>i&&buffer[j+1]<i)||(buffer[j]<i&&buffer[j+1]>i)){
-                                if((j+1)%2==1){
-                                    output[j/2] = output[j/2] & 0xEF;
-                                }else{
-                                    output[j/2] = output[j/2] & 0xFE;
-                                }
-                            }
-                            if(buffer[j]==i){
-                                if((j+1)%2==1){
-                                    output[j/2] = output[j/2] & 0x0F;
-                                }else{
-                                    output[j/2] = output[j/2] & 0xF0;
-                                }
-                            }
-                            if ((i>=10)&(i<=18)){
+                        if ((i>=10)&(i<=18)){ // Print Frequequency
                                 itoa(freq); // Change integer to characters
                                 getNum(m); // Obtain character
                                 if(m!=0)
@@ -283,8 +283,7 @@ void main(void) {
                                 output[5]=aNum[18-i];
                                 getNum(11);
                                 output[6]=aNum[18-i]; 
-                            }                   
-                        }
+                            }
                         f_write(&archivo,output,sizeof(output),&br);
                     }
                     EraseLCD();
