@@ -27,7 +27,7 @@ OF1=scope.c
 Active1=1
 EditorPanel1=0
 <<<<<<< Updated upstream
-TimeStamp1=1350270196
+TimeStamp1=1350271162
 PageIndex1=1
 =======
 TimeStamp1=1349149652
@@ -136,7 +136,7 @@ RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< Updated upstream
 COFFileTimeStamp=1350271165
-Build=195
+Build=196
 =======
 COFFileTimeStamp=1349149581
 Build=99
@@ -249,7 +249,7 @@ RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
 <<<<<<< Updated upstream
-Build=195
+Build=196
 =======
 Build=99
 >>>>>>> Stashed changes
@@ -492,7 +492,7 @@ Column=0
 ScrollPosX=0
 ScrollPosY=0
 <<<<<<< Updated upstream
-TimeStamp=1350270236
+TimeStamp=1350271506
 =======
 TimeStamp=1349149652
 >>>>>>> Stashed changes
@@ -501,9 +501,9 @@ Files=1
 F1=scope.c
 [Bookmarks1]
 <<<<<<< Updated upstream
-TimeStamp=1350270196
+TimeStamp=1350271162
 Row=257
-Column=36
+Column=55
 ScrollPosX=0
 ScrollPosY=236
 =======
@@ -578,8 +578,6 @@ L9=[.cseg] 0x000000 0x0042a0  16606    450  17056  131072  13.0%
 L10=[.dseg] 0x000100 0x000f10      0   1552   1552    8192  18.9%
 L11=[.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 L12=
-[FoldedCode1]
-Blocks=0
 [HeadersList]
 Files=1
 F1=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P03_Scope\scope.c
@@ -595,3 +593,5 @@ F7=C:\cvavr\inc\stdarg.h
 F8=C:\cvavr\inc\ff.h
 F9=C:\cvavr\inc\sdcard.h
 F10=C:\cvavr\inc\stdbool.h
+[FoldedCode1]
+Blocks=0
