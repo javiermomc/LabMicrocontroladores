@@ -35,7 +35,7 @@
    <POPUP w="290" x="88" flags="00000000" y="200" h="195" pid="0" iid="12">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="695" x="183" flags="00000001" y="126" h="459" pid="0" iid="9">
+   <POPUP w="695" x="162" flags="00000001" y="101" h="459" pid="0" iid="9">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="511" x="206" flags="00000001" y="676" h="153" pid="0" iid="8">
@@ -120,30 +120,36 @@
      <ITEM name="TopLineAddress">00000020</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="600" x="348" flags="0000002b" y="460" h="400" pid="1" iid="7">
+   <POPUP w="600" x="363" flags="0000002b" y="440" h="400" pid="1" iid="7">
     <PROPERTIES>
+     <ITEM name="Breakpoint 0">"main",093E,0192,E170,A3BA,1
+</ITEM>
+     <ITEM name="Breakpoint 1">"main",08F4,0152,4ACC,A3BA,1
+</ITEM>
+     <ITEM name="Breakpoint 2">"main",0934,0192,E170,A3BA,1
+</ITEM>
      <ITEM name="CaseSensitive">No</ITEM>
      <ITEM name="DISPADDRS">Yes</ITEM>
      <ITEM name="DISPLNUMS">No</ITEM>
      <ITEM name="DISPOPCODES">No</ITEM>
-     <ITEM name="FIXUPBPTS">Yes</ITEM>
+     <ITEM name="FIXUPBPTS">No</ITEM>
      <ITEM name="WordsOnly">No</ITEM>
      <ITEM name="nBreakpoints">0</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="300" x="368" flags="0000000b" y="480" h="300" pid="2" iid="7">
+   <POPUP w="932" x="707" flags="0000000a" y="303" h="568" pid="2" iid="7">
     <PROPERTIES>
-     <ITEM name="Address Column Width">93</ITEM>
+     <ITEM name="Address Column Width">145</ITEM>
      <ITEM name="AutoResize">No</ITEM>
      <ITEM name="Gridlines">Yes</ITEM>
-     <ITEM name="Name Column Width">93</ITEM>
+     <ITEM name="Name Column Width">110</ITEM>
      <ITEM name="ShowAddresses">Yes</ITEM>
      <ITEM name="ShowGlobals">Yes</ITEM>
      <ITEM name="ShowPreviousValues">No</ITEM>
      <ITEM name="ShowTypes">No</ITEM>
      <ITEM name="ShowWatchPoint">No</ITEM>
      <ITEM name="TriggerMode">0</ITEM>
-     <ITEM name="Value Column Width">93</ITEM>
+     <ITEM name="Value Column Width">658</ITEM>
      <ITEM name="Version">100</ITEM>
      <ITEM name="nItems">0</ITEM>
     </PROPERTIES>

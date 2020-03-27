@@ -253,15 +253,17 @@ void main(void) {
                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado  
                     for (i=0;i<256;i++){      
                         for(j=0; j<512; j++){
-                            aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
-                            j++;
-                            if(j<509)
-                                nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
-                            else
-                                nP = aP;
-                            j--; 
-                            if((i<=aP&&i>=nP)||(i>=aP&&i<=nP))
-                                    temp = temp-k;
+                            if((i>=buffer[(j/4)+1]&&i<=buffer[(j/4)])||(i<=buffer[(j/4)+1]&&i>=buffer[(j/4)])){
+                                aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+                                j++;
+                                if(j<509)
+                                    nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+                                else
+                                    nP = aP;
+                                j--; 
+                                if((i<=aP&&i>=nP)||(i>=aP&&i<=nP))
+                                        temp = temp-k; 
+                            }
                             if(k==0x01){
                                 output[j/8] = temp;
                                 k=0x100;
