@@ -1473,8 +1473,7 @@ _0xC:
 _0xD:
 	CBI __lcd_port,__lcd_D4
 _0xE:
-	ADIW R28,1
-	RET
+	RJMP _0x20A001A
 ; .FEND
 _WriteComandLCD:
 ; .FSTART _WriteComandLCD
@@ -1488,7 +1487,7 @@ _WriteComandLCD:
 	CALL SUBOPT_0x3
 	RCALL _PulseEn
 	LDD  R16,Y+0
-	RJMP _0x20A001A
+	RJMP _0x20A001B
 ; .FEND
 _CharLCD:
 ; .FSTART _CharLCD
@@ -1502,7 +1501,7 @@ _CharLCD:
 	CALL SUBOPT_0x3
 	RCALL _PulseEn
 	LDD  R16,Y+0
-	RJMP _0x20A001A
+	RJMP _0x20A001B
 ; .FEND
 _StringLCD:
 ; .FSTART _StringLCD
@@ -1572,7 +1571,7 @@ _MoveCursor:
 	BRNE _0x1B
 	LDD  R26,Y+1
 	SUBI R26,-LOW(128)
-	RJMP _0x88
+	RJMP _0x8A
 _0x1B:
 	CPI  R30,LOW(0x1)
 	LDI  R26,HIGH(0x1)
@@ -1580,7 +1579,7 @@ _0x1B:
 	BRNE _0x1C
 	LDD  R26,Y+1
 	SUBI R26,-LOW(192)
-	RJMP _0x88
+	RJMP _0x8A
 _0x1C:
 	CPI  R30,LOW(0x2)
 	LDI  R26,HIGH(0x2)
@@ -1588,7 +1587,7 @@ _0x1C:
 	BRNE _0x1D
 	LDD  R26,Y+1
 	SUBI R26,-LOW(148)
-	RJMP _0x88
+	RJMP _0x8A
 _0x1D:
 	CPI  R30,LOW(0x3)
 	LDI  R26,HIGH(0x3)
@@ -1596,10 +1595,10 @@ _0x1D:
 	BRNE _0x1A
 	LDD  R26,Y+1
 	SUBI R26,-LOW(212)
-_0x88:
+_0x8A:
 	RCALL _WriteComandLCD
 _0x1A:
-_0x20A001A:
+_0x20A001B:
 	ADIW R28,2
 	RET
 ; .FEND
@@ -1644,7 +1643,9 @@ _0x22:
 	STS  122,R30
 ; 0000 0028 return ADCH;
 	LDS  R30,121
-	JMP  _0x20A0018
+_0x20A001A:
+	ADIW R28,1
+	RET
 ; 0000 0029 }
 ; .FEND
 ;
@@ -1862,7 +1863,7 @@ _sd_closeDrive:
 ; .FEND
 ;
 ;int j;
-;char k = 0x80;
+;int k = 0x80;
 
 	.DSEG
 ;char temp = 0xFF;
@@ -2425,7 +2426,7 @@ _0x73:
 	CPC  R27,R30
 	BRLT PC+2
 	RJMP _0x74
-; 0000 0100                         aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+; 0000 0100                             aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
 	CALL SUBOPT_0x13
 	CALL SUBOPT_0x14
 	ADD  R26,R30
@@ -2447,12 +2448,18 @@ _0x73:
 	POP  R26
 	ADD  R30,R26
 	STS  _aP,R30
-; 0000 0101                         j++;
+; 0000 0101                             j++;
 	CALL SUBOPT_0x18
 	ADIW R30,1
 	ST   -X,R31
 	ST   -X,R30
-; 0000 0102                         nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
+; 0000 0102                             if(j<509)
+	CALL SUBOPT_0x12
+	CPI  R26,LOW(0x1FD)
+	LDI  R30,HIGH(0x1FD)
+	CPC  R27,R30
+	BRGE _0x75
+; 0000 0103                                 nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4;
 	CALL SUBOPT_0x13
 	CALL SUBOPT_0x14
 	ADD  R26,R30
@@ -2473,52 +2480,59 @@ _0x73:
 	CALL SUBOPT_0x17
 	POP  R26
 	ADD  R30,R26
+	RJMP _0x8B
+; 0000 0104                             else
+_0x75:
+; 0000 0105                                 nP = aP;
+	LDS  R30,_aP
+_0x8B:
 	STS  _nP,R30
-; 0000 0103                         j--;
+; 0000 0106                             j--;
 	CALL SUBOPT_0x18
 	SBIW R30,1
 	ST   -X,R31
 	ST   -X,R30
-; 0000 0104                             if((i<=aP&&i>=nP)||(i>=aP&&i<=nP))
+; 0000 0107                             if((i<=aP&&i>=nP)||(i>=aP&&i<=nP))
 	LDS  R30,_aP
 	CALL SUBOPT_0x6
 	LDI  R31,0
 	CP   R30,R26
 	CPC  R31,R27
-	BRLT _0x76
+	BRLT _0x78
 	LDS  R30,_nP
 	CALL SUBOPT_0x6
 	LDI  R31,0
 	CP   R26,R30
 	CPC  R27,R31
-	BRGE _0x78
-_0x76:
-	LDS  R30,_aP
-	CALL SUBOPT_0x6
-	LDI  R31,0
-	CP   R26,R30
-	CPC  R27,R31
-	BRLT _0x79
-	LDS  R30,_nP
-	CALL SUBOPT_0x6
-	LDI  R31,0
-	CP   R30,R26
-	CPC  R31,R27
-	BRGE _0x78
-_0x79:
-	RJMP _0x75
+	BRGE _0x7A
 _0x78:
-; 0000 0105                                 temp = temp-k;
+	LDS  R30,_aP
+	CALL SUBOPT_0x6
+	LDI  R31,0
+	CP   R26,R30
+	CPC  R27,R31
+	BRLT _0x7B
+	LDS  R30,_nP
+	CALL SUBOPT_0x6
+	LDI  R31,0
+	CP   R30,R26
+	CPC  R31,R27
+	BRGE _0x7A
+_0x7B:
+	RJMP _0x77
+_0x7A:
+; 0000 0108                                     temp = temp-k;
 	LDS  R26,_k
 	LDS  R30,_temp
 	SUB  R30,R26
 	STS  _temp,R30
-; 0000 0106                             if(k==0){
-_0x75:
-	LDS  R30,_k
-	CPI  R30,0
-	BRNE _0x7C
-; 0000 0107                                 output[j/8] = temp;
+; 0000 0109                             if(k==0x01){
+_0x77:
+	LDS  R26,_k
+	LDS  R27,_k+1
+	SBIW R26,1
+	BRNE _0x7E
+; 0000 010A                                 output[j/8] = temp;
 	CALL SUBOPT_0x12
 	LDI  R30,LOW(8)
 	LDI  R31,HIGH(8)
@@ -2527,26 +2541,31 @@ _0x75:
 	SBCI R31,HIGH(-_output)
 	LDS  R26,_temp
 	STD  Z+0,R26
-; 0000 0108                                 k=0x80;
-	LDI  R30,LOW(128)
+; 0000 010B                                 k=0x100;
+	LDI  R30,LOW(256)
+	LDI  R31,HIGH(256)
 	STS  _k,R30
-; 0000 0109                                 temp = 0xFF;
+	STS  _k+1,R31
+; 0000 010C                                 temp = 0xFF;
 	LDI  R30,LOW(255)
 	STS  _temp,R30
-; 0000 010A                             }
-; 0000 010B                             k=k>>1;
-_0x7C:
+; 0000 010D                             }
+; 0000 010E                             k=k>>1;
+_0x7E:
 	LDS  R30,_k
-	LSR  R30
+	LDS  R31,_k+1
+	ASR  R31
+	ROR  R30
 	STS  _k,R30
-; 0000 010C                         }
+	STS  _k+1,R31
+; 0000 010F                         }
 	CALL SUBOPT_0x18
 	ADIW R30,1
 	ST   -X,R31
 	ST   -X,R30
 	RJMP _0x73
 _0x74:
-; 0000 010D                         if ((i>=10)&(i<=18)){ // Print Frequequency
+; 0000 0110                         if ((i>=10)&(i<=18)){ // Print Frequequency
 	CALL SUBOPT_0x6
 	LDI  R30,LOW(10)
 	LDI  R31,HIGH(10)
@@ -2556,134 +2575,134 @@ _0x74:
 	CALL __LEW12
 	AND  R30,R0
 	BRNE PC+2
-	RJMP _0x7D
-; 0000 010E                                 itoa(freq); // Change integer to characters
+	RJMP _0x7F
+; 0000 0111                                 itoa(freq); // Change integer to characters
 	LDS  R26,_freq
 	LDS  R27,_freq+1
 	RCALL _itoa
-; 0000 010F                                 getNum(m); // Obtain character
+; 0000 0112                                 getNum(m); // Obtain character
 	LDS  R26,_m
 	CLR  R27
 	RCALL _getNum
-; 0000 0110                                 if(m!=0)
+; 0000 0113                                 if(m!=0)
 	LDS  R30,_m
 	CPI  R30,0
-	BREQ _0x7E
-; 0000 0111                                     output[1]=aNum[18-i];
+	BREQ _0x80
+; 0000 0114                                     output[1]=aNum[18-i];
 	CALL SUBOPT_0x19
 	CALL SUBOPT_0x1A
 	__PUTB1MN _output,1
-; 0000 0112                                 getNum(d);
-_0x7E:
+; 0000 0115                                 getNum(d);
+_0x80:
 	LDS  R26,_d
 	CALL SUBOPT_0x1B
-; 0000 0113                                 if(m!=0||d!=0)
-	BRNE _0x80
+; 0000 0116                                 if(m!=0||d!=0)
+	BRNE _0x82
 	LDS  R26,_d
 	CPI  R26,LOW(0x0)
-	BREQ _0x7F
-_0x80:
-; 0000 0114                                     output[2]=aNum[18-i];
+	BREQ _0x81
+_0x82:
+; 0000 0117                                     output[2]=aNum[18-i];
 	CALL SUBOPT_0x19
 	CALL SUBOPT_0x1A
 	__PUTB1MN _output,2
-; 0000 0115                                 getNum(c);
-_0x7F:
+; 0000 0118                                 getNum(c);
+_0x81:
 	LDS  R26,_c
 	CALL SUBOPT_0x1B
-; 0000 0116                                 if(m!=0||d!=0||c!=0)
-	BRNE _0x83
+; 0000 0119                                 if(m!=0||d!=0||c!=0)
+	BRNE _0x85
 	LDS  R26,_d
 	CPI  R26,LOW(0x0)
-	BRNE _0x83
+	BRNE _0x85
 	LDS  R26,_c
 	CPI  R26,LOW(0x0)
-	BREQ _0x82
-_0x83:
-; 0000 0117                                     output[3]=aNum[18-i];
+	BREQ _0x84
+_0x85:
+; 0000 011A                                     output[3]=aNum[18-i];
 	CALL SUBOPT_0x19
 	CALL SUBOPT_0x1A
 	__PUTB1MN _output,3
-; 0000 0118                                 getNum(u);
-_0x82:
+; 0000 011B                                 getNum(u);
+_0x84:
 	LDS  R26,_u
 	CLR  R27
 	CALL SUBOPT_0x1C
-; 0000 0119                                 output[4]=aNum[18-i];
+; 0000 011C                                 output[4]=aNum[18-i];
 	CALL SUBOPT_0x1A
 	__PUTB1MN _output,4
-; 0000 011A                                 getNum(10);
+; 0000 011D                                 getNum(10);
 	LDI  R26,LOW(10)
 	LDI  R27,0
 	CALL SUBOPT_0x1C
-; 0000 011B                                 output[5]=aNum[18-i];
+; 0000 011E                                 output[5]=aNum[18-i];
 	CALL SUBOPT_0x1A
 	__PUTB1MN _output,5
-; 0000 011C                                 getNum(11);
+; 0000 011F                                 getNum(11);
 	LDI  R26,LOW(11)
 	LDI  R27,0
 	CALL SUBOPT_0x1C
-; 0000 011D                                 output[6]=aNum[18-i];
+; 0000 0120                                 output[6]=aNum[18-i];
 	CALL SUBOPT_0x1A
 	__PUTB1MN _output,6
-; 0000 011E                             }
-; 0000 011F                         f_write(&archivo,output,sizeof(output),&br);
-_0x7D:
+; 0000 0121                             }
+; 0000 0122                         f_write(&archivo,output,sizeof(output),&br);
+_0x7F:
 	CALL SUBOPT_0xE
 	LDI  R30,LOW(_output)
 	LDI  R31,HIGH(_output)
 	CALL SUBOPT_0xF
 	CALL _f_write
-; 0000 0120                     }
+; 0000 0123                     }
 	CALL SUBOPT_0x8
 	RJMP _0x70
 _0x71:
-; 0000 0121                     EraseLCD();
+; 0000 0124                     EraseLCD();
 	CALL _EraseLCD
-; 0000 0122                     StringLCD("Done");
+; 0000 0125                     StringLCD("Done");
 	__POINTD2FN _0x0,91
 	CALL _StringLCD
-; 0000 0123                     f_close(&archivo);
+; 0000 0126                     f_close(&archivo);
 	CALL SUBOPT_0x10
-; 0000 0124                     delay_ms(1000);
-	RJMP _0x89
-; 0000 0125                 }else{
+; 0000 0127                     delay_ms(1000);
+	RJMP _0x8C
+; 0000 0128                 }else{
 _0x6E:
-; 0000 0126                     EraseLCD();
+; 0000 0129                     EraseLCD();
 	CALL SUBOPT_0x9
-; 0000 0127                     MoveCursor(0,0);
-; 0000 0128                     StringLCD("File error");
+; 0000 012A                     MoveCursor(0,0);
+; 0000 012B                     StringLCD("File error");
 	__POINTD2FN _0x0,96
 	CALL _StringLCD
-; 0000 0129                     delay_ms(1000);
-_0x89:
+; 0000 012C                     delay_ms(1000);
+_0x8C:
 	LDI  R26,LOW(1000)
 	LDI  R27,HIGH(1000)
 	CALL _delay_ms
-; 0000 012A                 }
-; 0000 012B             }else{
-	RJMP _0x86
+; 0000 012D                 }
+; 0000 012E             }else{
+	RJMP _0x88
 _0x69:
-; 0000 012C                EraseLCD();
+; 0000 012F                EraseLCD();
 	CALL SUBOPT_0x9
-; 0000 012D                MoveCursor(0,0);
-; 0000 012E                StringLCD("base.bmp error");
+; 0000 0130                MoveCursor(0,0);
+; 0000 0131                StringLCD("base.bmp error");
 	__POINTD2FN _0x0,107
 	CALL SUBOPT_0xA
-; 0000 012F                delay_ms(1000);
-; 0000 0130             }
-_0x86:
-; 0000 0131             sd_closeDrive();
+; 0000 0132                delay_ms(1000);
+; 0000 0133             }
+_0x88:
+; 0000 0134             sd_closeDrive();
 	RCALL _sd_closeDrive
-; 0000 0132             EraseLCD();
+; 0000 0135             EraseLCD();
 	CALL _EraseLCD
-; 0000 0133         }
-; 0000 0134     }
+; 0000 0136         }
+; 0000 0137     }
 _0x68:
 	RJMP _0x65
-; 0000 0135 }
-_0x87:
-	RJMP _0x87
+; 0000 0138 }
+_0x89:
+	RJMP _0x89
 ; .FEND
 
 	.DSEG
@@ -7725,7 +7744,7 @@ _archivo:
 _j:
 	.BYTE 0x2
 _k:
-	.BYTE 0x1
+	.BYTE 0x2
 _temp:
 	.BYTE 0x1
 _encabezado:
@@ -7913,7 +7932,7 @@ SUBOPT_0x11:
 	ST   -Y,R30
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 10 TIMES, CODE SIZE REDUCTION:15 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 11 TIMES, CODE SIZE REDUCTION:17 WORDS
 SUBOPT_0x12:
 	LDS  R26,_j
 	LDS  R27,_j+1

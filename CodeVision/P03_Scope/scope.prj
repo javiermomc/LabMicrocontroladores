@@ -135,8 +135,8 @@ UseEEPROMLocation0=1
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< Updated upstream
-COFFileTimeStamp=1350267676
-Build=172
+COFFileTimeStamp=1350270198
+Build=193
 =======
 COFFileTimeStamp=1349149581
 Build=99
@@ -249,7 +249,7 @@ RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
 <<<<<<< Updated upstream
-Build=172
+Build=193
 =======
 Build=99
 >>>>>>> Stashed changes
@@ -541,8 +541,8 @@ L13=Enhanced function parameters passing: Yes
 L14=Automatic register allocation: No
 L15=Smart register allocation: No
 L16=
-L17=Build: 172
-L18=20809 line(s) compiled
+L17=Build: 193
+L18=20812 line(s) compiled
 L19=No errors
 L20=No warnings
 L21=
@@ -552,30 +552,30 @@ L24=Data Stack area: 0x100 to 0x8FF
 L25=Data Stack size: 2048 byte(s)
 L26=Estimated Data Stack usage: 156 byte(s)
 L27=
-L28=RAM Global variables area: 0x900 to 0xF0E
-L29=RAM Global variables size: 1551 byte(s)
+L28=RAM Global variables area: 0x900 to 0xF0F
+L29=RAM Global variables size: 1552 byte(s)
 L30=
-L31=Hardware Stack area: 0xF0F to 0x20FF
-L32=Hardware Stack size: 4593 byte(s)
+L31=Hardware Stack area: 0xF10 to 0x20FF
+L32=Hardware Stack size: 4592 byte(s)
 L33=
 L34=Heap size: 0 byte(s)
 L35=
 Lines=38
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
-L37=Program size: 8461 words (16922 bytes), 12.9% of FLASH
-L38=929 words (1858 bytes), 9.9% reduced by Code Compression
+L37=Program size: 8479 words (16958 bytes), 12.9% of FLASH
+L38=931 words (1862 bytes), 9.9% reduced by Code Compression
 [BuildInfoAssembler]
 Lines=12
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P03_Scope\Debug\List\scope.asm(9603): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P03_Scope\Debug\Exe\scope.eep
+L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P03_Scope\Debug\List\scope.asm(9622): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P03_Scope\Debug\Exe\scope.eep
 L5=
 L6=AT90USB1286 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
-L9=[.cseg] 0x000000 0x00421a  16472    450  16922  131072  12.9%
-L10=[.dseg] 0x000100 0x000f0f      0   1551   1551    8192  18.9%
+L9=[.cseg] 0x000000 0x00423e  16508    450  16958  131072  12.9%
+L10=[.dseg] 0x000100 0x000f10      0   1552   1552    8192  18.9%
 L11=[.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 L12=
 [FoldedCode1]
