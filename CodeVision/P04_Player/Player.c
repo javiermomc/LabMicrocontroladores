@@ -165,19 +165,16 @@
                 i=0;
                 do{   
                      while((LeerBufferH==0)&&(LeerBufferL==0));
-                     if (LeerBufferL)
-                     {                       
+                     if (LeerBufferL){                       
                          f_read(&archivo, bufferL, 256,&br); //leer encabezado
                          LeerBufferL=0;
                      }
-                     else
-                     { 
+                     else{ 
                          f_read(&archivo, bufferH, 256,&br); //leer encabezado
                          LeerBufferH=0;
                      }  
                      if (PINC.3==0)     //botón de Foward
                          br=0;
-    
                      if ( PINC.1 == 0){
                         delay_ms(400);       
                         while (1){
