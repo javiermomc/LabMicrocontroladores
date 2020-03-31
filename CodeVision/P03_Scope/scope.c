@@ -40,25 +40,18 @@ ADCSRA|=(1<<ADIF);
 return ADCH;
 }
 
-int buffer[128];
-
-int frequency(){
-    char i=0, max, iMax, freq;
-    max = buffer[0];
-    iMax = i;
-    for ( i=1;i<128;i++){
-        if(max == buffer[i]){
-            freq = 1/(((float)(i - iMax))*0.000039);
-            iMax = i; 
-        }               
-        if(max<buffer[i]){
-            max = buffer[i];
-            iMax = i;
-        }
-    }    
-    return (int)freq;
+int freq;
+void getFrequency(){
+    TCCR3A = 0b00000000;
+    TCCR3B = 0x07;
+    TCNT3H = 0;
+    TCNT3L = 0;
+    delay_ms(998);
+    delay_us(870);
+    freq = TCNT3L + TCNT3H*256;   
 }
-int i;
+
+int i, buffer[128];
 // Fills the array to sample the scope shot
 void scope(){
     #asm("cli")
@@ -80,9 +73,6 @@ void scope(){
     }
     #asm("sei")
 }
-
-int freq;
-
 
 // SD
 char fileName[]  = "0:IM000.BMP";
@@ -125,7 +115,9 @@ void sd_closeDrive(){
     delay_ms(1000);
 }
 
-char j;
+int j;
+int k = 0x80;
+char temp = 0xFF;
 char encabezado[62];
 
 
@@ -189,18 +181,22 @@ void getNum(int num){
     }
 }
 
-char d, c, u;
+char m, d, c, u;
 void itoa(int n){
     int num = n;
+    m = num/1000;
+    num = n - m*1000;
     d = num/100;
     num = num-d*100;
     c = num/10;
-    num = num-d*10;
+    num = num-c*10;
     u = num;    
 }
 
+char aP, nP;
+    
 void main(void) {
-    SetupLCD();  
+    SetupLCD(); // LCD Setup  
     // ADC initialization
     // ADC Clock frequency: 1000.000 kHz
     // ADC Voltage Reference: AVCC pin
@@ -222,61 +218,84 @@ void main(void) {
     CLKPR=0;        //16 MHz
     
     // Código para hacer una interrupción periódica cada 10ms
-    
     TCCR1B=0x0A;             //  CK/8
     OCR1AH=19999/256;
     OCR1AL=19999%256;
     TIMSK1=0x02;
-    StringLCD("...");
+    StringLCD("Openning disk...");
     #asm("sei")
     disk_initialize(0);
     delay_ms(200);
-    
+    EraseLCD();
     while (1) {
-    // Please write your application code here  
-    MoveCursor(0,0);
-    StringLCD("Welcome");
+    // Please write your application code here 
+    MoveCursor(0,0); 
+    StringLCD("Ready");
         if (PIND.7 == 0){
             EraseLCD();
-            StringLCD("Starting     ");
-            scope();
-            freq = frequency(); 
+            StringLCD("Loading...");
+            getFrequency(); // Get function frequency 
+            scope(); // Obtain values of the function
             sd_openDrive();
             if(f_open(&archivo,"0:BASE.BMP", FA_OPEN_EXISTING | FA_READ)==FR_OK){
                 f_read(&archivo, encabezado, 64, &br);
-                f_close(&archivo); 
+                f_close(&archivo);
+                i=0;
+                do{
+                f_close(&archivo);
+                sprintf(fileName, "0:IM%03u.BMP", i);
+                i++;
+                }while(f_open(&archivo, fileName, FA_OPEN_EXISTING)==FR_OK); // Check if file exists
+                f_close(&archivo);
+                MoveCursor(0,1);
+                StringLCDVar(fileName); 
                 if (f_open(&archivo,fileName, FA_CREATE_ALWAYS | FA_WRITE)==FR_OK){       
                     f_write(&archivo,encabezado,sizeof(encabezado),&br);     //Escribir encabezado  
                     for (i=0;i<256;i++){      
-                        for(j=0; j<64; j++){
-                            output[j] = 0xFF;
-                        }
-                        for(j=0; j<128; j++){ 
-                            if(buffer[j]*256/1024==i){
-                                if((j+1)%2==1){
-                                    output[j/2] = output[j/2] & 0x0F;
-                                }else{
-                                    output[j/2] = output[j/2] & 0xF0;
-                                }
+                        for(j=0; j<512; j++){
+                            if((i>=buffer[(j/4)+1]-2&&i<=buffer[(j/4)]+2)||(i<=buffer[(j/4)+1]+2&&i>=buffer[(j/4)]-2)){
+                                if(j==0)
+                                    aP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4; // Calculate the point to draw
+                                else
+                                    aP = nP; // Set actual char
+                                j++;
+                                if(j<509)
+                                    nP = buffer[j/4]+((j%4)+1)*(buffer[(j/4)+1]-buffer[j/4])/4; // Calculate the next point to draw
+                                else
+                                    nP = aP;
+                                j--; 
+                                if((i<=aP&&i>=nP)||(i>=aP&&i<=nP))
+                                        temp = temp-k; // Add a 0 into char where is going to be the point
                             }
-                            if ((i>=10)&(i<=18)){
-                                itoa(freq);
-                                getNum(d);
-                                output[1]=aNum[18-i];
-                                getNum(c);                             
-                                output[2]=aNum[18-i];
-                                getNum(u);
-                                output[3]=aNum[18-i];
-                                getNum(10);
-                                output[4]=aNum[18-i];
-                                getNum(11);
-                                output[5]=aNum[18-i]; 
-                            }                   
+                            if(k==0x01){
+                                output[j/8] = temp; // Add the char into the line
+                                k=0x100;  // Reset substraction variable
+                                temp = 0xFF;  // Reset char
+                            }                 
+                            k=k>>1;                              
                         }
+                        if ((i>=10)&(i<=18)){ // Print Frequequency
+                                itoa(freq); // Change integer to characters
+                                getNum(m); // Obtain character
+                                if(m!=0)
+                                    output[1]=aNum[18-i];  // Add numbers into lines of the image
+                                getNum(d);
+                                if(m!=0||d!=0)
+                                    output[2]=aNum[18-i];
+                                getNum(c);
+                                if(m!=0||d!=0||c!=0)                             
+                                    output[3]=aNum[18-i];
+                                getNum(u);
+                                output[4]=aNum[18-i];
+                                getNum(10);
+                                output[5]=aNum[18-i];
+                                getNum(11);
+                                output[6]=aNum[18-i]; 
+                            }
                         f_write(&archivo,output,sizeof(output),&br);
                     }
                     EraseLCD();
-                    StringLCD("Listo      ");   
+                    StringLCD("Done");   
                     f_close(&archivo); 
                     delay_ms(1000);
                 }else{
