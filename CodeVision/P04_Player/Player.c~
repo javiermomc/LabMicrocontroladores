@@ -75,26 +75,25 @@
         }   
     }
     
-char name[16], artist[16], album[16], j;    
+char name[16], artist[16], album[16], j, s;    
 void GetInfo(unsigned char NombreTexto[]){     
     if (f_open(&archivo, NombreTexto, FA_OPEN_ALWAYS | FA_READ)==FR_OK){
-        f_read(&archivo, bufferL, 44,&br); //leer encabezado  
-        muestras=(long)bufferL[43]*16777216+(long)bufferL[42]*65536+(long)bufferL[41]*256+bufferL[40];  //obtener número de muestras
-        f_lseek(&archivo, muestras+20);
-        f_read(&archivo, bufferL, 256,&br); // Read information 
+        muestras = (long)f_size(&archivo);    // f_size does not exist in this revision
+        f_lseek(&archivo, muestras-323);
+        f_read(&archivo, bufferL, 256,&br);  
         f_close(&archivo);
         i=0;
-        for(j=0; bufferL[i]==0&&bufferL[i+1]==0&&j<16; j++){
+        for(j=0; bufferL[i]!=0&&bufferL[i+1]!=0&&j<16; j++){
             name[j] = bufferL[i];
             i++;
         }
         i+=10;
-        for(j=0; bufferL[i]=="."&&bufferL[i+1]=="I"&&bufferL[i+2]=="P"&&bufferL[i+3]=="R"&&bufferL[i+4]=="D"&&j<16; j++){
+        for(j=0; bufferL[i]!="."&&bufferL[i+1]!="I"&&bufferL[i+2]!="P"&&bufferL[i+3]!="R"&&bufferL[i+4]!="D"&&j<16; j++){
             artist[j] = bufferL[i];
             i++;
         }
         i+=9;
-        for(j=0; bufferL[i]==0&&bufferL[i+1]==0&&j<16; j++){
+        for(j=0; bufferL[i]!=0&&bufferL[i+1]!=0&&j<16; j++){
             album[j] = bufferL[i];
             i++;
         }
@@ -106,13 +105,9 @@ void GetInfo(unsigned char NombreTexto[]){
             f_read(&archivo, bufferL, 45,&br);
             f_close(&archivo);
             switch(bufferL[25]){
-                case 0x7D:  
-                    OCR2A=62;    // Frequency is 32000Hz
-                    
-                case 0x5D:  
-                    OCR2A=82;    // Frequency is 24000Hz
-                case 0x55:  
-                    OCR2A=90;    // Frequency is 22050Hz
+                case 0x7D:  OCR2A=62;    // Frequency is 32000Hz
+                case 0x5D:  OCR2A=82;    // Frequency is 24000Hz
+                case 0x55:  OCR2A=90;    // Frequency is 22050Hz
             }
             if(bufferL[22] == 1)
                 mono=1;      // Set mono on
@@ -201,18 +196,21 @@ void GetInfo(unsigned char NombreTexto[]){
         delay_ms(500);
         
         if (f_mount(0,&drive)==FR_OK){    
-            MoveCursor(0,1); 
-            StringLCD("Drive detectado");       
-            delay_ms(1000);
+            //MoveCursor(0,1); 
+            //StringLCD("Drive detectado");       
+            //delay_ms(1000);
             /* mount logical drive 0: */
            i=0; 
-            while(1){ 
-                sprintf(fileName, "0:S%02u.BMP", i);
+            while(1){
+                if(i>6)
+                    i=0; 
+                sprintf(fileName, "0:S%02u.WAV", i);
                 if(f_open(&archivo, fileName, FA_OPEN_EXISTING)!=FR_OK)
                     i++;
                 f_close(&archivo);
-                if(i>6)
-                    i=0;
+                EraseLCD();
+                MoveCursor(0,0);
+                StringLCDVar(fileName);
                 GetInfo(fileName);
                 sprintf(text, "%s-%s", name, album);    
                 EraseLCD();

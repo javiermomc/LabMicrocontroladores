@@ -1,4 +1,4 @@
-VERSION:3 SOURCE_TIMESTAMP:507F9565
+VERSION:3 SOURCE_TIMESTAMP:507F9E75
 NODE:I LEVEL:0 LINE:4 "C:\cvavr\inc\io.h"
 NODE:I LEVEL:0 LINE:5 "C:\cvavr\inc\delay.h"
 NODE:I LEVEL:0 LINE:6 "C:\cvavr\inc\stdio.h"
@@ -54,7 +54,8 @@ NODE:V LEVEL:0 LINE:78 "name -> RAM:????"
 NODE:V LEVEL:0 LINE:78 "artist -> RAM:????"
 NODE:V LEVEL:0 LINE:78 "album -> RAM:????"
 NODE:V LEVEL:0 LINE:78 "j -> RAM:????"
+NODE:V LEVEL:0 LINE:78 "s -> RAM:????"
 NODE:F LEVEL:0 LINE:79 "GetInfo(unsigned char [] NombreTexto)"
-NODE:F LEVEL:0 LINE:104 "GetFrequency(unsigned char [] NombreArchivo)"
-NODE:F LEVEL:0 LINE:121 "TocaCancion(unsigned char [] NombreCancion)"
-NODE:F LEVEL:0 LINE:165 "main(void)"
+NODE:F LEVEL:0 LINE:103 "GetFrequency(unsigned char [] NombreArchivo)"
+NODE:F LEVEL:0 LINE:120 "TocaCancion(unsigned char [] NombreCancion)"
+NODE:F LEVEL:0 LINE:164 "main(void)"
