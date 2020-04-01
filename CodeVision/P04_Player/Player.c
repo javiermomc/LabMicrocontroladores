@@ -18,22 +18,12 @@
     #endasm
 
 
-    char bufferL[256];
-    char bufferH[256]; 
-    char NombreArchivo[13], NombreTexto[15]; 
+    char bufferL[256], bufferH[256], fileName[16], text[16]; 
     unsigned int i=0;
-    bit LeerBufferH,LeerBufferL,mono;
-    unsigned char cancion;
-    
-    unsigned int  br,b,c;
-    
-    unsigned char Nombre[20];
-    unsigned char Artista[20];
-    unsigned char Muestreo[20];
-           
-    /* FAT function result */
-    FRESULT res;
-        
+    bit LeerBufferH, LeerBufferL, mono;
+    unsigned long muestras, inicio;
+    unsigned int  br;
+                   
     /* will hold the information for logical drive 0: */
     FATFS drive;
     FIL archivo; // file objects 
@@ -85,128 +75,90 @@
         }   
     }
     
+char name[16], artist[16], album[16], j;    
+void GetInfo(unsigned char NombreTexto[]){     
+    if (f_open(&archivo, NombreTexto, FA_OPEN_ALWAYS | FA_READ)==FR_OK){
+        f_read(&archivo, bufferL, 44,&br); //leer encabezado  
+        muestras=(long)bufferL[43]*16777216+(long)bufferL[42]*65536+(long)bufferL[41]*256+bufferL[40];  //obtener número de muestras
+        f_lseek(&archivo, muestras+64);
+        f_read(&archivo, bufferL, 256,&br); // Read information 
+        f_close(&archivo);
+        i=0;
+        for(j=0; bufferL[i]!=0&&bufferL[i+1]!=0&&j<16; j++){
+            name[j] = bufferL[i];
+            i++;
+        }
+        i+=10;
+        for(j=0; bufferL[i]!="."&&bufferL[i+1]!="I"&&bufferL[i+2]!="P"&&bufferL[i+3]!="R"&&bufferL[i+4]!="D"&&j<16; j++){
+            artist[j] = bufferL[i];
+            i++;
+        }
+        i+=9;
+        for(j=0; bufferL[i]!=0&&bufferL[i+1]!=0&&j<16; j++){
+            album[j] = bufferL[i];
+            i++;
+        }
+    }           
+}
     
-    void LeerDatos(unsigned char NombreTexto[]){
-        res = f_open(&archivo, NombreTexto, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);     
-               if (res==FR_OK){
-                sprintf(Nombre,"                   ");
-                sprintf(Artista,"                   ");
-                sprintf(Muestreo,"                   ");
-                f_read(&archivo, bufferL, 256,&br); //leer archivo            
-                c = 0;
-                for(b = 0;bufferL[b] != 0x0D; b++)
-                {
-                    Nombre[c] = bufferL[b];   
-                    c++;
-                }   
-                    
-                c = 0;
-                for(b += 2;bufferL[b] != 0x0D; b++)
-                {
-                    Artista[c] = bufferL[b]; 
-                    c++;
-                }    
-                    
-                c = 0;
-                for(b += 2;bufferL[b] != 0x0D; b++)
-                {
-                    Muestreo[c] = bufferL[b];
-                    c++;
-                } 
-                    f_close(&archivo);           
-                }
-                
-                 EraseLCD();
-                 MoveCursor(0,0);
-                 StringLCDVar(Nombre);
-                 MoveCursor(0,1);
-                 StringLCDVar(Artista);
-                 MoveCursor(0,2);
-                 StringLCDVar(Muestreo);
-                       
-                 f_close(&archivo); 
-    }
-    
-    void LeerFrecuencia(unsigned char NombreArchivo[]){
-        res = f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
-            if (res==FR_OK){
-                f_read(&archivo, bufferL, 45,&br);
-                if(bufferL[25] == 0x7D){
-                    OCR2A=62;    //Interrupción periódica cada 1/32000 seg     $7D00   lugar 25 leer 2 bytes mas significativos
-                }else if (bufferL[25] == 0x5D){
-                    OCR2A=82;    //Interrupción periódica cada 1/24000 seg     $5DC0
-                }else if(bufferL[25] == 0x56){
-                    OCR2A=90;      //Interrupción periódica cada 1/22050 seg     $5622
-                }
-                if(bufferL[22] == 1){
-                    mono=1;    //La cancion es mono
-                }else{
-                    mono=0;   //La cancion es estereo
-                }
-            }   
+    void GetFrequency(unsigned char NombreArchivo[]){
+        if (f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ)==FR_OK){
+            f_read(&archivo, bufferL, 45,&br);
+            f_close(&archivo);
+            switch(bufferL[25]){
+                case 0x7D:  OCR2A=62;    // Frequency is 32000Hz
+                case 0x5D:  OCR2A=82;    // Frequency is 24000Hz
+                case 0x55:  OCR2A=90;    // Frequency is 22050Hz
+            }
+            if(bufferL[22] == 1)
+                mono=1;      // Set mono on
+            else
+                mono=0;      // Set stereo on   
+        }   
         
     }
     
     void TocaCancion(unsigned char NombreCancion[])
-    {
-            res = f_open(&archivo, NombreCancion, FA_OPEN_EXISTING | FA_READ); 
-            if (res==FR_OK){ 
-              
-                PORTD.6=1;  //Prende Led      
-                
-                
-                f_read(&archivo, bufferL, 58,&br); //leer encabezado    
-                
-                f_read(&archivo, bufferL, 256,&br); //leer los primeros 512 bytes del WAV
-                f_read(&archivo, bufferH, 256,&br);    
-                LeerBufferL=0;     
-                LeerBufferH=0;
-                TCCR0B=0x01;    //Prende sonido   
-                i=0;
-                do{   
-                     while((LeerBufferH==0)&&(LeerBufferL==0));
-                     if (LeerBufferL){                       
-                         f_read(&archivo, bufferL, 256,&br); //leer encabezado
-                         LeerBufferL=0;
-                     }
-                     else{ 
-                         f_read(&archivo, bufferH, 256,&br); //leer encabezado
-                         LeerBufferH=0;
-                     }  
-                     if (PINC.3==0)     //botón de Foward
-                         br=0;
-                     if ( PINC.1 == 0){
-                        delay_ms(400);       
-                        while (1){
-                            TCCR0A = 0x00;
-                            TIMSK2=0x00;
-                            if ( PINC.1 == 0){
-                                delay_ms(400);
-                                break;
-                            }
-                        }
-                        TCCR0A = 0xA3;
-                        TIMSK2 = 0x02;
-                     }
-                     
-                     if (PINC.2 == 0)
-                     { 
-                        delay_us(40);
-                        TIMSK2 = 0x00;
-                        f_lseek(&archivo, 58);
-                        TIMSK2 = 0x02;
-                     } 
-                     if (PINC.0 == 0)
-                     {
-                        delay_us(40);
-                        br = 0;
-                        delay_us(40);
-                     }                              
-                }while(br==256);
-                TCCR0B=0x00;   //Apaga sonido
-                f_close(&archivo);   
-                PORTD.6=0;  //Apaga Led 
-                }
+    {  
+        if (f_open(&archivo, NombreCancion, FA_OPEN_EXISTING | FA_READ)==FR_OK){ 
+            PORTD.6=1;  //Prende Led                  
+            f_read(&archivo, bufferL, 44,&br); //leer encabezado  
+            muestras=(long)bufferL[43]*16777216+(long)bufferL[42]*65536+(long)bufferL[41]*256+bufferL[40];  //obtener número de muestras  
+            inicio = muestras;
+            f_read(&archivo, bufferL, 256,&br); //leer los primeros 512 bytes del WAV
+            muestras=muestras-br;
+            f_read(&archivo, bufferH, 256,&br);
+            muestras=muestras-br;    
+            LeerBufferL=0;     
+            LeerBufferH=0; 
+            TCCR0A=0x83;
+            TCCR0B=0x01;    //Prende sonido   
+            i=0;
+            do{   
+                 while((LeerBufferH==0)&&(LeerBufferL==0));
+                 if (LeerBufferL)
+                 {                       
+                     f_read(&archivo, bufferL, 256,&br); 
+                     LeerBufferL=0;   
+                     muestras=muestras-br;
+                 }
+                 else
+                 { 
+                     f_read(&archivo, bufferH, 256,&br); 
+                     LeerBufferH=0; 
+                     muestras=muestras-br;
+                 }     
+                 if (PINC.2==0)     //botón de Foward
+                     muestras=0;
+                 if (PINC.1==0)     //botón de Foward
+                     muestras=inicio;                   
+            }while(muestras>256);         
+            TCCR0A=0x00;  //Apaga sonido 
+            TCCR0B=0x00;    
+            PORTB.7=0;
+            f_close(&archivo);   
+            PORTD.6=0;  //Apaga Led 
+            }
     }
     
     
@@ -244,26 +196,30 @@
         disk_initialize(0);  /* Inicia el puerto SPI para la SD */
         delay_ms(500);
         
-        if ((res=f_mount(0,&drive))==FR_OK){    
+        if (f_mount(0,&drive)==FR_OK){    
             MoveCursor(0,1); 
             StringLCD("Drive detectado");       
             delay_ms(1000);
             /* mount logical drive 0: */
-            
-            while(1){
-                
-                    for(cancion = 1; cancion < 7; cancion++){
-                        sprintf(NombreTexto,"A00%i.txt",cancion);         
-                        LeerDatos(NombreTexto);
-
-                        sprintf(NombreArchivo,"A00%i.wav",cancion);
-                        LeerFrecuencia(NombreArchivo);
-                                  
-                        TocaCancion(NombreArchivo);
-                        delay_ms(500);
-                        
-                    }
-                }   
+           i=0; 
+            while(1){ 
+                sprintf(fileName, "0:S%02u.BMP", i);
+                if(f_open(&archivo, fileName, FA_OPEN_EXISTING)!=FR_OK)
+                    i++;
+                f_close(&archivo);
+                if(i>6)
+                    i=0;
+                GetInfo(fileName);
+                sprintf(text, "%s-%s", name, album);    
+                EraseLCD();
+                MoveCursor(0,0);
+                StringLCDVar(text);
+                MoveCursor(0,1);
+                StringLCDVar(artist);
+                GetFrequency(fileName);          
+                TocaCancion(fileName);
+                i++;
+            }   
                         f_mount(0, 0); //Cerrar drive de SD 
         }            
         while(1);
