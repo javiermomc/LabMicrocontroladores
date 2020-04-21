@@ -1,69 +1,83 @@
-;    //Programa base que reproduce un WAV llamada A001.wav
-;    //cuyas características son: PCM, 22050 Hz de frecuencia de muestreo,
-;    //8 bits por muestra y monoaural
-;    #include <io.h>
+;/*WavPlayer
+;* Monoural y Stereo
+;* frecuencias 22050, 24000, 32000
+;*
+;*/
+;
+;// LCD config
+;#asm
 ;PCODE: $00000000 VOL: 0
-	#ifndef __SLEEP_DEFINED__
+    .equ __lcd_port=0x11
 ;PCODE: $00000001 VOL: 0
-	#define __SLEEP_DEFINED__
+    .equ __lcd_EN=4
 ;PCODE: $00000002 VOL: 0
-	.EQU __se_bit=0x01
+    .equ __lcd_RS=5
 ;PCODE: $00000003 VOL: 0
-	.EQU __sm_mask=0x0E
+    .equ __lcd_D4=0
 ;PCODE: $00000004 VOL: 0
-	.EQU __sm_powerdown=0x04
+    .equ __lcd_D5=1
 ;PCODE: $00000005 VOL: 0
-	.EQU __sm_powersave=0x06
+    .equ __lcd_D6=2
 ;PCODE: $00000006 VOL: 0
-	.EQU __sm_standby=0x0C
+    .equ __lcd_D7=3
 ;PCODE: $00000007 VOL: 0
-	.EQU __sm_ext_standby=0x0E
 ;PCODE: $00000008 VOL: 0
-	.EQU __sm_adc_noise_red=0x02
+; 0000 0010 #endasm
+;
+;#include <io.h>
 ;PCODE: $00000009 VOL: 0
-	.SET power_ctrl_reg=smcr
+	#ifndef __SLEEP_DEFINED__
 ;PCODE: $0000000A VOL: 0
-	#endif
+	#define __SLEEP_DEFINED__
 ;PCODE: $0000000B VOL: 0
+	.EQU __se_bit=0x01
 ;PCODE: $0000000C VOL: 0
-;    #include <delay.h>
-;    #include <stdio.h>
-;    #include <ff.h>
-;    #include <display.h>
+	.EQU __sm_mask=0x0E
+;PCODE: $0000000D VOL: 0
+	.EQU __sm_powerdown=0x04
+;PCODE: $0000000E VOL: 0
+	.EQU __sm_powersave=0x06
+;PCODE: $0000000F VOL: 0
+	.EQU __sm_standby=0x0C
+;PCODE: $00000010 VOL: 0
+	.EQU __sm_ext_standby=0x0E
+;PCODE: $00000011 VOL: 0
+	.EQU __sm_adc_noise_red=0x02
+;PCODE: $00000012 VOL: 0
+	.SET power_ctrl_reg=smcr
+;PCODE: $00000013 VOL: 0
+	#endif
+;PCODE: $00000014 VOL: 0
+;PCODE: $00000015 VOL: 0
+;#include <delay.h>
+;#include <stdio.h>
+;#include <ff.h>
+;#include <display.h>
 
 	.CSEG
-;PCODE: $0000000D VOL: 0
-;PCODE: $0000000E VOL: 0
-;PCODE: $0000000F VOL: 0
-;PCODE: $00000010 VOL: 0
-;PCODE: $00000011 VOL: 0
-;PCODE: $00000012 VOL: 0
-;PCODE: $00000013 VOL: 0
-;PCODE: $00000014 VOL: 0
-;	TableSetup -> Y+1
-;	i -> R16
-;PCODE: $00000015 VOL: 0
-; 0000 0008     SBI __lcd_port-1,__lcd_EN
-    SBI __lcd_port-1,__lcd_EN
 ;PCODE: $00000016 VOL: 0
-    SBI __lcd_port-1,__lcd_RS
 ;PCODE: $00000017 VOL: 0
-    SBI __lcd_port-1,__lcd_D4
 ;PCODE: $00000018 VOL: 0
-    SBI __lcd_port-1,__lcd_D5
 ;PCODE: $00000019 VOL: 0
-    SBI __lcd_port-1,__lcd_D6
 ;PCODE: $0000001A VOL: 0
-    SBI __lcd_port-1,__lcd_D7
 ;PCODE: $0000001B VOL: 0
 ;PCODE: $0000001C VOL: 0
 ;PCODE: $0000001D VOL: 0
+;	TableSetup -> Y+1
+;	i -> R16
 ;PCODE: $0000001E VOL: 0
+; 0000 0016     SBI __lcd_port-1,__lcd_EN
+    SBI __lcd_port-1,__lcd_EN
 ;PCODE: $0000001F VOL: 0
+    SBI __lcd_port-1,__lcd_RS
 ;PCODE: $00000020 VOL: 0
+    SBI __lcd_port-1,__lcd_D4
 ;PCODE: $00000021 VOL: 0
+    SBI __lcd_port-1,__lcd_D5
 ;PCODE: $00000022 VOL: 0
+    SBI __lcd_port-1,__lcd_D6
 ;PCODE: $00000023 VOL: 0
+    SBI __lcd_port-1,__lcd_D7
 ;PCODE: $00000024 VOL: 0
 ;PCODE: $00000025 VOL: 0
 ;PCODE: $00000026 VOL: 0
@@ -96,9 +110,7 @@
 ;PCODE: $00000041 VOL: 0
 ;PCODE: $00000042 VOL: 0
 ;PCODE: $00000043 VOL: 0
-    SBI __lcd_port,__lcd_EN  // EN=1;
 ;PCODE: $00000044 VOL: 0
-    CBI __lcd_port,__lcd_EN // EN=0;
 ;PCODE: $00000045 VOL: 0
 ;PCODE: $00000046 VOL: 0
 ;PCODE: $00000047 VOL: 0
@@ -106,66 +118,65 @@
 ;PCODE: $00000049 VOL: 0
 ;PCODE: $0000004A VOL: 0
 ;PCODE: $0000004B VOL: 0
-;	dato -> Y+0
 ;PCODE: $0000004C VOL: 0
+    SBI __lcd_port,__lcd_EN  // EN=1;
 ;PCODE: $0000004D VOL: 0
+    CBI __lcd_port,__lcd_EN // EN=0;
 ;PCODE: $0000004E VOL: 0
 ;PCODE: $0000004F VOL: 0
-	SBI __lcd_port,__lcd_D7
 ;PCODE: $00000050 VOL: 0
 ;PCODE: $00000051 VOL: 0
 ;PCODE: $00000052 VOL: 0
 ;PCODE: $00000053 VOL: 0
-	CBI __lcd_port,__lcd_D7
 ;PCODE: $00000054 VOL: 0
+;	dato -> Y+0
 ;PCODE: $00000055 VOL: 0
 ;PCODE: $00000056 VOL: 0
 ;PCODE: $00000057 VOL: 0
 ;PCODE: $00000058 VOL: 0
+	SBI __lcd_port,__lcd_D7
 ;PCODE: $00000059 VOL: 0
-	SBI __lcd_port,__lcd_D6
 ;PCODE: $0000005A VOL: 0
 ;PCODE: $0000005B VOL: 0
 ;PCODE: $0000005C VOL: 0
+	CBI __lcd_port,__lcd_D7
 ;PCODE: $0000005D VOL: 0
-	CBI __lcd_port,__lcd_D6
 ;PCODE: $0000005E VOL: 0
 ;PCODE: $0000005F VOL: 0
 ;PCODE: $00000060 VOL: 0
 ;PCODE: $00000061 VOL: 0
 ;PCODE: $00000062 VOL: 0
+	SBI __lcd_port,__lcd_D6
 ;PCODE: $00000063 VOL: 0
-	SBI __lcd_port,__lcd_D5
 ;PCODE: $00000064 VOL: 0
 ;PCODE: $00000065 VOL: 0
 ;PCODE: $00000066 VOL: 0
+	CBI __lcd_port,__lcd_D6
 ;PCODE: $00000067 VOL: 0
-	CBI __lcd_port,__lcd_D5
 ;PCODE: $00000068 VOL: 0
 ;PCODE: $00000069 VOL: 0
 ;PCODE: $0000006A VOL: 0
 ;PCODE: $0000006B VOL: 0
 ;PCODE: $0000006C VOL: 0
+	SBI __lcd_port,__lcd_D5
 ;PCODE: $0000006D VOL: 0
-	SBI __lcd_port,__lcd_D4
 ;PCODE: $0000006E VOL: 0
 ;PCODE: $0000006F VOL: 0
 ;PCODE: $00000070 VOL: 0
+	CBI __lcd_port,__lcd_D5
 ;PCODE: $00000071 VOL: 0
-	CBI __lcd_port,__lcd_D4
 ;PCODE: $00000072 VOL: 0
 ;PCODE: $00000073 VOL: 0
 ;PCODE: $00000074 VOL: 0
 ;PCODE: $00000075 VOL: 0
 ;PCODE: $00000076 VOL: 0
+	SBI __lcd_port,__lcd_D4
 ;PCODE: $00000077 VOL: 0
 ;PCODE: $00000078 VOL: 0
 ;PCODE: $00000079 VOL: 0
 ;PCODE: $0000007A VOL: 0
-;	Comando -> Y+1
-;	tempComando -> R16
+	CBI __lcd_port,__lcd_D4
 ;PCODE: $0000007B VOL: 0
-	CBI __lcd_port,__lcd_RS
 ;PCODE: $0000007C VOL: 0
 ;PCODE: $0000007D VOL: 0
 ;PCODE: $0000007E VOL: 0
@@ -174,7 +185,10 @@
 ;PCODE: $00000081 VOL: 0
 ;PCODE: $00000082 VOL: 0
 ;PCODE: $00000083 VOL: 0
+;	Comando -> Y+1
+;	tempComando -> R16
 ;PCODE: $00000084 VOL: 0
+	CBI __lcd_port,__lcd_RS
 ;PCODE: $00000085 VOL: 0
 ;PCODE: $00000086 VOL: 0
 ;PCODE: $00000087 VOL: 0
@@ -195,10 +209,7 @@
 ;PCODE: $00000096 VOL: 0
 ;PCODE: $00000097 VOL: 0
 ;PCODE: $00000098 VOL: 0
-;	dato -> Y+1
-;	tempdato -> R16
 ;PCODE: $00000099 VOL: 0
-	SBI __lcd_port,__lcd_RS
 ;PCODE: $0000009A VOL: 0
 ;PCODE: $0000009B VOL: 0
 ;PCODE: $0000009C VOL: 0
@@ -207,7 +218,10 @@
 ;PCODE: $0000009F VOL: 0
 ;PCODE: $000000A0 VOL: 0
 ;PCODE: $000000A1 VOL: 0
+;	dato -> Y+1
+;	tempdato -> R16
 ;PCODE: $000000A2 VOL: 0
+	SBI __lcd_port,__lcd_RS
 ;PCODE: $000000A3 VOL: 0
 ;PCODE: $000000A4 VOL: 0
 ;PCODE: $000000A5 VOL: 0
@@ -228,7 +242,6 @@
 ;PCODE: $000000B4 VOL: 0
 ;PCODE: $000000B5 VOL: 0
 ;PCODE: $000000B6 VOL: 0
-;	i -> R16
 ;PCODE: $000000B7 VOL: 0
 ;PCODE: $000000B8 VOL: 0
 ;PCODE: $000000B9 VOL: 0
@@ -238,6 +251,7 @@
 ;PCODE: $000000BD VOL: 0
 ;PCODE: $000000BE VOL: 0
 ;PCODE: $000000BF VOL: 0
+;	i -> R16
 ;PCODE: $000000C0 VOL: 0
 ;PCODE: $000000C1 VOL: 0
 ;PCODE: $000000C2 VOL: 0
@@ -259,8 +273,6 @@
 ;PCODE: $000000D2 VOL: 0
 ;PCODE: $000000D3 VOL: 0
 ;PCODE: $000000D4 VOL: 0
-;	tiempo -> Y+1
-;	i -> R16
 ;PCODE: $000000D5 VOL: 0
 ;PCODE: $000000D6 VOL: 0
 ;PCODE: $000000D7 VOL: 0
@@ -270,6 +282,8 @@
 ;PCODE: $000000DB VOL: 0
 ;PCODE: $000000DC VOL: 0
 ;PCODE: $000000DD VOL: 0
+;	tiempo -> Y+1
+;	i -> R16
 ;PCODE: $000000DE VOL: 0
 ;PCODE: $000000DF VOL: 0
 ;PCODE: $000000E0 VOL: 0
@@ -293,8 +307,6 @@
 ;PCODE: $000000F2 VOL: 0
 ;PCODE: $000000F3 VOL: 0
 ;PCODE: $000000F4 VOL: 0
-;	Mensaje -> Y+1
-;	i -> R16
 ;PCODE: $000000F5 VOL: 0
 ;PCODE: $000000F6 VOL: 0
 ;PCODE: $000000F7 VOL: 0
@@ -304,6 +316,8 @@
 ;PCODE: $000000FB VOL: 0
 ;PCODE: $000000FC VOL: 0
 ;PCODE: $000000FD VOL: 0
+;	Mensaje -> Y+1
+;	i -> R16
 ;PCODE: $000000FE VOL: 0
 ;PCODE: $000000FF VOL: 0
 ;PCODE: $00000100 VOL: 0
@@ -328,8 +342,6 @@
 ;PCODE: $00000113 VOL: 0
 ;PCODE: $00000114 VOL: 0
 ;PCODE: $00000115 VOL: 0
-;	x -> Y+1
-;	y -> Y+0
 ;PCODE: $00000116 VOL: 0
 ;PCODE: $00000117 VOL: 0
 ;PCODE: $00000118 VOL: 0
@@ -339,6 +351,8 @@
 ;PCODE: $0000011C VOL: 0
 ;PCODE: $0000011D VOL: 0
 ;PCODE: $0000011E VOL: 0
+;	x -> Y+1
+;	y -> Y+0
 ;PCODE: $0000011F VOL: 0
 ;PCODE: $00000120 VOL: 0
 ;PCODE: $00000121 VOL: 0
@@ -403,9 +417,6 @@
 ;PCODE: $0000015C VOL: 0
 ;PCODE: $0000015D VOL: 0
 ;PCODE: $0000015E VOL: 0
-;	NoCaracter -> Y+3
-;	datos -> Y+1
-;	i -> R16
 ;PCODE: $0000015F VOL: 0
 ;PCODE: $00000160 VOL: 0
 ;PCODE: $00000161 VOL: 0
@@ -415,6 +426,9 @@
 ;PCODE: $00000165 VOL: 0
 ;PCODE: $00000166 VOL: 0
 ;PCODE: $00000167 VOL: 0
+;	NoCaracter -> Y+3
+;	datos -> Y+1
+;	i -> R16
 ;PCODE: $00000168 VOL: 0
 ;PCODE: $00000169 VOL: 0
 ;PCODE: $0000016A VOL: 0
@@ -436,68 +450,74 @@
 ;PCODE: $0000017A VOL: 0
 ;PCODE: $0000017B VOL: 0
 ;PCODE: $0000017C VOL: 0
-;
-;     #asm
 ;PCODE: $0000017D VOL: 0
-        .equ __lcd_port=0x11
 ;PCODE: $0000017E VOL: 0
-        .equ __lcd_EN=4
 ;PCODE: $0000017F VOL: 0
-        .equ __lcd_RS=5
 ;PCODE: $00000180 VOL: 0
-        .equ __lcd_D4=0
 ;PCODE: $00000181 VOL: 0
-        .equ __lcd_D5=1
 ;PCODE: $00000182 VOL: 0
-        .equ __lcd_D6=2
 ;PCODE: $00000183 VOL: 0
-        .equ __lcd_D7=3
 ;PCODE: $00000184 VOL: 0
 ;PCODE: $00000185 VOL: 0
-; 0000 0012     #endasm
 ;
 ;
-;    char bufferL[256], bufferH[256], fileName[16], text[16];
-;    unsigned int i=0;
-;    bit LeerBufferH, LeerBufferL, mono;
-;    unsigned long muestras, inicio;
-;    unsigned int  br;
+;char bufferL[256];
+;char bufferH[256];
+;char NombreArchivo[13];
+;unsigned int i=0;
+;bit LeerBufferH,LeerBufferL;
+;unsigned long muestras;
+;bit mono;                 //variable para identificar si es mono o stereo
+;bit rewind=0;             //Bandera del boton rewind
+;char numc;                //numero de cancion
+;char total_canciones='6'; //numero total de canciones alamasenadas
+
+	.DSEG
+;char frec_mues;           //variable para guardar frec. muestreo y mostrarla en el LCD
+;long muestras_totales;    //guarda el numero total de muestras, es utilisado en la funcion display_info
+;unsigned int  br;
 ;
-;    /* will hold the information for logical drive 0: */
-;    FATFS drive;
-;    FIL archivo; // file objects
 ;
-;    interrupt [TIM1_COMPA] void timer1_compa_isr(void)
-; 0000 0020     {
+;/* FAT function result */
+;FRESULT res;
+;
+;/* will hold the information for logical drive 0: */
+;FATFS drive;
+;FIL archivo; // file objects
+;
+;interrupt [TIM1_COMPA] void timer1_compa_isr(void)
+; 0000 0030 {
+
+	.CSEG
 ;PCODE: $00000186 VOL: 0
 ;PCODE: $00000187 VOL: 0
-; 0000 0021     disk_timerproc();
+; 0000 0031 disk_timerproc();
 ;PCODE: $00000188 VOL: 0
-; 0000 0022     /* MMC/SD/SD HC card access low level timing function */
-; 0000 0023     }
+; 0000 0032 /* MMC/SD/SD HC card access low level timing function */
+; 0000 0033 }
 ;PCODE: $00000189 VOL: 0
 ;PCODE: $0000018A VOL: 0
 ;PCODE: $0000018B VOL: 0
 ;
-;    //Interrupción que se ejecuta cada T=1/Fmuestreo_Wav
-;    interrupt [TIM2_COMPA] void timer2_compa_isr(void)
-; 0000 0027     {
+;//InterrupciÃ³n que se ejecuta cada T=1/Fmuestreo_Wav
+;interrupt [TIM2_COMPA] void timer2_compa_isr(void)
+; 0000 0037 {
 ;PCODE: $0000018C VOL: 0
 ;PCODE: $0000018D VOL: 0
-; 0000 0028         if(mono==1){
+; 0000 0038   if(mono==1){   //mono
 ;PCODE: $0000018E VOL: 0
 ;PCODE: $0000018F VOL: 0
 ;PCODE: $00000190 VOL: 0
-; 0000 0029             if (i<256){
+; 0000 0039       if (i<256){
 ;PCODE: $00000191 VOL: 0
 ;PCODE: $00000192 VOL: 0
 ;PCODE: $00000193 VOL: 0
-; 0000 002A               OCR0A=bufferL[i];
+; 0000 003A         OCR0A=bufferL[i];
 ;PCODE: $00000194 VOL: 0
 ;PCODE: $00000195 VOL: 0
 ;PCODE: $00000196 VOL: 0
 ;PCODE: $00000197 VOL: 0
-; 0000 002B               OCR0B=bufferL[i++];
+; 0000 003B         OCR0B=bufferL[i++];
 ;PCODE: $00000198 VOL: 0
 ;PCODE: $00000199 VOL: 0
 ;PCODE: $0000019A VOL: 0
@@ -506,58 +526,60 @@
 ;PCODE: $0000019D VOL: 0
 ;PCODE: $0000019E VOL: 0
 ;PCODE: $0000019F VOL: 0
-; 0000 002C             }else
+; 0000 003C         }
+; 0000 003D       else
 ;PCODE: $000001A0 VOL: 0
 ;PCODE: $000001A1 VOL: 0
-; 0000 002D             {
-; 0000 002E               OCR0A=bufferH[i-256];
+; 0000 003E       {
+; 0000 003F         OCR0A=bufferH[i-256];
 ;PCODE: $000001A2 VOL: 0
 ;PCODE: $000001A3 VOL: 0
 ;PCODE: $000001A4 VOL: 0
 ;PCODE: $000001A5 VOL: 0
 ;PCODE: $000001A6 VOL: 0
-; 0000 002F               OCR0B=bufferH[i-256];
+; 0000 0040         OCR0B=bufferH[i-256];
 ;PCODE: $000001A7 VOL: 0
 ;PCODE: $000001A8 VOL: 0
 ;PCODE: $000001A9 VOL: 0
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
-; 0000 0030               i++;
+; 0000 0041         i++;
 ;PCODE: $000001AC VOL: 0
 ;PCODE: $000001AD VOL: 0
 ;PCODE: $000001AE VOL: 0
 ;PCODE: $000001AF VOL: 0
-; 0000 0031             }
+; 0000 0042       }
 ;PCODE: $000001B0 VOL: 0
-; 0000 0032             if (i==256)
+; 0000 0043       if (i==256)
 ;PCODE: $000001B1 VOL: 0
 ;PCODE: $000001B2 VOL: 0
 ;PCODE: $000001B3 VOL: 0
-; 0000 0033                LeerBufferL=1;
+; 0000 0044          LeerBufferL=1;
 ;PCODE: $000001B4 VOL: 0
 ;PCODE: $000001B5 VOL: 0
-; 0000 0034                if (i==512)
+; 0000 0045       if (i==512)
 ;PCODE: $000001B6 VOL: 0
 ;PCODE: $000001B7 VOL: 0
 ;PCODE: $000001B8 VOL: 0
 ;PCODE: $000001B9 VOL: 0
-; 0000 0035             {
-; 0000 0036                LeerBufferH=1;
+; 0000 0046       {
+; 0000 0047          LeerBufferH=1;
 ;PCODE: $000001BA VOL: 0
 ;PCODE: $000001BB VOL: 0
-; 0000 0037                i=0;
+; 0000 0048          i=0;
 ;PCODE: $000001BC VOL: 0
 ;PCODE: $000001BD VOL: 0
-; 0000 0038             }
-; 0000 0039         }else{
+; 0000 0049          }
+; 0000 004A     }
 ;PCODE: $000001BE VOL: 0
+; 0000 004B     else {       //stereo
 ;PCODE: $000001BF VOL: 0
 ;PCODE: $000001C0 VOL: 0
-; 0000 003A            if (i<256){
+; 0000 004C       if (i<256){
 ;PCODE: $000001C1 VOL: 0
 ;PCODE: $000001C2 VOL: 0
 ;PCODE: $000001C3 VOL: 0
-; 0000 003B               OCR0A=bufferL[i++];
+; 0000 004D         OCR0A=bufferL[i++];
 ;PCODE: $000001C4 VOL: 0
 ;PCODE: $000001C5 VOL: 0
 ;PCODE: $000001C6 VOL: 0
@@ -566,7 +588,7 @@
 ;PCODE: $000001C9 VOL: 0
 ;PCODE: $000001CA VOL: 0
 ;PCODE: $000001CB VOL: 0
-; 0000 003C               OCR0B=bufferL[i++];
+; 0000 004E         OCR0B=bufferL[i++];
 ;PCODE: $000001CC VOL: 0
 ;PCODE: $000001CD VOL: 0
 ;PCODE: $000001CE VOL: 0
@@ -575,79 +597,82 @@
 ;PCODE: $000001D1 VOL: 0
 ;PCODE: $000001D2 VOL: 0
 ;PCODE: $000001D3 VOL: 0
-; 0000 003D             }else
+; 0000 004F         }
+; 0000 0050       else
 ;PCODE: $000001D4 VOL: 0
 ;PCODE: $000001D5 VOL: 0
-; 0000 003E             {
-; 0000 003F               OCR0A=bufferH[i-256];
+; 0000 0051       {
+; 0000 0052         OCR0A=bufferH[i-256];
 ;PCODE: $000001D6 VOL: 0
 ;PCODE: $000001D7 VOL: 0
 ;PCODE: $000001D8 VOL: 0
 ;PCODE: $000001D9 VOL: 0
 ;PCODE: $000001DA VOL: 0
-; 0000 0040               i++;
+; 0000 0053         i++;
 ;PCODE: $000001DB VOL: 0
 ;PCODE: $000001DC VOL: 0
 ;PCODE: $000001DD VOL: 0
 ;PCODE: $000001DE VOL: 0
-; 0000 0041               OCR0B=bufferH[i-256];
+; 0000 0054         OCR0B=bufferH[i-256];
 ;PCODE: $000001DF VOL: 0
 ;PCODE: $000001E0 VOL: 0
 ;PCODE: $000001E1 VOL: 0
 ;PCODE: $000001E2 VOL: 0
 ;PCODE: $000001E3 VOL: 0
-; 0000 0042               i++;
+; 0000 0055         i++;
 ;PCODE: $000001E4 VOL: 0
 ;PCODE: $000001E5 VOL: 0
 ;PCODE: $000001E6 VOL: 0
 ;PCODE: $000001E7 VOL: 0
-; 0000 0043             }
+; 0000 0056       }
 ;PCODE: $000001E8 VOL: 0
-; 0000 0044             if (i==256)
+; 0000 0057       if (i==256)
 ;PCODE: $000001E9 VOL: 0
 ;PCODE: $000001EA VOL: 0
 ;PCODE: $000001EB VOL: 0
-; 0000 0045                LeerBufferL=1;
+; 0000 0058          LeerBufferL=1;
 ;PCODE: $000001EC VOL: 0
 ;PCODE: $000001ED VOL: 0
-; 0000 0046             if (i==512)
+; 0000 0059       if (i==512)
 ;PCODE: $000001EE VOL: 0
 ;PCODE: $000001EF VOL: 0
 ;PCODE: $000001F0 VOL: 0
 ;PCODE: $000001F1 VOL: 0
-; 0000 0047             {
-; 0000 0048                LeerBufferH=1;
+; 0000 005A       {
+; 0000 005B          LeerBufferH=1;
 ;PCODE: $000001F2 VOL: 0
 ;PCODE: $000001F3 VOL: 0
-; 0000 0049                i=0;
+; 0000 005C          i=0;
 ;PCODE: $000001F4 VOL: 0
 ;PCODE: $000001F5 VOL: 0
-; 0000 004A             }
-; 0000 004B         }
+; 0000 005D       }
+; 0000 005E   }
 ;PCODE: $000001F6 VOL: 0
 ;PCODE: $000001F7 VOL: 0
-; 0000 004C     }
+; 0000 005F }
 ;PCODE: $000001F8 VOL: 0
 ;PCODE: $000001F9 VOL: 0
 ;PCODE: $000001FA VOL: 0
 ;
-;char name[16], artist[16], album[16], j;
-;void GetInfo(unsigned char NombreTexto[]){
-; 0000 004F void GetInfo(unsigned char NombreTexto[]){
+;
+;//LCD
+;void display_info()
+; 0000 0064 {
 ;PCODE: $000001FB VOL: 0
 ;PCODE: $000001FC VOL: 0
-; 0000 0050     if (f_open(&archivo, NombreTexto, FA_OPEN_ALWAYS | FA_READ)==FR_OK){
+; 0000 0065   int j;
+; 0000 0066   f_lseek(&archivo,44+muestras_totales);//Ir a los bytes de info
 ;PCODE: $000001FD VOL: 0
-;	NombreTexto -> Y+0
 ;PCODE: $000001FE VOL: 0
+;	j -> R16,R17
 ;PCODE: $000001FF VOL: 0
 ;PCODE: $00000200 VOL: 0
 ;PCODE: $00000201 VOL: 0
 ;PCODE: $00000202 VOL: 0
 ;PCODE: $00000203 VOL: 0
 ;PCODE: $00000204 VOL: 0
+; 0000 0067   f_read(&archivo, bufferL, 128,&br);
 ;PCODE: $00000205 VOL: 0
-; 0000 0051         f_read(&archivo, bufferL, 44,&br); //leer encabezado
 ;PCODE: $00000206 VOL: 0
 ;PCODE: $00000207 VOL: 0
 ;PCODE: $00000208 VOL: 0
@@ -655,10 +680,14 @@
 ;PCODE: $0000020A VOL: 0
 ;PCODE: $0000020B VOL: 0
 ;PCODE: $0000020C VOL: 0
+; 0000 0068 
+; 0000 0069    EraseLCD();
 ;PCODE: $0000020D VOL: 0
-; 0000 0052         muestras=(long)bufferL[43]*16777216+(long)bufferL[42]*65536+(long)bufferL[41]*256+bufferL[40];  //obtener número ...
+; 0000 006A   //Nombre cancion
+; 0000 006B    j=18;
 ;PCODE: $0000020E VOL: 0
 ;PCODE: $0000020F VOL: 0
+; 0000 006C    while((bufferL[j]&0xF0)==0x00) {j++;}
 ;PCODE: $00000210 VOL: 0
 ;PCODE: $00000211 VOL: 0
 ;PCODE: $00000212 VOL: 0
@@ -669,73 +698,83 @@
 ;PCODE: $00000217 VOL: 0
 ;PCODE: $00000218 VOL: 0
 ;PCODE: $00000219 VOL: 0
+; 0000 006D    MoveCursor(0,0);
 ;PCODE: $0000021A VOL: 0
 ;PCODE: $0000021B VOL: 0
 ;PCODE: $0000021C VOL: 0
 ;PCODE: $0000021D VOL: 0
+; 0000 006E    while((bufferL[j]&0xF0)!=0x00) {
 ;PCODE: $0000021E VOL: 0
 ;PCODE: $0000021F VOL: 0
 ;PCODE: $00000220 VOL: 0
 ;PCODE: $00000221 VOL: 0
 ;PCODE: $00000222 VOL: 0
 ;PCODE: $00000223 VOL: 0
+; 0000 006F      CharLCD(bufferL[j]);
 ;PCODE: $00000224 VOL: 0
 ;PCODE: $00000225 VOL: 0
 ;PCODE: $00000226 VOL: 0
 ;PCODE: $00000227 VOL: 0
+; 0000 0070      j++;
 ;PCODE: $00000228 VOL: 0
 ;PCODE: $00000229 VOL: 0
+; 0000 0071    }
 ;PCODE: $0000022A VOL: 0
 ;PCODE: $0000022B VOL: 0
-; 0000 0053         f_lseek(&archivo, muestras+64);
+; 0000 0072   //Artista
+; 0000 0073   while((bufferL[j]&0xF0)==0x00) {j++;}
 ;PCODE: $0000022C VOL: 0
 ;PCODE: $0000022D VOL: 0
 ;PCODE: $0000022E VOL: 0
 ;PCODE: $0000022F VOL: 0
 ;PCODE: $00000230 VOL: 0
 ;PCODE: $00000231 VOL: 0
-; 0000 0054         f_read(&archivo, bufferL, 256,&br); // Read information
 ;PCODE: $00000232 VOL: 0
 ;PCODE: $00000233 VOL: 0
 ;PCODE: $00000234 VOL: 0
 ;PCODE: $00000235 VOL: 0
+; 0000 0074   j+=5;
 ;PCODE: $00000236 VOL: 0
 ;PCODE: $00000237 VOL: 0
+; 0000 0075   while((bufferL[j]&0xF0)==0x00) {j++;}
 ;PCODE: $00000238 VOL: 0
 ;PCODE: $00000239 VOL: 0
-; 0000 0055         f_close(&archivo);
 ;PCODE: $0000023A VOL: 0
 ;PCODE: $0000023B VOL: 0
-; 0000 0056         i=0;
 ;PCODE: $0000023C VOL: 0
 ;PCODE: $0000023D VOL: 0
-; 0000 0057         for(j=0; bufferL[i]!=0&&bufferL[i+1]!=0&&j<16; j++){
 ;PCODE: $0000023E VOL: 0
 ;PCODE: $0000023F VOL: 0
 ;PCODE: $00000240 VOL: 0
 ;PCODE: $00000241 VOL: 0
+; 0000 0076   MoveCursor(0,1);
 ;PCODE: $00000242 VOL: 0
 ;PCODE: $00000243 VOL: 0
 ;PCODE: $00000244 VOL: 0
 ;PCODE: $00000245 VOL: 0
+; 0000 0077   while((bufferL[j]&0xF0)!=0x00) {
 ;PCODE: $00000246 VOL: 0
 ;PCODE: $00000247 VOL: 0
 ;PCODE: $00000248 VOL: 0
 ;PCODE: $00000249 VOL: 0
 ;PCODE: $0000024A VOL: 0
 ;PCODE: $0000024B VOL: 0
+; 0000 0078     CharLCD(bufferL[j]);
 ;PCODE: $0000024C VOL: 0
 ;PCODE: $0000024D VOL: 0
 ;PCODE: $0000024E VOL: 0
 ;PCODE: $0000024F VOL: 0
+; 0000 0079     j++;
 ;PCODE: $00000250 VOL: 0
 ;PCODE: $00000251 VOL: 0
+; 0000 007A   }
 ;PCODE: $00000252 VOL: 0
 ;PCODE: $00000253 VOL: 0
+; 0000 007B   //Disco
+; 0000 007C   while((bufferL[j]&0xF0)==0x00) {j++;}
 ;PCODE: $00000254 VOL: 0
 ;PCODE: $00000255 VOL: 0
 ;PCODE: $00000256 VOL: 0
-; 0000 0058             name[j] = bufferL[i];
 ;PCODE: $00000257 VOL: 0
 ;PCODE: $00000258 VOL: 0
 ;PCODE: $00000259 VOL: 0
@@ -743,53 +782,61 @@
 ;PCODE: $0000025B VOL: 0
 ;PCODE: $0000025C VOL: 0
 ;PCODE: $0000025D VOL: 0
-; 0000 0059             i++;
+; 0000 007D   j+=5;
 ;PCODE: $0000025E VOL: 0
 ;PCODE: $0000025F VOL: 0
+; 0000 007E   while((bufferL[j]&0xF0)==0x00) {j++;}
 ;PCODE: $00000260 VOL: 0
 ;PCODE: $00000261 VOL: 0
-; 0000 005A         }
 ;PCODE: $00000262 VOL: 0
 ;PCODE: $00000263 VOL: 0
 ;PCODE: $00000264 VOL: 0
 ;PCODE: $00000265 VOL: 0
 ;PCODE: $00000266 VOL: 0
 ;PCODE: $00000267 VOL: 0
-; 0000 005B         i+=10;
 ;PCODE: $00000268 VOL: 0
 ;PCODE: $00000269 VOL: 0
+; 0000 007F   MoveCursor(0,2);
 ;PCODE: $0000026A VOL: 0
-; 0000 005C         for(j=0; bufferL[i]!="."&&bufferL[i+1]!="I"&&bufferL[i+2]!="P"&&bufferL[i+3]!="R"&&bufferL[i+4]!="D"&&j<16; j++) ...
 ;PCODE: $0000026B VOL: 0
 ;PCODE: $0000026C VOL: 0
 ;PCODE: $0000026D VOL: 0
+; 0000 0080   while((bufferL[j]&0xF0)!=0x00) {
 ;PCODE: $0000026E VOL: 0
 ;PCODE: $0000026F VOL: 0
 ;PCODE: $00000270 VOL: 0
 ;PCODE: $00000271 VOL: 0
 ;PCODE: $00000272 VOL: 0
 ;PCODE: $00000273 VOL: 0
+; 0000 0081     CharLCD(bufferL[j]);
 ;PCODE: $00000274 VOL: 0
 ;PCODE: $00000275 VOL: 0
 ;PCODE: $00000276 VOL: 0
 ;PCODE: $00000277 VOL: 0
+; 0000 0082     j++;
 ;PCODE: $00000278 VOL: 0
 ;PCODE: $00000279 VOL: 0
+; 0000 0083   }
 ;PCODE: $0000027A VOL: 0
 ;PCODE: $0000027B VOL: 0
+; 0000 0084   //caracterisitcas wav
+; 0000 0085    MoveCursor(0,3);
 ;PCODE: $0000027C VOL: 0
 ;PCODE: $0000027D VOL: 0
 ;PCODE: $0000027E VOL: 0
 ;PCODE: $0000027F VOL: 0
+; 0000 0086    StringLCD("Frec: ");
 ;PCODE: $00000280 VOL: 0
 ;PCODE: $00000281 VOL: 0
 ;PCODE: $00000282 VOL: 0
+; 0000 0087    if (frec_mues==0x22) { StringLCD("22050");}
 ;PCODE: $00000283 VOL: 0
 ;PCODE: $00000284 VOL: 0
 ;PCODE: $00000285 VOL: 0
 ;PCODE: $00000286 VOL: 0
 ;PCODE: $00000287 VOL: 0
 ;PCODE: $00000288 VOL: 0
+; 0000 0088    if (frec_mues==0xC0) { StringLCD("24000");}
 ;PCODE: $00000289 VOL: 0
 ;PCODE: $0000028A VOL: 0
 ;PCODE: $0000028B VOL: 0
@@ -797,6 +844,7 @@
 ;PCODE: $0000028D VOL: 0
 ;PCODE: $0000028E VOL: 0
 ;PCODE: $0000028F VOL: 0
+; 0000 0089    if (frec_mues==0x00) { StringLCD("32000");}
 ;PCODE: $00000290 VOL: 0
 ;PCODE: $00000291 VOL: 0
 ;PCODE: $00000292 VOL: 0
@@ -804,6 +852,7 @@
 ;PCODE: $00000294 VOL: 0
 ;PCODE: $00000295 VOL: 0
 ;PCODE: $00000296 VOL: 0
+; 0000 008A    if (mono==1) {StringLCD(" Mono");}
 ;PCODE: $00000297 VOL: 0
 ;PCODE: $00000298 VOL: 0
 ;PCODE: $00000299 VOL: 0
@@ -811,6 +860,7 @@
 ;PCODE: $0000029B VOL: 0
 ;PCODE: $0000029C VOL: 0
 ;PCODE: $0000029D VOL: 0
+; 0000 008B    if (mono==0) {StringLCD(" Ster");}
 ;PCODE: $0000029E VOL: 0
 ;PCODE: $0000029F VOL: 0
 ;PCODE: $000002A0 VOL: 0
@@ -818,34 +868,47 @@
 ;PCODE: $000002A2 VOL: 0
 ;PCODE: $000002A3 VOL: 0
 ;PCODE: $000002A4 VOL: 0
-; 0000 005D             artist[j] = bufferL[i];
+; 0000 008C 
+; 0000 008D   f_lseek(&archivo,44); //regresar a los bytes de la cancion
 ;PCODE: $000002A5 VOL: 0
 ;PCODE: $000002A6 VOL: 0
 ;PCODE: $000002A7 VOL: 0
 ;PCODE: $000002A8 VOL: 0
 ;PCODE: $000002A9 VOL: 0
+; 0000 008E }
 ;PCODE: $000002AA VOL: 0
 ;PCODE: $000002AB VOL: 0
-; 0000 005E             i++;
 ;PCODE: $000002AC VOL: 0
+;
+;
+;//Toca Cancion
+;void TocaCancion(unsigned char NombreCancion[])
+; 0000 0093 {
 ;PCODE: $000002AD VOL: 0
 ;PCODE: $000002AE VOL: 0
+; 0000 0094 
+; 0000 0095 
+; 0000 0096         res = f_open(&archivo, NombreCancion, FA_OPEN_EXISTING | FA_READ);
 ;PCODE: $000002AF VOL: 0
-; 0000 005F         }
+;	NombreCancion -> Y+0
 ;PCODE: $000002B0 VOL: 0
 ;PCODE: $000002B1 VOL: 0
 ;PCODE: $000002B2 VOL: 0
 ;PCODE: $000002B3 VOL: 0
 ;PCODE: $000002B4 VOL: 0
 ;PCODE: $000002B5 VOL: 0
-; 0000 0060         i+=9;
 ;PCODE: $000002B6 VOL: 0
+; 0000 0097         if (res==FR_OK){
 ;PCODE: $000002B7 VOL: 0
 ;PCODE: $000002B8 VOL: 0
-; 0000 0061         for(j=0; bufferL[i]!=0&&bufferL[i+1]!=0&&j<16; j++){
 ;PCODE: $000002B9 VOL: 0
+; 0000 0098 
+; 0000 0099             PORTD.6=1;  //Prende Led
 ;PCODE: $000002BA VOL: 0
 ;PCODE: $000002BB VOL: 0
+; 0000 009A 
+; 0000 009B 
+; 0000 009C             f_read(&archivo, bufferL, 44,&br); //leer encabezado
 ;PCODE: $000002BC VOL: 0
 ;PCODE: $000002BD VOL: 0
 ;PCODE: $000002BE VOL: 0
@@ -854,6 +917,7 @@
 ;PCODE: $000002C1 VOL: 0
 ;PCODE: $000002C2 VOL: 0
 ;PCODE: $000002C3 VOL: 0
+; 0000 009D             muestras=(long)bufferL[43]*16777216+(long)bufferL[42]*65536+(long)bufferL[41]*256+bufferL[40];  //obtener nÃ ...
 ;PCODE: $000002C4 VOL: 0
 ;PCODE: $000002C5 VOL: 0
 ;PCODE: $000002C6 VOL: 0
@@ -868,7 +932,6 @@
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
 ;PCODE: $000002D1 VOL: 0
-; 0000 0062             album[j] = bufferL[i];
 ;PCODE: $000002D2 VOL: 0
 ;PCODE: $000002D3 VOL: 0
 ;PCODE: $000002D4 VOL: 0
@@ -876,121 +939,116 @@
 ;PCODE: $000002D6 VOL: 0
 ;PCODE: $000002D7 VOL: 0
 ;PCODE: $000002D8 VOL: 0
-; 0000 0063             i++;
 ;PCODE: $000002D9 VOL: 0
 ;PCODE: $000002DA VOL: 0
 ;PCODE: $000002DB VOL: 0
 ;PCODE: $000002DC VOL: 0
-; 0000 0064         }
 ;PCODE: $000002DD VOL: 0
 ;PCODE: $000002DE VOL: 0
 ;PCODE: $000002DF VOL: 0
 ;PCODE: $000002E0 VOL: 0
 ;PCODE: $000002E1 VOL: 0
+; 0000 009E             muestras_totales=muestras;
 ;PCODE: $000002E2 VOL: 0
-; 0000 0065     }
-; 0000 0066 }
 ;PCODE: $000002E3 VOL: 0
+; 0000 009F             //leer si es stereo o mono
+; 0000 00A0             if (bufferL[22]==1)
 ;PCODE: $000002E4 VOL: 0
 ;PCODE: $000002E5 VOL: 0
 ;PCODE: $000002E6 VOL: 0
-;
-;    void GetFrequency(unsigned char NombreArchivo[]){
-; 0000 0068 void GetFrequency(unsigned char NombreArchivo[]){
 ;PCODE: $000002E7 VOL: 0
+; 0000 00A1               mono=1;
 ;PCODE: $000002E8 VOL: 0
-; 0000 0069         if (f_open(&archivo, NombreArchivo, FA_OPEN_ALWAYS | FA_WRITE | FA_READ)==FR_OK){
 ;PCODE: $000002E9 VOL: 0
-;	NombreArchivo -> Y+0
+; 0000 00A2             else
 ;PCODE: $000002EA VOL: 0
 ;PCODE: $000002EB VOL: 0
+; 0000 00A3               mono=0;
 ;PCODE: $000002EC VOL: 0
 ;PCODE: $000002ED VOL: 0
+; 0000 00A4             //frecuencia muestreo: no es necesario leer el numero completo, con solo leer un byte se puede saber a que f ...
+; 0000 00A5             if (bufferL[24]==0x22) { OCR2A=90;}  //22050
 ;PCODE: $000002EE VOL: 0
 ;PCODE: $000002EF VOL: 0
 ;PCODE: $000002F0 VOL: 0
 ;PCODE: $000002F1 VOL: 0
-; 0000 006A             f_read(&archivo, bufferL, 45,&br);
 ;PCODE: $000002F2 VOL: 0
 ;PCODE: $000002F3 VOL: 0
 ;PCODE: $000002F4 VOL: 0
+; 0000 00A6             if (bufferL[24]==0xC0) { OCR2A=83;}  //24000
 ;PCODE: $000002F5 VOL: 0
 ;PCODE: $000002F6 VOL: 0
 ;PCODE: $000002F7 VOL: 0
 ;PCODE: $000002F8 VOL: 0
 ;PCODE: $000002F9 VOL: 0
-; 0000 006B             f_close(&archivo);
 ;PCODE: $000002FA VOL: 0
 ;PCODE: $000002FB VOL: 0
-; 0000 006C             switch(bufferL[25]){
+; 0000 00A7             if (bufferL[24]==0x00) { OCR2A=62;}  //32000
 ;PCODE: $000002FC VOL: 0
 ;PCODE: $000002FD VOL: 0
 ;PCODE: $000002FE VOL: 0
-; 0000 006D                 case 0x7D:  OCR2A=62;    // Frequency is 32000Hz
 ;PCODE: $000002FF VOL: 0
 ;PCODE: $00000300 VOL: 0
 ;PCODE: $00000301 VOL: 0
 ;PCODE: $00000302 VOL: 0
-; 0000 006E                 case 0x5D:  OCR2A=82;    // Frequency is 24000Hz
+; 0000 00A8             frec_mues=bufferL[24]; //variable para guardar frec. muestreo y mostrarla en el LCD
 ;PCODE: $00000303 VOL: 0
 ;PCODE: $00000304 VOL: 0
 ;PCODE: $00000305 VOL: 0
 ;PCODE: $00000306 VOL: 0
+; 0000 00A9             //leer datos cancion
+; 0000 00AA             display_info();
 ;PCODE: $00000307 VOL: 0
+; 0000 00AB 
+; 0000 00AC             f_read(&archivo, bufferL, 256,&br); //leer los primeros 512 bytes del WAV
 ;PCODE: $00000308 VOL: 0
 ;PCODE: $00000309 VOL: 0
-; 0000 006F                 case 0x55:  OCR2A=90;    // Frequency is 22050Hz
 ;PCODE: $0000030A VOL: 0
 ;PCODE: $0000030B VOL: 0
 ;PCODE: $0000030C VOL: 0
 ;PCODE: $0000030D VOL: 0
 ;PCODE: $0000030E VOL: 0
 ;PCODE: $0000030F VOL: 0
+; 0000 00AD             muestras=muestras-br;
 ;PCODE: $00000310 VOL: 0
-; 0000 0070             }
 ;PCODE: $00000311 VOL: 0
-; 0000 0071             if(bufferL[22] == 1)
 ;PCODE: $00000312 VOL: 0
 ;PCODE: $00000313 VOL: 0
 ;PCODE: $00000314 VOL: 0
+; 0000 00AE             f_read(&archivo, bufferH, 256,&br);
 ;PCODE: $00000315 VOL: 0
-; 0000 0072                 mono=1;      // Set mono on
 ;PCODE: $00000316 VOL: 0
 ;PCODE: $00000317 VOL: 0
-; 0000 0073             else
 ;PCODE: $00000318 VOL: 0
 ;PCODE: $00000319 VOL: 0
-; 0000 0074                 mono=0;      // Set stereo on
 ;PCODE: $0000031A VOL: 0
 ;PCODE: $0000031B VOL: 0
-; 0000 0075         }
 ;PCODE: $0000031C VOL: 0
-; 0000 0076 
-; 0000 0077     }
+; 0000 00AF             muestras=muestras-br;
 ;PCODE: $0000031D VOL: 0
 ;PCODE: $0000031E VOL: 0
 ;PCODE: $0000031F VOL: 0
 ;PCODE: $00000320 VOL: 0
-;
-;    void TocaCancion(unsigned char NombreCancion[])
-; 0000 007A     {
 ;PCODE: $00000321 VOL: 0
+; 0000 00B0             LeerBufferL=0;
 ;PCODE: $00000322 VOL: 0
-; 0000 007B         if (f_open(&archivo, NombreCancion, FA_OPEN_EXISTING | FA_READ)==FR_OK){
 ;PCODE: $00000323 VOL: 0
-;	NombreCancion -> Y+0
+; 0000 00B1             LeerBufferH=0;
 ;PCODE: $00000324 VOL: 0
 ;PCODE: $00000325 VOL: 0
+; 0000 00B2             TCCR0A=0xA3;
 ;PCODE: $00000326 VOL: 0
 ;PCODE: $00000327 VOL: 0
+; 0000 00B3             TCCR0B=0x01;    //Prende sonido
 ;PCODE: $00000328 VOL: 0
 ;PCODE: $00000329 VOL: 0
+; 0000 00B4             i=0;
 ;PCODE: $0000032A VOL: 0
 ;PCODE: $0000032B VOL: 0
-; 0000 007C             PORTD.6=1;  //Prende Led
+; 0000 00B5             do{
 ;PCODE: $0000032C VOL: 0
+; 0000 00B6                  while((LeerBufferH==0)&&(LeerBufferL==0));
 ;PCODE: $0000032D VOL: 0
-; 0000 007D             f_read(&archivo, bufferL, 44,&br); //leer encabezado
 ;PCODE: $0000032E VOL: 0
 ;PCODE: $0000032F VOL: 0
 ;PCODE: $00000330 VOL: 0
@@ -999,14 +1057,16 @@
 ;PCODE: $00000333 VOL: 0
 ;PCODE: $00000334 VOL: 0
 ;PCODE: $00000335 VOL: 0
-; 0000 007E             muestras=(long)bufferL[43]*16777216+(long)bufferL[42]*65536+(long)bufferL[41]*256+bufferL[40];  //obtener nú ...
 ;PCODE: $00000336 VOL: 0
 ;PCODE: $00000337 VOL: 0
 ;PCODE: $00000338 VOL: 0
 ;PCODE: $00000339 VOL: 0
+; 0000 00B7                  if (LeerBufferL)
 ;PCODE: $0000033A VOL: 0
 ;PCODE: $0000033B VOL: 0
 ;PCODE: $0000033C VOL: 0
+; 0000 00B8                  {
+; 0000 00B9                      f_read(&archivo, bufferL, 256,&br);
 ;PCODE: $0000033D VOL: 0
 ;PCODE: $0000033E VOL: 0
 ;PCODE: $0000033F VOL: 0
@@ -1015,388 +1075,297 @@
 ;PCODE: $00000342 VOL: 0
 ;PCODE: $00000343 VOL: 0
 ;PCODE: $00000344 VOL: 0
+; 0000 00BA                      LeerBufferL=0;
 ;PCODE: $00000345 VOL: 0
 ;PCODE: $00000346 VOL: 0
+; 0000 00BB                      muestras=muestras-br;
 ;PCODE: $00000347 VOL: 0
 ;PCODE: $00000348 VOL: 0
 ;PCODE: $00000349 VOL: 0
 ;PCODE: $0000034A VOL: 0
 ;PCODE: $0000034B VOL: 0
+; 0000 00BC                  }
+; 0000 00BD                  else
 ;PCODE: $0000034C VOL: 0
 ;PCODE: $0000034D VOL: 0
+; 0000 00BE                  {
+; 0000 00BF                      f_read(&archivo, bufferH, 256,&br);
 ;PCODE: $0000034E VOL: 0
 ;PCODE: $0000034F VOL: 0
 ;PCODE: $00000350 VOL: 0
 ;PCODE: $00000351 VOL: 0
 ;PCODE: $00000352 VOL: 0
 ;PCODE: $00000353 VOL: 0
-; 0000 007F             inicio = muestras;
 ;PCODE: $00000354 VOL: 0
 ;PCODE: $00000355 VOL: 0
-; 0000 0080             f_read(&archivo, bufferL, 256,&br); //leer los primeros 512 bytes del WAV
+; 0000 00C0                      LeerBufferH=0;
 ;PCODE: $00000356 VOL: 0
 ;PCODE: $00000357 VOL: 0
+; 0000 00C1                      muestras=muestras-br;
 ;PCODE: $00000358 VOL: 0
 ;PCODE: $00000359 VOL: 0
 ;PCODE: $0000035A VOL: 0
 ;PCODE: $0000035B VOL: 0
 ;PCODE: $0000035C VOL: 0
+; 0000 00C2                  }
 ;PCODE: $0000035D VOL: 0
-; 0000 0081             muestras=muestras-br;
+; 0000 00C3                  //botÃ³n de Foward
+; 0000 00C4                  if (PINC.2==0)
 ;PCODE: $0000035E VOL: 0
 ;PCODE: $0000035F VOL: 0
 ;PCODE: $00000360 VOL: 0
+; 0000 00C5                      muestras=0;
 ;PCODE: $00000361 VOL: 0
 ;PCODE: $00000362 VOL: 0
-; 0000 0082             f_read(&archivo, bufferH, 256,&br);
+; 0000 00C6                  //boton Play-Pause
+; 0000 00C7                  if (PINC.0==0){
 ;PCODE: $00000363 VOL: 0
 ;PCODE: $00000364 VOL: 0
 ;PCODE: $00000365 VOL: 0
 ;PCODE: $00000366 VOL: 0
+; 0000 00C8                    TCCR0A=0x00;  //Apaga sonido
 ;PCODE: $00000367 VOL: 0
 ;PCODE: $00000368 VOL: 0
+; 0000 00C9                    TCCR0B=0x00;
 ;PCODE: $00000369 VOL: 0
 ;PCODE: $0000036A VOL: 0
-; 0000 0083             muestras=muestras-br;
+; 0000 00CA                    PORTB.7=0;
 ;PCODE: $0000036B VOL: 0
 ;PCODE: $0000036C VOL: 0
+; 0000 00CB                    PORTD.0=0;
 ;PCODE: $0000036D VOL: 0
 ;PCODE: $0000036E VOL: 0
+; 0000 00CC                    delay_ms(800);
 ;PCODE: $0000036F VOL: 0
-; 0000 0084             LeerBufferL=0;
 ;PCODE: $00000370 VOL: 0
+; 0000 00CD                    while(PINC.0==1);//esperar hasta que se vuelva a presionar
 ;PCODE: $00000371 VOL: 0
-; 0000 0085             LeerBufferH=0;
 ;PCODE: $00000372 VOL: 0
 ;PCODE: $00000373 VOL: 0
-; 0000 0086             TCCR0A=0x83;
 ;PCODE: $00000374 VOL: 0
 ;PCODE: $00000375 VOL: 0
-; 0000 0087             TCCR0B=0x01;    //Prende sonido
 ;PCODE: $00000376 VOL: 0
+; 0000 00CE                    delay_ms(300);
 ;PCODE: $00000377 VOL: 0
-; 0000 0088             i=0;
 ;PCODE: $00000378 VOL: 0
+; 0000 00CF                    TCCR0A=0xA3;//Prende sonido
 ;PCODE: $00000379 VOL: 0
-; 0000 0089             do{
 ;PCODE: $0000037A VOL: 0
-; 0000 008A                  while((LeerBufferH==0)&&(LeerBufferL==0));
+; 0000 00D0                    TCCR0B=0x01;
 ;PCODE: $0000037B VOL: 0
 ;PCODE: $0000037C VOL: 0
+; 0000 00D1                  }
+; 0000 00D2                  //Boton Rewind
+; 0000 00D3                  if(PINC.1==0){
 ;PCODE: $0000037D VOL: 0
 ;PCODE: $0000037E VOL: 0
 ;PCODE: $0000037F VOL: 0
 ;PCODE: $00000380 VOL: 0
+; 0000 00D4                   muestras=0;
 ;PCODE: $00000381 VOL: 0
 ;PCODE: $00000382 VOL: 0
+; 0000 00D5                   rewind=1;
 ;PCODE: $00000383 VOL: 0
 ;PCODE: $00000384 VOL: 0
+; 0000 00D6                  }
+; 0000 00D7 
+; 0000 00D8             }while(muestras>256);
 ;PCODE: $00000385 VOL: 0
 ;PCODE: $00000386 VOL: 0
 ;PCODE: $00000387 VOL: 0
-; 0000 008B                  if (LeerBufferL)
 ;PCODE: $00000388 VOL: 0
 ;PCODE: $00000389 VOL: 0
 ;PCODE: $0000038A VOL: 0
-; 0000 008C                  {
-; 0000 008D                      f_read(&archivo, bufferL, 256,&br);
 ;PCODE: $0000038B VOL: 0
+; 0000 00D9             TCCR0A=0x00;  //Apaga sonido
 ;PCODE: $0000038C VOL: 0
 ;PCODE: $0000038D VOL: 0
+; 0000 00DA             TCCR0B=0x00;
 ;PCODE: $0000038E VOL: 0
 ;PCODE: $0000038F VOL: 0
+; 0000 00DB             PORTB.7=0;
 ;PCODE: $00000390 VOL: 0
 ;PCODE: $00000391 VOL: 0
+; 0000 00DC             PORTD.0=0;
 ;PCODE: $00000392 VOL: 0
-; 0000 008E                      LeerBufferL=0;
 ;PCODE: $00000393 VOL: 0
+; 0000 00DD             f_close(&archivo);
 ;PCODE: $00000394 VOL: 0
-; 0000 008F                      muestras=muestras-br;
 ;PCODE: $00000395 VOL: 0
+; 0000 00DE             PORTD.6=0;  //Apaga Led
 ;PCODE: $00000396 VOL: 0
 ;PCODE: $00000397 VOL: 0
+; 0000 00DF             }
+; 0000 00E0 }
 ;PCODE: $00000398 VOL: 0
 ;PCODE: $00000399 VOL: 0
-; 0000 0090                  }
-; 0000 0091                  else
 ;PCODE: $0000039A VOL: 0
 ;PCODE: $0000039B VOL: 0
-; 0000 0092                  {
-; 0000 0093                      f_read(&archivo, bufferH, 256,&br);
+;
+;
+;void main()
+; 0000 00E4 {
 ;PCODE: $0000039C VOL: 0
+; 0000 00E5 
+; 0000 00E6     CLKPR=0x80;
 ;PCODE: $0000039D VOL: 0
 ;PCODE: $0000039E VOL: 0
+; 0000 00E7     CLKPR=0x00;  //Micro fÃ­sico a correr a 16MHz
 ;PCODE: $0000039F VOL: 0
 ;PCODE: $000003A0 VOL: 0
+; 0000 00E8 
+; 0000 00E9     SetupLCD();
 ;PCODE: $000003A1 VOL: 0
+; 0000 00EA     DDRB.7=1;    //OC0A  Salidas PWM para audio estereo
 ;PCODE: $000003A2 VOL: 0
 ;PCODE: $000003A3 VOL: 0
-; 0000 0094                      LeerBufferH=0;
+; 0000 00EB     DDRD.0=1;    //OC0B
 ;PCODE: $000003A4 VOL: 0
 ;PCODE: $000003A5 VOL: 0
-; 0000 0095                      muestras=muestras-br;
+; 0000 00EC 
+; 0000 00ED     DDRD.6=1;    //Led Teensy
 ;PCODE: $000003A6 VOL: 0
 ;PCODE: $000003A7 VOL: 0
+; 0000 00EE     PORTC.0=1;   //Pull-ups Play
 ;PCODE: $000003A8 VOL: 0
 ;PCODE: $000003A9 VOL: 0
+; 0000 00EF     PORTC.1=1;   //Rewind
 ;PCODE: $000003AA VOL: 0
-; 0000 0096                  }
 ;PCODE: $000003AB VOL: 0
-; 0000 0097                  if (PINC.2==0)     //botón de Foward
+; 0000 00F0     PORTC.2=1;   //Forward
 ;PCODE: $000003AC VOL: 0
 ;PCODE: $000003AD VOL: 0
+; 0000 00F1 
+; 0000 00F2     //InterrupciÃ³n cada 10ms para SD (oscilador de 16MHz)
+; 0000 00F3     TCCR1B=0x0A;        //CK/8 (periodo timer = 0.5 useg)
 ;PCODE: $000003AE VOL: 0
-; 0000 0098                      muestras=0;
 ;PCODE: $000003AF VOL: 0
+; 0000 00F4     OCR1AH=19999/256;   // 20000 cuentas x0.5useg=10mseg
 ;PCODE: $000003B0 VOL: 0
-; 0000 0099                  if (PINC.1==0)     //botón de Foward
 ;PCODE: $000003B1 VOL: 0
+; 0000 00F5     OCR1AL=19999%256;
 ;PCODE: $000003B2 VOL: 0
 ;PCODE: $000003B3 VOL: 0
+; 0000 00F6     TIMSK1=0x02;
 ;PCODE: $000003B4 VOL: 0
-; 0000 009A                      muestras=inicio;
 ;PCODE: $000003B5 VOL: 0
+; 0000 00F7 
+; 0000 00F8     //Fast PWM
+; 0000 00F9   //TCCR0A=0xA3;     salida unicamente por OC0A (monoural)
+; 0000 00FA     TCCR0A=0xA3;    //salida OC0A OC0B (stereo)
 ;PCODE: $000003B6 VOL: 0
-; 0000 009B             }while(muestras>256);
 ;PCODE: $000003B7 VOL: 0
+; 0000 00FB 
+; 0000 00FC     //Frec muestreo
+; 0000 00FD     TCCR2A=0x02;
 ;PCODE: $000003B8 VOL: 0
 ;PCODE: $000003B9 VOL: 0
+; 0000 00FE     TCCR2B=0x02;   // CK/8
 ;PCODE: $000003BA VOL: 0
 ;PCODE: $000003BB VOL: 0
+; 0000 00FF     OCR2A=90;      //InterrupciÃ³n periÃ³dica cada 1/22050 seg (perido de muestreo)
 ;PCODE: $000003BC VOL: 0
 ;PCODE: $000003BD VOL: 0
-; 0000 009C             TCCR0A=0x00;  //Apaga sonido
+; 0000 0100 
+; 0000 0101     // Timer/Counter 2 Interrupt(s) initialization
+; 0000 0102     TIMSK2=0x02;
 ;PCODE: $000003BE VOL: 0
 ;PCODE: $000003BF VOL: 0
-; 0000 009D             TCCR0B=0x00;
+; 0000 0103 
+; 0000 0104     #asm("sei")
 ;PCODE: $000003C0 VOL: 0
+	sei
 ;PCODE: $000003C1 VOL: 0
-; 0000 009E             PORTB.7=0;
+; 0000 0105     disk_initialize(0);  /* Inicia el puerto SPI para la SD */
 ;PCODE: $000003C2 VOL: 0
 ;PCODE: $000003C3 VOL: 0
-; 0000 009F             f_close(&archivo);
+; 0000 0106     delay_ms(500);
 ;PCODE: $000003C4 VOL: 0
 ;PCODE: $000003C5 VOL: 0
-; 0000 00A0             PORTD.6=0;  //Apaga Led
+; 0000 0107 
+; 0000 0108     sprintf(NombreArchivo,"0:A001.wav");
 ;PCODE: $000003C6 VOL: 0
 ;PCODE: $000003C7 VOL: 0
-; 0000 00A1             }
-; 0000 00A2     }
 ;PCODE: $000003C8 VOL: 0
 ;PCODE: $000003C9 VOL: 0
 ;PCODE: $000003CA VOL: 0
 ;PCODE: $000003CB VOL: 0
-;
-;
-;    void main()
-; 0000 00A6     {
 ;PCODE: $000003CC VOL: 0
-; 0000 00A7 
-; 0000 00A8         CLKPR=0x80;
 ;PCODE: $000003CD VOL: 0
 ;PCODE: $000003CE VOL: 0
-; 0000 00A9         CLKPR=0x00;  //Micro físico a correr a 16MHz
+; 0000 0109     numc='1';
 ;PCODE: $000003CF VOL: 0
 ;PCODE: $000003D0 VOL: 0
-; 0000 00AA 
-; 0000 00AB         DDRD.0=1;
+; 0000 010A 
+; 0000 010B     while(1)
 ;PCODE: $000003D1 VOL: 0
+; 0000 010C     {
+; 0000 010D     /* mount logical drive 0: */
+; 0000 010E       if ((res=f_mount(0,&drive))==FR_OK){
 ;PCODE: $000003D2 VOL: 0
-; 0000 00AC         DDRD.6=1;    //Led Teensy
 ;PCODE: $000003D3 VOL: 0
 ;PCODE: $000003D4 VOL: 0
-; 0000 00AD 
-; 0000 00AE         PORTC.0=1;
 ;PCODE: $000003D5 VOL: 0
 ;PCODE: $000003D6 VOL: 0
-; 0000 00AF         PORTC.1=1;
 ;PCODE: $000003D7 VOL: 0
 ;PCODE: $000003D8 VOL: 0
-; 0000 00B0         PORTC.2=1;
+; 0000 010F 
+; 0000 0110           TocaCancion(NombreArchivo);
 ;PCODE: $000003D9 VOL: 0
 ;PCODE: $000003DA VOL: 0
-; 0000 00B1         PORTC.3=1;
+; 0000 0111           //cambiar cancion
+; 0000 0112           if (rewind==0){
 ;PCODE: $000003DB VOL: 0
 ;PCODE: $000003DC VOL: 0
-; 0000 00B2         DDRB.7=1;
 ;PCODE: $000003DD VOL: 0
+; 0000 0113             numc++;
 ;PCODE: $000003DE VOL: 0
-; 0000 00B3 
-; 0000 00B4         TCCR1B=0x0A;     //CK/8 10ms con oscilador de 8MHz
 ;PCODE: $000003DF VOL: 0
 ;PCODE: $000003E0 VOL: 0
-; 0000 00B5         OCR1AH=0x4E;
+; 0000 0114             if (numc>total_canciones){numc='1';}
 ;PCODE: $000003E1 VOL: 0
 ;PCODE: $000003E2 VOL: 0
-; 0000 00B6         OCR1AL=0x20;
 ;PCODE: $000003E3 VOL: 0
 ;PCODE: $000003E4 VOL: 0
-; 0000 00B7         TIMSK1=0x02;
 ;PCODE: $000003E5 VOL: 0
 ;PCODE: $000003E6 VOL: 0
-; 0000 00B8 
-; 0000 00B9         TCCR0A=0xA3;  //Fast PWM en Timer 0
+; 0000 0115             NombreArchivo[5]=numc;
 ;PCODE: $000003E7 VOL: 0
 ;PCODE: $000003E8 VOL: 0
-; 0000 00BA 
-; 0000 00BB         ASSR=0x00;
 ;PCODE: $000003E9 VOL: 0
 ;PCODE: $000003EA VOL: 0
-; 0000 00BC         TCCR2A=0x02;
+; 0000 0116           }
+; 0000 0117           else{
 ;PCODE: $000003EB VOL: 0
 ;PCODE: $000003EC VOL: 0
-; 0000 00BD         TCCR2B=0x02;   // CK/8
+; 0000 0118             rewind=0;
 ;PCODE: $000003ED VOL: 0
 ;PCODE: $000003EE VOL: 0
-; 0000 00BE         OCR2A=90;      //Interrupción periódica cada 1/22050 seg
+; 0000 0119           }
 ;PCODE: $000003EF VOL: 0
+; 0000 011A           delay_ms(300);
 ;PCODE: $000003F0 VOL: 0
-; 0000 00BF 
-; 0000 00C0         // Timer/Counter 2 Interrupt(s) initialization
-; 0000 00C1         TIMSK2=0x02;
 ;PCODE: $000003F1 VOL: 0
+; 0000 011B 
+; 0000 011C       }
+; 0000 011D       //f_mount(0, 0); //Cerrar drive de SD
+; 0000 011E     }
 ;PCODE: $000003F2 VOL: 0
-; 0000 00C2         SetupLCD();
 ;PCODE: $000003F3 VOL: 0
-; 0000 00C3         #asm("sei")
 ;PCODE: $000003F4 VOL: 0
-	sei
+; 0000 011F 
+; 0000 0120     f_mount(0, 0); //Cerrar drive de SD
 ;PCODE: $000003F5 VOL: 0
-; 0000 00C4         disk_initialize(0);  /* Inicia el puerto SPI para la SD */
 ;PCODE: $000003F6 VOL: 0
 ;PCODE: $000003F7 VOL: 0
-; 0000 00C5         delay_ms(500);
 ;PCODE: $000003F8 VOL: 0
 ;PCODE: $000003F9 VOL: 0
-; 0000 00C6 
-; 0000 00C7         if (f_mount(0,&drive)==FR_OK){
+; 0000 0121     while(1);
 ;PCODE: $000003FA VOL: 0
 ;PCODE: $000003FB VOL: 0
 ;PCODE: $000003FC VOL: 0
+; 0000 0122 }
 ;PCODE: $000003FD VOL: 0
 ;PCODE: $000003FE VOL: 0
 ;PCODE: $000003FF VOL: 0
-; 0000 00C8             MoveCursor(0,1);
-;PCODE: $00000400 VOL: 0
-;PCODE: $00000401 VOL: 0
-;PCODE: $00000402 VOL: 0
-;PCODE: $00000403 VOL: 0
-; 0000 00C9             StringLCD("Drive detectado");
-;PCODE: $00000404 VOL: 0
-;PCODE: $00000405 VOL: 0
-;PCODE: $00000406 VOL: 0
-; 0000 00CA             delay_ms(1000);
-;PCODE: $00000407 VOL: 0
-;PCODE: $00000408 VOL: 0
-; 0000 00CB             /* mount logical drive 0: */
-; 0000 00CC            i=0;
-;PCODE: $00000409 VOL: 0
-;PCODE: $0000040A VOL: 0
-; 0000 00CD             while(1){
-;PCODE: $0000040B VOL: 0
-; 0000 00CE                 sprintf(fileName, "0:S%02u.BMP", i);
-;PCODE: $0000040C VOL: 0
-;PCODE: $0000040D VOL: 0
-;PCODE: $0000040E VOL: 0
-;PCODE: $0000040F VOL: 0
-;PCODE: $00000410 VOL: 0
-;PCODE: $00000411 VOL: 0
-;PCODE: $00000412 VOL: 0
-;PCODE: $00000413 VOL: 0
-;PCODE: $00000414 VOL: 0
-;PCODE: $00000415 VOL: 0
-;PCODE: $00000416 VOL: 0
-;PCODE: $00000417 VOL: 0
-; 0000 00CF                 if(f_open(&archivo, fileName, FA_OPEN_EXISTING)!=FR_OK)
-;PCODE: $00000418 VOL: 0
-;PCODE: $00000419 VOL: 0
-;PCODE: $0000041A VOL: 0
-;PCODE: $0000041B VOL: 0
-;PCODE: $0000041C VOL: 0
-;PCODE: $0000041D VOL: 0
-;PCODE: $0000041E VOL: 0
-;PCODE: $0000041F VOL: 0
-; 0000 00D0                     i++;
-;PCODE: $00000420 VOL: 0
-;PCODE: $00000421 VOL: 0
-;PCODE: $00000422 VOL: 0
-;PCODE: $00000423 VOL: 0
-; 0000 00D1                 f_close(&archivo);
-;PCODE: $00000424 VOL: 0
-;PCODE: $00000425 VOL: 0
-;PCODE: $00000426 VOL: 0
-; 0000 00D2                 if(i>6)
-;PCODE: $00000427 VOL: 0
-;PCODE: $00000428 VOL: 0
-;PCODE: $00000429 VOL: 0
-; 0000 00D3                     i=0;
-;PCODE: $0000042A VOL: 0
-;PCODE: $0000042B VOL: 0
-; 0000 00D4                 GetInfo(fileName);
-;PCODE: $0000042C VOL: 0
-;PCODE: $0000042D VOL: 0
-;PCODE: $0000042E VOL: 0
-; 0000 00D5                 sprintf(text, "%s-%s", name, album);
-;PCODE: $0000042F VOL: 0
-;PCODE: $00000430 VOL: 0
-;PCODE: $00000431 VOL: 0
-;PCODE: $00000432 VOL: 0
-;PCODE: $00000433 VOL: 0
-;PCODE: $00000434 VOL: 0
-;PCODE: $00000435 VOL: 0
-;PCODE: $00000436 VOL: 0
-;PCODE: $00000437 VOL: 0
-;PCODE: $00000438 VOL: 0
-;PCODE: $00000439 VOL: 0
-;PCODE: $0000043A VOL: 0
-;PCODE: $0000043B VOL: 0
-;PCODE: $0000043C VOL: 0
-;PCODE: $0000043D VOL: 0
-; 0000 00D6                 EraseLCD();
-;PCODE: $0000043E VOL: 0
-; 0000 00D7                 MoveCursor(0,0);
-;PCODE: $0000043F VOL: 0
-;PCODE: $00000440 VOL: 0
-;PCODE: $00000441 VOL: 0
-;PCODE: $00000442 VOL: 0
-; 0000 00D8                 StringLCDVar(text);
-;PCODE: $00000443 VOL: 0
-;PCODE: $00000444 VOL: 0
-; 0000 00D9                 MoveCursor(0,1);
-;PCODE: $00000445 VOL: 0
-;PCODE: $00000446 VOL: 0
-;PCODE: $00000447 VOL: 0
-;PCODE: $00000448 VOL: 0
-; 0000 00DA                 StringLCDVar(artist);
-;PCODE: $00000449 VOL: 0
-;PCODE: $0000044A VOL: 0
-; 0000 00DB                 GetFrequency(fileName);
-;PCODE: $0000044B VOL: 0
-;PCODE: $0000044C VOL: 0
-; 0000 00DC                 TocaCancion(fileName);
-;PCODE: $0000044D VOL: 0
-;PCODE: $0000044E VOL: 0
-; 0000 00DD                 i++;
-;PCODE: $0000044F VOL: 0
-;PCODE: $00000450 VOL: 0
-;PCODE: $00000451 VOL: 0
-;PCODE: $00000452 VOL: 0
-; 0000 00DE             }
-;PCODE: $00000453 VOL: 0
-;PCODE: $00000454 VOL: 0
-; 0000 00DF                         f_mount(0, 0); //Cerrar drive de SD
-;PCODE: $00000455 VOL: 0
-;PCODE: $00000456 VOL: 0
-;PCODE: $00000457 VOL: 0
-;PCODE: $00000458 VOL: 0
-;PCODE: $00000459 VOL: 0
-; 0000 00E0         }
-; 0000 00E1         while(1);
-;PCODE: $0000045A VOL: 0
-;PCODE: $0000045B VOL: 0
-;PCODE: $0000045C VOL: 0
-;PCODE: $0000045D VOL: 0
-; 0000 00E2 }
-;PCODE: $0000045E VOL: 0
-;PCODE: $0000045F VOL: 0
-;PCODE: $00000460 VOL: 0
+;
