@@ -1222,7 +1222,10 @@ _Letras:
 	.DB  0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0
 	.DB  0x0
 
-_0x24:
+_0x25:
+	.DB  0x46,0x75,0x6E,0x63,0x69,0x6F,0x6E,0x61
+	.DB  0x6E,0x64,0x6F,0x0
+_0x28:
 	.DB  0x49,0x6E,0x73,0x65,0x72,0x74,0x65,0x20
 	.DB  0x6D,0x65,0x6E,0x73,0x61,0x6A,0x65,0x20
 	.DB  0x61,0x71,0x75,0x69,0x2E,0x2E,0x2E,0x0
@@ -1490,25 +1493,67 @@ _0x2000001:
 	RET
 ; .FEND
 ;
+;void DespliegaMensaje(char *str, int time, char size){
+; 0000 0047 void DespliegaMensaje(char *str, int time, char size){
+_DespliegaMensaje:
+; .FSTART _DespliegaMensaje
+; 0000 0048     char i=0;
+; 0000 0049     for(i=0; i<size-1; i++){
+	ST   -Y,R26
+	ST   -Y,R16
+;	*str -> Y+4
+;	time -> Y+2
+;	size -> Y+1
+;	i -> R16
+	LDI  R16,0
+	LDI  R16,LOW(0)
+_0x19:
+	LDD  R30,Y+1
+	LDI  R31,0
+	SBIW R30,1
+	RCALL SUBOPT_0x2
+	BRGE _0x1A
+; 0000 004A         MandaLetra(str[i]);
+	LDD  R26,Y+4
+	LDD  R27,Y+4+1
+	CLR  R30
+	ADD  R26,R16
+	ADC  R27,R30
+	LD   R26,X
+	RCALL _MandaLetra
+; 0000 004B         delay_ms(time);
+	LDD  R26,Y+2
+	LDD  R27,Y+2+1
+	CALL _delay_ms
+; 0000 004C     }
+	SUBI R16,-1
+	RJMP _0x19
+_0x1A:
+; 0000 004D }
+	LDD  R16,Y+0
+	ADIW R28,6
+	RET
+; .FEND
 ;
 ;int l1, l2, l3, l4, l5, l6, l7, l8, lsize;
-;void MensajeCorrido(char *str, char size){
-; 0000 0049 void MensajeCorrido(char *str, char size){
-_MensajeCorrido:
-; .FSTART _MensajeCorrido
-; 0000 004A     char i=0, j=0;
-; 0000 004B     clear();
+;void DespliegaMensajeCorrimiento(char *Mensaje, int tiempo, char size){
+; 0000 0050 void DespliegaMensajeCorrimiento(char *Mensaje, int tiempo, char size){
+_DespliegaMensajeCorrimiento:
+; .FSTART _DespliegaMensajeCorrimiento
+; 0000 0051     char i=0, j=0;
+; 0000 0052     clear();
 	ST   -Y,R26
 	ST   -Y,R17
 	ST   -Y,R16
-;	*str -> Y+3
+;	*Mensaje -> Y+5
+;	tiempo -> Y+3
 ;	size -> Y+2
 ;	i -> R16
 ;	j -> R17
 	LDI  R16,0
 	LDI  R17,0
 	RCALL _clear
-; 0000 004C     lsize = (size-1)*5;
+; 0000 0053     lsize = (size-1)*5;
 	LDD  R30,Y+2
 	LDI  R31,0
 	SBIW R30,1
@@ -1517,64 +1562,58 @@ _MensajeCorrido:
 	CALL __MULW12
 	STS  _lsize,R30
 	STS  _lsize+1,R31
-; 0000 004D     for(i=0; i<lsize+8; i++){
+; 0000 0054     for(i=0; i<lsize+8; i++){
 	LDI  R16,LOW(0)
-_0x19:
+_0x1C:
 	LDS  R30,_lsize
 	LDS  R31,_lsize+1
 	ADIW R30,8
-	MOV  R26,R16
-	LDI  R27,0
-	CP   R26,R30
-	CPC  R27,R31
+	RCALL SUBOPT_0x2
 	BRLT PC+2
-	RJMP _0x1A
-; 0000 004E         l8 = l7;
+	RJMP _0x1D
+; 0000 0055         l8 = l7;    // Recorre las letras de la posicion anterior a la nueva
 	LDS  R30,_l7
 	LDS  R31,_l7+1
 	STS  _l8,R30
 	STS  _l8+1,R31
-; 0000 004F         l7 = l6;
+; 0000 0056         l7 = l6;
 	LDS  R30,_l6
 	LDS  R31,_l6+1
 	STS  _l7,R30
 	STS  _l7+1,R31
-; 0000 0050         l6 = l5;
+; 0000 0057         l6 = l5;
 	LDS  R30,_l5
 	LDS  R31,_l5+1
 	STS  _l6,R30
 	STS  _l6+1,R31
-; 0000 0051         l5 = l4;
+; 0000 0058         l5 = l4;
 	LDS  R30,_l4
 	LDS  R31,_l4+1
 	STS  _l5,R30
 	STS  _l5+1,R31
-; 0000 0052         l4 = l3;
+; 0000 0059         l4 = l3;
 	LDS  R30,_l3
 	LDS  R31,_l3+1
 	STS  _l4,R30
 	STS  _l4+1,R31
-; 0000 0053         l3 = l2;
+; 0000 005A         l3 = l2;
 	LDS  R30,_l2
 	LDS  R31,_l2+1
 	STS  _l3,R30
 	STS  _l3+1,R31
-; 0000 0054         l2 = l1;
+; 0000 005B         l2 = l1;
 	LDS  R30,_l1
 	LDS  R31,_l1+1
 	STS  _l2,R30
 	STS  _l2+1,R31
-; 0000 0055         if(i<lsize)
+; 0000 005C         if(i<lsize) // Agrega las lineas al principio
 	LDS  R30,_lsize
 	LDS  R31,_lsize+1
-	MOV  R26,R16
-	LDI  R27,0
-	CP   R26,R30
-	CPC  R27,R31
-	BRGE _0x1B
-; 0000 0056             l1 = Letras[str[j]-32][i%5];
-	LDD  R26,Y+3
-	LDD  R27,Y+3+1
+	RCALL SUBOPT_0x2
+	BRGE _0x1E
+; 0000 005D             l1 = Letras[Mensaje[j]-32][i%5];
+	LDD  R26,Y+5
+	LDD  R27,Y+5+1
 	CLR  R30
 	ADD  R26,R17
 	ADC  R27,R30
@@ -1587,188 +1626,168 @@ _0x19:
 	SUBI R30,LOW(-_Letras*2)
 	SBCI R31,HIGH(-_Letras*2)
 	MOVW R22,R30
-	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x3
 	ADD  R30,R22
 	ADC  R31,R23
 	LPM  R30,Z
 	LDI  R31,0
 	STS  _l1,R30
 	STS  _l1+1,R31
-; 0000 0057         else
-	RJMP _0x1C
-_0x1B:
-; 0000 0058             l1 = 0;
+; 0000 005E         else
+	RJMP _0x1F
+_0x1E:
+; 0000 005F             l1 = 0;
 	LDI  R30,LOW(0)
 	STS  _l1,R30
 	STS  _l1+1,R30
-; 0000 0059         if(i%5==4)
-_0x1C:
-	RCALL SUBOPT_0x2
+; 0000 0060         if(i%5==4) // Cambia de letra cuando esta acabe
+_0x1F:
+	RCALL SUBOPT_0x3
 	CPI  R30,LOW(0x4)
 	LDI  R26,HIGH(0x4)
 	CPC  R31,R26
-	BRNE _0x1D
-; 0000 005A             j++;
+	BRNE _0x20
+; 0000 0061             j++;
 	SUBI R17,-1
-; 0000 005B         MandaMax7219(0x0100|l1);
-_0x1D:
+; 0000 0062         MandaMax7219(0x0100|l1); // Envia la informacion al Max7219
+_0x20:
 	LDS  R30,_l1
 	LDS  R31,_l1+1
 	ORI  R31,HIGH(0x100)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 005C         MandaMax7219(0x0200|l2);
+; 0000 0063         MandaMax7219(0x0200|l2);
 	LDS  R30,_l2
 	LDS  R31,_l2+1
 	ORI  R31,HIGH(0x200)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 005D         MandaMax7219(0x0300|l3);
+; 0000 0064         MandaMax7219(0x0300|l3);
 	LDS  R30,_l3
 	LDS  R31,_l3+1
 	ORI  R31,HIGH(0x300)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 005E         MandaMax7219(0x0400|l4);
+; 0000 0065         MandaMax7219(0x0400|l4);
 	LDS  R30,_l4
 	LDS  R31,_l4+1
 	ORI  R31,HIGH(0x400)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 005F         MandaMax7219(0x0500|l5);
+; 0000 0066         MandaMax7219(0x0500|l5);
 	LDS  R30,_l5
 	LDS  R31,_l5+1
 	ORI  R31,HIGH(0x500)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 0060         MandaMax7219(0x0600|l6);
+; 0000 0067         MandaMax7219(0x0600|l6);
 	LDS  R30,_l6
 	LDS  R31,_l6+1
 	ORI  R31,HIGH(0x600)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 0061         MandaMax7219(0x0700|l7);
+; 0000 0068         MandaMax7219(0x0700|l7);
 	LDS  R30,_l7
 	LDS  R31,_l7+1
 	ORI  R31,HIGH(0x700)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 0062         MandaMax7219(0x0800|l8);
+; 0000 0069         MandaMax7219(0x0800|l8);
 	LDS  R30,_l8
 	LDS  R31,_l8+1
 	ORI  R31,HIGH(0x800)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 0063         delay_ms(250);
-	LDI  R26,LOW(250)
-	LDI  R27,0
+; 0000 006A         delay_ms(tiempo);
+	LDD  R26,Y+3
+	LDD  R27,Y+3+1
 	CALL _delay_ms
-; 0000 0064     }
+; 0000 006B     }
 	SUBI R16,-1
-	RJMP _0x19
-_0x1A:
-; 0000 0065 
-; 0000 0066 }
+	RJMP _0x1C
+_0x1D:
+; 0000 006C 
+; 0000 006D }
 	LDD  R17,Y+1
 	LDD  R16,Y+0
-	ADIW R28,5
+	ADIW R28,7
 	RET
 ; .FEND
 ;
 ;void main(void)
-; 0000 0069 {
+; 0000 0070 {
 _main:
 ; .FSTART _main
-; 0000 006A 
-; 0000 006B PORTD=0x07;     //seteo de botones
+; 0000 0071 
+; 0000 0072 PORTD=0x07;     //seteo de botones
 	LDI  R30,LOW(7)
 	OUT  0xB,R30
-; 0000 006C ConfiguraMax();
+; 0000 0073 ConfiguraMax();
 	RCALL _ConfiguraMax
-; 0000 006D while (1)
-_0x1E:
-; 0000 006E     {
-; 0000 006F     // Please write your application code here
-; 0000 0070         if(!PIND.0){
-	SBIC 0x9,0
-	RJMP _0x21
-; 0000 0071             MandaLetra('F');
-	LDI  R26,LOW(70)
-	RCALL SUBOPT_0x3
-; 0000 0072             delay_ms(1000);
-; 0000 0073             MandaLetra('U');
-	LDI  R26,LOW(85)
-	RCALL SUBOPT_0x3
-; 0000 0074             delay_ms(1000);
-; 0000 0075             MandaLetra('N');
-	LDI  R26,LOW(78)
-	RCALL SUBOPT_0x3
-; 0000 0076             delay_ms(1000);
-; 0000 0077             MandaLetra('C');
-	LDI  R26,LOW(67)
-	RCALL SUBOPT_0x3
-; 0000 0078             delay_ms(1000);
-; 0000 0079             MandaLetra('I');
-	LDI  R26,LOW(73)
-	RCALL SUBOPT_0x3
-; 0000 007A             delay_ms(1000);
-; 0000 007B             MandaLetra('O');
-	LDI  R26,LOW(79)
-	RCALL SUBOPT_0x3
-; 0000 007C             delay_ms(1000);
-; 0000 007D             MandaLetra('N');
-	LDI  R26,LOW(78)
-	RCALL SUBOPT_0x3
-; 0000 007E             delay_ms(1000);
-; 0000 007F             MandaLetra('A');
-	LDI  R26,LOW(65)
-	RCALL SUBOPT_0x3
-; 0000 0080             delay_ms(1000);
-; 0000 0081             MandaLetra('N');
-	LDI  R26,LOW(78)
-	RCALL SUBOPT_0x3
-; 0000 0082             delay_ms(1000);
-; 0000 0083             MandaLetra('D');
-	LDI  R26,LOW(68)
-	RCALL SUBOPT_0x3
-; 0000 0084             delay_ms(1000);
-; 0000 0085             MandaLetra('O');
-	LDI  R26,LOW(79)
-	RCALL SUBOPT_0x3
-; 0000 0086             delay_ms(1000);
-; 0000 0087         }else if(!PIND.1){
-	RJMP _0x22
+; 0000 0074 while (1)
 _0x21:
-	SBIC 0x9,1
-	RJMP _0x23
-; 0000 0088             char str[] = "Inserte mensaje aqui...";
-; 0000 0089             MensajeCorrido(str, sizeof(str));
-	SBIW R28,24
-	LDI  R24,24
+; 0000 0075     {
+; 0000 0076     // Please write your application code here
+; 0000 0077         if(!PIND.0){ // Aparicion de letras
+	SBIC 0x9,0
+	RJMP _0x24
+; 0000 0078             char str[] = "Funcionando";
+; 0000 0079             DespliegaMensaje(str, 1000, sizeof(str));
+	SBIW R28,12
+	LDI  R24,12
 	LDI  R26,LOW(0)
 	LDI  R27,HIGH(0)
-	LDI  R30,LOW(_0x24*2)
-	LDI  R31,HIGH(_0x24*2)
+	LDI  R30,LOW(_0x25*2)
+	LDI  R31,HIGH(_0x25*2)
 	CALL __INITLOCB
 ;	str -> Y+0
 	MOVW R30,R28
 	ST   -Y,R31
 	ST   -Y,R30
-	LDI  R26,LOW(24)
-	RCALL _MensajeCorrido
-; 0000 008A         }else
-	ADIW R28,24
-	RJMP _0x25
-_0x23:
-; 0000 008B             clear();
-	RCALL _clear
-; 0000 008C     }
-_0x25:
-_0x22:
-	RJMP _0x1E
-; 0000 008D }
-_0x26:
+	LDI  R30,LOW(1000)
+	LDI  R31,HIGH(1000)
+	ST   -Y,R31
+	ST   -Y,R30
+	LDI  R26,LOW(12)
+	RCALL _DespliegaMensaje
+; 0000 007A         }else if(!PIND.1){ // Mensaje Corrido
+	ADIW R28,12
 	RJMP _0x26
+_0x24:
+	SBIC 0x9,1
+	RJMP _0x27
+; 0000 007B             char str[] = "Inserte mensaje aqui...";
+; 0000 007C             DespliegaMensajeCorrimiento(str, 250, sizeof(str));
+	SBIW R28,24
+	LDI  R24,24
+	LDI  R26,LOW(0)
+	LDI  R27,HIGH(0)
+	LDI  R30,LOW(_0x28*2)
+	LDI  R31,HIGH(_0x28*2)
+	CALL __INITLOCB
+;	str -> Y+0
+	MOVW R30,R28
+	ST   -Y,R31
+	ST   -Y,R30
+	LDI  R30,LOW(250)
+	LDI  R31,HIGH(250)
+	ST   -Y,R31
+	ST   -Y,R30
+	LDI  R26,LOW(24)
+	RCALL _DespliegaMensajeCorrimiento
+; 0000 007D         }else // Caso de no apretar nungun boton
+	ADIW R28,24
+	RJMP _0x29
+_0x27:
+; 0000 007E             clear();
+	RCALL _clear
+; 0000 007F     }
+_0x29:
+_0x26:
+	RJMP _0x21
+; 0000 0080 }
+_0x2A:
+	RJMP _0x2A
 ; .FEND
 
 	.DSEG
@@ -1812,21 +1831,22 @@ SUBOPT_0x1:
 	SBCI R31,HIGH(-_Letras*2)
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
 SUBOPT_0x2:
+	MOV  R26,R16
+	LDI  R27,0
+	CP   R26,R30
+	CPC  R27,R31
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+SUBOPT_0x3:
 	MOV  R26,R16
 	CLR  R27
 	LDI  R30,LOW(5)
 	LDI  R31,HIGH(5)
 	CALL __MODW21
 	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 11 TIMES, CODE SIZE REDUCTION:37 WORDS
-SUBOPT_0x3:
-	RCALL _MandaLetra
-	LDI  R26,LOW(1000)
-	LDI  R27,HIGH(1000)
-	JMP  _delay_ms
 
 
 	.CSEG
