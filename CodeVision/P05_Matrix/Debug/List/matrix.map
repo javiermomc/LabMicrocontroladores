@@ -1,0 +1,30 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+l1                                                                                0x0500       2
+l2                                                                                0x0502       2
+l3                                                                                0x0504       2
+l4                                                                                0x0506       2
+l5                                                                                0x0508       2
+l6                                                                                0x050A       2
+l7                                                                                0x050C       2
+l8                                                                                0x050E       2
+lsize                                                                             0x0510       2
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+MandaMax7219                                                                      0x001C3     29
+ConfiguraMax                                                                      0x001E0     17
+MandaLetra                                                                        0x001F1     39
+clear                                                                             0x00218     20
+MensajeCorrido                                                                    0x0022C    196
+main                                                                              0x002F0     48
