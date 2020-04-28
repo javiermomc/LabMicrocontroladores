@@ -22,10 +22,12 @@ Variable                                                                        
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-MandaMax7219                                                                      0x001C9     29
-ConfiguraMax                                                                      0x001E6     17
-MandaLetra                                                                        0x001F7     39
-clear                                                                             0x0021E     20
-DespliegaMensaje                                                                  0x00232     25
-DespliegaMensajeCorrimiento                                                       0x0024B    190
-main                                                                              0x00309     48
+MandaMax7219                                                                      0x00260     28
+ConfiguraMax                                                                      0x0027C     17
+MandaLetra                                                                        0x0028D     36
+clear                                                                             0x002B1     20
+DespliegaMensaje                                                                  0x002C5     25
+DespliegaMensajeCorrimiento                                                       0x002DE    190
+ConfiguraIntensidad                                                               0x0039C      8
+MandaAnimacion                                                                    0x003A4     62
+main                                                                              0x003E2     52

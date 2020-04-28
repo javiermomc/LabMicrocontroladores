@@ -8,6 +8,7 @@
 #include <io.h>
 #include <delay.h>
 #include "Letras.h"
+#include "Animacion.h"
 
 #define DIN PORTC.0
 #define LOAD PORTC.1
@@ -108,6 +109,35 @@ void DespliegaMensajeCorrimiento(char *Mensaje, int tiempo, char size){
     
 }
 
+void ConfiguraIntensidad(unsigned char c)
+{
+    MandaMax7219(0x0A00|c);
+}
+
+void MandaAnimacion(void)
+{          
+    unsigned char i,j,k=0;
+    ConfiguraIntensidad(1);              
+    for (j=0;j<38;j++)
+    {   
+        if (j<8)
+        {
+            ConfiguraIntensidad(k);
+            k++;
+        }
+        if (j>30 && j<38)
+        {
+            ConfiguraIntensidad(k);
+            k--;
+        }
+        for (i=1;i<9;i++)
+        {                                          
+            MandaMax7219((i<<8)|Animacion[j][8-i]);    
+        }  
+        delay_ms(400);
+    }
+}
+
 void main(void)
 {
 
@@ -119,9 +149,11 @@ while (1)
         if(!PIND.0){ // Aparicion de letras
             char str[] = "Funcionando";
             DespliegaMensaje(str, 1000, sizeof(str));
-        }else if(!PIND.1){ // Mensaje Corrido
-            char str[] = "Inserte mensaje aqui...";
-            DespliegaMensajeCorrimiento(str, 250, sizeof(str));
+        }else if (PIND.1==0)    
+            MandaAnimacion();
+        else if (PIND.2==0)     {                  
+            char str[] = "COVID-19? No problem!";
+            DespliegaMensajeCorrimiento(str, 200, sizeof(str));
         }else // Caso de no apretar nungun boton
             clear();
     }
