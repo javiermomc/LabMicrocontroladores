@@ -1,0 +1,33 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+l1                                                                                0x0500       2
+l2                                                                                0x0502       2
+l3                                                                                0x0504       2
+l4                                                                                0x0506       2
+l5                                                                                0x0508       2
+l6                                                                                0x050A       2
+l7                                                                                0x050C       2
+l8                                                                                0x050E       2
+lsize                                                                             0x0510       2
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+MandaMax7219                                                                      0x00260     28
+ConfiguraMax                                                                      0x0027C     17
+MandaLetra                                                                        0x0028D     36
+clear                                                                             0x002B1     20
+DespliegaMensaje                                                                  0x002C5     25
+DespliegaMensajeCorrimiento                                                       0x002DE    190
+ConfiguraIntensidad                                                               0x0039C      8
+MandaAnimacion                                                                    0x003A4     62
+main                                                                              0x003E2     52

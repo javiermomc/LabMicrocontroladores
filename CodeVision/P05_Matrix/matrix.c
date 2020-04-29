@@ -1,0 +1,160 @@
+/*
+ * Matriz_LEDS.c
+ *
+ * Created: 21/04/2020 05:36:03 p. m.
+ * Author: Chucho López Ortega
+ */
+
+#include <io.h>
+#include <delay.h>
+#include "Letras.h"
+#include "Animacion.h"
+
+#define DIN PORTC.0
+#define LOAD PORTC.1
+#define CLK PORTC.2
+
+void MandaMax7219 (unsigned int dato)
+{
+    unsigned char i;        //Contador para 16b
+    CLK=0;                  //Valores de inicializacion
+    LOAD=0;                 //Valores de inicializacion
+    for (i=0;i<16;i++)
+    {
+        if ((dato&0x8000)==0)
+            DIN=0;
+        else 
+            DIN=1;
+        CLK=1;
+        CLK=0;                
+        dato=dato<<1;         //El siguiente bit pasa a ser el mas significativo
+    }    
+    LOAD=1;
+    LOAD=0;
+}
+
+void ConfiguraMax(void)
+{
+    DDRC=0x07;              //Salidas en PC0,PC1,PC2
+    MandaMax7219(0x0900);    //Mando a 0x09 un 0x00 (Decode Mode)
+    MandaMax7219(0x0A08);    //Mando a 0x0A un 0x08 (Decode Mode)
+    MandaMax7219(0x0B07);    //Mando a 0x0B un 0x07 (Decode Mode)
+    MandaMax7219(0x0C01);    //Mando a 0x01 un 0x01 (Decode Mode)
+    MandaMax7219(0x0F00);    //Mando a 0x0F un 0x00 (Decode Mode)
+}
+
+void MandaLetra(char letra)
+{
+    letra=letra-32;          //offset de la tabla (espacio es el primer caracter)
+    MandaMax7219(0x0100);    //elimino las columnas que no ocupo
+    MandaMax7219(0x0200);    //elimino las columnas que no ocupo
+    MandaMax7219(0x0800);    //elimino las columnas que no ocupo
+    
+    //    Unimos la columna y el valor de cada renglon
+    MandaMax7219(0x0300|Letras[letra][4]);       
+    MandaMax7219(0x0400|Letras[letra][3]);
+    MandaMax7219(0x0500|Letras[letra][2]);
+    MandaMax7219(0x0600|Letras[letra][1]);
+    MandaMax7219(0x0700|Letras[letra][0]);
+}
+
+void clear(){
+    MandaMax7219(0x0100);
+    MandaMax7219(0x0200);
+    MandaMax7219(0x0300);
+    MandaMax7219(0x0400);
+    MandaMax7219(0x0500);
+    MandaMax7219(0x0600);
+    MandaMax7219(0x0700);
+    MandaMax7219(0x0800);
+}
+
+void DespliegaMensaje(char *str, int time, char size){
+    char i=0;
+    for(i=0; i<size-1; i++){
+        MandaLetra(str[i]);
+        delay_ms(time);
+    }
+}
+
+int l1, l2, l3, l4, l5, l6, l7, l8, lsize;
+void DespliegaMensajeCorrimiento(char *Mensaje, int tiempo, char size){
+    char i=0, j=0;
+    clear();
+    lsize = (size-1)*5;
+    for(i=0; i<lsize+8; i++){
+        l8 = l7;    // Recorre las letras de la posicion anterior a la nueva
+        l7 = l6;
+        l6 = l5;
+        l5 = l4;
+        l4 = l3;
+        l3 = l2;
+        l2 = l1;
+        if(i<lsize) // Agrega las lineas al principio
+            l1 = Letras[Mensaje[j]-32][i%5];
+        else
+            l1 = 0;
+        if(i%5==4) // Cambia de letra cuando esta acabe
+            j++;
+        MandaMax7219(0x0100|l1); // Envia la informacion al Max7219  
+        MandaMax7219(0x0200|l2);
+        MandaMax7219(0x0300|l3);
+        MandaMax7219(0x0400|l4);
+        MandaMax7219(0x0500|l5);
+        MandaMax7219(0x0600|l6);
+        MandaMax7219(0x0700|l7);
+        MandaMax7219(0x0800|l8);
+        delay_ms(tiempo);    
+    }
+    
+}
+
+void ConfiguraIntensidad(unsigned char c)
+{
+    MandaMax7219(0x0A00|c);
+}
+
+void MandaAnimacion(void)
+{          
+    unsigned char i,j,k=0;
+    ConfiguraIntensidad(1);              
+    for (j=0;j<38;j++)
+    {   
+        if (j<8)
+        {
+            ConfiguraIntensidad(k);
+            k++;
+        }
+        if (j>30 && j<38)
+        {
+            ConfiguraIntensidad(k);
+            k--;
+        }
+        for (i=1;i<9;i++)
+        {                                          
+            MandaMax7219((i<<8)|Animacion[j][8-i]);    
+        }  
+        delay_ms(400);
+    }
+}
+
+void main(void)
+{
+
+PORTD=0x07;     //seteo de botones
+ConfiguraMax();
+while (1)
+    {
+    // Please write your application code here
+        if(!PIND.0){ // Aparicion de letras
+            char str[] = "Funcionando";
+            DespliegaMensaje(str, 1000, sizeof(str));
+        }else if (PIND.1==0)    
+            MandaAnimacion();
+        else if (PIND.2==0)     {                  
+            char str[] = "COVID-19? No problem!";
+            DespliegaMensajeCorrimiento(str, 200, sizeof(str));
+        }else // Caso de no apretar nungun boton
+            clear();
+    }
+}
