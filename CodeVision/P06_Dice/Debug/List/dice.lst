@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm Tue Apr 28 17:40:56 2020
+AVRASM ver. 2.1.30  C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm Tue Apr 28 21:26:51 2020
 
                  
                  
@@ -1177,14 +1177,14 @@ AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\Cod
 00006c 0700      	.DB  0x0,0x7
                  
                  _0x2000060:
-D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1152): warning: .cseg .db misalignment - padding zero byte
+C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1152): warning: .cseg .db misalignment - padding zero byte
 00006d 0001      	.DB  0x1
                  _0x2000000:
 00006e 4e2d
 00006f 4e41
 000070 4900
 000071 464e      	.DB  0x2D,0x4E,0x41,0x4E,0x0,0x49,0x4E,0x46
-D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1155): warning: .cseg .db misalignment - padding zero byte
+C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1155): warning: .cseg .db misalignment - padding zero byte
 000072 0000      	.DB  0x0
                  
                  __GLOBAL_INI_TBL:

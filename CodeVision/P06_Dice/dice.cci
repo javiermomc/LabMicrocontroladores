@@ -1,8 +1,8 @@
-VERSION:3 SOURCE_TIMESTAMP:509C8D1C
+VERSION:3 SOURCE_TIMESTAMP:509CAAA1
 NODE:I LEVEL:0 LINE:8 "C:\cvavr\inc\io.h"
 NODE:I LEVEL:0 LINE:9 "C:\cvavr\inc\stdlib.h"
 NODE:I LEVEL:0 LINE:10 "C:\cvavr\inc\delay.h"
-NODE:I LEVEL:0 LINE:11 "D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\MatrixDice.h"
+NODE:I LEVEL:0 LINE:11 "C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\MatrixDice.h"
 NODE:M LEVEL:0 LINE:13 "DIN"
 NODE:M LEVEL:0 LINE:14 "LOAD"
 NODE:M LEVEL:0 LINE:15 "CLK"
