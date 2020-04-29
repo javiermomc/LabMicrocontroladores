@@ -11,6 +11,7 @@
      <ITEM name="Message Column Width">661</ITEM>
      <ITEM name="ShowGrid">No</ITEM>
      <ITEM name="Source Column Width">100</ITEM>
+     <ITEM name="Time Column Width">120</ITEM>
      <ITEM name="Version">100</ITEM>
     </PROPERTIES>
    </POPUP>
@@ -77,7 +78,7 @@
      <ITEM name="TopLineAddress">00000000</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="16" x="208" flags="80000000" y="320" h="32" pid="14" iid="5">
+   <POPUP w="16" x="208" flags="00000000" y="320" h="32" pid="14" iid="5">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>
@@ -107,8 +108,10 @@
      <ITEM name="TopLineAddress">00000020</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="600" x="268" flags="0000002b" y="380" h="400" pid="1" iid="5">
+   <POPUP w="600" x="468" flags="0000802b" y="533" h="400" pid="1" iid="5">
     <PROPERTIES>
+     <ITEM name="Breakpoint 0">"timer3_ovf_isr",0744,001A,9A1B,9D11,1
+</ITEM>
      <ITEM name="CaseSensitive">No</ITEM>
      <ITEM name="DISPADDRS">Yes</ITEM>
      <ITEM name="DISPLNUMS">No</ITEM>
@@ -134,6 +137,9 @@
      <ITEM name="Version">100</ITEM>
      <ITEM name="nItems">0</ITEM>
     </PROPERTIES>
+   </POPUP>
+   <POPUP w="290" x="48" flags="00000000" y="160" h="195" pid="0" iid="8">
+    <PROPERTIES/>
    </POPUP>
   </PWI>
  </MODULE>

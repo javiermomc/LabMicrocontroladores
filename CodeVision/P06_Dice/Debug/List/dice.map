@@ -1,12 +1,15 @@
 RAM Allocation [bytes]
 Variable                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-mode                                                                              0x0900       1
-n1                                                                                0x0901       1
-n2                                                                                0x0902       1
-n3                                                                                0x0903       1
-n4                                                                                0x0904       1
-_seed                                                                             0x0905       4
+i                                                                                 0x0900       2
+j                                                                                 0x0902       2
+str                                                                               0x0904       9
+mode                                                                              0x090D       1
+n1                                                                                0x090E       1
+n2                                                                                0x090F       1
+n3                                                                                0x0910       1
+n4                                                                                0x0911       1
+_seed                                                                             0x0912       4
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -19,13 +22,17 @@ Variable                                                                        
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-MandaMax7219                                                                      0x000A7     28
-ConfiguraMax                                                                      0x000C3     17
-Dice1                                                                             0x000D4     45
-Dice2                                                                             0x00101     33
-Dice3                                                                             0x00122     44
-Dice4                                                                             0x0014E     66
-clear                                                                             0x00190     25
-main                                                                              0x001A9    105
-srand                                                                             0x00212     10
-rand                                                                              0x0021C     23
+noTono                                                                            0x0044A      4
+tono                                                                              0x0044E     65
+MandaMax7219                                                                      0x0048F     28
+ConfiguraMax                                                                      0x004AB     17
+MandaLetra                                                                        0x004BC     40
+Dice1                                                                             0x004E4     49
+Dice2                                                                             0x00515     35
+Dice3                                                                             0x00538     50
+Dice4                                                                             0x0056A     66
+clear                                                                             0x005AC     21
+timer3_ovf_isr                                                                    0x005C1    114
+main                                                                              0x00633    129
+srand                                                                             0x006B4     10
+rand                                                                              0x006BE     23
