@@ -10,6 +10,7 @@
 #include <delay.h>
 #include "MatrixDice.h"
 #include "Letras.h"
+#include "Animacion.h"
 
 #define DIN PORTC.0
 #define LOAD PORTC.1
@@ -177,6 +178,17 @@ interrupt [TIM3_OVF] void timer3_ovf_isr(void)
     }            
 }
 
+void tirarAnimacion(){                    
+    for (j=9;j<15;j++)
+    {   
+        for (i=1;i<9;i++)
+        {                                          
+            MandaMax7219((i<<8)|Animacion[j][8-i]);    
+        }  
+        delay_ms(400);
+    }
+}
+
 char mode, n1, n2, n3, n4;
 void main(void)
 {
@@ -209,11 +221,17 @@ while(j<140){
     if(i==591)
         i=0;
 }
-
+j=0;
+i=0;
 while (1){
     // Please write your application code here
     if(!PIND.0){ // 1 Dice 
-        clear();                                   
+        clear();
+        tirarAnimacion(); 
+        for (i=9;i<15;i++)
+        {                                          
+            MandaMax7219(Animacion[j][8-i]);    
+        }                                  
         if(mode==0){
             srand(TCNT0);
             n1 = rand()%6+1;
@@ -242,7 +260,6 @@ while (1){
             n4 = rand()%6+1;
             Dice4(n1, n2, n3, n4);
         }
-        delay_ms(500);
     }if(!PIND.1){
         mode++;
         if(mode>3)
