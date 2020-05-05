@@ -187,6 +187,7 @@ void tirarAnimacion(){
         }  
         delay_ms(400);
     }
+    clear();
 }
 
 char mode, n1, n2, n3, n4;
@@ -223,6 +224,10 @@ while(j<140){
 }
 j=0;
 i=0;
+delay_ms(500);
+MandaLetra('1');
+delay_ms(1000);
+clear();
 while (1){
     // Please write your application code here
     if(!PIND.0){ // 1 Dice 
@@ -264,7 +269,9 @@ while (1){
         mode++;
         if(mode>3)
             mode=0;
-        delay_ms(500);   
+        MandaLetra(mode+49);
+        delay_ms(1000);
+        clear();  
     }
 }
 }

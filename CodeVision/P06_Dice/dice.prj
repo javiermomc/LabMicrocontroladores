@@ -137,8 +137,8 @@ UseEEPROMLocation0=1
 RebuildAll=0
 LinkageInformationPresent=1
 <<<<<<< HEAD
-COFFileTimeStamp=1353024571
-Build=141
+COFFileTimeStamp=1353025009
+Build=148
 =======
 COFFileTimeStamp=1352991238
 Build=138
@@ -245,7 +245,7 @@ RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
 <<<<<<< HEAD
-Build=141
+Build=148
 =======
 Build=138
 >>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
@@ -491,8 +491,8 @@ L15=Smart register allocation: No
 L16=
 <<<<<<< HEAD
 <<<<<<< HEAD
-L17=Build: 140
-L18=9320 line(s) compiled
+L17=Build: 148
+L18=9328 line(s) compiled
 =======
 L17=Build: 138
 L18=9257 line(s) compiled
@@ -521,15 +521,15 @@ L34=Heap size: 0 byte(s)
 L35=
 Lines=38
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
-L37=Program size: 2717 words (5434 bytes), 4.1% of FLASH
-L38=363 words (726 bytes), 11.8% reduced by Code Compression
+L37=Program size: 2734 words (5468 bytes), 4.2% of FLASH
+L38=366 words (732 bytes), 11.8% reduced by Code Compression
 [BuildInfoAssembler]
 Lines=12
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
 <<<<<<< HEAD
-L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(3394): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\Exe\dice.eep
+L4=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(3415): No EEPROM data, deleting D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\Exe\dice.eep
 =======
 L4=C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(3251): No EEPROM data, deleting C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\Exe\dice.eep
 >>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
@@ -537,7 +537,7 @@ L5=
 L6=AT90USB1286 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
-L9=[.cseg] 0x000000 0x00153a   3182   2252   5434  131072   4.1%
+L9=[.cseg] 0x000000 0x00155c   3216   2252   5468  131072   4.2%
 L10=[.dseg] 0x000100 0x000917      0     23     23    8192   0.3%
 L11=[.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 L12=
@@ -614,15 +614,17 @@ BK8=-1
 BK9=-1
 [FoldedCode3]
 Blocks=0
+[FoldedCode1]
+Blocks=0
+[FoldedCode2]
+Blocks=0
+=======
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 [HeadersList]
 Files=1
 F1=D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\dice.c
 [Header1]
-<<<<<<< HEAD
 Files=8
-=======
-Files=7
->>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 F1=C:\cvavr\inc\io.h
 F2=C:\cvavr\inc\90usb1286.h
 F3=C:\cvavr\inc\90usb128x_bits.h
@@ -630,11 +632,4 @@ F4=C:\cvavr\inc\stdlib.h
 F5=C:\cvavr\inc\delay.h
 F6=MatrixDice.h
 F7=Letras.h
-<<<<<<< HEAD
 F8=Animacion.h
-[FoldedCode1]
-Blocks=0
-[FoldedCode2]
-Blocks=0
-=======
->>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383

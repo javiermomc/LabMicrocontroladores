@@ -34,7 +34,7 @@ Dice3                                                                           
 Dice4                                                                             0x00602     66
 clear                                                                             0x00644     21
 timer3_ovf_isr                                                                    0x00659     68
-tirarAnimacion                                                                    0x0069D     41
-main                                                                              0x006C6    195
-srand                                                                             0x00789     10
-rand                                                                              0x00793     23
+tirarAnimacion                                                                    0x0069D     42
+main                                                                              0x006C7    203
+srand                                                                             0x00792     10
+rand                                                                              0x0079C     23
