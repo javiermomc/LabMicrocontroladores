@@ -49,7 +49,6 @@ void tono(float freq){
     OCR1AL=(cuentasEnt-1)%256;  
     TCCR1A=0x40;    // Timer 1 en modo de CTC
     TCCR1B=0x09;    // Timer en CK (sin pre-escalador)
-    
 }
 
 void MandaMax7219 (unsigned int dato)
@@ -154,30 +153,26 @@ void clear(){
 }
 
 char str[9] = "Welcome";
+char welcomeLetter=0;
 // Timer3 overflow interrupt service routine
 interrupt [TIM3_OVF] void timer3_ovf_isr(void)
 {
 // Reinitialize Timer3 value
 // Place your code here
-    if(MarioBros[i/2]!=1){
-        tono(MarioBros[i]);        
-    }else
-        noTono();
-    if(i<590){                
-        if(i%10==0){
-            if(j<7)
-                MandaLetra(str[j]);
-            j++; 
-        }       
-        i++;    
-    }else
-        i=0;
-    if(j<8){
-        TCNT3H=0x9E58 >> 8;
-        TCNT3L=0x9E58 & 0xff;
+    if(j%20==0){                    
+        MandaLetra(str[welcomeLetter]);
+        welcomeLetter++;
+    }                         
+    j++; 
+    if(j<140){
+        TCNT3H=0xCF2C >> 8;
+        TCNT3L=0xCF2C & 0xff;
     }else{
-        noTono();
-        clear();
+        clear(); 
+        noTono(); 
+        TCNT3H=0;
+        TCNT3L=0;
+        TIMSK3=0;
     }            
 }
 
@@ -192,58 +187,66 @@ DDRC.6=1;
 
 TCCR0B=0x01;    //init timer
 DDRB.5=1;       //init speaker output
-// init timer 3
+//// init timer 3
 TCCR3A=(0<<COM3A1) | (0<<COM3A0) | (0<<COM3B1) | (0<<COM3B0) | (0<<COM3C1) | (0<<COM3C0) | (0<<WGM31) | (0<<WGM30);
 TCCR3B=(0<<ICNC3) | (0<<ICES3) | (0<<WGM33) | (0<<WGM32) | (0<<CS32) | (1<<CS31) | (0<<CS30);
-TCNT3H=0x9E;
-TCNT3L=0x58;
+TCNT3H=0xCF;
+TCNT3L=0x2C;
 OCR3AH=0x30;
 OCR3AL=0xD3;
 TIMSK3=0x01;
 #asm("sei")
 
-while (1){
-    if(j>=8)
-    {
-    // Please write your application code here
-        if(!PIND.0){ // 1 Dice 
-            clear();                                   
-            if(mode==0){
-                srand(TCNT0);
-                n1 = rand()%6+1;
-                Dice1(n1);
-            }else if(mode==1){
-                srand(TCNT0);
-                n1 = rand()%6+1;
-                srand(TCNT0);
-                n2 = rand()%6+1;
-                Dice2(n1, n2);
-            }else if(mode==2){
-                n1 = rand()%6+1;
-                srand(TCNT0);
-                n2 = rand()%6+1;
-                srand(TCNT0);
-                n3 = rand()%6+1;
-                Dice3(n1, n2, n3);
-            }else if(mode==3){
-                srand(TCNT0);
-                n1 = rand()%6+1;
-                srand(TCNT0);
-                n2 = rand()%6+1;
-                srand(TCNT0);
-                n3 = rand()%6+1;
-                srand(TCNT0);
-                n4 = rand()%6+1;
-                Dice4(n1, n2, n3, n4);
-            }
-            delay_ms(100);
-        }if(!PIND.1){
-            mode++;
-            if(mode>3)
-                mode=0;
-            delay_ms(100);   
-        }
+while(j<140){
+    if(MarioBros[i]!=1){
+        tono(MarioBros[i]);
+        delay_ms(200);
+        noTono();
+    }else
+        delay_ms(200);
+    i++;
+    if(i==591)
+        i=0;
+}
 
+while (1){
+    // Please write your application code here
+    if(!PIND.0){ // 1 Dice 
+        clear();                                   
+        if(mode==0){
+            srand(TCNT0);
+            n1 = rand()%6+1;
+            Dice1(n1);
+        }else if(mode==1){
+            srand(TCNT0);
+            n1 = rand()%6+1;
+            srand(TCNT0);
+            n2 = rand()%6+1;
+            Dice2(n1, n2);
+        }else if(mode==2){
+            n1 = rand()%6+1;
+            srand(TCNT0);
+            n2 = rand()%6+1;
+            srand(TCNT0);
+            n3 = rand()%6+1;
+            Dice3(n1, n2, n3);
+        }else if(mode==3){
+            srand(TCNT0);
+            n1 = rand()%6+1;
+            srand(TCNT0);
+            n2 = rand()%6+1;
+            srand(TCNT0);
+            n3 = rand()%6+1;
+            srand(TCNT0);
+            n4 = rand()%6+1;
+            Dice4(n1, n2, n3, n4);
+        }
+        delay_ms(1000);
+    }if(!PIND.1){
+        mode++;
+        if(mode>3)
+            mode=0;
+        delay_ms(1000);   
     }
 }
 }
