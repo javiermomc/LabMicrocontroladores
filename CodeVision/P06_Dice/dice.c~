@@ -241,12 +241,12 @@ while (1){
             n4 = rand()%6+1;
             Dice4(n1, n2, n3, n4);
         }
-        delay_ms(1000);
+        delay_ms(500);
     }if(!PIND.1){
         mode++;
         if(mode>3)
             mode=0;
-        delay_ms(1000);   
+        delay_ms(500);   
     }
 }
 }

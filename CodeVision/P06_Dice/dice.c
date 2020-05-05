@@ -169,7 +169,8 @@ interrupt [TIM3_OVF] void timer3_ovf_isr(void)
         TCNT3L=0xCF2C & 0xff;
     }else{
         clear(); 
-        noTono(); 
+        noTono();
+        DDRB.5=0;       //disable speaker output 
         TCNT3H=0;
         TCNT3L=0;
         TIMSK3=0;

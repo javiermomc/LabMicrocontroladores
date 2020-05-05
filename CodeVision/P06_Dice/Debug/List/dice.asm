@@ -2049,16 +2049,18 @@ _0x1B:
 	RCALL _clear
 ; 0000 00AC         noTono();
 	RCALL _noTono
-; 0000 00AD         TCNT3H=0;
+; 0000 00AD         DDRB.5=0;       //disable speaker output
+	CBI  0x4,5
+; 0000 00AE         TCNT3H=0;
 	LDI  R30,LOW(0)
 	STS  149,R30
-; 0000 00AE         TCNT3L=0;
+; 0000 00AF         TCNT3L=0;
 	STS  148,R30
-; 0000 00AF         TIMSK3=0;
+; 0000 00B0         TIMSK3=0;
 	STS  113,R30
-; 0000 00B0     }
+; 0000 00B1     }
 _0x1C:
-; 0000 00B1 }
+; 0000 00B2 }
 	LD   R30,Y+
 	OUT  SREG,R30
 	LD   R31,Y+
@@ -2077,61 +2079,61 @@ _0x1C:
 ;
 ;char mode, n1, n2, n3, n4;
 ;void main(void)
-; 0000 00B5 {
+; 0000 00B6 {
 _main:
 ; .FSTART _main
-; 0000 00B6 PORTD=0x03;     //init buttons
+; 0000 00B7 PORTD=0x03;     //init buttons
 	LDI  R30,LOW(3)
 	OUT  0xB,R30
-; 0000 00B7 
-; 0000 00B8 mode=0;
+; 0000 00B8 
+; 0000 00B9 mode=0;
 	LDI  R30,LOW(0)
 	STS  _mode,R30
-; 0000 00B9 ConfiguraMax();
+; 0000 00BA ConfiguraMax();
 	RCALL _ConfiguraMax
-; 0000 00BA DDRC.6=1;
+; 0000 00BB DDRC.6=1;
 	SBI  0x7,6
-; 0000 00BB 
-; 0000 00BC TCCR0B=0x01;    //init timer
+; 0000 00BC 
+; 0000 00BD TCCR0B=0x01;    //init timer
 	LDI  R30,LOW(1)
 	OUT  0x25,R30
-; 0000 00BD DDRB.5=1;       //init speaker output
+; 0000 00BE DDRB.5=1;       //init speaker output
 	SBI  0x4,5
-; 0000 00BE //// init timer 3
-; 0000 00BF TCCR3A=(0<<COM3A1) | (0<<COM3A0) | (0<<COM3B1) | (0<<COM3B0) | (0<<COM3C1) | (0<<COM3C0) | (0<<WGM31) | (0<<WGM30);
+; 0000 00BF //// init timer 3
+; 0000 00C0 TCCR3A=(0<<COM3A1) | (0<<COM3A0) | (0<<COM3B1) | (0<<COM3B0) | (0<<COM3C1) | (0<<COM3C0) | (0<<WGM31) | (0<<WGM30);
 	LDI  R30,LOW(0)
 	STS  144,R30
-; 0000 00C0 TCCR3B=(0<<ICNC3) | (0<<ICES3) | (0<<WGM33) | (0<<WGM32) | (0<<CS32) | (1<<CS31) | (0<<CS30);
+; 0000 00C1 TCCR3B=(0<<ICNC3) | (0<<ICES3) | (0<<WGM33) | (0<<WGM32) | (0<<CS32) | (1<<CS31) | (0<<CS30);
 	LDI  R30,LOW(2)
 	STS  145,R30
-; 0000 00C1 TCNT3H=0xCF;
+; 0000 00C2 TCNT3H=0xCF;
 	CALL SUBOPT_0x16
-; 0000 00C2 TCNT3L=0x2C;
-; 0000 00C3 OCR3AH=0x30;
+; 0000 00C3 TCNT3L=0x2C;
+; 0000 00C4 OCR3AH=0x30;
 	LDI  R30,LOW(48)
 	STS  153,R30
-; 0000 00C4 OCR3AL=0xD3;
+; 0000 00C5 OCR3AL=0xD3;
 	LDI  R30,LOW(211)
 	STS  152,R30
-; 0000 00C5 TIMSK3=0x01;
+; 0000 00C6 TIMSK3=0x01;
 	LDI  R30,LOW(1)
 	STS  113,R30
-; 0000 00C6 #asm("sei")
+; 0000 00C7 #asm("sei")
 	sei
-; 0000 00C7 
-; 0000 00C8 while(j<140){
-_0x21:
+; 0000 00C8 
+; 0000 00C9 while(j<140){
+_0x23:
 	CALL SUBOPT_0x15
 	CPI  R26,LOW(0x8C)
 	LDI  R30,HIGH(0x8C)
 	CPC  R27,R30
-	BRSH _0x23
-; 0000 00C9     if(MarioBros[i]!=1){
+	BRSH _0x25
+; 0000 00CA     if(MarioBros[i]!=1){
 	CALL SUBOPT_0x17
 	CALL __GETW2PF
 	SBIW R26,1
-	BREQ _0x24
-; 0000 00CA         tono(MarioBros[i]);
+	BREQ _0x26
+; 0000 00CB         tono(MarioBros[i]);
 	CALL SUBOPT_0x17
 	CALL __GETW1PF
 	CALL __CWD1
@@ -2139,21 +2141,21 @@ _0x21:
 	MOVW R26,R30
 	MOVW R24,R22
 	RCALL _tono
-; 0000 00CB         delay_ms(200);
+; 0000 00CC         delay_ms(200);
 	LDI  R26,LOW(200)
 	LDI  R27,0
 	CALL _delay_ms
-; 0000 00CC         noTono();
+; 0000 00CD         noTono();
 	RCALL _noTono
-; 0000 00CD     }else
-	RJMP _0x25
-_0x24:
-; 0000 00CE         delay_ms(200);
+; 0000 00CE     }else
+	RJMP _0x27
+_0x26:
+; 0000 00CF         delay_ms(200);
 	LDI  R26,LOW(200)
 	LDI  R27,0
 	CALL _delay_ms
-; 0000 00CF     i++;
-_0x25:
+; 0000 00D0     i++;
+_0x27:
 	LDI  R26,LOW(_i)
 	LDI  R27,HIGH(_i)
 	LD   R30,X+
@@ -2161,139 +2163,139 @@ _0x25:
 	ADIW R30,1
 	ST   -X,R31
 	ST   -X,R30
-; 0000 00D0     if(i==591)
+; 0000 00D1     if(i==591)
 	LDS  R26,_i
 	LDS  R27,_i+1
 	CPI  R26,LOW(0x24F)
 	LDI  R30,HIGH(0x24F)
 	CPC  R27,R30
-	BRNE _0x26
-; 0000 00D1         i=0;
+	BRNE _0x28
+; 0000 00D2         i=0;
 	LDI  R30,LOW(0)
 	STS  _i,R30
 	STS  _i+1,R30
-; 0000 00D2 }
-_0x26:
-	RJMP _0x21
-_0x23:
-; 0000 00D3 
-; 0000 00D4 while (1){
-_0x27:
-; 0000 00D5     // Please write your application code here
-; 0000 00D6     if(!PIND.0){ // 1 Dice
+; 0000 00D3 }
+_0x28:
+	RJMP _0x23
+_0x25:
+; 0000 00D4 
+; 0000 00D5 while (1){
+_0x29:
+; 0000 00D6     // Please write your application code here
+; 0000 00D7     if(!PIND.0){ // 1 Dice
 	SBIC 0x9,0
-	RJMP _0x2A
-; 0000 00D7         clear();
+	RJMP _0x2C
+; 0000 00D8         clear();
 	RCALL _clear
-; 0000 00D8         if(mode==0){
+; 0000 00D9         if(mode==0){
 	LDS  R30,_mode
 	CPI  R30,0
-	BRNE _0x2B
-; 0000 00D9             srand(TCNT0);
+	BRNE _0x2D
+; 0000 00DA             srand(TCNT0);
 	CALL SUBOPT_0x18
-; 0000 00DA             n1 = rand()%6+1;
-; 0000 00DB             Dice1(n1);
+; 0000 00DB             n1 = rand()%6+1;
+; 0000 00DC             Dice1(n1);
 	LDS  R26,_n1
 	RCALL _Dice1
-; 0000 00DC         }else if(mode==1){
-	RJMP _0x2C
-_0x2B:
+; 0000 00DD         }else if(mode==1){
+	RJMP _0x2E
+_0x2D:
 	LDS  R26,_mode
 	CPI  R26,LOW(0x1)
-	BRNE _0x2D
-; 0000 00DD             srand(TCNT0);
+	BRNE _0x2F
+; 0000 00DE             srand(TCNT0);
 	CALL SUBOPT_0x18
-; 0000 00DE             n1 = rand()%6+1;
-; 0000 00DF             srand(TCNT0);
+; 0000 00DF             n1 = rand()%6+1;
+; 0000 00E0             srand(TCNT0);
 	CALL SUBOPT_0x19
-; 0000 00E0             n2 = rand()%6+1;
-; 0000 00E1             Dice2(n1, n2);
+; 0000 00E1             n2 = rand()%6+1;
+; 0000 00E2             Dice2(n1, n2);
 	LDS  R30,_n1
 	ST   -Y,R30
 	LDS  R26,_n2
 	RCALL _Dice2
-; 0000 00E2         }else if(mode==2){
-	RJMP _0x2E
-_0x2D:
-	LDS  R26,_mode
-	CPI  R26,LOW(0x2)
-	BRNE _0x2F
-; 0000 00E3             n1 = rand()%6+1;
-	CALL SUBOPT_0x1A
-	STS  _n1,R30
-; 0000 00E4             srand(TCNT0);
-	CALL SUBOPT_0x19
-; 0000 00E5             n2 = rand()%6+1;
-; 0000 00E6             srand(TCNT0);
-	CALL SUBOPT_0x1B
-; 0000 00E7             n3 = rand()%6+1;
-	STS  _n3,R30
-; 0000 00E8             Dice3(n1, n2, n3);
-	CALL SUBOPT_0x1C
-	LDS  R26,_n3
-	RCALL _Dice3
-; 0000 00E9         }else if(mode==3){
+; 0000 00E3         }else if(mode==2){
 	RJMP _0x30
 _0x2F:
 	LDS  R26,_mode
-	CPI  R26,LOW(0x3)
+	CPI  R26,LOW(0x2)
 	BRNE _0x31
-; 0000 00EA             srand(TCNT0);
-	CALL SUBOPT_0x18
-; 0000 00EB             n1 = rand()%6+1;
-; 0000 00EC             srand(TCNT0);
+; 0000 00E4             n1 = rand()%6+1;
+	CALL SUBOPT_0x1A
+	STS  _n1,R30
+; 0000 00E5             srand(TCNT0);
 	CALL SUBOPT_0x19
-; 0000 00ED             n2 = rand()%6+1;
-; 0000 00EE             srand(TCNT0);
+; 0000 00E6             n2 = rand()%6+1;
+; 0000 00E7             srand(TCNT0);
 	CALL SUBOPT_0x1B
-; 0000 00EF             n3 = rand()%6+1;
+; 0000 00E8             n3 = rand()%6+1;
 	STS  _n3,R30
-; 0000 00F0             srand(TCNT0);
+; 0000 00E9             Dice3(n1, n2, n3);
+	CALL SUBOPT_0x1C
+	LDS  R26,_n3
+	RCALL _Dice3
+; 0000 00EA         }else if(mode==3){
+	RJMP _0x32
+_0x31:
+	LDS  R26,_mode
+	CPI  R26,LOW(0x3)
+	BRNE _0x33
+; 0000 00EB             srand(TCNT0);
+	CALL SUBOPT_0x18
+; 0000 00EC             n1 = rand()%6+1;
+; 0000 00ED             srand(TCNT0);
+	CALL SUBOPT_0x19
+; 0000 00EE             n2 = rand()%6+1;
+; 0000 00EF             srand(TCNT0);
 	CALL SUBOPT_0x1B
-; 0000 00F1             n4 = rand()%6+1;
+; 0000 00F0             n3 = rand()%6+1;
+	STS  _n3,R30
+; 0000 00F1             srand(TCNT0);
+	CALL SUBOPT_0x1B
+; 0000 00F2             n4 = rand()%6+1;
 	STS  _n4,R30
-; 0000 00F2             Dice4(n1, n2, n3, n4);
+; 0000 00F3             Dice4(n1, n2, n3, n4);
 	CALL SUBOPT_0x1C
 	LDS  R30,_n3
 	ST   -Y,R30
 	LDS  R26,_n4
 	RCALL _Dice4
-; 0000 00F3         }
-; 0000 00F4         delay_ms(500);
-_0x31:
+; 0000 00F4         }
+; 0000 00F5         delay_ms(500);
+_0x33:
+_0x32:
 _0x30:
 _0x2E:
-_0x2C:
 	LDI  R26,LOW(500)
 	LDI  R27,HIGH(500)
 	CALL _delay_ms
-; 0000 00F5     }if(!PIND.1){
-_0x2A:
+; 0000 00F6     }if(!PIND.1){
+_0x2C:
 	SBIC 0x9,1
-	RJMP _0x32
-; 0000 00F6         mode++;
+	RJMP _0x34
+; 0000 00F7         mode++;
 	LDS  R30,_mode
 	SUBI R30,-LOW(1)
 	STS  _mode,R30
-; 0000 00F7         if(mode>3)
+; 0000 00F8         if(mode>3)
 	LDS  R26,_mode
 	CPI  R26,LOW(0x4)
-	BRLO _0x33
-; 0000 00F8             mode=0;
+	BRLO _0x35
+; 0000 00F9             mode=0;
 	LDI  R30,LOW(0)
 	STS  _mode,R30
-; 0000 00F9         delay_ms(500);
-_0x33:
+; 0000 00FA         delay_ms(500);
+_0x35:
 	LDI  R26,LOW(500)
 	LDI  R27,HIGH(500)
 	CALL _delay_ms
-; 0000 00FA     }
-; 0000 00FB }
-_0x32:
-	RJMP _0x27
+; 0000 00FB     }
 ; 0000 00FC }
 _0x34:
-	RJMP _0x34
+	RJMP _0x29
+; 0000 00FD }
+_0x36:
+	RJMP _0x36
 ; .FEND
 
 	.CSEG

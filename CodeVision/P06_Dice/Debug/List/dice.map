@@ -33,7 +33,7 @@ Dice2                                                                           
 Dice3                                                                             0x00538     50
 Dice4                                                                             0x0056A     66
 clear                                                                             0x005AC     21
-timer3_ovf_isr                                                                    0x005C1     72
-main                                                                              0x00609    178
-srand                                                                             0x006BB     10
-rand                                                                              0x006C5     23
+timer3_ovf_isr                                                                    0x005C1     73
+main                                                                              0x0060A    178
+srand                                                                             0x006BC     10
+rand                                                                              0x006C6     23
