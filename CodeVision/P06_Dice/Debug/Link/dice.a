@@ -238,6 +238,7 @@
 ;PCODE: $00000082 VOL: 0
 ;PCODE: $00000083 VOL: 0
 ;PCODE: $00000084 VOL: 0
+<<<<<<< HEAD
 ; 0000 0057     MandaMax7219(0x0100);    //elimino las columnas que no ocupo
 ;PCODE: $00000085 VOL: 0
 ;PCODE: $00000086 VOL: 0
@@ -250,6 +251,20 @@
 ; 0000 005A 
 ; 0000 005B     //    Unimos la columna y el valor de cada renglon
 ; 0000 005C     MandaMax7219(0x0300|Letras[letra][4]);
+=======
+; 0000 0056     MandaMax7219(0x0100);    //elimino las columnas que no ocupo
+;PCODE: $00000085 VOL: 0
+;PCODE: $00000086 VOL: 0
+; 0000 0057     MandaMax7219(0x0200);    //elimino las columnas que no ocupo
+;PCODE: $00000087 VOL: 0
+;PCODE: $00000088 VOL: 0
+; 0000 0058     MandaMax7219(0x0800);    //elimino las columnas que no ocupo
+;PCODE: $00000089 VOL: 0
+;PCODE: $0000008A VOL: 0
+; 0000 0059 
+; 0000 005A     //    Unimos la columna y el valor de cada renglon
+; 0000 005B     MandaMax7219(0x0300|Letras[letra][4]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000008B VOL: 0
 ;PCODE: $0000008C VOL: 0
 ;PCODE: $0000008D VOL: 0
@@ -260,7 +275,11 @@
 ;PCODE: $00000092 VOL: 0
 ;PCODE: $00000093 VOL: 0
 ;PCODE: $00000094 VOL: 0
+<<<<<<< HEAD
 ; 0000 005D     MandaMax7219(0x0400|Letras[letra][3]);
+=======
+; 0000 005C     MandaMax7219(0x0400|Letras[letra][3]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000095 VOL: 0
 ;PCODE: $00000096 VOL: 0
 ;PCODE: $00000097 VOL: 0
@@ -271,7 +290,11 @@
 ;PCODE: $0000009C VOL: 0
 ;PCODE: $0000009D VOL: 0
 ;PCODE: $0000009E VOL: 0
+<<<<<<< HEAD
 ; 0000 005E     MandaMax7219(0x0500|Letras[letra][2]);
+=======
+; 0000 005D     MandaMax7219(0x0500|Letras[letra][2]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000009F VOL: 0
 ;PCODE: $000000A0 VOL: 0
 ;PCODE: $000000A1 VOL: 0
@@ -282,7 +305,11 @@
 ;PCODE: $000000A6 VOL: 0
 ;PCODE: $000000A7 VOL: 0
 ;PCODE: $000000A8 VOL: 0
+<<<<<<< HEAD
 ; 0000 005F     MandaMax7219(0x0600|Letras[letra][1]);
+=======
+; 0000 005E     MandaMax7219(0x0600|Letras[letra][1]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000A9 VOL: 0
 ;PCODE: $000000AA VOL: 0
 ;PCODE: $000000AB VOL: 0
@@ -293,7 +320,11 @@
 ;PCODE: $000000B0 VOL: 0
 ;PCODE: $000000B1 VOL: 0
 ;PCODE: $000000B2 VOL: 0
+<<<<<<< HEAD
 ; 0000 0060     MandaMax7219(0x0700|Letras[letra][0]);
+=======
+; 0000 005F     MandaMax7219(0x0700|Letras[letra][0]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000B3 VOL: 0
 ;PCODE: $000000B4 VOL: 0
 ;PCODE: $000000B5 VOL: 0
@@ -303,17 +334,29 @@
 ;PCODE: $000000B9 VOL: 0
 ;PCODE: $000000BA VOL: 0
 ;PCODE: $000000BB VOL: 0
+<<<<<<< HEAD
 ; 0000 0061 }
+=======
+; 0000 0060 }
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000BC VOL: 0
 ;PCODE: $000000BD VOL: 0
 ;PCODE: $000000BE VOL: 0
 ;
 ;void Dice1(char n)
+<<<<<<< HEAD
 ; 0000 0064 {
 ;PCODE: $000000BF VOL: 0
 ;PCODE: $000000C0 VOL: 0
 ; 0000 0065     //    Enviamos la columna y el valor de cada renglon
 ; 0000 0066     MandaMax7219(0x0100|Dice[n-1][7]);
+=======
+; 0000 0063 {
+;PCODE: $000000BF VOL: 0
+;PCODE: $000000C0 VOL: 0
+; 0000 0064     //    Enviamos la columna y el valor de cada renglon
+; 0000 0065     MandaMax7219(0x0100|Dice[n-1][7]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000C1 VOL: 0
 ;	n -> Y+0
 ;PCODE: $000000C2 VOL: 0
@@ -327,7 +370,11 @@
 ;PCODE: $000000CA VOL: 0
 ;PCODE: $000000CB VOL: 0
 ;PCODE: $000000CC VOL: 0
+<<<<<<< HEAD
 ; 0000 0067     MandaMax7219(0x0200|Dice[n-1][6]);
+=======
+; 0000 0066     MandaMax7219(0x0200|Dice[n-1][6]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000CD VOL: 0
 ;PCODE: $000000CE VOL: 0
 ;PCODE: $000000CF VOL: 0
@@ -339,7 +386,11 @@
 ;PCODE: $000000D5 VOL: 0
 ;PCODE: $000000D6 VOL: 0
 ;PCODE: $000000D7 VOL: 0
+<<<<<<< HEAD
 ; 0000 0068     MandaMax7219(0x0300|Dice[n-1][5]);
+=======
+; 0000 0067     MandaMax7219(0x0300|Dice[n-1][5]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000D8 VOL: 0
 ;PCODE: $000000D9 VOL: 0
 ;PCODE: $000000DA VOL: 0
@@ -351,7 +402,11 @@
 ;PCODE: $000000E0 VOL: 0
 ;PCODE: $000000E1 VOL: 0
 ;PCODE: $000000E2 VOL: 0
+<<<<<<< HEAD
 ; 0000 0069     MandaMax7219(0x0400|Dice[n-1][4]);
+=======
+; 0000 0068     MandaMax7219(0x0400|Dice[n-1][4]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000E3 VOL: 0
 ;PCODE: $000000E4 VOL: 0
 ;PCODE: $000000E5 VOL: 0
@@ -363,7 +418,11 @@
 ;PCODE: $000000EB VOL: 0
 ;PCODE: $000000EC VOL: 0
 ;PCODE: $000000ED VOL: 0
+<<<<<<< HEAD
 ; 0000 006A     MandaMax7219(0x0500|Dice[n-1][3]);
+=======
+; 0000 0069     MandaMax7219(0x0500|Dice[n-1][3]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000EE VOL: 0
 ;PCODE: $000000EF VOL: 0
 ;PCODE: $000000F0 VOL: 0
@@ -375,7 +434,11 @@
 ;PCODE: $000000F6 VOL: 0
 ;PCODE: $000000F7 VOL: 0
 ;PCODE: $000000F8 VOL: 0
+<<<<<<< HEAD
 ; 0000 006B     MandaMax7219(0x0600|Dice[n-1][2]);
+=======
+; 0000 006A     MandaMax7219(0x0600|Dice[n-1][2]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000000F9 VOL: 0
 ;PCODE: $000000FA VOL: 0
 ;PCODE: $000000FB VOL: 0
@@ -387,7 +450,11 @@
 ;PCODE: $00000101 VOL: 0
 ;PCODE: $00000102 VOL: 0
 ;PCODE: $00000103 VOL: 0
+<<<<<<< HEAD
 ; 0000 006C     MandaMax7219(0x0700|Dice[n-1][1]);
+=======
+; 0000 006B     MandaMax7219(0x0700|Dice[n-1][1]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000104 VOL: 0
 ;PCODE: $00000105 VOL: 0
 ;PCODE: $00000106 VOL: 0
@@ -399,7 +466,11 @@
 ;PCODE: $0000010C VOL: 0
 ;PCODE: $0000010D VOL: 0
 ;PCODE: $0000010E VOL: 0
+<<<<<<< HEAD
 ; 0000 006D     MandaMax7219(0x0800|Dice[n-1][0]);
+=======
+; 0000 006C     MandaMax7219(0x0800|Dice[n-1][0]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000010F VOL: 0
 ;PCODE: $00000110 VOL: 0
 ;PCODE: $00000111 VOL: 0
@@ -410,17 +481,29 @@
 ;PCODE: $00000116 VOL: 0
 ;PCODE: $00000117 VOL: 0
 ;PCODE: $00000118 VOL: 0
+<<<<<<< HEAD
 ; 0000 006E }
+=======
+; 0000 006D }
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000119 VOL: 0
 ;PCODE: $0000011A VOL: 0
 ;PCODE: $0000011B VOL: 0
 ;
 ;void Dice2(char n1, char n2)
+<<<<<<< HEAD
 ; 0000 0071 {
 ;PCODE: $0000011C VOL: 0
 ;PCODE: $0000011D VOL: 0
 ; 0000 0072     //    Enviamos la columna y el valor de cada renglon
 ; 0000 0073     MandaMax7219(0x0100|SmallDice[n2-1][2]);
+=======
+; 0000 0070 {
+;PCODE: $0000011C VOL: 0
+;PCODE: $0000011D VOL: 0
+; 0000 0071     //    Enviamos la columna y el valor de cada renglon
+; 0000 0072     MandaMax7219(0x0100|SmallDice[n2-1][2]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000011E VOL: 0
 ;	n1 -> Y+1
 ;	n2 -> Y+0
@@ -436,7 +519,11 @@
 ;PCODE: $00000128 VOL: 0
 ;PCODE: $00000129 VOL: 0
 ;PCODE: $0000012A VOL: 0
+<<<<<<< HEAD
 ; 0000 0074     MandaMax7219(0x0200|SmallDice[n2-1][1]);
+=======
+; 0000 0073     MandaMax7219(0x0200|SmallDice[n2-1][1]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000012B VOL: 0
 ;PCODE: $0000012C VOL: 0
 ;PCODE: $0000012D VOL: 0
@@ -449,7 +536,11 @@
 ;PCODE: $00000134 VOL: 0
 ;PCODE: $00000135 VOL: 0
 ;PCODE: $00000136 VOL: 0
+<<<<<<< HEAD
 ; 0000 0075     MandaMax7219(0x0300|SmallDice[n2-1][0]);
+=======
+; 0000 0074     MandaMax7219(0x0300|SmallDice[n2-1][0]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000137 VOL: 0
 ;PCODE: $00000138 VOL: 0
 ;PCODE: $00000139 VOL: 0
@@ -461,7 +552,11 @@
 ;PCODE: $0000013F VOL: 0
 ;PCODE: $00000140 VOL: 0
 ;PCODE: $00000141 VOL: 0
+<<<<<<< HEAD
 ; 0000 0076     MandaMax7219(0x0600|(SmallDice[n1-1][2]<<5));
+=======
+; 0000 0075     MandaMax7219(0x0600|(SmallDice[n1-1][2]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000142 VOL: 0
 ;PCODE: $00000143 VOL: 0
 ;PCODE: $00000144 VOL: 0
@@ -476,7 +571,11 @@
 ;PCODE: $0000014D VOL: 0
 ;PCODE: $0000014E VOL: 0
 ;PCODE: $0000014F VOL: 0
+<<<<<<< HEAD
 ; 0000 0077     MandaMax7219(0x0700|(SmallDice[n1-1][1]<<5));
+=======
+; 0000 0076     MandaMax7219(0x0700|(SmallDice[n1-1][1]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000150 VOL: 0
 ;PCODE: $00000151 VOL: 0
 ;PCODE: $00000152 VOL: 0
@@ -491,7 +590,11 @@
 ;PCODE: $0000015B VOL: 0
 ;PCODE: $0000015C VOL: 0
 ;PCODE: $0000015D VOL: 0
+<<<<<<< HEAD
 ; 0000 0078     MandaMax7219(0x0800|(SmallDice[n1-1][0]<<5));
+=======
+; 0000 0077     MandaMax7219(0x0800|(SmallDice[n1-1][0]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000015E VOL: 0
 ;PCODE: $0000015F VOL: 0
 ;PCODE: $00000160 VOL: 0
@@ -505,17 +608,29 @@
 ;PCODE: $00000168 VOL: 0
 ;PCODE: $00000169 VOL: 0
 ;PCODE: $0000016A VOL: 0
+<<<<<<< HEAD
 ; 0000 0079 }
+=======
+; 0000 0078 }
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000016B VOL: 0
 ;PCODE: $0000016C VOL: 0
 ;PCODE: $0000016D VOL: 0
 ;
 ;void Dice3(char n1, char n2, char n3)
+<<<<<<< HEAD
 ; 0000 007C {
 ;PCODE: $0000016E VOL: 0
 ;PCODE: $0000016F VOL: 0
 ; 0000 007D     //    Enviamos la columna y el valor de cada renglon
 ; 0000 007E     MandaMax7219(0x0100|SmallDice[n2-1][2]);
+=======
+; 0000 007B {
+;PCODE: $0000016E VOL: 0
+;PCODE: $0000016F VOL: 0
+; 0000 007C     //    Enviamos la columna y el valor de cada renglon
+; 0000 007D     MandaMax7219(0x0100|SmallDice[n2-1][2]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000170 VOL: 0
 ;	n1 -> Y+2
 ;	n2 -> Y+1
@@ -532,7 +647,11 @@
 ;PCODE: $0000017A VOL: 0
 ;PCODE: $0000017B VOL: 0
 ;PCODE: $0000017C VOL: 0
+<<<<<<< HEAD
 ; 0000 007F     MandaMax7219(0x0200|SmallDice[n2-1][1]);
+=======
+; 0000 007E     MandaMax7219(0x0200|SmallDice[n2-1][1]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000017D VOL: 0
 ;PCODE: $0000017E VOL: 0
 ;PCODE: $0000017F VOL: 0
@@ -545,7 +664,11 @@
 ;PCODE: $00000186 VOL: 0
 ;PCODE: $00000187 VOL: 0
 ;PCODE: $00000188 VOL: 0
+<<<<<<< HEAD
 ; 0000 0080     MandaMax7219(0x0300|SmallDice[n2-1][0]);
+=======
+; 0000 007F     MandaMax7219(0x0300|SmallDice[n2-1][0]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000189 VOL: 0
 ;PCODE: $0000018A VOL: 0
 ;PCODE: $0000018B VOL: 0
@@ -557,7 +680,11 @@
 ;PCODE: $00000191 VOL: 0
 ;PCODE: $00000192 VOL: 0
 ;PCODE: $00000193 VOL: 0
+<<<<<<< HEAD
 ; 0000 0081     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
+=======
+; 0000 0080     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000194 VOL: 0
 ;PCODE: $00000195 VOL: 0
 ;PCODE: $00000196 VOL: 0
@@ -583,7 +710,11 @@
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
 ;PCODE: $000001AC VOL: 0
+<<<<<<< HEAD
 ; 0000 0082     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
+=======
+; 0000 0081     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000001AD VOL: 0
 ;PCODE: $000001AE VOL: 0
 ;PCODE: $000001AF VOL: 0
@@ -609,7 +740,11 @@
 ;PCODE: $000001C3 VOL: 0
 ;PCODE: $000001C4 VOL: 0
 ;PCODE: $000001C5 VOL: 0
+<<<<<<< HEAD
 ; 0000 0083     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
+=======
+; 0000 0082     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000001C6 VOL: 0
 ;PCODE: $000001C7 VOL: 0
 ;PCODE: $000001C8 VOL: 0
@@ -633,17 +768,29 @@
 ;PCODE: $000001DA VOL: 0
 ;PCODE: $000001DB VOL: 0
 ;PCODE: $000001DC VOL: 0
+<<<<<<< HEAD
 ; 0000 0084 }
+=======
+; 0000 0083 }
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000001DD VOL: 0
 ;PCODE: $000001DE VOL: 0
 ;PCODE: $000001DF VOL: 0
 ;
 ;void Dice4(char n1, char n2, char n3, char n4)
+<<<<<<< HEAD
 ; 0000 0087 {
 ;PCODE: $000001E0 VOL: 0
 ;PCODE: $000001E1 VOL: 0
 ; 0000 0088     //    Enviamos la columna y el valor de cada renglon
 ; 0000 0089     MandaMax7219(0x0100|SmallDice[n2-1][2]|(SmallDice[n4-1][2]<<5));
+=======
+; 0000 0086 {
+;PCODE: $000001E0 VOL: 0
+;PCODE: $000001E1 VOL: 0
+; 0000 0087     //    Enviamos la columna y el valor de cada renglon
+; 0000 0088     MandaMax7219(0x0100|SmallDice[n2-1][2]|(SmallDice[n4-1][2]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000001E2 VOL: 0
 ;	n1 -> Y+3
 ;	n2 -> Y+2
@@ -674,7 +821,11 @@
 ;PCODE: $000001F9 VOL: 0
 ;PCODE: $000001FA VOL: 0
 ;PCODE: $000001FB VOL: 0
+<<<<<<< HEAD
 ; 0000 008A     MandaMax7219(0x0200|SmallDice[n2-1][1]|(SmallDice[n4-1][1]<<5));
+=======
+; 0000 0089     MandaMax7219(0x0200|SmallDice[n2-1][1]|(SmallDice[n4-1][1]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000001FC VOL: 0
 ;PCODE: $000001FD VOL: 0
 ;PCODE: $000001FE VOL: 0
@@ -700,7 +851,11 @@
 ;PCODE: $00000212 VOL: 0
 ;PCODE: $00000213 VOL: 0
 ;PCODE: $00000214 VOL: 0
+<<<<<<< HEAD
 ; 0000 008B     MandaMax7219(0x0300|SmallDice[n2-1][0]|(SmallDice[n4-1][0]<<5));
+=======
+; 0000 008A     MandaMax7219(0x0300|SmallDice[n2-1][0]|(SmallDice[n4-1][0]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000215 VOL: 0
 ;PCODE: $00000216 VOL: 0
 ;PCODE: $00000217 VOL: 0
@@ -724,7 +879,11 @@
 ;PCODE: $00000229 VOL: 0
 ;PCODE: $0000022A VOL: 0
 ;PCODE: $0000022B VOL: 0
+<<<<<<< HEAD
 ; 0000 008C     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
+=======
+; 0000 008B     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000022C VOL: 0
 ;PCODE: $0000022D VOL: 0
 ;PCODE: $0000022E VOL: 0
@@ -750,7 +909,11 @@
 ;PCODE: $00000242 VOL: 0
 ;PCODE: $00000243 VOL: 0
 ;PCODE: $00000244 VOL: 0
+<<<<<<< HEAD
 ; 0000 008D     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
+=======
+; 0000 008C     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000245 VOL: 0
 ;PCODE: $00000246 VOL: 0
 ;PCODE: $00000247 VOL: 0
@@ -776,7 +939,11 @@
 ;PCODE: $0000025B VOL: 0
 ;PCODE: $0000025C VOL: 0
 ;PCODE: $0000025D VOL: 0
+<<<<<<< HEAD
 ; 0000 008E     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
+=======
+; 0000 008D     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000025E VOL: 0
 ;PCODE: $0000025F VOL: 0
 ;PCODE: $00000260 VOL: 0
@@ -800,12 +967,17 @@
 ;PCODE: $00000272 VOL: 0
 ;PCODE: $00000273 VOL: 0
 ;PCODE: $00000274 VOL: 0
+<<<<<<< HEAD
 ; 0000 008F }
+=======
+; 0000 008E }
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000275 VOL: 0
 ;PCODE: $00000276 VOL: 0
 ;PCODE: $00000277 VOL: 0
 ;
 ;void clear(){
+<<<<<<< HEAD
 ; 0000 0091 void clear(){
 ;PCODE: $00000278 VOL: 0
 ;PCODE: $00000279 VOL: 0
@@ -834,6 +1006,36 @@
 ;PCODE: $00000288 VOL: 0
 ;PCODE: $00000289 VOL: 0
 ; 0000 009A }
+=======
+; 0000 0090 void clear(){
+;PCODE: $00000278 VOL: 0
+;PCODE: $00000279 VOL: 0
+; 0000 0091     MandaMax7219(0x0100);
+;PCODE: $0000027A VOL: 0
+;PCODE: $0000027B VOL: 0
+; 0000 0092     MandaMax7219(0x0200);
+;PCODE: $0000027C VOL: 0
+;PCODE: $0000027D VOL: 0
+; 0000 0093     MandaMax7219(0x0300);
+;PCODE: $0000027E VOL: 0
+;PCODE: $0000027F VOL: 0
+; 0000 0094     MandaMax7219(0x0400);
+;PCODE: $00000280 VOL: 0
+;PCODE: $00000281 VOL: 0
+; 0000 0095     MandaMax7219(0x0500);
+;PCODE: $00000282 VOL: 0
+;PCODE: $00000283 VOL: 0
+; 0000 0096     MandaMax7219(0x0600);
+;PCODE: $00000284 VOL: 0
+;PCODE: $00000285 VOL: 0
+; 0000 0097     MandaMax7219(0x0700);
+;PCODE: $00000286 VOL: 0
+;PCODE: $00000287 VOL: 0
+; 0000 0098     MandaMax7219(0x0800);
+;PCODE: $00000288 VOL: 0
+;PCODE: $00000289 VOL: 0
+; 0000 0099 }
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000028A VOL: 0
 ;PCODE: $0000028B VOL: 0
 ;
@@ -843,36 +1045,60 @@
 ;char welcomeLetter=0;
 ;// Timer3 overflow interrupt service routine
 ;interrupt [TIM3_OVF] void timer3_ovf_isr(void)
+<<<<<<< HEAD
 ; 0000 00A0 {
+=======
+; 0000 009F {
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 
 	.CSEG
 ;PCODE: $0000028C VOL: 0
 ;PCODE: $0000028D VOL: 0
+<<<<<<< HEAD
 ; 0000 00A1 // Reinitialize Timer3 value
 ; 0000 00A2 // Place your code here
 ; 0000 00A3     if(j%20==0){
+=======
+; 0000 00A0 // Reinitialize Timer3 value
+; 0000 00A1 // Place your code here
+; 0000 00A2     if(j%20==0){
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000028E VOL: 0
 ;PCODE: $0000028F VOL: 0
 ;PCODE: $00000290 VOL: 0
 ;PCODE: $00000291 VOL: 0
 ;PCODE: $00000292 VOL: 0
+<<<<<<< HEAD
 ; 0000 00A4         MandaLetra(str[welcomeLetter]);
+=======
+; 0000 00A3         MandaLetra(str[welcomeLetter]);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000293 VOL: 0
 ;PCODE: $00000294 VOL: 0
 ;PCODE: $00000295 VOL: 0
 ;PCODE: $00000296 VOL: 0
 ;PCODE: $00000297 VOL: 0
+<<<<<<< HEAD
 ; 0000 00A5         welcomeLetter++;
 ;PCODE: $00000298 VOL: 0
 ;PCODE: $00000299 VOL: 0
 ;PCODE: $0000029A VOL: 0
 ; 0000 00A6     }
 ; 0000 00A7     j++;
+=======
+; 0000 00A4         welcomeLetter++;
+;PCODE: $00000298 VOL: 0
+;PCODE: $00000299 VOL: 0
+;PCODE: $0000029A VOL: 0
+; 0000 00A5     }
+; 0000 00A6     j++;
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000029B VOL: 0
 ;PCODE: $0000029C VOL: 0
 ;PCODE: $0000029D VOL: 0
 ;PCODE: $0000029E VOL: 0
 ;PCODE: $0000029F VOL: 0
+<<<<<<< HEAD
 ; 0000 00A8     if(j<140){
 ;PCODE: $000002A0 VOL: 0
 ;PCODE: $000002A1 VOL: 0
@@ -891,6 +1117,26 @@
 ; 0000 00AD         noTono();
 ;PCODE: $000002AA VOL: 0
 ; 0000 00AE         DDRB.5=0;       //disable speaker output
+=======
+; 0000 00A7     if(j<140){
+;PCODE: $000002A0 VOL: 0
+;PCODE: $000002A1 VOL: 0
+;PCODE: $000002A2 VOL: 0
+; 0000 00A8         TCNT3H=0xCF2C >> 8;
+;PCODE: $000002A3 VOL: 0
+;PCODE: $000002A4 VOL: 0
+; 0000 00A9         TCNT3L=0xCF2C & 0xff;
+;PCODE: $000002A5 VOL: 0
+;PCODE: $000002A6 VOL: 0
+; 0000 00AA     }else{
+;PCODE: $000002A7 VOL: 0
+;PCODE: $000002A8 VOL: 0
+; 0000 00AB         clear();
+;PCODE: $000002A9 VOL: 0
+; 0000 00AC         noTono();
+;PCODE: $000002AA VOL: 0
+; 0000 00AD         DDRB.5=0;       //disable speaker output
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002AB VOL: 0
 ;PCODE: $000002AC VOL: 0
 ; 0000 00AF         TCNT3H=0;
@@ -899,7 +1145,11 @@
 ; 0000 00B0         TCNT3L=0;
 ;PCODE: $000002AF VOL: 0
 ;PCODE: $000002B0 VOL: 0
+<<<<<<< HEAD
 ; 0000 00B1         TIMSK3=0;
+=======
+; 0000 00B0         TIMSK3=0;
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002B1 VOL: 0
 ;PCODE: $000002B2 VOL: 0
 ; 0000 00B2     }
@@ -909,15 +1159,28 @@
 ;PCODE: $000002B5 VOL: 0
 ;PCODE: $000002B6 VOL: 0
 ;
+<<<<<<< HEAD
 ;void tirarAnimacion(){
 ; 0000 00B5 void tirarAnimacion(){
 ;PCODE: $000002B7 VOL: 0
 ;PCODE: $000002B8 VOL: 0
 ; 0000 00B6     for (j=9;j<15;j++)
 ;PCODE: $000002B9 VOL: 0
+=======
+;char mode, n1, n2, n3, n4;
+;void main(void)
+; 0000 00B6 {
+;PCODE: $000002B7 VOL: 0
+; 0000 00B7 PORTD=0x03;     //init buttons
+;PCODE: $000002B8 VOL: 0
+;PCODE: $000002B9 VOL: 0
+; 0000 00B8 
+; 0000 00B9 mode=0;
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002BA VOL: 0
 ;PCODE: $000002BB VOL: 0
 ;PCODE: $000002BC VOL: 0
+<<<<<<< HEAD
 ;PCODE: $000002BD VOL: 0
 ;PCODE: $000002BE VOL: 0
 ;PCODE: $000002BF VOL: 0
@@ -932,10 +1195,34 @@
 ;PCODE: $000002C6 VOL: 0
 ;PCODE: $000002C7 VOL: 0
 ;PCODE: $000002C8 VOL: 0
+=======
+; 0000 00BB DDRC.6=1;
+;PCODE: $000002BD VOL: 0
+;PCODE: $000002BE VOL: 0
+; 0000 00BC 
+; 0000 00BD TCCR0B=0x01;    //init timer
+;PCODE: $000002BF VOL: 0
+;PCODE: $000002C0 VOL: 0
+; 0000 00BE DDRB.5=1;       //init speaker output
+;PCODE: $000002C1 VOL: 0
+;PCODE: $000002C2 VOL: 0
+; 0000 00BF //// init timer 3
+; 0000 00C0 TCCR3A=(0<<COM3A1) | (0<<COM3A0) | (0<<COM3B1) | (0<<COM3B0) | (0<<COM3C1) | (0<<COM3C0) | (0<<WGM31) | (0<<WGM30);
+;PCODE: $000002C3 VOL: 0
+;PCODE: $000002C4 VOL: 0
+; 0000 00C1 TCCR3B=(0<<ICNC3) | (0<<ICES3) | (0<<WGM33) | (0<<WGM32) | (0<<CS32) | (1<<CS31) | (0<<CS30);
+;PCODE: $000002C5 VOL: 0
+;PCODE: $000002C6 VOL: 0
+; 0000 00C2 TCNT3H=0xCF;
+;PCODE: $000002C7 VOL: 0
+;PCODE: $000002C8 VOL: 0
+; 0000 00C3 TCNT3L=0x2C;
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002C9 VOL: 0
 ;PCODE: $000002CA VOL: 0
 ;PCODE: $000002CB VOL: 0
 ;PCODE: $000002CC VOL: 0
+<<<<<<< HEAD
 ;PCODE: $000002CD VOL: 0
 ;PCODE: $000002CE VOL: 0
 ; 0000 00B9         {
@@ -943,6 +1230,17 @@
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
 ;PCODE: $000002D1 VOL: 0
+=======
+; 0000 00C5 OCR3AL=0xD3;
+;PCODE: $000002CD VOL: 0
+;PCODE: $000002CE VOL: 0
+; 0000 00C6 TIMSK3=0x01;
+;PCODE: $000002CF VOL: 0
+;PCODE: $000002D0 VOL: 0
+; 0000 00C7 #asm("sei")
+;PCODE: $000002D1 VOL: 0
+	sei
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002D2 VOL: 0
 ;PCODE: $000002D3 VOL: 0
 ;PCODE: $000002D4 VOL: 0
@@ -967,9 +1265,16 @@
 ; 0000 00BC         delay_ms(400);
 ;PCODE: $000002E6 VOL: 0
 ;PCODE: $000002E7 VOL: 0
+<<<<<<< HEAD
 ; 0000 00BD     }
+=======
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002E8 VOL: 0
 ;PCODE: $000002E9 VOL: 0
+<<<<<<< HEAD
+=======
+; 0000 00CE     }else
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002EA VOL: 0
 ;PCODE: $000002EB VOL: 0
 ;PCODE: $000002EC VOL: 0
@@ -978,10 +1283,13 @@
 ; 0000 00BE }
 ;PCODE: $000002EF VOL: 0
 ;PCODE: $000002F0 VOL: 0
+<<<<<<< HEAD
 ;
 ;char mode, n1, n2, n3, n4;
 ;void main(void)
 ; 0000 00C2 {
+=======
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002F1 VOL: 0
 ; 0000 00C3 PORTD=0x03;     //init buttons
 ;PCODE: $000002F2 VOL: 0
@@ -992,14 +1300,21 @@
 ;PCODE: $000002F5 VOL: 0
 ; 0000 00C6 ConfiguraMax();
 ;PCODE: $000002F6 VOL: 0
+<<<<<<< HEAD
 ; 0000 00C7 DDRC.6=1;
+=======
+; 0000 00D2         i=0;
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002F7 VOL: 0
 ;PCODE: $000002F8 VOL: 0
 ; 0000 00C8 
 ; 0000 00C9 TCCR0B=0x01;    //init timer
 ;PCODE: $000002F9 VOL: 0
 ;PCODE: $000002FA VOL: 0
+<<<<<<< HEAD
 ; 0000 00CA DDRB.5=1;       //init speaker output
+=======
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $000002FB VOL: 0
 ;PCODE: $000002FC VOL: 0
 ; 0000 00CB //// init timer 3
@@ -1009,13 +1324,20 @@
 ; 0000 00CD TCCR3B=(0<<ICNC3) | (0<<ICES3) | (0<<WGM33) | (0<<WGM32) | (0<<CS32) | (1<<CS31) | (0<<CS30);
 ;PCODE: $000002FF VOL: 0
 ;PCODE: $00000300 VOL: 0
+<<<<<<< HEAD
 ; 0000 00CE TCNT3H=0xCF;
+=======
+; 0000 00D9         if(mode==0){
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000301 VOL: 0
 ;PCODE: $00000302 VOL: 0
 ; 0000 00CF TCNT3L=0x2C;
 ;PCODE: $00000303 VOL: 0
 ;PCODE: $00000304 VOL: 0
+<<<<<<< HEAD
 ; 0000 00D0 OCR3AH=0x30;
+=======
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000305 VOL: 0
 ;PCODE: $00000306 VOL: 0
 ; 0000 00D1 OCR3AL=0xD3;
@@ -1024,13 +1346,20 @@
 ; 0000 00D2 TIMSK3=0x01;
 ;PCODE: $00000309 VOL: 0
 ;PCODE: $0000030A VOL: 0
+<<<<<<< HEAD
 ; 0000 00D3 #asm("sei")
+=======
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000030B VOL: 0
 	sei
 ;PCODE: $0000030C VOL: 0
 ; 0000 00D4 
 ; 0000 00D5 while(j<140){
 ;PCODE: $0000030D VOL: 0
+<<<<<<< HEAD
+=======
+; 0000 00DC             Dice1(n1);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000030E VOL: 0
 ;PCODE: $0000030F VOL: 0
 ;PCODE: $00000310 VOL: 0
@@ -1039,6 +1368,10 @@
 ;PCODE: $00000312 VOL: 0
 ;PCODE: $00000313 VOL: 0
 ;PCODE: $00000314 VOL: 0
+<<<<<<< HEAD
+=======
+; 0000 00DE             srand(TCNT0);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000315 VOL: 0
 ;PCODE: $00000316 VOL: 0
 ;PCODE: $00000317 VOL: 0
@@ -1055,7 +1388,11 @@
 ;PCODE: $00000320 VOL: 0
 ;PCODE: $00000321 VOL: 0
 ;PCODE: $00000322 VOL: 0
+<<<<<<< HEAD
 ; 0000 00D9         noTono();
+=======
+; 0000 00E1             n2 = rand()%6+1;
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000323 VOL: 0
 ; 0000 00DA     }else
 ;PCODE: $00000324 VOL: 0
@@ -1069,6 +1406,10 @@
 ;PCODE: $0000032A VOL: 0
 ;PCODE: $0000032B VOL: 0
 ;PCODE: $0000032C VOL: 0
+<<<<<<< HEAD
+=======
+; 0000 00E3         }else if(mode==2){
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $0000032D VOL: 0
 ; 0000 00DD     if(i==591)
 ;PCODE: $0000032E VOL: 0
@@ -1076,6 +1417,10 @@
 ;PCODE: $00000330 VOL: 0
 ; 0000 00DE         i=0;
 ;PCODE: $00000331 VOL: 0
+<<<<<<< HEAD
+=======
+; 0000 00E4             n1 = rand()%6+1;
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000332 VOL: 0
 ; 0000 00DF }
 ;PCODE: $00000333 VOL: 0
@@ -1084,7 +1429,11 @@
 ; 0000 00E0 j=0;
 ;PCODE: $00000336 VOL: 0
 ;PCODE: $00000337 VOL: 0
+<<<<<<< HEAD
 ; 0000 00E1 i=0;
+=======
+; 0000 00E5             srand(TCNT0);
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 ;PCODE: $00000338 VOL: 0
 ;PCODE: $00000339 VOL: 0
 ; 0000 00E2 while (1){
@@ -1215,6 +1564,7 @@
 ;PCODE: $0000039F VOL: 0
 ;PCODE: $000003A0 VOL: 0
 ;PCODE: $000003A1 VOL: 0
+<<<<<<< HEAD
 ; 0000 00FA             n3 = rand()%6+1;
 ;PCODE: $000003A2 VOL: 0
 ;PCODE: $000003A3 VOL: 0
@@ -1326,3 +1676,5 @@
 ;PCODE: $000003F9 VOL: 0
 ;PCODE: $000003FA VOL: 0
 ;PCODE: $000003FB VOL: 0
+=======
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383

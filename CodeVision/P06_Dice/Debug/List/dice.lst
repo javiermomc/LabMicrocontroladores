@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm Tue May 05 16:33:53 2020
+=======
+AVRASM ver. 2.1.30  C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm Tue May 05 00:16:11 2020
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
 
                  
                  
@@ -1508,7 +1512,7 @@ AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\Cod
 0001b6 0000
 0001b7 0000
 0001b8 0000      	.DB  0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0
-D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1234): warning: .cseg .db misalignment - padding zero byte
+C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1234): warning: .cseg .db misalignment - padding zero byte
 0001b9 0000      	.DB  0x0
                  _Animacion:
 0001ba 0810
@@ -2257,6 +2261,7 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Deb
 0004a0 0000      	.DB  0x1,0x0,0x1,0x0,0x0,0x0
                  
                  _0x19:
+<<<<<<< HEAD
 0004a1 6557
 0004a2 636c
 0004a3 6d6f
@@ -2272,6 +2277,23 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Deb
 0004a9 464e      	.DB  0x2D,0x4E,0x41,0x4E,0x0,0x49,0x4E,0x46
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1430): warning: .cseg .db misalignment - padding zero byte
 0004aa 0000      	.DB  0x0
+=======
+000409 6557
+00040a 636c
+00040b 6d6f
+C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1386): warning: .cseg .db misalignment - padding zero byte
+00040c 0065      	.DB  0x57,0x65,0x6C,0x63,0x6F,0x6D,0x65
+                 _0x2000060:
+C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1388): warning: .cseg .db misalignment - padding zero byte
+00040d 0001      	.DB  0x1
+                 _0x2000000:
+00040e 4e2d
+00040f 4e41
+000410 4900
+000411 464e      	.DB  0x2D,0x4E,0x41,0x4E,0x0,0x49,0x4E,0x46
+C:\Users\980006738\Documents\Semestre 8\Lab de Micros\LabMicrocontroladores\CodeVision\P06_Dice\Debug\List\dice.asm(1391): warning: .cseg .db misalignment - padding zero byte
+000412 0000      	.DB  0x0
+>>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
                  
                  __GLOBAL_INI_TBL:
 0004ab 0007      	.DW  0x07
