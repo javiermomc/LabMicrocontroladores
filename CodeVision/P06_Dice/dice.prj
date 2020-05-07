@@ -24,7 +24,7 @@ Active0=0
 EditorPanel0=0
 PageIndex0=0
 OF1=dice.c
-Active1=1
+Active1=0
 EditorPanel1=0
 <<<<<<< HEAD
 TimeStamp1=1353025008
@@ -39,7 +39,7 @@ EditorPanel2=0
 TimeStamp2=1332196930
 PageIndex2=2
 OF3=MatrixDice.h
-Active3=0
+Active3=1
 EditorPanel3=0
 TimeStamp3=1353024850
 PageIndex3=3
@@ -557,7 +557,7 @@ Column=0
 ScrollPosX=0
 ScrollPosY=0
 <<<<<<< HEAD
-TimeStamp=1353025093
+TimeStamp=1353032839
 =======
 TimeStamp=1352991216
 >>>>>>> 94d877071a6ae49624c9b0792b874fc3cd9f8383
@@ -574,7 +574,7 @@ TimeStamp=1353025008
 Row=226
 Column=10
 ScrollPosX=0
-ScrollPosY=215
+ScrollPosY=189
 =======
 TimeStamp=1352991185
 Row=0
@@ -597,7 +597,7 @@ TimeStamp=1332196930
 Row=48
 Column=0
 ScrollPosX=0
-ScrollPosY=38
+ScrollPosY=20
 BK0=-1
 BK1=-1
 BK2=-1
@@ -639,14 +639,12 @@ F5=C:\cvavr\inc\delay.h
 F6=MatrixDice.h
 F7=Letras.h
 F8=Animacion.h
-[FoldedCode1]
-Blocks=0
 [Bookmarks4]
 TimeStamp=1351979050
 Row=16
 Column=34
 ScrollPosX=0
-ScrollPosY=0
+ScrollPosY=102
 BK0=-1
 BK1=-1
 BK2=-1
@@ -657,8 +655,6 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
-[FoldedCode4]
-Blocks=0
 [Bookmarks5]
 TimeStamp=1353024850
 Row=19
@@ -675,6 +671,10 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
+[FoldedCode1]
+Blocks=0
+[FoldedCode4]
+Blocks=0
 [FoldedCode5]
 Blocks=0
 [FoldedCode2]
