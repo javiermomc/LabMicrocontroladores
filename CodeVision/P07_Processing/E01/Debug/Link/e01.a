@@ -1,0 +1,94 @@
+;/*
+; * e01.c
+; *
+; * Created: 12-May-20 4:49:06 PM
+; * Author: javie
+; */
+;
+;#include <io.h>
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x01
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0x0E
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x04
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x06
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0x0C
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0x0E
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x02
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=smcr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;#include <stdio.h>
+;
+;char value;
+;void main(void)
+; 0000 000D {
+
+	.CSEG
+;PCODE: $0000000D VOL: 0
+; 0000 000E 
+; 0000 000F DDRB.7=1;
+;PCODE: $0000000E VOL: 0
+;PCODE: $0000000F VOL: 0
+; 0000 0010 // USART1 initialization
+; 0000 0011 // Communication Parameters: 8 Data, 1 Stop, No Parity
+; 0000 0012 // USART1 Receiver: On
+; 0000 0013 // USART1 Transmitter: Off
+; 0000 0014 // USART1 Mode: Asynchronous
+; 0000 0015 // USART1 Baud Rate: 9600
+; 0000 0016 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
+;PCODE: $00000010 VOL: 0
+;PCODE: $00000011 VOL: 0
+; 0000 0017 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (0<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
+;PCODE: $00000012 VOL: 0
+;PCODE: $00000013 VOL: 0
+; 0000 0018 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
+;PCODE: $00000014 VOL: 0
+;PCODE: $00000015 VOL: 0
+; 0000 0019 UBRR1H=0x00;
+;PCODE: $00000016 VOL: 0
+;PCODE: $00000017 VOL: 0
+; 0000 001A UBRR1L=0x33;
+;PCODE: $00000018 VOL: 0
+;PCODE: $00000019 VOL: 0
+; 0000 001B 
+; 0000 001C while (1)
+;PCODE: $0000001A VOL: 0
+; 0000 001D     {
+; 0000 001E     // Please write your application code here
+; 0000 001F         value=getchar();
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0
+; 0000 0020         if(value=='H')
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+;PCODE: $0000001F VOL: 0
+; 0000 0021             PORTB.7=1;
+;PCODE: $00000020 VOL: 0
+;PCODE: $00000021 VOL: 0
+; 0000 0022         else
+;PCODE: $00000022 VOL: 0
+;PCODE: $00000023 VOL: 0
+; 0000 0023             PORTB.7=0;
+;PCODE: $00000024 VOL: 0
+;PCODE: $00000025 VOL: 0
+; 0000 0024     }
+;PCODE: $00000026 VOL: 0
+;PCODE: $00000027 VOL: 0
+;PCODE: $00000028 VOL: 0
+; 0000 0025 }
+;PCODE: $00000029 VOL: 0
+;PCODE: $0000002A VOL: 0
+;PCODE: $0000002B VOL: 0
