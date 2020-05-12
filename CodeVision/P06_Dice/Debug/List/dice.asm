@@ -1232,6 +1232,45 @@ _Letras:
 	.DB  0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0
 	.DB  0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0
 	.DB  0x0
+_Animacion:
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
+	.DB  0x18,0x18,0x0,0x2,0x2,0x0,0x18,0x18
+	.DB  0x8,0x10,0x8,0x2,0x2,0x8,0x10,0x8
+	.DB  0x18,0x18,0x0,0x2,0x2,0x0,0x18,0x18
+	.DB  0x8,0x10,0x8,0x2,0x2,0x8,0x10,0x8
+	.DB  0x18,0x18,0x0,0x2,0x2,0x0,0x18,0x18
+	.DB  0x8,0x10,0x8,0x2,0x2,0x8,0x10,0x8
+	.DB  0x8,0x10,0xA,0x3,0x3,0xA,0x10,0x8
+	.DB  0x8,0x10,0x8,0x2,0x2,0x8,0x10,0x8
+	.DB  0x8,0x10,0xA,0x3,0x3,0xA,0x10,0x8
+	.DB  0x8,0x10,0x8,0x2,0x2,0x8,0x10,0x8
+	.DB  0x8,0x10,0xA,0x3,0x3,0xA,0x10,0x8
+	.DB  0x0,0xFE,0x10,0x10,0x10,0xFE,0x0,0x0
+	.DB  0x0,0x0,0x22,0xBE,0x2,0x0,0x0,0x0
+	.DB  0x0,0x0,0x0,0xF2,0x0,0x0,0x0,0x0
+	.DB  0x8,0x8,0x11,0x2,0x2,0x11,0x8,0x8
+	.DB  0x8,0x8,0x10,0x3,0x3,0x10,0x8,0x8
+	.DB  0x8,0x8,0x11,0x2,0x2,0x11,0x8,0x8
+	.DB  0x8,0x8,0x10,0x3,0x3,0x10,0x8,0x8
+	.DB  0x0,0xFE,0x92,0x92,0x92,0x6C,0x0,0x0
+	.DB  0x0,0x30,0xA,0xA,0xA,0x3C,0x0,0x0
+	.DB  0x0,0x1C,0x2A,0x2A,0x2A,0x18,0x0,0x0
+	.DB  0x0,0x0,0x0,0xF2,0x0,0x0,0x0,0x0
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x3,0x3,0x10,0x8,0x10
+	.DB  0x10,0x8,0x10,0x2,0x2,0x10,0x8,0x10
 _MarioBros:
 	.DB  0x94,0x2,0x94,0x2,0x1,0x0,0x94,0x2
 	.DB  0x1,0x0,0xC,0x2,0x94,0x2,0x1,0x0
@@ -1505,6 +1544,7 @@ __GLOBAL_INI_END:
 ;#include <delay.h>
 ;#include "MatrixDice.h"
 ;#include "Letras.h"
+;#include "Animacion.h"
 ;
 ;#define DIN PORTC.0
 ;#define LOAD PORTC.1
@@ -1529,26 +1569,26 @@ __GLOBAL_INI_END:
 ;
 ;
 ;void noTono(){
-; 0000 0024 void noTono(){
+; 0000 0025 void noTono(){
 
 	.CSEG
 _noTono:
 ; .FSTART _noTono
-; 0000 0025     TCCR1B=0x00;
+; 0000 0026     TCCR1B=0x00;
 	LDI  R30,LOW(0)
 	STS  129,R30
-; 0000 0026 }
+; 0000 0027 }
 	RET
 ; .FEND
 ;
 ;void tono(float freq){
-; 0000 0028 void tono(float freq){
+; 0000 0029 void tono(float freq){
 _tono:
 ; .FSTART _tono
-; 0000 0029     float cuentas;
-; 0000 002A     unsigned int cuentasEnt;
-; 0000 002B 
-; 0000 002C     cuentas = 500000.0/freq;
+; 0000 002A     float cuentas;
+; 0000 002B     unsigned int cuentasEnt;
+; 0000 002C 
+; 0000 002D     cuentas = 500000.0/freq;
 	CALL __PUTPARD2
 	SBIW R28,4
 	ST   -Y,R17
@@ -1560,10 +1600,10 @@ _tono:
 	__GETD2N 0x48F42400
 	CALL __DIVF21
 	__PUTD1S 2
-; 0000 002D     cuentasEnt = cuentas;
+; 0000 002E     cuentasEnt = cuentas;
 	CALL __CFD1U
 	MOVW R16,R30
-; 0000 002E     if(cuentas-cuentasEnt>=0.5)
+; 0000 002F     if(cuentas-cuentasEnt>=0.5)
 	__GETD2S 2
 	CLR  R22
 	CLR  R23
@@ -1575,26 +1615,26 @@ _tono:
 	__GETD1N 0x3F000000
 	CALL __CMPF12
 	BRLO _0x3
-; 0000 002F         cuentasEnt++;
+; 0000 0030         cuentasEnt++;
 	__ADDWRN 16,17,1
-; 0000 0030     OCR1AH=(cuentasEnt-1)/256;
+; 0000 0031     OCR1AH=(cuentasEnt-1)/256;
 _0x3:
 	MOVW R30,R16
 	SBIW R30,1
 	MOV  R30,R31
 	LDI  R31,0
 	STS  137,R30
-; 0000 0031     OCR1AL=(cuentasEnt-1)%256;
+; 0000 0032     OCR1AL=(cuentasEnt-1)%256;
 	MOV  R30,R16
 	SUBI R30,LOW(1)
 	STS  136,R30
-; 0000 0032     TCCR1A=0x40;    // Timer 1 en modo de CTC
+; 0000 0033     TCCR1A=0x40;    // Timer 1 en modo de CTC
 	LDI  R30,LOW(64)
 	STS  128,R30
-; 0000 0033     TCCR1B=0x09;    // Timer en CK (sin pre-escalador)
+; 0000 0034     TCCR1B=0x09;    // Timer en CK (sin pre-escalador)
 	LDI  R30,LOW(9)
 	STS  129,R30
-; 0000 0034 }
+; 0000 0035 }
 	LDD  R17,Y+1
 	LDD  R16,Y+0
 	ADIW R28,10
@@ -1602,242 +1642,242 @@ _0x3:
 ; .FEND
 ;
 ;void MandaMax7219 (unsigned int dato)
-; 0000 0037 {
+; 0000 0038 {
 _MandaMax7219:
 ; .FSTART _MandaMax7219
-; 0000 0038     unsigned char i;        //Contador para 16b
-; 0000 0039     CLK=0;                  //Valores de inicializacion
+; 0000 0039     unsigned char i;        //Contador para 16b
+; 0000 003A     CLK=0;                  //Valores de inicializacion
 	ST   -Y,R27
 	ST   -Y,R26
 	ST   -Y,R16
 ;	dato -> Y+1
 ;	i -> R16
 	CBI  0x8,2
-; 0000 003A     LOAD=0;                 //Valores de inicializacion
+; 0000 003B     LOAD=0;                 //Valores de inicializacion
 	CBI  0x8,1
-; 0000 003B     for (i=0;i<16;i++)
+; 0000 003C     for (i=0;i<16;i++)
 	LDI  R16,LOW(0)
 _0x9:
 	CPI  R16,16
 	BRSH _0xA
-; 0000 003C     {
-; 0000 003D         if ((dato&0x8000)==0)
+; 0000 003D     {
+; 0000 003E         if ((dato&0x8000)==0)
 	LDD  R30,Y+2
 	ANDI R30,LOW(0x80)
 	BRNE _0xB
-; 0000 003E             DIN=0;
+; 0000 003F             DIN=0;
 	CBI  0x8,0
-; 0000 003F         else
+; 0000 0040         else
 	RJMP _0xE
 _0xB:
-; 0000 0040             DIN=1;
+; 0000 0041             DIN=1;
 	SBI  0x8,0
-; 0000 0041         CLK=1;
+; 0000 0042         CLK=1;
 _0xE:
 	SBI  0x8,2
-; 0000 0042         CLK=0;
+; 0000 0043         CLK=0;
 	CBI  0x8,2
-; 0000 0043         dato=dato<<1;         //El siguiente bit pasa a ser el mas significativo
+; 0000 0044         dato=dato<<1;         //El siguiente bit pasa a ser el mas significativo
 	LDD  R30,Y+1
 	LDD  R31,Y+1+1
 	LSL  R30
 	ROL  R31
 	STD  Y+1,R30
 	STD  Y+1+1,R31
-; 0000 0044     }
+; 0000 0045     }
 	SUBI R16,-1
 	RJMP _0x9
 _0xA:
-; 0000 0045     LOAD=1;
+; 0000 0046     LOAD=1;
 	SBI  0x8,1
-; 0000 0046     LOAD=0;
+; 0000 0047     LOAD=0;
 	CBI  0x8,1
-; 0000 0047 }
+; 0000 0048 }
 	LDD  R16,Y+0
 	RJMP _0x2080003
 ; .FEND
 ;
 ;void ConfiguraMax(void)
-; 0000 004A {
+; 0000 004B {
 _ConfiguraMax:
 ; .FSTART _ConfiguraMax
-; 0000 004B     DDRC=0x07;              //Salidas en PC0,PC1,PC2
+; 0000 004C     DDRC=0x07;              //Salidas en PC0,PC1,PC2
 	LDI  R30,LOW(7)
 	OUT  0x7,R30
-; 0000 004C     MandaMax7219(0x0900);    //Mando a 0x09 un 0x00 (Decode Mode)
+; 0000 004D     MandaMax7219(0x0900);    //Mando a 0x09 un 0x00 (Decode Mode)
 	LDI  R26,LOW(2304)
 	LDI  R27,HIGH(2304)
 	RCALL _MandaMax7219
-; 0000 004D     MandaMax7219(0x0A08);    //Mando a 0x0A un 0x08 (Decode Mode)
+; 0000 004E     MandaMax7219(0x0A08);    //Mando a 0x0A un 0x08 (Decode Mode)
 	LDI  R26,LOW(2568)
 	LDI  R27,HIGH(2568)
 	RCALL _MandaMax7219
-; 0000 004E     MandaMax7219(0x0B07);    //Mando a 0x0B un 0x07 (Decode Mode)
+; 0000 004F     MandaMax7219(0x0B07);    //Mando a 0x0B un 0x07 (Decode Mode)
 	LDI  R26,LOW(2823)
 	LDI  R27,HIGH(2823)
 	RCALL _MandaMax7219
-; 0000 004F     MandaMax7219(0x0C01);    //Mando a 0x01 un 0x01 (Decode Mode)
+; 0000 0050     MandaMax7219(0x0C01);    //Mando a 0x01 un 0x01 (Decode Mode)
 	LDI  R26,LOW(3073)
 	LDI  R27,HIGH(3073)
 	RCALL _MandaMax7219
-; 0000 0050     MandaMax7219(0x0F00);    //Mando a 0x0F un 0x00 (Decode Mode)
+; 0000 0051     MandaMax7219(0x0F00);    //Mando a 0x0F un 0x00 (Decode Mode)
 	LDI  R26,LOW(3840)
 	LDI  R27,HIGH(3840)
 	RJMP _0x2080002
-; 0000 0051 }
+; 0000 0052 }
 ; .FEND
 ;
 ;void MandaLetra(char letra)
-; 0000 0054 {
+; 0000 0055 {
 _MandaLetra:
 ; .FSTART _MandaLetra
-; 0000 0055     letra=letra-32;          //offset de la tabla (espacio es el primer caracter)
+; 0000 0056     letra=letra-32;          //offset de la tabla (espacio es el primer caracter)
 	ST   -Y,R26
 ;	letra -> Y+0
 	LD   R30,Y
 	SUBI R30,LOW(32)
 	ST   Y,R30
-; 0000 0056     MandaMax7219(0x0100);    //elimino las columnas que no ocupo
+; 0000 0057     MandaMax7219(0x0100);    //elimino las columnas que no ocupo
 	CALL SUBOPT_0x0
-; 0000 0057     MandaMax7219(0x0200);    //elimino las columnas que no ocupo
-; 0000 0058     MandaMax7219(0x0800);    //elimino las columnas que no ocupo
+; 0000 0058     MandaMax7219(0x0200);    //elimino las columnas que no ocupo
+; 0000 0059     MandaMax7219(0x0800);    //elimino las columnas que no ocupo
 	LDI  R26,LOW(2048)
 	LDI  R27,HIGH(2048)
 	CALL SUBOPT_0x1
-; 0000 0059 
-; 0000 005A     //    Unimos la columna y el valor de cada renglon
-; 0000 005B     MandaMax7219(0x0300|Letras[letra][4]);
+; 0000 005A 
+; 0000 005B     //    Unimos la columna y el valor de cada renglon
+; 0000 005C     MandaMax7219(0x0300|Letras[letra][4]);
 	ADIW R30,4
 	CALL SUBOPT_0x2
 	CALL SUBOPT_0x1
-; 0000 005C     MandaMax7219(0x0400|Letras[letra][3]);
+; 0000 005D     MandaMax7219(0x0400|Letras[letra][3]);
 	ADIW R30,3
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x400)
 	MOVW R26,R30
 	CALL SUBOPT_0x1
-; 0000 005D     MandaMax7219(0x0500|Letras[letra][2]);
+; 0000 005E     MandaMax7219(0x0500|Letras[letra][2]);
 	ADIW R30,2
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x500)
 	MOVW R26,R30
 	CALL SUBOPT_0x1
-; 0000 005E     MandaMax7219(0x0600|Letras[letra][1]);
+; 0000 005F     MandaMax7219(0x0600|Letras[letra][1]);
 	ADIW R30,1
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x600)
 	MOVW R26,R30
 	CALL SUBOPT_0x1
-; 0000 005F     MandaMax7219(0x0700|Letras[letra][0]);
+; 0000 0060     MandaMax7219(0x0700|Letras[letra][0]);
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x700)
 	RJMP _0x2080004
-; 0000 0060 }
+; 0000 0061 }
 ; .FEND
 ;
 ;void Dice1(char n)
-; 0000 0063 {
+; 0000 0064 {
 _Dice1:
 ; .FSTART _Dice1
-; 0000 0064     //    Enviamos la columna y el valor de cada renglon
-; 0000 0065     MandaMax7219(0x0100|Dice[n-1][7]);
+; 0000 0065     //    Enviamos la columna y el valor de cada renglon
+; 0000 0066     MandaMax7219(0x0100|Dice[n-1][7]);
 	ST   -Y,R26
 ;	n -> Y+0
 	CALL SUBOPT_0x3
 	ADIW R30,7
 	CALL SUBOPT_0x4
-; 0000 0066     MandaMax7219(0x0200|Dice[n-1][6]);
+; 0000 0067     MandaMax7219(0x0200|Dice[n-1][6]);
 	CALL SUBOPT_0x3
 	ADIW R30,6
 	CALL SUBOPT_0x5
-; 0000 0067     MandaMax7219(0x0300|Dice[n-1][5]);
+; 0000 0068     MandaMax7219(0x0300|Dice[n-1][5]);
 	CALL SUBOPT_0x3
 	ADIW R30,5
 	CALL SUBOPT_0x2
 	CALL SUBOPT_0x6
-; 0000 0068     MandaMax7219(0x0400|Dice[n-1][4]);
+; 0000 0069     MandaMax7219(0x0400|Dice[n-1][4]);
 	ADIW R30,4
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x400)
 	MOVW R26,R30
 	CALL SUBOPT_0x6
-; 0000 0069     MandaMax7219(0x0500|Dice[n-1][3]);
+; 0000 006A     MandaMax7219(0x0500|Dice[n-1][3]);
 	ADIW R30,3
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x500)
 	MOVW R26,R30
 	CALL SUBOPT_0x6
-; 0000 006A     MandaMax7219(0x0600|Dice[n-1][2]);
+; 0000 006B     MandaMax7219(0x0600|Dice[n-1][2]);
 	CALL SUBOPT_0x7
 	MOVW R26,R30
 	CALL SUBOPT_0x6
-; 0000 006B     MandaMax7219(0x0700|Dice[n-1][1]);
+; 0000 006C     MandaMax7219(0x0700|Dice[n-1][1]);
 	CALL SUBOPT_0x8
 	MOVW R26,R30
 	CALL SUBOPT_0x6
-; 0000 006C     MandaMax7219(0x0800|Dice[n-1][0]);
+; 0000 006D     MandaMax7219(0x0800|Dice[n-1][0]);
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x800)
 _0x2080004:
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 006D }
+; 0000 006E }
 	ADIW R28,1
 	RET
 ; .FEND
 ;
 ;void Dice2(char n1, char n2)
-; 0000 0070 {
+; 0000 0071 {
 _Dice2:
 ; .FSTART _Dice2
-; 0000 0071     //    Enviamos la columna y el valor de cada renglon
-; 0000 0072     MandaMax7219(0x0100|SmallDice[n2-1][2]);
+; 0000 0072     //    Enviamos la columna y el valor de cada renglon
+; 0000 0073     MandaMax7219(0x0100|SmallDice[n2-1][2]);
 	ST   -Y,R26
 ;	n1 -> Y+1
 ;	n2 -> Y+0
 	CALL SUBOPT_0x9
 	ADIW R30,2
 	CALL SUBOPT_0x4
-; 0000 0073     MandaMax7219(0x0200|SmallDice[n2-1][1]);
+; 0000 0074     MandaMax7219(0x0200|SmallDice[n2-1][1]);
 	CALL SUBOPT_0x9
 	ADIW R30,1
 	CALL SUBOPT_0x5
-; 0000 0074     MandaMax7219(0x0300|SmallDice[n2-1][0]);
+; 0000 0075     MandaMax7219(0x0300|SmallDice[n2-1][0]);
 	CALL SUBOPT_0x9
 	CALL SUBOPT_0x2
 	CALL SUBOPT_0xA
-; 0000 0075     MandaMax7219(0x0600|(SmallDice[n1-1][2]<<5));
+; 0000 0076     MandaMax7219(0x0600|(SmallDice[n1-1][2]<<5));
 	CALL SUBOPT_0xB
 	ORI  R31,HIGH(0x600)
 	MOVW R26,R30
 	CALL SUBOPT_0xA
-; 0000 0076     MandaMax7219(0x0700|(SmallDice[n1-1][1]<<5));
+; 0000 0077     MandaMax7219(0x0700|(SmallDice[n1-1][1]<<5));
 	CALL SUBOPT_0xC
 	ORI  R31,HIGH(0x700)
 	MOVW R26,R30
 	CALL SUBOPT_0xA
-; 0000 0077     MandaMax7219(0x0800|(SmallDice[n1-1][0]<<5));
+; 0000 0078     MandaMax7219(0x0800|(SmallDice[n1-1][0]<<5));
 	CALL SUBOPT_0xD
 	ORI  R31,HIGH(0x800)
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 0078 }
+; 0000 0079 }
 	RJMP _0x2080001
 ; .FEND
 ;
 ;void Dice3(char n1, char n2, char n3)
-; 0000 007B {
+; 0000 007C {
 _Dice3:
 ; .FSTART _Dice3
-; 0000 007C     //    Enviamos la columna y el valor de cada renglon
-; 0000 007D     MandaMax7219(0x0100|SmallDice[n2-1][2]);
+; 0000 007D     //    Enviamos la columna y el valor de cada renglon
+; 0000 007E     MandaMax7219(0x0100|SmallDice[n2-1][2]);
 	ST   -Y,R26
 ;	n1 -> Y+2
 ;	n2 -> Y+1
@@ -1845,15 +1885,15 @@ _Dice3:
 	CALL SUBOPT_0xE
 	ADIW R30,2
 	CALL SUBOPT_0x4
-; 0000 007E     MandaMax7219(0x0200|SmallDice[n2-1][1]);
+; 0000 007F     MandaMax7219(0x0200|SmallDice[n2-1][1]);
 	CALL SUBOPT_0xE
 	ADIW R30,1
 	CALL SUBOPT_0x5
-; 0000 007F     MandaMax7219(0x0300|SmallDice[n2-1][0]);
+; 0000 0080     MandaMax7219(0x0300|SmallDice[n2-1][0]);
 	CALL SUBOPT_0xE
 	CALL SUBOPT_0x2
 	CALL SUBOPT_0xF
-; 0000 0080     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
+; 0000 0081     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
 	CALL SUBOPT_0x7
 	CALL SUBOPT_0x10
 	CALL SUBOPT_0xB
@@ -1861,7 +1901,7 @@ _Dice3:
 	OR   R31,R23
 	MOVW R26,R30
 	CALL SUBOPT_0xF
-; 0000 0081     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
+; 0000 0082     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
 	CALL SUBOPT_0x8
 	CALL SUBOPT_0x10
 	CALL SUBOPT_0xC
@@ -1869,25 +1909,25 @@ _Dice3:
 	OR   R31,R23
 	MOVW R26,R30
 	CALL SUBOPT_0xF
-; 0000 0082     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
+; 0000 0083     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x800)
 	CALL SUBOPT_0x10
 	CALL SUBOPT_0xD
 	CALL SUBOPT_0x11
-; 0000 0083 }
+; 0000 0084 }
 _0x2080003:
 	ADIW R28,3
 	RET
 ; .FEND
 ;
 ;void Dice4(char n1, char n2, char n3, char n4)
-; 0000 0086 {
+; 0000 0087 {
 _Dice4:
 ; .FSTART _Dice4
-; 0000 0087     //    Enviamos la columna y el valor de cada renglon
-; 0000 0088     MandaMax7219(0x0100|SmallDice[n2-1][2]|(SmallDice[n4-1][2]<<5));
+; 0000 0088     //    Enviamos la columna y el valor de cada renglon
+; 0000 0089     MandaMax7219(0x0100|SmallDice[n2-1][2]|(SmallDice[n4-1][2]<<5));
 	ST   -Y,R26
 ;	n1 -> Y+3
 ;	n2 -> Y+2
@@ -1902,7 +1942,7 @@ _Dice4:
 	CALL SUBOPT_0x9
 	CALL SUBOPT_0xB
 	CALL SUBOPT_0x11
-; 0000 0089     MandaMax7219(0x0200|SmallDice[n2-1][1]|(SmallDice[n4-1][1]<<5));
+; 0000 008A     MandaMax7219(0x0200|SmallDice[n2-1][1]|(SmallDice[n4-1][1]<<5));
 	CALL SUBOPT_0x12
 	ADIW R30,1
 	LPM  R30,Z
@@ -1912,7 +1952,7 @@ _Dice4:
 	CALL SUBOPT_0x9
 	CALL SUBOPT_0xC
 	CALL SUBOPT_0x11
-; 0000 008A     MandaMax7219(0x0300|SmallDice[n2-1][0]|(SmallDice[n4-1][0]<<5));
+; 0000 008B     MandaMax7219(0x0300|SmallDice[n2-1][0]|(SmallDice[n4-1][0]<<5));
 	CALL SUBOPT_0x12
 	LPM  R30,Z
 	LDI  R31,0
@@ -1921,61 +1961,61 @@ _Dice4:
 	CALL SUBOPT_0x9
 	CALL SUBOPT_0xD
 	CALL SUBOPT_0x13
-; 0000 008B     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
+; 0000 008C     MandaMax7219(0x0600|SmallDice[n3-1][2]|(SmallDice[n1-1][2]<<5));
 	CALL SUBOPT_0x7
 	CALL SUBOPT_0x14
 	CALL SUBOPT_0xB
 	CALL SUBOPT_0x13
-; 0000 008C     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
+; 0000 008D     MandaMax7219(0x0700|SmallDice[n3-1][1]|(SmallDice[n1-1][1]<<5));
 	CALL SUBOPT_0x8
 	CALL SUBOPT_0x14
 	CALL SUBOPT_0xC
 	CALL SUBOPT_0x13
-; 0000 008D     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
+; 0000 008E     MandaMax7219(0x0800|SmallDice[n3-1][0]|(SmallDice[n1-1][0]<<5));
 	LPM  R30,Z
 	LDI  R31,0
 	ORI  R31,HIGH(0x800)
 	CALL SUBOPT_0x14
 	CALL SUBOPT_0xD
 	CALL SUBOPT_0x11
-; 0000 008E }
+; 0000 008F }
 	ADIW R28,4
 	RET
 ; .FEND
 ;
 ;void clear(){
-; 0000 0090 void clear(){
+; 0000 0091 void clear(){
 _clear:
 ; .FSTART _clear
-; 0000 0091     MandaMax7219(0x0100);
+; 0000 0092     MandaMax7219(0x0100);
 	CALL SUBOPT_0x0
-; 0000 0092     MandaMax7219(0x0200);
-; 0000 0093     MandaMax7219(0x0300);
+; 0000 0093     MandaMax7219(0x0200);
+; 0000 0094     MandaMax7219(0x0300);
 	LDI  R26,LOW(768)
 	LDI  R27,HIGH(768)
 	RCALL _MandaMax7219
-; 0000 0094     MandaMax7219(0x0400);
+; 0000 0095     MandaMax7219(0x0400);
 	LDI  R26,LOW(1024)
 	LDI  R27,HIGH(1024)
 	RCALL _MandaMax7219
-; 0000 0095     MandaMax7219(0x0500);
+; 0000 0096     MandaMax7219(0x0500);
 	LDI  R26,LOW(1280)
 	LDI  R27,HIGH(1280)
 	RCALL _MandaMax7219
-; 0000 0096     MandaMax7219(0x0600);
+; 0000 0097     MandaMax7219(0x0600);
 	LDI  R26,LOW(1536)
 	LDI  R27,HIGH(1536)
 	RCALL _MandaMax7219
-; 0000 0097     MandaMax7219(0x0700);
+; 0000 0098     MandaMax7219(0x0700);
 	LDI  R26,LOW(1792)
 	LDI  R27,HIGH(1792)
 	RCALL _MandaMax7219
-; 0000 0098     MandaMax7219(0x0800);
+; 0000 0099     MandaMax7219(0x0800);
 	LDI  R26,LOW(2048)
 	LDI  R27,HIGH(2048)
 _0x2080002:
 	RCALL _MandaMax7219
-; 0000 0099 }
+; 0000 009A }
 	RET
 ; .FEND
 ;
@@ -1985,7 +2025,7 @@ _0x2080002:
 ;char welcomeLetter=0;
 ;// Timer3 overflow interrupt service routine
 ;interrupt [TIM3_OVF] void timer3_ovf_isr(void)
-; 0000 009F {
+; 0000 00A0 {
 
 	.CSEG
 _timer3_ovf_isr:
@@ -2003,64 +2043,58 @@ _timer3_ovf_isr:
 	ST   -Y,R31
 	IN   R30,SREG
 	ST   -Y,R30
-; 0000 00A0 // Reinitialize Timer3 value
-; 0000 00A1 // Place your code here
-; 0000 00A2     if(j%20==0){
+; 0000 00A1 // Reinitialize Timer3 value
+; 0000 00A2 // Place your code here
+; 0000 00A3     if(j%20==0){
 	CALL SUBOPT_0x15
 	LDI  R30,LOW(20)
 	LDI  R31,HIGH(20)
 	CALL __MODW21U
 	SBIW R30,0
 	BRNE _0x1A
-; 0000 00A3         MandaLetra(str[welcomeLetter]);
+; 0000 00A4         MandaLetra(str[welcomeLetter]);
 	LDS  R30,_welcomeLetter
 	LDI  R31,0
 	SUBI R30,LOW(-_str)
 	SBCI R31,HIGH(-_str)
 	LD   R26,Z
 	RCALL _MandaLetra
-; 0000 00A4         welcomeLetter++;
+; 0000 00A5         welcomeLetter++;
 	LDS  R30,_welcomeLetter
 	SUBI R30,-LOW(1)
 	STS  _welcomeLetter,R30
-; 0000 00A5     }
-; 0000 00A6     j++;
+; 0000 00A6     }
+; 0000 00A7     j++;
 _0x1A:
-	LDI  R26,LOW(_j)
-	LDI  R27,HIGH(_j)
-	LD   R30,X+
-	LD   R31,X+
-	ADIW R30,1
-	ST   -X,R31
-	ST   -X,R30
-; 0000 00A7     if(j<140){
+	CALL SUBOPT_0x16
+; 0000 00A8     if(j<140){
 	CALL SUBOPT_0x15
 	CPI  R26,LOW(0x8C)
 	LDI  R30,HIGH(0x8C)
 	CPC  R27,R30
 	BRSH _0x1B
-; 0000 00A8         TCNT3H=0xCF2C >> 8;
-	CALL SUBOPT_0x16
-; 0000 00A9         TCNT3L=0xCF2C & 0xff;
-; 0000 00AA     }else{
+; 0000 00A9         TCNT3H=0xCF2C >> 8;
+	CALL SUBOPT_0x17
+; 0000 00AA         TCNT3L=0xCF2C & 0xff;
+; 0000 00AB     }else{
 	RJMP _0x1C
 _0x1B:
-; 0000 00AB         clear();
+; 0000 00AC         clear();
 	RCALL _clear
-; 0000 00AC         noTono();
+; 0000 00AD         noTono();
 	RCALL _noTono
-; 0000 00AD         DDRB.5=0;       //disable speaker output
+; 0000 00AE         DDRB.5=0;       //disable speaker output
 	CBI  0x4,5
-; 0000 00AE         TCNT3H=0;
+; 0000 00AF         TCNT3H=0;
 	LDI  R30,LOW(0)
 	STS  149,R30
-; 0000 00AF         TCNT3L=0;
+; 0000 00B0         TCNT3L=0;
 	STS  148,R30
-; 0000 00B0         TIMSK3=0;
+; 0000 00B1         TIMSK3=0;
 	STS  113,R30
-; 0000 00B1     }
+; 0000 00B2     }
 _0x1C:
-; 0000 00B2 }
+; 0000 00B3 }
 	LD   R30,Y+
 	OUT  SREG,R30
 	LD   R31,Y+
@@ -2077,225 +2111,302 @@ _0x1C:
 	RETI
 ; .FEND
 ;
+;void tirarAnimacion(){
+; 0000 00B5 void tirarAnimacion(){
+_tirarAnimacion:
+; .FSTART _tirarAnimacion
+; 0000 00B6     for (j=9;j<15;j++)
+	LDI  R30,LOW(9)
+	LDI  R31,HIGH(9)
+	STS  _j,R30
+	STS  _j+1,R31
+_0x20:
+	CALL SUBOPT_0x15
+	SBIW R26,15
+	BRSH _0x21
+; 0000 00B7     {
+; 0000 00B8         for (i=1;i<9;i++)
+	LDI  R30,LOW(1)
+	LDI  R31,HIGH(1)
+	STS  _i,R30
+	STS  _i+1,R31
+_0x23:
+	CALL SUBOPT_0x18
+	SBIW R26,9
+	BRSH _0x24
+; 0000 00B9         {
+; 0000 00BA             MandaMax7219((i<<8)|Animacion[j][8-i]);
+	LDS  R31,_i
+	LDI  R30,LOW(0)
+	MOVW R22,R30
+	CALL SUBOPT_0x19
+	LPM  R30,Z
+	LDI  R31,0
+	CALL SUBOPT_0x11
+; 0000 00BB         }
+	CALL SUBOPT_0x1A
+	RJMP _0x23
+_0x24:
+; 0000 00BC         delay_ms(400);
+	LDI  R26,LOW(400)
+	LDI  R27,HIGH(400)
+	CALL _delay_ms
+; 0000 00BD     }
+	CALL SUBOPT_0x16
+	RJMP _0x20
+_0x21:
+; 0000 00BE     clear();
+	RCALL _clear
+; 0000 00BF }
+	RET
+; .FEND
+;
 ;char mode, n1, n2, n3, n4;
 ;void main(void)
-; 0000 00B6 {
+; 0000 00C3 {
 _main:
 ; .FSTART _main
-; 0000 00B7 PORTD=0x03;     //init buttons
+; 0000 00C4 PORTD=0x03;     //init buttons
 	LDI  R30,LOW(3)
 	OUT  0xB,R30
-; 0000 00B8 
-; 0000 00B9 mode=0;
+; 0000 00C5 
+; 0000 00C6 mode=0;
 	LDI  R30,LOW(0)
 	STS  _mode,R30
-; 0000 00BA ConfiguraMax();
+; 0000 00C7 ConfiguraMax();
 	RCALL _ConfiguraMax
-; 0000 00BB DDRC.6=1;
+; 0000 00C8 DDRC.6=1;
 	SBI  0x7,6
-; 0000 00BC 
-; 0000 00BD TCCR0B=0x01;    //init timer
+; 0000 00C9 
+; 0000 00CA TCCR0B=0x01;    //init timer
 	LDI  R30,LOW(1)
 	OUT  0x25,R30
-; 0000 00BE DDRB.5=1;       //init speaker output
+; 0000 00CB DDRB.5=1;       //init speaker output
 	SBI  0x4,5
-; 0000 00BF //// init timer 3
-; 0000 00C0 TCCR3A=(0<<COM3A1) | (0<<COM3A0) | (0<<COM3B1) | (0<<COM3B0) | (0<<COM3C1) | (0<<COM3C0) | (0<<WGM31) | (0<<WGM30);
+; 0000 00CC //// init timer 3
+; 0000 00CD TCCR3A=(0<<COM3A1) | (0<<COM3A0) | (0<<COM3B1) | (0<<COM3B0) | (0<<COM3C1) | (0<<COM3C0) | (0<<WGM31) | (0<<WGM30);
 	LDI  R30,LOW(0)
 	STS  144,R30
-; 0000 00C1 TCCR3B=(0<<ICNC3) | (0<<ICES3) | (0<<WGM33) | (0<<WGM32) | (0<<CS32) | (1<<CS31) | (0<<CS30);
+; 0000 00CE TCCR3B=(0<<ICNC3) | (0<<ICES3) | (0<<WGM33) | (0<<WGM32) | (0<<CS32) | (1<<CS31) | (0<<CS30);
 	LDI  R30,LOW(2)
 	STS  145,R30
-; 0000 00C2 TCNT3H=0xCF;
-	CALL SUBOPT_0x16
-; 0000 00C3 TCNT3L=0x2C;
-; 0000 00C4 OCR3AH=0x30;
+; 0000 00CF TCNT3H=0xCF;
+	CALL SUBOPT_0x17
+; 0000 00D0 TCNT3L=0x2C;
+; 0000 00D1 OCR3AH=0x30;
 	LDI  R30,LOW(48)
 	STS  153,R30
-; 0000 00C5 OCR3AL=0xD3;
+; 0000 00D2 OCR3AL=0xD3;
 	LDI  R30,LOW(211)
 	STS  152,R30
-; 0000 00C6 TIMSK3=0x01;
+; 0000 00D3 TIMSK3=0x01;
 	LDI  R30,LOW(1)
 	STS  113,R30
-; 0000 00C7 #asm("sei")
+; 0000 00D4 #asm("sei")
 	sei
-; 0000 00C8 
-; 0000 00C9 while(j<140){
-_0x23:
+; 0000 00D5 
+; 0000 00D6 while(j<140){
+_0x29:
 	CALL SUBOPT_0x15
 	CPI  R26,LOW(0x8C)
 	LDI  R30,HIGH(0x8C)
 	CPC  R27,R30
-	BRSH _0x25
-; 0000 00CA     if(MarioBros[i]!=1){
-	CALL SUBOPT_0x17
+	BRSH _0x2B
+; 0000 00D7     if(MarioBros[i]!=1){
+	CALL SUBOPT_0x1B
 	CALL __GETW2PF
 	SBIW R26,1
-	BREQ _0x26
-; 0000 00CB         tono(MarioBros[i]);
-	CALL SUBOPT_0x17
+	BREQ _0x2C
+; 0000 00D8         tono(MarioBros[i]);
+	CALL SUBOPT_0x1B
 	CALL __GETW1PF
 	CALL __CWD1
 	CALL __CDF1
 	MOVW R26,R30
 	MOVW R24,R22
 	RCALL _tono
-; 0000 00CC         delay_ms(200);
+; 0000 00D9         delay_ms(200);
 	LDI  R26,LOW(200)
 	LDI  R27,0
 	CALL _delay_ms
-; 0000 00CD         noTono();
+; 0000 00DA         noTono();
 	RCALL _noTono
-; 0000 00CE     }else
-	RJMP _0x27
-_0x26:
-; 0000 00CF         delay_ms(200);
+; 0000 00DB     }else
+	RJMP _0x2D
+_0x2C:
+; 0000 00DC         delay_ms(200);
 	LDI  R26,LOW(200)
 	LDI  R27,0
 	CALL _delay_ms
-; 0000 00D0     i++;
-_0x27:
-	LDI  R26,LOW(_i)
-	LDI  R27,HIGH(_i)
-	LD   R30,X+
-	LD   R31,X+
-	ADIW R30,1
-	ST   -X,R31
-	ST   -X,R30
-; 0000 00D1     if(i==591)
-	LDS  R26,_i
-	LDS  R27,_i+1
+; 0000 00DD     i++;
+_0x2D:
+	CALL SUBOPT_0x1A
+; 0000 00DE     if(i==591)
+	CALL SUBOPT_0x18
 	CPI  R26,LOW(0x24F)
 	LDI  R30,HIGH(0x24F)
 	CPC  R27,R30
-	BRNE _0x28
-; 0000 00D2         i=0;
+	BRNE _0x2E
+; 0000 00DF         i=0;
 	LDI  R30,LOW(0)
 	STS  _i,R30
 	STS  _i+1,R30
-; 0000 00D3 }
-_0x28:
-	RJMP _0x23
-_0x25:
-; 0000 00D4 
-; 0000 00D5 while (1){
-_0x29:
-; 0000 00D6     // Please write your application code here
-; 0000 00D7     if(!PIND.0){ // 1 Dice
+; 0000 00E0 }
+_0x2E:
+	RJMP _0x29
+_0x2B:
+; 0000 00E1 j=0;
+	LDI  R30,LOW(0)
+	STS  _j,R30
+	STS  _j+1,R30
+; 0000 00E2 i=0;
+	STS  _i,R30
+	STS  _i+1,R30
+; 0000 00E3 delay_ms(500);
+	LDI  R26,LOW(500)
+	LDI  R27,HIGH(500)
+	CALL _delay_ms
+; 0000 00E4 MandaLetra('1');
+	LDI  R26,LOW(49)
+	CALL SUBOPT_0x1C
+; 0000 00E5 delay_ms(1000);
+; 0000 00E6 clear();
+; 0000 00E7 while (1){
+_0x2F:
+; 0000 00E8     // Please write your application code here
+; 0000 00E9     if(!PIND.0){ // 1 Dice
 	SBIC 0x9,0
-	RJMP _0x2C
-; 0000 00D8         clear();
+	RJMP _0x32
+; 0000 00EA         clear();
 	RCALL _clear
-; 0000 00D9         if(mode==0){
+; 0000 00EB         tirarAnimacion();
+	RCALL _tirarAnimacion
+; 0000 00EC         for (i=9;i<15;i++)
+	LDI  R30,LOW(9)
+	LDI  R31,HIGH(9)
+	STS  _i,R30
+	STS  _i+1,R31
+_0x34:
+	CALL SUBOPT_0x18
+	SBIW R26,15
+	BRSH _0x35
+; 0000 00ED         {
+; 0000 00EE             MandaMax7219(Animacion[j][8-i]);
+	CALL SUBOPT_0x19
+	LPM  R26,Z
+	LDI  R27,0
+	RCALL _MandaMax7219
+; 0000 00EF         }
+	CALL SUBOPT_0x1A
+	RJMP _0x34
+_0x35:
+; 0000 00F0         if(mode==0){
 	LDS  R30,_mode
 	CPI  R30,0
-	BRNE _0x2D
-; 0000 00DA             srand(TCNT0);
-	CALL SUBOPT_0x18
-; 0000 00DB             n1 = rand()%6+1;
-; 0000 00DC             Dice1(n1);
+	BRNE _0x36
+; 0000 00F1             srand(TCNT0);
+	CALL SUBOPT_0x1D
+; 0000 00F2             n1 = rand()%6+1;
+; 0000 00F3             Dice1(n1);
 	LDS  R26,_n1
 	RCALL _Dice1
-; 0000 00DD         }else if(mode==1){
-	RJMP _0x2E
-_0x2D:
+; 0000 00F4         }else if(mode==1){
+	RJMP _0x37
+_0x36:
 	LDS  R26,_mode
 	CPI  R26,LOW(0x1)
-	BRNE _0x2F
-; 0000 00DE             srand(TCNT0);
-	CALL SUBOPT_0x18
-; 0000 00DF             n1 = rand()%6+1;
-; 0000 00E0             srand(TCNT0);
-	CALL SUBOPT_0x19
-; 0000 00E1             n2 = rand()%6+1;
-; 0000 00E2             Dice2(n1, n2);
+	BRNE _0x38
+; 0000 00F5             srand(TCNT0);
+	CALL SUBOPT_0x1D
+; 0000 00F6             n1 = rand()%6+1;
+; 0000 00F7             srand(TCNT0);
+	CALL SUBOPT_0x1E
+; 0000 00F8             n2 = rand()%6+1;
+; 0000 00F9             Dice2(n1, n2);
 	LDS  R30,_n1
 	ST   -Y,R30
 	LDS  R26,_n2
 	RCALL _Dice2
-; 0000 00E3         }else if(mode==2){
-	RJMP _0x30
-_0x2F:
+; 0000 00FA         }else if(mode==2){
+	RJMP _0x39
+_0x38:
 	LDS  R26,_mode
 	CPI  R26,LOW(0x2)
-	BRNE _0x31
-; 0000 00E4             n1 = rand()%6+1;
-	CALL SUBOPT_0x1A
+	BRNE _0x3A
+; 0000 00FB             n1 = rand()%6+1;
+	CALL SUBOPT_0x1F
 	STS  _n1,R30
-; 0000 00E5             srand(TCNT0);
-	CALL SUBOPT_0x19
-; 0000 00E6             n2 = rand()%6+1;
-; 0000 00E7             srand(TCNT0);
-	CALL SUBOPT_0x1B
-; 0000 00E8             n3 = rand()%6+1;
+; 0000 00FC             srand(TCNT0);
+	CALL SUBOPT_0x1E
+; 0000 00FD             n2 = rand()%6+1;
+; 0000 00FE             srand(TCNT0);
+	CALL SUBOPT_0x20
+; 0000 00FF             n3 = rand()%6+1;
 	STS  _n3,R30
-; 0000 00E9             Dice3(n1, n2, n3);
-	CALL SUBOPT_0x1C
+; 0000 0100             Dice3(n1, n2, n3);
+	CALL SUBOPT_0x21
 	LDS  R26,_n3
 	RCALL _Dice3
-; 0000 00EA         }else if(mode==3){
-	RJMP _0x32
-_0x31:
+; 0000 0101         }else if(mode==3){
+	RJMP _0x3B
+_0x3A:
 	LDS  R26,_mode
 	CPI  R26,LOW(0x3)
-	BRNE _0x33
-; 0000 00EB             srand(TCNT0);
-	CALL SUBOPT_0x18
-; 0000 00EC             n1 = rand()%6+1;
-; 0000 00ED             srand(TCNT0);
-	CALL SUBOPT_0x19
-; 0000 00EE             n2 = rand()%6+1;
-; 0000 00EF             srand(TCNT0);
-	CALL SUBOPT_0x1B
-; 0000 00F0             n3 = rand()%6+1;
+	BRNE _0x3C
+; 0000 0102             srand(TCNT0);
+	CALL SUBOPT_0x1D
+; 0000 0103             n1 = rand()%6+1;
+; 0000 0104             srand(TCNT0);
+	CALL SUBOPT_0x1E
+; 0000 0105             n2 = rand()%6+1;
+; 0000 0106             srand(TCNT0);
+	CALL SUBOPT_0x20
+; 0000 0107             n3 = rand()%6+1;
 	STS  _n3,R30
-; 0000 00F1             srand(TCNT0);
-	CALL SUBOPT_0x1B
-; 0000 00F2             n4 = rand()%6+1;
+; 0000 0108             srand(TCNT0);
+	CALL SUBOPT_0x20
+; 0000 0109             n4 = rand()%6+1;
 	STS  _n4,R30
-; 0000 00F3             Dice4(n1, n2, n3, n4);
-	CALL SUBOPT_0x1C
+; 0000 010A             Dice4(n1, n2, n3, n4);
+	CALL SUBOPT_0x21
 	LDS  R30,_n3
 	ST   -Y,R30
 	LDS  R26,_n4
 	RCALL _Dice4
-; 0000 00F4         }
-; 0000 00F5         delay_ms(500);
-_0x33:
+; 0000 010B         }
+; 0000 010C     }if(!PIND.1){
+_0x3C:
+_0x3B:
+_0x39:
+_0x37:
 _0x32:
-_0x30:
-_0x2E:
-	LDI  R26,LOW(500)
-	LDI  R27,HIGH(500)
-	CALL _delay_ms
-; 0000 00F6     }if(!PIND.1){
-_0x2C:
 	SBIC 0x9,1
-	RJMP _0x34
-; 0000 00F7         mode++;
+	RJMP _0x3D
+; 0000 010D         mode++;
 	LDS  R30,_mode
 	SUBI R30,-LOW(1)
 	STS  _mode,R30
-; 0000 00F8         if(mode>3)
+; 0000 010E         if(mode>3)
 	LDS  R26,_mode
 	CPI  R26,LOW(0x4)
-	BRLO _0x35
-; 0000 00F9             mode=0;
+	BRLO _0x3E
+; 0000 010F             mode=0;
 	LDI  R30,LOW(0)
 	STS  _mode,R30
-; 0000 00FA         delay_ms(500);
-_0x35:
-	LDI  R26,LOW(500)
-	LDI  R27,HIGH(500)
-	CALL _delay_ms
-; 0000 00FB     }
-; 0000 00FC }
-_0x34:
-	RJMP _0x29
-; 0000 00FD }
-_0x36:
-	RJMP _0x36
+; 0000 0110         MandaLetra(mode+49);
+_0x3E:
+	LDS  R26,_mode
+	SUBI R26,-LOW(49)
+	CALL SUBOPT_0x1C
+; 0000 0111         delay_ms(1000);
+; 0000 0112         clear();
+; 0000 0113     }
+; 0000 0114 }
+_0x3D:
+	RJMP _0x2F
+; 0000 0115 }
+_0x3F:
+	RJMP _0x3F
 ; .FEND
 
 	.CSEG
@@ -2310,7 +2421,7 @@ _srand:
 	LD   R30,Y
 	LDD  R31,Y+1
 	CALL __CWD1
-	CALL SUBOPT_0x1D
+	CALL SUBOPT_0x22
 _0x2080001:
 	ADIW R28,2
 	RET
@@ -2324,7 +2435,7 @@ _rand:
 	__GETD2N 0x41C64E6D
 	CALL __MULD12U
 	__ADDD1N 30562
-	CALL SUBOPT_0x1D
+	CALL SUBOPT_0x22
 	movw r30,r22
 	andi r31,0x7F
 	RET
@@ -2515,7 +2626,7 @@ SUBOPT_0x10:
 	SBCI R31,HIGH(-_SmallDice*2)
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:6 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:9 WORDS
 SUBOPT_0x11:
 	OR   R30,R22
 	OR   R31,R23
@@ -2554,22 +2665,67 @@ SUBOPT_0x14:
 	SBCI R31,HIGH(-_SmallDice*2)
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:3 WORDS
 SUBOPT_0x15:
 	LDS  R26,_j
 	LDS  R27,_j+1
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
 SUBOPT_0x16:
+	LDI  R26,LOW(_j)
+	LDI  R27,HIGH(_j)
+	LD   R30,X+
+	LD   R31,X+
+	ADIW R30,1
+	ST   -X,R31
+	ST   -X,R30
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+SUBOPT_0x17:
 	LDI  R30,LOW(207)
 	STS  149,R30
 	LDI  R30,LOW(44)
 	STS  148,R30
 	RET
 
+;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:5 WORDS
+SUBOPT_0x18:
+	LDS  R26,_i
+	LDS  R27,_i+1
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:12 WORDS
+SUBOPT_0x19:
+	LDS  R30,_j
+	LDS  R31,_j+1
+	CALL __LSLW3
+	SUBI R30,LOW(-_Animacion*2)
+	SBCI R31,HIGH(-_Animacion*2)
+	MOVW R0,R30
+	RCALL SUBOPT_0x18
+	LDI  R30,LOW(8)
+	LDI  R31,HIGH(8)
+	SUB  R30,R26
+	SBC  R31,R27
+	ADD  R30,R0
+	ADC  R31,R1
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:7 WORDS
+SUBOPT_0x1A:
+	LDI  R26,LOW(_i)
+	LDI  R27,HIGH(_i)
+	LD   R30,X+
+	LD   R31,X+
+	ADIW R30,1
+	ST   -X,R31
+	ST   -X,R30
+	RET
+
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
-SUBOPT_0x17:
+SUBOPT_0x1B:
 	LDS  R30,_i
 	LDS  R31,_i+1
 	LDI  R26,LOW(_MarioBros*2)
@@ -2580,8 +2736,16 @@ SUBOPT_0x17:
 	ADC  R31,R27
 	RET
 
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
+SUBOPT_0x1C:
+	CALL _MandaLetra
+	LDI  R26,LOW(1000)
+	LDI  R27,HIGH(1000)
+	CALL _delay_ms
+	JMP  _clear
+
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:23 WORDS
-SUBOPT_0x18:
+SUBOPT_0x1D:
 	IN   R30,0x26
 	LDI  R31,0
 	MOVW R26,R30
@@ -2596,7 +2760,7 @@ SUBOPT_0x18:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:23 WORDS
-SUBOPT_0x19:
+SUBOPT_0x1E:
 	IN   R30,0x26
 	LDI  R31,0
 	MOVW R26,R30
@@ -2611,7 +2775,7 @@ SUBOPT_0x19:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:15 WORDS
-SUBOPT_0x1A:
+SUBOPT_0x1F:
 	CALL _rand
 	MOVW R26,R30
 	LDI  R30,LOW(6)
@@ -2621,15 +2785,15 @@ SUBOPT_0x1A:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:7 WORDS
-SUBOPT_0x1B:
+SUBOPT_0x20:
 	IN   R30,0x26
 	LDI  R31,0
 	MOVW R26,R30
 	CALL _srand
-	RJMP SUBOPT_0x1A
+	RJMP SUBOPT_0x1F
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x1C:
+SUBOPT_0x21:
 	LDS  R30,_n1
 	ST   -Y,R30
 	LDS  R30,_n2
@@ -2637,7 +2801,7 @@ SUBOPT_0x1C:
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
-SUBOPT_0x1D:
+SUBOPT_0x22:
 	STS  __seed_G100,R30
 	STS  __seed_G100+1,R31
 	STS  __seed_G100+2,R22

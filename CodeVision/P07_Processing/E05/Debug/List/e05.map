@@ -1,0 +1,21 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+value                                                                             R4           1
+i                                                                                 R3           1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+MandaMax7219                                                                      0x00073     29
+ConfiguraMax                                                                      0x00090     18
+main                                                                              0x000A2     39
+getchar                                                                           0x000C9      7
