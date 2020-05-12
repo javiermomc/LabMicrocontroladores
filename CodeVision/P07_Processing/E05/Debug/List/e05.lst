@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm Tue May 12 17:09:32 2020
+AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm Tue May 12 17:09:58 2020
 
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm(1091): warning: Register r4 already defined by the .DEF directive
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm(1092): warning: Register r3 already defined by the .DEF directive
