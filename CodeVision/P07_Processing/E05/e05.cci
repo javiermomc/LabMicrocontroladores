@@ -1,0 +1,12 @@
+VERSION:3 SOURCE_TIMESTAMP:50AC8930
+NODE:I LEVEL:0 LINE:8 "C:\cvavr\inc\io.h"
+NODE:I LEVEL:0 LINE:9 "C:\cvavr\inc\delay.h"
+NODE:I LEVEL:0 LINE:10 "C:\cvavr\inc\stdio.h"
+NODE:M LEVEL:0 LINE:11 "DIN"
+NODE:M LEVEL:0 LINE:12 "LOAD"
+NODE:M LEVEL:0 LINE:13 "CLK"
+NODE:F LEVEL:0 LINE:15 "MandaMax7219(unsigned int dato)"
+NODE:F LEVEL:0 LINE:34 "ConfiguraMax(void)"
+NODE:V LEVEL:0 LINE:44 "value -> R4"
+NODE:V LEVEL:0 LINE:44 "i -> R3"
+NODE:F LEVEL:0 LINE:45 "main(void)"
