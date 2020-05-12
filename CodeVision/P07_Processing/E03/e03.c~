@@ -32,8 +32,6 @@ return ADCH;
 
 void main(void)
 {
-
-DDRB.7=1;
 // USART1 initialization
 // Communication Parameters: 8 Data, 1 Stop, No Parity
 // USART1 Receiver: On

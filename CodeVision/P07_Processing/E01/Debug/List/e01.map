@@ -14,5 +14,5 @@ value                                                                           
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-main                                                                              0x00073     26
-getchar                                                                           0x0008D      7
+main                                                                              0x00073     28
+getchar                                                                           0x0008F      7

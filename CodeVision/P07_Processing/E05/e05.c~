@@ -58,6 +58,8 @@ UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<
 UBRR1H=0x00;
 UBRR1L=0x33;
 
+ConfiguraMax();
+
 i=1;
 
 while (1)

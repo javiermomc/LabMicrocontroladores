@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E01\Debug\List\e01.asm Tue May 12 16:55:27 2020
+AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E01\Debug\List\e01.asm Tue May 12 18:22:31 2020
 
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E01\Debug\List\e01.asm(1091): warning: Register r4 already defined by the .DEF directive
                  
@@ -11,7 +11,7 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  ;Build configuration    : Debug
                  ;Chip type              : AT90USB1286
                  ;Program type           : Application
-                 ;Clock frequency        : 8.000000 MHz
+                 ;Clock frequency        : 2.000000 MHz
                  ;Memory model           : Small
                  ;Optimize for           : Size
                  ;(s)printf features     : int, width
@@ -1245,14 +1245,14 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  ; 0000 0010 // USART1 initialization
                  ; 0000 0011 // Communication Parameters: 8 Data, 1 Stop, No Parity
                  ; 0000 0012 // USART1 Receiver: On
-                 ; 0000 0013 // USART1 Transmitter: Off
+                 ; 0000 0013 // USART1 Transmitter: On
                  ; 0000 0014 // USART1 Mode: Asynchronous
                  ; 0000 0015 // USART1 Baud Rate: 9600
                  ; 0000 0016 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
 000074 e0e0      	LDI  R30,LOW(0)
 000075 93e0 00c8 	STS  200,R30
-                 ; 0000 0017 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (0<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
-000077 e1e0      	LDI  R30,LOW(16)
+                 ; 0000 0017 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
+000077 e1e8      	LDI  R30,LOW(24)
 000078 93e0 00c9 	STS  201,R30
                  ; 0000 0018 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
 00007a e0e6      	LDI  R30,LOW(6)
@@ -1260,8 +1260,8 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  ; 0000 0019 UBRR1H=0x00;
 00007d e0e0      	LDI  R30,LOW(0)
 00007e 93e0 00cd 	STS  205,R30
-                 ; 0000 001A UBRR1L=0x33;
-000080 e3e3      	LDI  R30,LOW(51)
+                 ; 0000 001A UBRR1L=0x0C;
+000080 e0ec      	LDI  R30,LOW(12)
 000081 93e0 00cc 	STS  204,R30
                  ; 0000 001B 
                  ; 0000 001C while (1)
@@ -1269,25 +1269,27 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  ; 0000 001D     {
                  ; 0000 001E     // Please write your application code here
                  ; 0000 001F         value=getchar();
-000083 d009      	RCALL _getchar
+000083 d00b      	RCALL _getchar
 000084 2e4e      	MOV  R4,R30
                  ; 0000 0020         if(value=='H')
 000085 e4e8      	LDI  R30,LOW(72)
 000086 15e4      	CP   R30,R4
-000087 f411      	BRNE _0x8
+000087 f409      	BRNE _0x8
                  ; 0000 0021             PORTB.7=1;
 000088 9a2f      	SBI  0x5,7
-                 ; 0000 0022         else
-000089 c001      	RJMP _0xB
+                 ; 0000 0022         if(value=='L')
                  _0x8:
+000089 e4ec      	LDI  R30,LOW(76)
+00008a 15e4      	CP   R30,R4
+00008b f409      	BRNE _0xB
                  ; 0000 0023             PORTB.7=0;
-00008a 982f      	CBI  0x5,7
+00008c 982f      	CBI  0x5,7
                  ; 0000 0024     }
                  _0xB:
-00008b cff7      	RJMP _0x5
+00008d cff5      	RJMP _0x5
                  ; 0000 0025 }
                  _0xE:
-00008c cfff      	RJMP _0xE
+00008e cfff      	RJMP _0xE
                  ; .FEND
                  	#ifndef __SLEEP_DEFINED__
                  	#endif
@@ -1296,11 +1298,11 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  _getchar:
                  ; .FSTART _getchar
                  _0x2000003:
-00008d 91e0 00c8 	LDS  R30,200
-00008f 78e0      	ANDI R30,LOW(0x80)
-000090 f3e1      	BREQ _0x2000003
-000091 91e0 00ce 	LDS  R30,206
-000093 9508      	RET
+00008f 91e0 00c8 	LDS  R30,200
+000091 78e0      	ANDI R30,LOW(0x80)
+000092 f3e1      	BREQ _0x2000003
+000093 91e0 00ce 	LDS  R30,206
+000095 9508      	RET
                  ; .FEND
                  
                  	.CSEG
@@ -1329,10 +1331,10 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 AT90USB1286 register use summary:
-r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   2 r5 :   0 r6 :   0 r7 :   0 
+r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   3 r5 :   0 r6 :   0 r7 :   0 
 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
 r16:   0 r17:   0 r18:   0 r19:   0 r20:   0 r21:   0 r22:   0 r23:   0 
-r24:   5 r25:   1 r26:   2 r27:   2 r28:   1 r29:   1 r30:  27 r31:   2 
+r24:   5 r25:   1 r26:   2 r27:   2 r28:   1 r29:   1 r30:  29 r31:   2 
 x  :   2 y  :   0 z  :   0 
 Registers used: 10 out of 35 (28.6%)
 
@@ -1341,17 +1343,17 @@ AT90USB1286 instruction use summary:
 adiw  :   0 and   :   0 andi  :   1 asr   :   0 bclr  :   0 bld   :   0 
 brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :   1 
 brge  :   0 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 
-brlt  :   0 brmi  :   0 brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 
+brlt  :   0 brmi  :   0 brne  :   4 brpl  :   0 brsh  :   0 brtc  :   0 
 brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 call  :   0 
 cbi   :   1 cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 
 clr   :   2 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   0 
-cp    :   1 cpc   :   0 cpi   :   0 cpse  :   0 dec   :   1 des   :   0 
+cp    :   2 cpc   :   0 cpi   :   0 cpse  :   0 dec   :   1 des   :   0 
 elpm  :   0 eor   :   0 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 
 ijmp  :   0 in    :   0 inc   :   0 jmp   :  39 ld    :   0 ldd   :   0 
-ldi   :  18 lds   :   2 lpm   :   0 lsl   :   0 lsr   :   0 mov   :   1 
+ldi   :  19 lds   :   2 lpm   :   0 lsl   :   0 lsr   :   0 mov   :   1 
 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 neg   :   0 nop   :   0 
 or    :   0 ori   :   0 out   :   7 pop   :   0 push  :   0 rcall :   1 
-ret   :   1 reti  :   0 rjmp  :   3 rol   :   0 ror   :   0 sbc   :   0 
+ret   :   1 reti  :   0 rjmp  :   2 rol   :   0 ror   :   0 sbc   :   0 
 sbci  :   0 sbi   :   2 sbic  :   0 sbis  :   0 sbiw  :   1 sbr   :   0 
 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 sei   :   0 sen   :   0 
 ser   :   0 ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   0 
@@ -1362,7 +1364,7 @@ Instructions used: 20 out of 117 (17.1%)
 AT90USB1286 memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000128    278     18    296  131072   0.2%
+[.cseg] 0x000000 0x00012c    282     18    300  131072   0.2%
 [.dseg] 0x000100 0x000900      0      0      0    8192   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 

@@ -6,7 +6,7 @@
 ;Build configuration    : Debug
 ;Chip type              : AT90USB1286
 ;Program type           : Application
-;Clock frequency        : 8.000000 MHz
+;Clock frequency        : 2.000000 MHz
 ;Memory model           : Small
 ;Optimize for           : Size
 ;(s)printf features     : int, width
@@ -1234,14 +1234,14 @@ _main:
 ; 0000 0010 // USART1 initialization
 ; 0000 0011 // Communication Parameters: 8 Data, 1 Stop, No Parity
 ; 0000 0012 // USART1 Receiver: On
-; 0000 0013 // USART1 Transmitter: Off
+; 0000 0013 // USART1 Transmitter: On
 ; 0000 0014 // USART1 Mode: Asynchronous
 ; 0000 0015 // USART1 Baud Rate: 9600
 ; 0000 0016 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
 	LDI  R30,LOW(0)
 	STS  200,R30
-; 0000 0017 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (0<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
-	LDI  R30,LOW(16)
+; 0000 0017 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
+	LDI  R30,LOW(24)
 	STS  201,R30
 ; 0000 0018 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
 	LDI  R30,LOW(6)
@@ -1249,8 +1249,8 @@ _main:
 ; 0000 0019 UBRR1H=0x00;
 	LDI  R30,LOW(0)
 	STS  205,R30
-; 0000 001A UBRR1L=0x33;
-	LDI  R30,LOW(51)
+; 0000 001A UBRR1L=0x0C;
+	LDI  R30,LOW(12)
 	STS  204,R30
 ; 0000 001B 
 ; 0000 001C while (1)
@@ -1266,9 +1266,11 @@ _0x5:
 	BRNE _0x8
 ; 0000 0021             PORTB.7=1;
 	SBI  0x5,7
-; 0000 0022         else
-	RJMP _0xB
+; 0000 0022         if(value=='L')
 _0x8:
+	LDI  R30,LOW(76)
+	CP   R30,R4
+	BRNE _0xB
 ; 0000 0023             PORTB.7=0;
 	CBI  0x5,7
 ; 0000 0024     }

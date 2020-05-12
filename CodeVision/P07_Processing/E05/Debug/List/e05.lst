@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm Tue May 12 17:09:58 2020
+AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm Tue May 12 18:25:07 2020
 
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm(1091): warning: Register r4 already defined by the .DEF directive
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E05\Debug\List\e05.asm(1092): warning: Register r3 already defined by the .DEF directive
@@ -12,7 +12,7 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  ;Build configuration    : Debug
                  ;Chip type              : AT90USB1286
                  ;Program type           : Application
-                 ;Clock frequency        : 8.000000 MHz
+                 ;Clock frequency        : 2.000000 MHz
                  ;Memory model           : Small
                  ;Optimize for           : Size
                  ;(s)printf features     : int, width
@@ -1339,14 +1339,14 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  ; 0000 0031 // USART1 initialization
                  ; 0000 0032 // Communication Parameters: 8 Data, 1 Stop, No Parity
                  ; 0000 0033 // USART1 Receiver: On
-                 ; 0000 0034 // USART1 Transmitter: Off
+                 ; 0000 0034 // USART1 Transmitter: On
                  ; 0000 0035 // USART1 Mode: Asynchronous
                  ; 0000 0036 // USART1 Baud Rate: 9600
                  ; 0000 0037 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
 0000a3 e0e0      	LDI  R30,LOW(0)
 0000a4 93e0 00c8 	STS  200,R30
-                 ; 0000 0038 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (0<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
-0000a6 e1e0      	LDI  R30,LOW(16)
+                 ; 0000 0038 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
+0000a6 e1e8      	LDI  R30,LOW(24)
 0000a7 93e0 00c9 	STS  201,R30
                  ; 0000 0039 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
 0000a9 e0e6      	LDI  R30,LOW(6)
@@ -1354,8 +1354,8 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  ; 0000 003A UBRR1H=0x00;
 0000ac e0e0      	LDI  R30,LOW(0)
 0000ad 93e0 00cd 	STS  205,R30
-                 ; 0000 003B UBRR1L=0x33;
-0000af e3e3      	LDI  R30,LOW(51)
+                 ; 0000 003B UBRR1L=0x0C;
+0000af e0ec      	LDI  R30,LOW(12)
 0000b0 93e0 00cc 	STS  204,R30
                  ; 0000 003C 
                  ; 0000 003D ConfiguraMax();
