@@ -13,6 +13,7 @@ void main(void)
 {
 
 DDRB.7=1;
+//DDRD.6=1;
 // USART1 initialization
 // Communication Parameters: 8 Data, 1 Stop, No Parity
 // USART1 Receiver: On
@@ -25,13 +26,21 @@ UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<
 UBRR1H=0x00;
 UBRR1L=0x0C;
 
+
 while (1)
     {
     // Please write your application code here
         value=getchar();
-        if(value=='H')
-            PORTB.7=1;
-        if(value=='L')
-            PORTB.7=0;
+        if(value=='H'){
+             PORTB.7=1;
+             //PORTD.6=1;
+        }
+            
+        if(value=='L'){
+            PORTB.7=0;  
+            //PORTD.6=0;
+            } 
+
     }
 }
+

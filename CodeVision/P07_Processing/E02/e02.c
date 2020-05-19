@@ -1,5 +1,5 @@
 /*
- * e01.c
+ * e02.c
  *
  * Created: 12-May-20 4:49:06 PM
  * Author: javie
@@ -26,14 +26,8 @@ UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<
 UBRR1H=0x00;
 UBRR1L=0x0C;
 
-// Timer/Counter 0 initialization
-// Clock source: System Clock
-// Clock value: Timer 0 Stopped
-// Mode: Fast PWM top=OCR0A
-// OC0A output: Disconnected
-// OC0B output: Disconnected
-TCCR0A=(0<<COM0A1) | (0<<COM0A0) | (0<<COM0B1) | (0<<COM0B0) | (1<<WGM01) | (1<<WGM00);
-TCCR0B=(1<<WGM02) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+TCCR0A=0x83; //Fast PWM con salida en OCR0A
+TCCR0B=0x01;   //sin preescalador  
 
 while (1)
     {

@@ -60,16 +60,17 @@ UBRR1L=0x0C;
 
 ConfiguraMax();
 
-i=1;
+i=8;
 
 while (1)
     {
     // Please write your application code here
-        value=getchar();
-        MandaMax7219(i<<2|value);
-        i++;
-        if(i>7)
-            i=0;
+        value=getchar();   
+        MandaMax7219(i<<8|value); //recorre i 8 bits y se utiliza OR para agregar value a la cadena de bits
+        i--; 
         
+        if(i<1)        
+            i=8;               
     }
 }
+
