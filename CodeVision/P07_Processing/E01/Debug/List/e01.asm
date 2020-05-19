@@ -1231,55 +1231,64 @@ _main:
 ; 0000 000E 
 ; 0000 000F DDRB.7=1;
 	SBI  0x4,7
-; 0000 0010 // USART1 initialization
-; 0000 0011 // Communication Parameters: 8 Data, 1 Stop, No Parity
-; 0000 0012 // USART1 Receiver: On
-; 0000 0013 // USART1 Transmitter: On
-; 0000 0014 // USART1 Mode: Asynchronous
-; 0000 0015 // USART1 Baud Rate: 9600
-; 0000 0016 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
+; 0000 0010 //DDRD.6=1;
+; 0000 0011 // USART1 initialization
+; 0000 0012 // Communication Parameters: 8 Data, 1 Stop, No Parity
+; 0000 0013 // USART1 Receiver: On
+; 0000 0014 // USART1 Transmitter: On
+; 0000 0015 // USART1 Mode: Asynchronous
+; 0000 0016 // USART1 Baud Rate: 9600
+; 0000 0017 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
 	LDI  R30,LOW(0)
 	STS  200,R30
-; 0000 0017 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
+; 0000 0018 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
 	LDI  R30,LOW(24)
 	STS  201,R30
-; 0000 0018 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
+; 0000 0019 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
 	LDI  R30,LOW(6)
 	STS  202,R30
-; 0000 0019 UBRR1H=0x00;
+; 0000 001A UBRR1H=0x00;
 	LDI  R30,LOW(0)
 	STS  205,R30
-; 0000 001A UBRR1L=0x0C;
+; 0000 001B UBRR1L=0x0C;
 	LDI  R30,LOW(12)
 	STS  204,R30
-; 0000 001B 
-; 0000 001C while (1)
+; 0000 001C 
+; 0000 001D 
+; 0000 001E while (1)
 _0x5:
-; 0000 001D     {
-; 0000 001E     // Please write your application code here
-; 0000 001F         value=getchar();
+; 0000 001F     {
+; 0000 0020     // Please write your application code here
+; 0000 0021         value=getchar();
 	RCALL _getchar
 	MOV  R4,R30
-; 0000 0020         if(value=='H')
+; 0000 0022         if(value=='H'){
 	LDI  R30,LOW(72)
 	CP   R30,R4
 	BRNE _0x8
-; 0000 0021             PORTB.7=1;
+; 0000 0023              PORTB.7=1;
 	SBI  0x5,7
-; 0000 0022         if(value=='L')
+; 0000 0024              //PORTD.6=1;
+; 0000 0025         }
+; 0000 0026 
+; 0000 0027         if(value=='L'){
 _0x8:
 	LDI  R30,LOW(76)
 	CP   R30,R4
 	BRNE _0xB
-; 0000 0023             PORTB.7=0;
+; 0000 0028             PORTB.7=0;
 	CBI  0x5,7
-; 0000 0024     }
+; 0000 0029             //PORTD.6=0;
+; 0000 002A             }
+; 0000 002B 
+; 0000 002C     }
 _0xB:
 	RJMP _0x5
-; 0000 0025 }
+; 0000 002D }
 _0xE:
 	RJMP _0xE
 ; .FEND
+;
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x01

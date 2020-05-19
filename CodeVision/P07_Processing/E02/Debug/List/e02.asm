@@ -1201,7 +1201,7 @@ __CLEAR_SRAM:
 
 	.CSEG
 ;/*
-; * e01.c
+; * e02.c
 ; *
 ; * Created: 12-May-20 4:49:06 PM
 ; * Author: javie
@@ -1254,31 +1254,25 @@ _main:
 	LDI  R30,LOW(12)
 	STS  204,R30
 ; 0000 001C 
-; 0000 001D // Timer/Counter 0 initialization
-; 0000 001E // Clock source: System Clock
-; 0000 001F // Clock value: Timer 0 Stopped
-; 0000 0020 // Mode: Fast PWM top=OCR0A
-; 0000 0021 // OC0A output: Disconnected
-; 0000 0022 // OC0B output: Disconnected
-; 0000 0023 TCCR0A=(0<<COM0A1) | (0<<COM0A0) | (0<<COM0B1) | (0<<COM0B0) | (1<<WGM01) | (1<<WGM00);
-	LDI  R30,LOW(3)
+; 0000 001D TCCR0A=0x83; //Fast PWM con salida en OCR0A
+	LDI  R30,LOW(131)
 	OUT  0x24,R30
-; 0000 0024 TCCR0B=(1<<WGM02) | (0<<CS02) | (0<<CS01) | (0<<CS00);
-	LDI  R30,LOW(8)
+; 0000 001E TCCR0B=0x01;   //sin preescalador
+	LDI  R30,LOW(1)
 	OUT  0x25,R30
-; 0000 0025 
-; 0000 0026 while (1)
+; 0000 001F 
+; 0000 0020 while (1)
 _0x5:
-; 0000 0027     {
-; 0000 0028     // Please write your application code here
-; 0000 0029         value=getchar();
+; 0000 0021     {
+; 0000 0022     // Please write your application code here
+; 0000 0023         value=getchar();
 	RCALL _getchar
 	MOV  R4,R30
-; 0000 002A         OCR0A=value;
+; 0000 0024         OCR0A=value;
 	OUT  0x27,R4
-; 0000 002B     }
+; 0000 0025     }
 	RJMP _0x5
-; 0000 002C }
+; 0000 0026 }
 _0x8:
 	RJMP _0x8
 ; .FEND

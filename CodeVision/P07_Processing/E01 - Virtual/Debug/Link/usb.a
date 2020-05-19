@@ -1,0 +1,122 @@
+;/*
+; * usb.c
+; *
+; * Created: 14/12/2016 04:03:55 p. m.
+; * Author: adomingu
+; */
+;
+;#include <io.h>
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x01
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0x0E
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x04
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x06
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0x0C
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0x0E
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x02
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=smcr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;
+;#include <delay.h>
+;
+;// USB Device functions
+;#include <usb_device.h>
+;
+;// USB CDC Virtual Serial Port functions
+;#include <usb_cdc.h>
+;
+;// USB initialization
+;#include "usb_init.h"
+;
+;char value;
+;
+;void main(void)
+; 0000 0018 {
+
+	.CSEG
+;PCODE: $0000000D VOL: 0
+; 0000 0019 
+; 0000 001A DDRB.7=1;
+;PCODE: $0000000E VOL: 0
+;PCODE: $0000000F VOL: 0
+; 0000 001B // USB Controller initialization in Full Speed, Device mode
+; 0000 001C // Note: This function also initializes the PLL
+; 0000 001D usb_init_device(&usb_config);
+;PCODE: $00000010 VOL: 0
+;PCODE: $00000011 VOL: 0
+; 0000 001E 
+; 0000 001F // Globally enable interrupts
+; 0000 0020 #asm("sei")
+;PCODE: $00000012 VOL: 0
+	sei
+;PCODE: $00000013 VOL: 0
+; 0000 0021 
+; 0000 0022 // Wait for the USB device to be enumerated by the host
+; 0000 0023 while (!usb_enumerated);
+;PCODE: $00000014 VOL: 0
+;PCODE: $00000015 VOL: 0
+;PCODE: $00000016 VOL: 0
+;PCODE: $00000017 VOL: 0
+;PCODE: $00000018 VOL: 0
+;PCODE: $00000019 VOL: 0
+; 0000 0024 
+; 0000 0025 // Wait 1.5 seconds for the operating system to
+; 0000 0026 // load any drivers needed by the USB device
+; 0000 0027 delay_ms(1500);
+;PCODE: $0000001A VOL: 0
+;PCODE: $0000001B VOL: 0
+; 0000 0028 
+; 0000 0029 // Wait for the USB host to be ready to receive serial data by
+; 0000 002A // setting the CDC Virtual Serial Port's RS-232 DTR signal high
+; 0000 002B //while (usb_cdc_serial.control.dtr==0);
+; 0000 002C 
+; 0000 002D     while (1)
+;PCODE: $0000001C VOL: 0
+; 0000 002E     {
+; 0000 002F      value=usb_serial_getchar();
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+; 0000 0030         if(value=='H'){
+;PCODE: $0000001F VOL: 0
+;PCODE: $00000020 VOL: 0
+;PCODE: $00000021 VOL: 0
+; 0000 0031              PORTB.7=1;
+;PCODE: $00000022 VOL: 0
+;PCODE: $00000023 VOL: 0
+; 0000 0032              //PORTD.6=1;
+; 0000 0033         }
+; 0000 0034 
+; 0000 0035         if(value=='L'){
+;PCODE: $00000024 VOL: 0
+;PCODE: $00000025 VOL: 0
+;PCODE: $00000026 VOL: 0
+;PCODE: $00000027 VOL: 0
+; 0000 0036             PORTB.7=0;
+;PCODE: $00000028 VOL: 0
+;PCODE: $00000029 VOL: 0
+; 0000 0037             //PORTD.6=0;
+; 0000 0038             }
+; 0000 0039 
+; 0000 003A 
+; 0000 003B     }
+;PCODE: $0000002A VOL: 0
+;PCODE: $0000002B VOL: 0
+;PCODE: $0000002C VOL: 0
+; 0000 003C }
+;PCODE: $0000002D VOL: 0
+;PCODE: $0000002E VOL: 0
+;PCODE: $0000002F VOL: 0

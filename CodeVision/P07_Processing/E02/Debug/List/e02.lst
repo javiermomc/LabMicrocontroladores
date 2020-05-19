@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E02\Debug\List\e02.asm Tue May 12 18:23:38 2020
+AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E02\Debug\List\e02.asm Tue May 19 17:04:36 2020
 
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E02\Debug\List\e02.asm(1091): warning: Register r4 already defined by the .DEF directive
                  
@@ -1212,7 +1212,7 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
                  
                  	.CSEG
                  ;/*
-                 ; * e01.c
+                 ; * e02.c
                  ; *
                  ; * Created: 12-May-20 4:49:06 PM
                  ; * Author: javie
@@ -1265,31 +1265,25 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processi
 000080 e0ec      	LDI  R30,LOW(12)
 000081 93e0 00cc 	STS  204,R30
                  ; 0000 001C 
-                 ; 0000 001D // Timer/Counter 0 initialization
-                 ; 0000 001E // Clock source: System Clock
-                 ; 0000 001F // Clock value: Timer 0 Stopped
-                 ; 0000 0020 // Mode: Fast PWM top=OCR0A
-                 ; 0000 0021 // OC0A output: Disconnected
-                 ; 0000 0022 // OC0B output: Disconnected
-                 ; 0000 0023 TCCR0A=(0<<COM0A1) | (0<<COM0A0) | (0<<COM0B1) | (0<<COM0B0) | (1<<WGM01) | (1<<WGM00);
-000083 e0e3      	LDI  R30,LOW(3)
+                 ; 0000 001D TCCR0A=0x83; //Fast PWM con salida en OCR0A
+000083 e8e3      	LDI  R30,LOW(131)
 000084 bde4      	OUT  0x24,R30
-                 ; 0000 0024 TCCR0B=(1<<WGM02) | (0<<CS02) | (0<<CS01) | (0<<CS00);
-000085 e0e8      	LDI  R30,LOW(8)
+                 ; 0000 001E TCCR0B=0x01;   //sin preescalador
+000085 e0e1      	LDI  R30,LOW(1)
 000086 bde5      	OUT  0x25,R30
-                 ; 0000 0025 
-                 ; 0000 0026 while (1)
+                 ; 0000 001F 
+                 ; 0000 0020 while (1)
                  _0x5:
-                 ; 0000 0027     {
-                 ; 0000 0028     // Please write your application code here
-                 ; 0000 0029         value=getchar();
+                 ; 0000 0021     {
+                 ; 0000 0022     // Please write your application code here
+                 ; 0000 0023         value=getchar();
 000087 d004      	RCALL _getchar
 000088 2e4e      	MOV  R4,R30
-                 ; 0000 002A         OCR0A=value;
+                 ; 0000 0024         OCR0A=value;
 000089 bc47      	OUT  0x27,R4
-                 ; 0000 002B     }
+                 ; 0000 0025     }
 00008a cffc      	RJMP _0x5
-                 ; 0000 002C }
+                 ; 0000 0026 }
                  _0x8:
 00008b cfff      	RJMP _0x8
                  ; .FEND

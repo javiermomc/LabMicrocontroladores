@@ -13,11 +13,11 @@ Variable                                                                        
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-read_adc                                                                          0x00077     25
-main                                                                              0x00090     31
-putchar                                                                           0x000AF     10
-put_usart_G100                                                                    0x000B9     13
-_print_G100                                                                       0x000C6    308
-printf                                                                            0x001FA     37
-strlen                                                                            0x0021F     12
-strlenf                                                                           0x0022B     13
+read_adc                                                                          0x00076     27
+main                                                                              0x00091     42
+putchar                                                                           0x000BB     10
+put_usart_G100                                                                    0x000C5     13
+_print_G100                                                                       0x000D2    308
+printf                                                                            0x00206     37
+strlen                                                                            0x0022B     12
+strlenf                                                                           0x00237     13
