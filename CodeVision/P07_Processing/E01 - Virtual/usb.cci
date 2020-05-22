@@ -1,0 +1,8 @@
+VERSION:3 SOURCE_TIMESTAMP:50B38866
+NODE:I LEVEL:0 LINE:8 "C:\cvavr\inc\io.h"
+NODE:I LEVEL:0 LINE:10 "C:\cvavr\inc\delay.h"
+NODE:I LEVEL:0 LINE:13 "C:\cvavr\inc\usb_device.h"
+NODE:I LEVEL:0 LINE:16 "C:\cvavr\inc\usb_cdc.h"
+NODE:I LEVEL:0 LINE:19 "D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P07_Processing\E01 - Virtual\usb_init.h"
+NODE:V LEVEL:0 LINE:21 "value -> R4"
+NODE:F LEVEL:0 LINE:23 "main(void)"

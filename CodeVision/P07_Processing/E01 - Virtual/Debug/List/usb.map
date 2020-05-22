@@ -1,0 +1,34 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+usb_timeout                                                                       0x0900       2
+usb_enumerated                                                                    0x0902       1
+usb_cdc_serial                                                                    0x0903       8
+usb_tx_flags                                                                      0x090B       2
+ep_reg                                                                            0x090D      12
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+value                                                                             R4           1
+usb_current_interface                                                             GPIOR0.0  1bit
+pusb_config                                                                       R5,R6        2
+usb_config_ok                                                                     GPIOR0.1  1bit
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+main                                                                              0x00107     26
+usb_init_endpoint_G100                                                            0x00121     73
+usb_init_device                                                                   0x0016A    143
+usb_getconfig                                                                     0x001F9     16
+usb_select_out_ep_G100                                                            0x00209     25
+usb_rxbyte                                                                        0x00222     62
+usb_general_isr                                                                   0x00260     85
+usb_endpoint_isr                                                                  0x002B5    377
+usb_serial_getchar                                                                0x0042E      4
+memset                                                                            0x00432     16

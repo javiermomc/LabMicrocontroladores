@@ -1,8 +1,8 @@
 ;/*
-; * e01.c
+; * e04.c
 ; *
 ; * Created: 12-May-20 4:49:06 PM
-; * Author: javie
+; *
 ; */
 ;
 ;#include <io.h>
@@ -33,90 +33,98 @@
 ;#include <stdio.h>
 ;#include <delay.h>
 ;
-;// Declare your global variables here
+;// Voltage Reference: Int., cap. on AREF
+;#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 ;
-;// Voltage Reference: AREF pin
-;#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (1<<ADLAR))
-;
-;// Read the 8 most significant bits
-;// of the AD conversion result
-;unsigned char read_adc(unsigned char adc_input)
-; 0000 0014 {
+;// Read the AD conversion result
+;unsigned int read_adc(unsigned char adc_input)
+; 0000 0011 {
 
 	.CSEG
 ;PCODE: $0000000D VOL: 0
 ;PCODE: $0000000E VOL: 0
-; 0000 0015 ADMUX=adc_input | ADC_VREF_TYPE;
+; 0000 0012 ADMUX=adc_input | ADC_VREF_TYPE;
 ;PCODE: $0000000F VOL: 0
 ;	adc_input -> Y+0
 ;PCODE: $00000010 VOL: 0
 ;PCODE: $00000011 VOL: 0
 ;PCODE: $00000012 VOL: 0
-; 0000 0016 // Delay needed for the stabilization of the ADC input voltage
-; 0000 0017 delay_us(10);
+; 0000 0013 // Delay needed for the stabilization of the ADC input voltage
+; 0000 0014 delay_us(10);
 ;PCODE: $00000013 VOL: 0
-; 0000 0018 // Start the AD conversion
-; 0000 0019 ADCSRA|=(1<<ADSC);
+; 0000 0015 // Start the AD conversion
+; 0000 0016 ADCSRA|=(1<<ADSC);
 ;PCODE: $00000014 VOL: 0
 ;PCODE: $00000015 VOL: 0
 ;PCODE: $00000016 VOL: 0
-; 0000 001A // Wait for the AD conversion to complete
-; 0000 001B while ((ADCSRA & (1<<ADIF))==0);
+; 0000 0017 // Wait for the AD conversion to complete
+; 0000 0018 while ((ADCSRA & (1<<ADIF))==0);
 ;PCODE: $00000017 VOL: 0
 ;PCODE: $00000018 VOL: 0
 ;PCODE: $00000019 VOL: 0
 ;PCODE: $0000001A VOL: 0
 ;PCODE: $0000001B VOL: 0
 ;PCODE: $0000001C VOL: 0
-; 0000 001C ADCSRA|=(1<<ADIF);
+; 0000 0019 ADCSRA|=(1<<ADIF);
 ;PCODE: $0000001D VOL: 0
 ;PCODE: $0000001E VOL: 0
 ;PCODE: $0000001F VOL: 0
-; 0000 001D return ADCH;
+; 0000 001A return ADCW;
 ;PCODE: $00000020 VOL: 0
 ;PCODE: $00000021 VOL: 0
 ;PCODE: $00000022 VOL: 0
-; 0000 001E }
+; 0000 001B }
 ;PCODE: $00000023 VOL: 0
 ;
 ;void main(void)
-; 0000 0021 {
+; 0000 001E {
 ;PCODE: $00000024 VOL: 0
-; 0000 0022 // USART1 initialization
-; 0000 0023 // Communication Parameters: 8 Data, 1 Stop, No Parity
-; 0000 0024 // USART1 Receiver: On
-; 0000 0025 // USART1 Transmitter: On
-; 0000 0026 // USART1 Mode: Asynchronous
-; 0000 0027 // USART1 Baud Rate: 9600
-; 0000 0028 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
+; 0000 001F // USART1 initialization
+; 0000 0020 // Communication Parameters: 8 Data, 1 Stop, No Parity
+; 0000 0021 // USART1 Receiver: On
+; 0000 0022 // USART1 Transmitter: On
+; 0000 0023 // USART1 Mode: Asynchronous
+; 0000 0024 // USART1 Baud Rate: 9600
+; 0000 0025 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
 ;PCODE: $00000025 VOL: 0
 ;PCODE: $00000026 VOL: 0
-; 0000 0029 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
+; 0000 0026 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
 ;PCODE: $00000027 VOL: 0
 ;PCODE: $00000028 VOL: 0
-; 0000 002A UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
+; 0000 0027 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
 ;PCODE: $00000029 VOL: 0
 ;PCODE: $0000002A VOL: 0
-; 0000 002B UBRR1H=0x00;
+; 0000 0028 UBRR1H=0x00;
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
-; 0000 002C UBRR1L=0x0C;
+; 0000 0029 UBRR1L=0x0C;
 ;PCODE: $0000002D VOL: 0
 ;PCODE: $0000002E VOL: 0
-; 0000 002D 
-; 0000 002E while (1)
+; 0000 002A 
+; 0000 002B // ADC initialization
+; 0000 002C // ADC Clock frequency: 125.000 kHz
+; 0000 002D // ADC Voltage Reference: Int., cap. on AREF
+; 0000 002E // ADC High Speed Mode: Off
+; 0000 002F // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
+; 0000 0030 // ADC4: On, ADC5: Off, ADC6: Off, ADC7: Off
+; 0000 0031 DIDR0=(1<<ADC7D) | (1<<ADC6D) | (1<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
 ;PCODE: $0000002F VOL: 0
-; 0000 002F     {
-; 0000 0030     // Please write your application code here
-; 0000 0031         printf("%c,%c,%c/n/r", read_adc(7), read_adc(6), read_adc(5));
 ;PCODE: $00000030 VOL: 0
+; 0000 0032 ADMUX=ADC_VREF_TYPE;
 ;PCODE: $00000031 VOL: 0
 ;PCODE: $00000032 VOL: 0
+; 0000 0033 ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
 ;PCODE: $00000033 VOL: 0
 ;PCODE: $00000034 VOL: 0
+; 0000 0034 ADCSRB=(1<<ADHSM);
 ;PCODE: $00000035 VOL: 0
 ;PCODE: $00000036 VOL: 0
+; 0000 0035 
+; 0000 0036 while (1)
 ;PCODE: $00000037 VOL: 0
+; 0000 0037     {
+; 0000 0038     // Please write your application code here
+; 0000 0039         printf("%d,%d,%d\n\r", read_adc(7), read_adc(6), read_adc(5));
 ;PCODE: $00000038 VOL: 0
 ;PCODE: $00000039 VOL: 0
 ;PCODE: $0000003A VOL: 0
@@ -128,10 +136,18 @@
 ;PCODE: $00000040 VOL: 0
 ;PCODE: $00000041 VOL: 0
 ;PCODE: $00000042 VOL: 0
-; 0000 0032     }
 ;PCODE: $00000043 VOL: 0
 ;PCODE: $00000044 VOL: 0
-; 0000 0033 }
 ;PCODE: $00000045 VOL: 0
 ;PCODE: $00000046 VOL: 0
 ;PCODE: $00000047 VOL: 0
+;PCODE: $00000048 VOL: 0
+;PCODE: $00000049 VOL: 0
+;PCODE: $0000004A VOL: 0
+; 0000 003A     }
+;PCODE: $0000004B VOL: 0
+;PCODE: $0000004C VOL: 0
+; 0000 003B }
+;PCODE: $0000004D VOL: 0
+;PCODE: $0000004E VOL: 0
+;PCODE: $0000004F VOL: 0

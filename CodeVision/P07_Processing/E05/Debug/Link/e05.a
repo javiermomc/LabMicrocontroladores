@@ -166,7 +166,7 @@
 ; 0000 003D ConfiguraMax();
 ;PCODE: $0000005A VOL: 0
 ; 0000 003E 
-; 0000 003F i=1;
+; 0000 003F i=8;
 ;PCODE: $0000005B VOL: 0
 ;PCODE: $0000005C VOL: 0
 ; 0000 0040 
@@ -177,7 +177,7 @@
 ; 0000 0044         value=getchar();
 ;PCODE: $0000005E VOL: 0
 ;PCODE: $0000005F VOL: 0
-; 0000 0045         MandaMax7219(i<<2|value);
+; 0000 0045         MandaMax7219(i<<8|value); //recorre i 8 bits y se utiliza OR para agregar value a la cadena de bits
 ;PCODE: $00000060 VOL: 0
 ;PCODE: $00000061 VOL: 0
 ;PCODE: $00000062 VOL: 0
@@ -187,20 +187,22 @@
 ;PCODE: $00000066 VOL: 0
 ;PCODE: $00000067 VOL: 0
 ;PCODE: $00000068 VOL: 0
-; 0000 0046         i++;
+; 0000 0046         i--;
 ;PCODE: $00000069 VOL: 0
-; 0000 0047         if(i>7)
+; 0000 0047 
+; 0000 0048         if(i<1)
 ;PCODE: $0000006A VOL: 0
 ;PCODE: $0000006B VOL: 0
 ;PCODE: $0000006C VOL: 0
-; 0000 0048             i=0;
+; 0000 0049             i=8;
 ;PCODE: $0000006D VOL: 0
-; 0000 0049 
-; 0000 004A     }
 ;PCODE: $0000006E VOL: 0
+; 0000 004A     }
 ;PCODE: $0000006F VOL: 0
 ;PCODE: $00000070 VOL: 0
-; 0000 004B }
 ;PCODE: $00000071 VOL: 0
+; 0000 004B }
 ;PCODE: $00000072 VOL: 0
 ;PCODE: $00000073 VOL: 0
+;PCODE: $00000074 VOL: 0
+;

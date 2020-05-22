@@ -1143,8 +1143,8 @@ _tbl16_G100:
 	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
 
 _0x0:
-	.DB  0x25,0x63,0x2C,0x25,0x63,0x2C,0x25,0x63
-	.DB  0x2F,0x6E,0x2F,0x72,0x0
+	.DB  0x25,0x64,0x2C,0x25,0x64,0x2C,0x25,0x64
+	.DB  0xA,0xD,0x0
 __RESET:
 	CLI
 	CLR  R30
@@ -1201,10 +1201,10 @@ __CLEAR_SRAM:
 
 	.CSEG
 ;/*
-; * e01.c
+; * e04.c
 ; *
 ; * Created: 12-May-20 4:49:06 PM
-; * Author: javie
+; *
 ; */
 ;
 ;#include <io.h>
@@ -1222,80 +1222,97 @@ __CLEAR_SRAM:
 ;#include <stdio.h>
 ;#include <delay.h>
 ;
-;// Declare your global variables here
+;// Voltage Reference: Int., cap. on AREF
+;#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 ;
-;// Voltage Reference: AREF pin
-;#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (1<<ADLAR))
-;
-;// Read the 8 most significant bits
-;// of the AD conversion result
-;unsigned char read_adc(unsigned char adc_input)
-; 0000 0014 {
+;// Read the AD conversion result
+;unsigned int read_adc(unsigned char adc_input)
+; 0000 0011 {
 
 	.CSEG
 _read_adc:
 ; .FSTART _read_adc
-; 0000 0015 ADMUX=adc_input | ADC_VREF_TYPE;
+; 0000 0012 ADMUX=adc_input | ADC_VREF_TYPE;
 	ST   -Y,R26
 ;	adc_input -> Y+0
 	LD   R30,Y
-	ORI  R30,0x20
+	ORI  R30,LOW(0xC0)
 	STS  124,R30
-; 0000 0016 // Delay needed for the stabilization of the ADC input voltage
-; 0000 0017 delay_us(10);
+; 0000 0013 // Delay needed for the stabilization of the ADC input voltage
+; 0000 0014 delay_us(10);
 	__DELAY_USB 7
-; 0000 0018 // Start the AD conversion
-; 0000 0019 ADCSRA|=(1<<ADSC);
+; 0000 0015 // Start the AD conversion
+; 0000 0016 ADCSRA|=(1<<ADSC);
 	LDS  R30,122
 	ORI  R30,0x40
 	STS  122,R30
-; 0000 001A // Wait for the AD conversion to complete
-; 0000 001B while ((ADCSRA & (1<<ADIF))==0);
+; 0000 0017 // Wait for the AD conversion to complete
+; 0000 0018 while ((ADCSRA & (1<<ADIF))==0);
 _0x3:
 	LDS  R30,122
 	ANDI R30,LOW(0x10)
 	BREQ _0x3
-; 0000 001C ADCSRA|=(1<<ADIF);
+; 0000 0019 ADCSRA|=(1<<ADIF);
 	LDS  R30,122
 	ORI  R30,0x10
 	STS  122,R30
-; 0000 001D return ADCH;
-	LDS  R30,121
+; 0000 001A return ADCW;
+	LDS  R30,120
+	LDS  R31,120+1
 	RJMP _0x2060001
-; 0000 001E }
+; 0000 001B }
 ; .FEND
 ;
 ;void main(void)
-; 0000 0021 {
+; 0000 001E {
 _main:
 ; .FSTART _main
-; 0000 0022 // USART1 initialization
-; 0000 0023 // Communication Parameters: 8 Data, 1 Stop, No Parity
-; 0000 0024 // USART1 Receiver: On
-; 0000 0025 // USART1 Transmitter: On
-; 0000 0026 // USART1 Mode: Asynchronous
-; 0000 0027 // USART1 Baud Rate: 9600
-; 0000 0028 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
+; 0000 001F // USART1 initialization
+; 0000 0020 // Communication Parameters: 8 Data, 1 Stop, No Parity
+; 0000 0021 // USART1 Receiver: On
+; 0000 0022 // USART1 Transmitter: On
+; 0000 0023 // USART1 Mode: Asynchronous
+; 0000 0024 // USART1 Baud Rate: 9600
+; 0000 0025 UCSR1A=(0<<RXC1) | (0<<TXC1) | (0<<UDRE1) | (0<<FE1) | (0<<DOR1) | (0<<UPE1) | (0<<U2X1) | (0<<MPCM1);
 	LDI  R30,LOW(0)
 	STS  200,R30
-; 0000 0029 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
+; 0000 0026 UCSR1B=(0<<RXCIE1) | (0<<TXCIE1) | (0<<UDRIE1) | (1<<RXEN1) | (1<<TXEN1) | (0<<UCSZ12) | (0<<RXB81) | (0<<TXB81);
 	LDI  R30,LOW(24)
 	STS  201,R30
-; 0000 002A UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
+; 0000 0027 UCSR1C=(0<<UMSEL11) | (0<<UMSEL10) | (0<<UPM11) | (0<<UPM10) | (0<<USBS1) | (1<<UCSZ11) | (1<<UCSZ10) | (0<<UCPOL1);
 	LDI  R30,LOW(6)
 	STS  202,R30
-; 0000 002B UBRR1H=0x00;
+; 0000 0028 UBRR1H=0x00;
 	LDI  R30,LOW(0)
 	STS  205,R30
-; 0000 002C UBRR1L=0x0C;
+; 0000 0029 UBRR1L=0x0C;
 	LDI  R30,LOW(12)
 	STS  204,R30
-; 0000 002D 
-; 0000 002E while (1)
+; 0000 002A 
+; 0000 002B // ADC initialization
+; 0000 002C // ADC Clock frequency: 125.000 kHz
+; 0000 002D // ADC Voltage Reference: Int., cap. on AREF
+; 0000 002E // ADC High Speed Mode: Off
+; 0000 002F // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: On
+; 0000 0030 // ADC4: On, ADC5: Off, ADC6: Off, ADC7: Off
+; 0000 0031 DIDR0=(1<<ADC7D) | (1<<ADC6D) | (1<<ADC5D) | (0<<ADC4D) | (0<<ADC3D) | (0<<ADC2D) | (0<<ADC1D) | (0<<ADC0D);
+	LDI  R30,LOW(224)
+	STS  126,R30
+; 0000 0032 ADMUX=ADC_VREF_TYPE;
+	LDI  R30,LOW(192)
+	STS  124,R30
+; 0000 0033 ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
+	LDI  R30,LOW(132)
+	STS  122,R30
+; 0000 0034 ADCSRB=(1<<ADHSM);
+	LDI  R30,LOW(128)
+	STS  123,R30
+; 0000 0035 
+; 0000 0036 while (1)
 _0x6:
-; 0000 002F     {
-; 0000 0030     // Please write your application code here
-; 0000 0031         printf("%c,%c,%c/n/r", read_adc(7), read_adc(6), read_adc(5));
+; 0000 0037     {
+; 0000 0038     // Please write your application code here
+; 0000 0039         printf("%d,%d,%d\n\r", read_adc(7), read_adc(6), read_adc(5));
 	__POINTW1FN _0x0,0
 	ST   -Y,R31
 	ST   -Y,R30
@@ -1308,9 +1325,9 @@ _0x6:
 	LDI  R24,12
 	RCALL _printf
 	ADIW R28,14
-; 0000 0032     }
+; 0000 003A     }
 	RJMP _0x6
-; 0000 0033 }
+; 0000 003B }
 _0x9:
 	RJMP _0x9
 ; .FEND
@@ -1794,10 +1811,9 @@ strlenf1:
 ; .FEND
 
 	.CSEG
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:7 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:5 WORDS
 SUBOPT_0x0:
 	CALL _read_adc
-	CLR  R31
 	CLR  R22
 	CLR  R23
 	CALL __PUTPARD1

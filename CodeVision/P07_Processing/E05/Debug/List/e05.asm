@@ -1349,8 +1349,8 @@ _main:
 ; 0000 003D ConfiguraMax();
 	RCALL _ConfiguraMax
 ; 0000 003E 
-; 0000 003F i=1;
-	LDI  R30,LOW(1)
+; 0000 003F i=8;
+	LDI  R30,LOW(8)
 	MOV  R3,R30
 ; 0000 0040 
 ; 0000 0041 while (1)
@@ -1360,10 +1360,9 @@ _0x1A:
 ; 0000 0044         value=getchar();
 	RCALL _getchar
 	MOV  R4,R30
-; 0000 0045         MandaMax7219(i<<2|value);
-	MOV  R30,R3
-	LDI  R31,0
-	CALL __LSLW2
+; 0000 0045         MandaMax7219(i<<8|value); //recorre i 8 bits y se utiliza OR para agregar value a la cadena de bits
+	MOV  R31,R3
+	LDI  R30,LOW(0)
 	MOVW R26,R30
 	MOV  R30,R4
 	LDI  R31,0
@@ -1371,15 +1370,16 @@ _0x1A:
 	OR   R31,R27
 	MOVW R26,R30
 	RCALL _MandaMax7219
-; 0000 0046         i++;
-	INC  R3
-; 0000 0047         if(i>7)
-	LDI  R30,LOW(7)
-	CP   R30,R3
+; 0000 0046         i--;
+	DEC  R3
+; 0000 0047 
+; 0000 0048         if(i<1)
+	LDI  R30,LOW(1)
+	CP   R3,R30
 	BRSH _0x1D
-; 0000 0048             i=0;
-	CLR  R3
-; 0000 0049 
+; 0000 0049             i=8;
+	LDI  R30,LOW(8)
+	MOV  R3,R30
 ; 0000 004A     }
 _0x1D:
 	RJMP _0x1A
@@ -1387,6 +1387,7 @@ _0x1D:
 _0x1E:
 	RJMP _0x1E
 ; .FEND
+;
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x01
@@ -1417,12 +1418,5 @@ _0x2000003:
 	.CSEG
 
 	.CSEG
-__LSLW2:
-	LSL  R30
-	ROL  R31
-	LSL  R30
-	ROL  R31
-	RET
-
 ;END OF CODE MARKER
 __END_OF_CODE:

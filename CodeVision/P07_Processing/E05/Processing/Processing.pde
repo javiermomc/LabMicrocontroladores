@@ -45,7 +45,7 @@ void mouseClicked(){
         line[i] = (char)(line[i] | 1 << 8-j);
     }
     System.out.printf("%d/%03d:", (int)i, (int)line[i]);
-    //port.write(line[i]);
+    port.write(line[i]);
   }
   println();
   
