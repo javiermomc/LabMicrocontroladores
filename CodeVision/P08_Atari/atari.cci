@@ -1,0 +1,6 @@
+VERSION:3 SOURCE_TIMESTAMP:50BB5ACE
+NODE:I LEVEL:0 LINE:8 "C:\cvavr\inc\io.h"
+NODE:I LEVEL:0 LINE:9 "C:\cvavr\inc\stdlib.h"
+NODE:I LEVEL:0 LINE:10 "C:\cvavr\inc\delay.h"
+NODE:I LEVEL:0 LINE:11 "D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\game.c"
+NODE:F LEVEL:0 LINE:13 "main(void)"
