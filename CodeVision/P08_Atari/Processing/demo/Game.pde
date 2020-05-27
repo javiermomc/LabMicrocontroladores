@@ -12,12 +12,15 @@ void init_wall(int left, int right, int bottom){
 
 int collision_wall(int x, int y){
     if(x<=left_wall){
+        mandar_sonido(1);
         return 1;
     }
-    if(x>=right_wall){
+    if(x>=right_wall){ 
+        mandar_sonido(1);
         return 2;
     }
-    if(y<=-1){
+    if(y<=-1){         
+        mandar_sonido(1);
         return 3;
     }
     if(y>=bottom_wall){
@@ -54,7 +57,8 @@ int empty_matrix(){
 int collision_matrix(int x, int y){
     if(x<0 || y<0 || x>7 || y>7)
         return 0;
-    if(matrix_game[x][y]!=0){
+    if(matrix_game[x][y]!=0){    
+        mandar_sonido(2);
         return matrix_game[x][y];
     } 
     return 0;
@@ -73,6 +77,7 @@ void init_bar(int x, int y, int size){
 
 int collision_bar(int x, int y){
     if(x>=bar_position_x && x<=bar_position_x+bar_size-1 && y == bar_position_y){
+        mandar_sonido(0);
         return x-bar_position_x+1;                                               
     }
     return 0;
@@ -182,12 +187,17 @@ void play_game(){
                 setVelocity_ball(ball_velocity_x, -ball_velocity_y);
                 break;
             case 4:
-                life -= 1;
-                move_ball(5, 4);
-                ball_velocity_y = -ball_velocity_y;
-                ball_velocity_y = init_velocity_y;
-                ball_velocity_x = init_velocity_x;
-                mandar_pelotas(life);
+                life -= 1;           
+                if(life>0){
+                    move_ball(5, 4);
+                    ball_velocity_y = -ball_velocity_y;
+                    ball_velocity_y = init_velocity_y;
+                    ball_velocity_x = init_velocity_x;
+                    mandar_pelotas(life);
+                }else{
+                    mandar_sonido(3);
+                    mandar_fin();
+                }
                 break;
         }
         score = collision_matrix(next_x, ball_position_y);
