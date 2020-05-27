@@ -13,7 +13,6 @@ void setup(){
     size(160, 200);
     background(255,255,255);
     
-    potenciometro_posicion = 0;
     for(char i=0; i<8; i++){
       for(char j=0; j<8; j++){
         m[i][j] = new LED(20*i+10, 20*j+10, 10);
@@ -26,6 +25,9 @@ void setup(){
     rect(0, 160, 200, 20);
     fill(0);
     text("Puntos: "+str(points) + " Vidas: "+ str(lifes), 0, 180);
+    
+    potenciometro_velocidad = 125;
+    potenciometro_posicion = 0;
     setup_game();
 }
 

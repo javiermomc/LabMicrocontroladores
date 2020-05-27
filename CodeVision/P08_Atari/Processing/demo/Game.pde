@@ -1,7 +1,7 @@
 
 
 int i_game, j_game;
-int score, life;
+int score, life, level;
 
 int left_wall, right_wall, bottom_wall;
 void init_wall(int left, int right, int bottom){
@@ -29,14 +29,26 @@ int collision_wall(int x, int y){
 int matrix_game[][] = new int[8][8];
 
 void init_matrix(){
-    char value = 10;
+    char value = 30;
     for(i_game=0; i_game<3; i_game++){
         for(j_game=0; j_game<8; j_game++){
             matrix_game[j_game][i_game] = value;
             prender_led(j_game, i_game);
         }                        
-        value += 10;
+        value -= 10;
     }
+}
+
+int value_empty;
+int empty_matrix(){
+    value_empty = 0;
+    for(i_game=0; i_game<3; i_game++){
+        for(j_game=0; j_game<8; j_game++){
+            if(matrix_game[j_game][i_game]>0)
+              value_empty += 1;
+        }                        
+    }
+    return value_empty;
 }
 
 int collision_matrix(int x, int y){
@@ -109,16 +121,19 @@ void setup_game(){
     init_ball(4,6,1,-1); 
     life = 5;
     mandar_pelotas(life);
+    level = 0;
 }
+
+int next_x, next_y, is_collision_bar, is_collision_wall; 
 
 void play_game(){
 
     move_bar(potenciometro_posicion*8/255, bar_position_y);
-    int next_x = ball_position_x+ball_velocity_x;
-    int next_y = ball_position_y+ball_velocity_y;
-    int is_collision_bar = 1;
-    int is_collision_wall = 1;
-    while(is_collision_bar != 0 || is_collision_wall != 0 || score != 0){
+    next_x = ball_position_x+ball_velocity_x;
+    next_y = ball_position_y+ball_velocity_y;
+    is_collision_bar = 1;
+    is_collision_wall = 1;
+    while(is_collision_bar != 0 || is_collision_wall != 0){
         next_x = ball_position_x+ball_velocity_x;
         next_y = ball_position_y+ball_velocity_y;
         is_collision_bar = collision_bar(ball_position_x, next_y);
@@ -129,6 +144,7 @@ void play_game(){
                 setVelocity_ball(ball_velocity_x, -ball_velocity_y);
                 break;
             case 2:
+                srand(TCNT0);
                 setVelocity_ball(init_velocity_x*rand()%2-1, -ball_velocity_y);
                 break;
             case 3:
@@ -145,39 +161,13 @@ void play_game(){
                 setVelocity_ball(-ball_velocity_x, -ball_velocity_y);
                 break;
             case 2:
+                srand(TCNT0);
                 setVelocity_ball(init_velocity_x*rand()%2-1, -ball_velocity_y);
                 break;
             case 3:
                 setVelocity_ball(-ball_velocity_x, -ball_velocity_y);
                 break;
         }
-        score = collision_matrix(next_x, ball_position_y);
-        if(score != 0){
-            setVelocity_ball(-ball_velocity_x, ball_velocity_y);
-            matrix_game[next_x][ball_position_y] = 0;
-            apagar_led(next_x, ball_position_y);
-            mandar_puntuacion(score); 
-            score = 0;
-        }
-        score = collision_matrix(ball_position_x, next_y);
-        if(score != 0){
-            setVelocity_ball(ball_velocity_x, -ball_velocity_y);
-            matrix_game[ball_position_x][next_y] = 0;
-            apagar_led(ball_position_x, next_y);
-            mandar_puntuacion(score); 
-            score = 0;
-        }
-        
-        if(score == 0){
-            score = collision_matrix(next_x, next_y);
-            if(score!=0){
-                setVelocity_ball(-ball_velocity_x, -ball_velocity_y);
-                matrix_game[next_x][next_y] = 0;
-                apagar_led(next_x, next_y);
-                mandar_puntuacion(score);
-                score = 0;
-            } 
-        }  
         next_x = ball_position_x+ball_velocity_x;
         next_y = ball_position_y+ball_velocity_y;                               
         is_collision_wall = collision_wall(next_x, next_y);
@@ -200,6 +190,35 @@ void play_game(){
                 mandar_pelotas(life);
                 break;
         }
+        score = collision_matrix(next_x, ball_position_y);
+        if(score != 0){
+            setVelocity_ball(-ball_velocity_x, ball_velocity_y);
+            matrix_game[next_x][ball_position_y] = 0;
+            apagar_led(next_x, ball_position_y);
+            mandar_puntuacion(score); 
+        }
+        next_x = ball_position_x+ball_velocity_x;
+        next_y = ball_position_y+ball_velocity_y;
+        score = collision_matrix(ball_position_x, next_y);
+        if(score != 0){
+            setVelocity_ball(ball_velocity_x, -ball_velocity_y);
+            matrix_game[ball_position_x][next_y] = 0;
+            apagar_led(ball_position_x, next_y);
+            mandar_puntuacion(score); 
+        }
+        
+        if(score == 0){
+            score = collision_matrix(next_x, next_y);
+            if(score!=0){
+                setVelocity_ball(-ball_velocity_x, -ball_velocity_y);
+                matrix_game[next_x][next_y] = 0;
+                apagar_led(next_x, next_y);
+                mandar_puntuacion(score);
+                score = 0;
+            } 
+        } 
+       next_x = ball_position_x+ball_velocity_x;
+        next_y = ball_position_y+ball_velocity_y; 
         is_collision_bar = collision_bar(next_x, next_y);
         is_collision_wall = collision_wall(next_x, next_y);
     }
@@ -212,5 +231,13 @@ void play_game(){
     if(ball_velocity_y<-1)
       ball_velocity_y = -1;
     move_ball(ball_position_x+ball_velocity_x, ball_position_y+ball_velocity_y);
-    delay(1000);
+    if(empty_matrix()==0){
+      move_ball(5, 4);
+      ball_velocity_y = -ball_velocity_y;
+      ball_velocity_y = init_velocity_y;
+      ball_velocity_x = init_velocity_x;
+      init_matrix();
+      level += 200;
+    }
+    delay_ms(potenciometro_velocidad*4-level);
 }

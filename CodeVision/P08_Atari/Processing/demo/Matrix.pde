@@ -11,12 +11,24 @@ void mandar_puntuacion(int p){
   points += p;
 }
 
-int rand(){
-  return (int)(round(random(1)*2-1));
-}
-
 void mandar_pelotas(int p){
   lifes = p;
 }
 
 int potenciometro_posicion;
+int potenciometro_velocidad;
+
+// CodeVision
+
+int TCNT0 = 0;
+
+int rand(){
+  return (int)(round(random(1)*2-1));
+}
+
+void srand(int p){
+}
+
+void delay_ms(int value){
+  delay(value);
+}
