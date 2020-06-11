@@ -1,0 +1,39 @@
+//Estas dos variables son globales y se deven poner al incio del codigo
+char value;    //variable que almacena los characteres mandados de procesing
+int confirm=0; //variable global para el funcionamiento del boton start
+
+/////////////////////Funciones///////////////////
+
+void start(){
+  if (confirm==0){
+    do{ 
+    value=getchar();
+    }while(value!='H'); 
+  confirm=1;
+  }
+}
+
+
+void mandar_sonido(int sonido){
+//valor entre 0 y 3, corresponden a cada sonido
+printf("1,%d\n\r",sonido);
+}
+
+void mandar_puntuacion(int score){
+//valor numerico puntuacion
+printf("2,%d\n\r",score);
+}
+
+void mandar_pelotas(int life){
+//valor entre 0 y 5
+printf("3,%d\n\r",life);
+}
+void mandar_fin(){
+//finalizar partida
+printf("4,0\n\r");
+confirm=0;
+}
+
+
+
+/////////////////////////////////////////////
