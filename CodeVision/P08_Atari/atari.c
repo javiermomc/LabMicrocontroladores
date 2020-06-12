@@ -12,30 +12,10 @@
 #include <io.h>
 #include <stdlib.h>
 #include <delay.h>
+#include "animacion.h"
 #include "processing.c"
 #include "matrix.c"
 #include "game.c"
-
-
-
-//ADC
-// Voltage Reference: Int., cap. on AREF
-#define ADC_VREF_TYPE ((1<<REFS1) | (1<<REFS0) | (1<<ADLAR))
-
-// Read the 8 most significant bits
-// of the AD conversion result
-unsigned char read_adc(unsigned char adc_input)
-{
-ADMUX=adc_input | ADC_VREF_TYPE;
-// Delay needed for the stabilization of the ADC input voltage
-delay_us(10);
-// Start the AD conversion
-ADCSRA|=(1<<ADSC);
-// Wait for the AD conversion to complete
-while ((ADCSRA & (1<<ADIF))==0);
-ADCSRA|=(1<<ADIF);
-return ADCH;
-}
 
 
 
@@ -74,6 +54,17 @@ PORTD=0x07;     //seteo de botones
 ConfiguraMax();
 IniciaColumnas();
 IniciaFilas();
+
+//Aquí se despliega la animación de "Bienvenida" ... solamente se corre la primera vez que se juega
+unsigned char i,j;
+for (j=0;j<10;j++)
+{
+	for (i=1;i<9;i++)
+    {                                          
+        MandaMax7219((i<<8)|Animacion[j][8-i]);    
+    }  
+    delay_ms(400);
+}
 
 prender_led(0,0);
 prender_led(0,1);  

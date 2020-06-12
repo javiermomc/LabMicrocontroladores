@@ -198,6 +198,17 @@ void play_game(){
                     mandar_sonido(3);
                     mandar_fin();
                     setup_game();
+					//Aquí se pone la animación de "Game Over" y se resetean los parámetros del juego
+					unsigned char i,j;
+					for (j=11;j<23;j++)
+					{
+						for (i=1;i<9;i++)
+						{	                                          
+							MandaMax7219((i<<8)|Animacion[j][8-i]);    
+						}  
+						delay_ms(400);
+					}
+					
                 }
                 break;
         }
