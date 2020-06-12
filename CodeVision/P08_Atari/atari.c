@@ -89,9 +89,9 @@ apagar_led(1,1);
 
 while (1)
     {   
-        ControlRaqueta();
-        if(processing_confirm==1){
-            play_game();
-        }
+         //start();
+         ControlRaqueta();
+         play_game();
+       
     }
 }
