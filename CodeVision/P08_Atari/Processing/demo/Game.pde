@@ -197,6 +197,7 @@ void play_game(){
                 }else{
                     mandar_sonido(3);
                     mandar_fin();
+                    setup_game();
                 }
                 break;
         }

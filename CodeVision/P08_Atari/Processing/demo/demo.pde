@@ -37,6 +37,10 @@ void keyPressed(){
     potenciometro_posicion -= 32;
     }else if(keyCode==RIGHT){
       potenciometro_posicion += 32;
+    }else if(keyCode==UP){
+      potenciometro_velocidad += 32;
+    }else if(keyCode==DOWN){
+      potenciometro_velocidad -= 32;
     }
   }
   if(keyCode=='R'){

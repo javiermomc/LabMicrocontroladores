@@ -57,9 +57,9 @@ signed char empty_matrix(){
 signed char collision_matrix(signed char x, signed char y){
     if(x<0 || y<0 || x>7 || y>7)
         return 0;
-    if(matrix_game[x][y]!=0){
-        return matrix_game[x][y];
+    if(matrix_game[x][y]!=0){    
         mandar_sonido(2);
+        return matrix_game[x][y];
     } 
     return 0;
 }
