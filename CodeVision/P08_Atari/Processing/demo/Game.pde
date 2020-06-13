@@ -1,6 +1,7 @@
 
 int i_game, j_game;
 int score, life, level, start_game;
+int next_x, next_y, is_collision_bar, is_collision_wall;
 
 int left_wall, right_wall, bottom_wall;
 void init_wall(int left, int right, int bottom){
@@ -32,6 +33,7 @@ int matrix_game[][] = new int[8][8];
 
 void init_matrix(){
     char value = 30;
+    is_collision_wall=0;
     for(i_game=0; i_game<3; i_game++){
         for(j_game=0; j_game<8; j_game++){
             matrix_game[j_game][i_game] = value;
@@ -66,6 +68,7 @@ int collision_matrix(int x, int y){
 int bar_position_x, bar_position_y, bar_size;
 
 void init_bar(int x, int y, int size){
+    is_collision_bar=0;
     bar_size = size;          
     bar_position_x = x;
     bar_position_y = y;                  
@@ -126,9 +129,7 @@ void setup_game(){
     life = 5;
     mandar_pelotas(life);
     level = 0;
-}
-
-int next_x, next_y, is_collision_bar, is_collision_wall; 
+} 
 
 void play_game(){
 
@@ -202,6 +203,8 @@ void play_game(){
                 }else{
                     mandar_sonido(3);
                     mandar_fin();
+                    is_collision_bar=0; 
+                    is_collision_wall=0;
           endAnimation();
           start_game=0;
                 }
@@ -234,10 +237,15 @@ void play_game(){
                 score = 0;
             } 
         } 
-       next_x = ball_position_x+ball_velocity_x;
-        next_y = ball_position_y+ball_velocity_y; 
-        is_collision_bar = collision_bar(next_x, next_y);
-        is_collision_wall = collision_wall(next_x, next_y);
+        next_x = ball_position_x+ball_velocity_x;
+        next_y = ball_position_y+ball_velocity_y;
+        if(start_game==0){
+            is_collision_bar = 0;
+            is_collision_wall = 0;
+        }else{
+            is_collision_bar = collision_bar(next_x, next_y);
+            is_collision_wall = collision_wall(next_x, next_y);
+        } 
     }
     if(ball_velocity_x>1)
       ball_velocity_x = 1;
@@ -247,7 +255,8 @@ void play_game(){
       ball_velocity_y = 1;
     if(ball_velocity_y<-1)
       ball_velocity_y = -1;
-    move_ball(ball_position_x+ball_velocity_x, ball_position_y+ball_velocity_y);
+    if(start_game!=0)
+        move_ball(ball_position_x+ball_velocity_x, ball_position_y+ball_velocity_y);
     if(empty_matrix()==0){
       move_ball(5, 4);
       ball_velocity_y = -ball_velocity_y;
