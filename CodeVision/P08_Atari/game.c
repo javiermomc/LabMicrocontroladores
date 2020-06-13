@@ -1,7 +1,7 @@
 
-
 signed char i_game, j_game;
-signed char score, life, level;
+signed char score, life, level, start_game;
+signed char next_x, next_y, is_collision_bar, is_collision_wall;
 
 signed char left_wall, right_wall, bottom_wall;
 void init_wall(signed char left, signed char right, signed char bottom){
@@ -33,6 +33,7 @@ signed char matrix_game[8][8];
 
 void init_matrix(){
     char value = 30;
+    is_collision_wall=0;
     for(i_game=0; i_game<3; i_game++){
         for(j_game=0; j_game<8; j_game++){
             matrix_game[j_game][i_game] = value;
@@ -67,6 +68,7 @@ signed char collision_matrix(signed char x, signed char y){
 signed char bar_position_x, bar_position_y, bar_size;
 
 void init_bar(signed char x, signed char y, signed char size){
+    is_collision_bar=0;
     bar_size = size;          
     bar_position_x = x;
     bar_position_y = y;                  
@@ -127,11 +129,15 @@ void setup_game(){
     life = 5;
     mandar_pelotas(life);
     level = 0;
-}
-
-signed char next_x, next_y, is_collision_bar, is_collision_wall; 
+} 
 
 void play_game(){
+
+    if(start_game==0){
+        start_game=1;
+        startAnimation();
+        setup_game();
+    }
 
     move_bar(potenciometro_posicion*8/255, bar_position_y);
     next_x = ball_position_x+ball_velocity_x;
@@ -197,18 +203,10 @@ void play_game(){
                 }else{
                     mandar_sonido(3);
                     mandar_fin();
-                    setup_game();
-					//Aquí se pone la animación de "Game Over" y se resetean los parámetros del juego
-					unsigned char i,j;
-					for (j=11;j<23;j++)
-					{
-						for (i=1;i<9;i++)
-						{	                                          
-							MandaMax7219((i<<8)|Animacion[j][8-i]);    
-						}  
-						delay_ms(400);
-					}
-					
+                    is_collision_bar=0; 
+                    is_collision_wall=0;
+					endAnimation();
+					start_game=0;
                 }
                 break;
         }
@@ -239,10 +237,15 @@ void play_game(){
                 score = 0;
             } 
         } 
-       next_x = ball_position_x+ball_velocity_x;
-        next_y = ball_position_y+ball_velocity_y; 
-        is_collision_bar = collision_bar(next_x, next_y);
-        is_collision_wall = collision_wall(next_x, next_y);
+        next_x = ball_position_x+ball_velocity_x;
+        next_y = ball_position_y+ball_velocity_y;
+        if(start_game==0){
+            is_collision_bar = 0;
+            is_collision_wall = 0;
+        }else{
+            is_collision_bar = collision_bar(next_x, next_y);
+            is_collision_wall = collision_wall(next_x, next_y);
+        } 
     }
     if(ball_velocity_x>1)
       ball_velocity_x = 1;
@@ -252,7 +255,8 @@ void play_game(){
       ball_velocity_y = 1;
     if(ball_velocity_y<-1)
       ball_velocity_y = -1;
-    move_ball(ball_position_x+ball_velocity_x, ball_position_y+ball_velocity_y);
+    if(start_game!=0)
+        move_ball(ball_position_x+ball_velocity_x, ball_position_y+ball_velocity_y);
     if(empty_matrix()==0){
       move_ball(5, 4);
       ball_velocity_y = -ball_velocity_y;

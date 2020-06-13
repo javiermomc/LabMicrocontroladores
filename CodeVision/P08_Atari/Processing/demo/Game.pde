@@ -1,7 +1,6 @@
 
-
 int i_game, j_game;
-int score, life, level;
+int score, life, level, start_game;
 
 int left_wall, right_wall, bottom_wall;
 void init_wall(int left, int right, int bottom){
@@ -133,6 +132,12 @@ int next_x, next_y, is_collision_bar, is_collision_wall;
 
 void play_game(){
 
+    if(start_game==0){
+        start_game=1;
+        startAnimation();
+        setup_game();
+    }
+
     move_bar(potenciometro_posicion*8/255, bar_position_y);
     next_x = ball_position_x+ball_velocity_x;
     next_y = ball_position_y+ball_velocity_y;
@@ -197,7 +202,8 @@ void play_game(){
                 }else{
                     mandar_sonido(3);
                     mandar_fin();
-                    setup_game();
+          endAnimation();
+          start_game=0;
                 }
                 break;
         }

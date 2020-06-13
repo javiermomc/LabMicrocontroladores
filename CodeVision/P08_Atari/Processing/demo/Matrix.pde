@@ -15,11 +15,9 @@ void mandar_pelotas(int p){
   lifes = p;
 }
 
-void mandar_sonido(int s){
-}
+void mandar_sonido(int s){}
 
-void mandar_fin(){
-}
+void mandar_fin(){}
 
 int potenciometro_posicion;
 int potenciometro_velocidad;
@@ -38,3 +36,6 @@ void srand(int p){
 void delay_ms(int value){
   delay(value);
 }
+
+void startAnimation(){}
+void endAnimation(){}

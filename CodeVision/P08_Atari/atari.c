@@ -12,9 +12,9 @@
 #include <io.h>
 #include <stdlib.h>
 #include <delay.h>
-#include "animacion.h"
 #include "processing.c"
 #include "matrix.c"
+#include "animacion.h"
 #include "game.c"
 
 
@@ -55,17 +55,6 @@ ConfiguraMax();
 IniciaColumnas();
 IniciaFilas();
 
-//Aquí se despliega la animación de "Bienvenida" ... solamente se corre la primera vez que se juega
-unsigned char i,j;
-for (j=0;j<10;j++)
-{
-	for (i=1;i<9;i++)
-    {                                          
-        MandaMax7219((i<<8)|Animacion[j][8-i]);    
-    }  
-    delay_ms(400);
-}
-
 prender_led(0,0);
 prender_led(0,1);  
        
@@ -80,9 +69,8 @@ apagar_led(1,1);
 
 while (1)
     {   
-         //start();
-         ControlRaqueta();
-         play_game();
+        updateADC();
+        play_game();
        
     }
 }

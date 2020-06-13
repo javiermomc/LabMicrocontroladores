@@ -1,0 +1,6 @@
+VERSION:3 SOURCE_TIMESTAMP:50CD75D9
+NODE:C LEVEL:0 LINE:1 "Animacion -> FLASH"
+NODE:V LEVEL:0 LINE:30 "i_animation -> R8"
+NODE:V LEVEL:0 LINE:30 "j_animation -> R7"
+NODE:F LEVEL:0 LINE:32 "startAnimation(void)"
+NODE:F LEVEL:0 LINE:44 "endAnimation(void)"

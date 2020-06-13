@@ -87,7 +87,7 @@ void apagar_led(unsigned char x,unsigned char y)
     MandaMax7219(estado[x]);
 }
  
-void updateADC()
+void ControlRaqueta()
 {
     potenciometro_posicion = read_adc(7); 
 	potenciometro_velocidad = read_adc(6);

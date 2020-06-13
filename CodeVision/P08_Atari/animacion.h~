@@ -26,29 +26,3 @@ flash char Animacion[38][8] =
 	{0,62,16,32,32,16,0,0},     // r          22
     {0,0,0,242,0,0,0,0},        // !          23
 };
-
-char i_animation, j_animation;
-
-void startAnimation(){
-    //Aquí se pone la animación de "Welcome" y se resetean los parámetros del juego
-    for (j_animation=0;j_animation<11;j_animation++)
-    {
-        for (i_animation=1;i_animation<9;i_animation++)
-        {	                                          
-            MandaMax7219((i_animation<<8)|Animacion[j_animation][8-i_animation]);    
-        }  
-        delay_ms(400);
-    }
-}
-
-void endAnimation(){
-    //Aquí se pone la animación de "Welcome" y se resetean los parámetros del juego
-    for (j_animation=11;j_animation<24;j_animation++)
-    {
-        for (i_animation=1;i_animation<9;i_animation++)
-        {	                                          
-            MandaMax7219((i_animation<<8)|Animacion[j_animation][8-i_animation]);    
-        }  
-        delay_ms(400);
-    }
-}
