@@ -11,6 +11,7 @@
  
 #include <io.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <delay.h>
 #include "processing.c"
 #include "matrix.c"
@@ -69,8 +70,11 @@ apagar_led(1,1);
 
 while (1)
     {   
+        //start();
         updateADC();
         play_game();
        
     }
 }
+
+//Dejar start en comentarios para ejecutar el juego sin necesidad de conectar el micro a processing
