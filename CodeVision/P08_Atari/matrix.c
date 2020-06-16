@@ -41,6 +41,13 @@ void IniciaFilas()
     }    
 }
 
+void IniciaEstado()
+{
+    unsigned char i;
+    for (i=0;i<8;i++)
+        estado[i]=columnas[i]<<8 | 0x00;
+}
+
 void MandaMax7219 (unsigned int dato)
 {
     unsigned char i;        //Contador para 16b
@@ -82,7 +89,9 @@ void prender_led(unsigned char x,unsigned char y)
 void apagar_led(unsigned char x,unsigned char y)
 {
     //Actualización del estado de la matriz
-    estado[x]= columnas[x]<<8 | (estado[x] ^ filas[y]);
+    if ((estado[x] & (columnas[x]<<8 | filas[y])) != (columnas[x]<<8 | 0x00))
+        estado[x]= columnas[x]<<8 | (estado[x] ^ filas[y]);
+        
     //Apagado de LED
     MandaMax7219(estado[x]);
 }

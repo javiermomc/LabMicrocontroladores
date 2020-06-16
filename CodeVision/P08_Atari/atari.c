@@ -55,6 +55,7 @@ PORTD=0x07;     //seteo de botones
 ConfiguraMax();
 IniciaColumnas();
 IniciaFilas();
+IniciaEstado();
 
 prender_led(0,0);
 prender_led(0,1);  
