@@ -31,7 +31,7 @@ char i_animation, j_animation;
 
 void startAnimation(){
     //Aquí se pone la animación de "Welcome" y se resetean los parámetros del juego
-    for (j_animation=0;j_animation<11;j_animation++)
+    for (j_animation=0;j_animation<10;j_animation++)
     {
         for (i_animation=1;i_animation<9;i_animation++)
         {	                                          
@@ -43,7 +43,7 @@ void startAnimation(){
 
 void endAnimation(){
     //Aquí se pone la animación de "Welcome" y se resetean los parámetros del juego
-    for (j_animation=11;j_animation<24;j_animation++)
+    for (j_animation=10;j_animation<24;j_animation++)
     {
         for (i_animation=1;i_animation<9;i_animation++)
         {	                                          
