@@ -89,19 +89,12 @@ void move_bar(signed char x, signed char y){
     bar_position_x = x;
     bar_position_y = y; 
 
-	prender_led(bar_position_x, bar_position_y);
-	prender_led(bar_position_x+1, bar_position_y);
-	prender_led(bar_position_x-1, bar_position_y);
-	
-	apagar_led(bar_position_x, bar_position_y);
-	apagar_led(bar_position_x+1, bar_position_y);
-	apagar_led(bar_position_x-1, bar_position_y);
-//    for(i_game=0; i_game<8; i_game++){
-//        if(i_game>=bar_position_x&&i_game<bar_position_x+bar_size)
-//            prender_led(i_game, y);
-//        else
-//            apagar_led(i_game, y);
-//    }
+    for(i_game=0; i_game<8; i_game++){
+        if(i_game>=bar_position_x&&i_game<bar_position_x+bar_size)
+            prender_led(i_game, y);
+        else
+            apagar_led(i_game, y);
+    }
 }
 
 signed char ball_position_x, ball_position_y, ball_velocity_x, ball_velocity_y, init_velocity_x, init_velocity_y;
