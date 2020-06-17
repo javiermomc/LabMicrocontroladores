@@ -1797,7 +1797,7 @@ _0x31:
 ;#include "game.c"
 ;
 ;signed char i_game, j_game;
-;unsigned int level;
+;signed int level;
 ;signed char score, life, start_game;
 ;signed char next_x, next_y, is_collision_bar, is_collision_wall;
 ;
@@ -2681,12 +2681,12 @@ _0x7E:
 	SBCI R31,HIGH(-200)
 	__PUTW1R 11,12
 ;    }
-;    if((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level)>0)
+;    if((signed int)(((signed int)potenciometro_velocidad)*4-level)>0)
 _0x7F:
 	CALL SUBOPT_0x1D
 	CALL __CPW01
-	BRSH _0x80
-;        delay_ms((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level));
+	BRGE _0x80
+;        delay_ms((signed int)(((signed int)potenciometro_velocidad)*4-level));
 	CALL SUBOPT_0x1D
 	MOVW R26,R30
 	CALL _delay_ms

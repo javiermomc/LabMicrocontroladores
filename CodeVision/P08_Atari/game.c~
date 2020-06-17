@@ -267,6 +267,6 @@ void play_game(){
       init_matrix();
       level += 200;
     } 
-    if(potenciometro_velocidad*4-level>0)
-        delay_ms(potenciometro_velocidad*4-level);
+    if((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level)>0)
+        delay_ms((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level));
 }

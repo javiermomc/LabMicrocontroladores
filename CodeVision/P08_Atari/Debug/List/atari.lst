@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm Tue Jun 16 22:24:39 2020
+AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm Tue Jun 16 22:58:55 2020
 
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm(1091): warning: Register r4 already defined by the .DEF directive
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm(1092): warning: Register r3 already defined by the .DEF directive
@@ -1967,7 +1967,7 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\De
                  ;#include "game.c"
                  ;
                  ;signed char i_game, j_game;
-                 ;unsigned int level;
+                 ;signed int level;
                  ;signed char score, life, start_game;
                  ;signed char next_x, next_y, is_collision_bar, is_collision_wall;
                  ;
@@ -2867,12 +2867,12 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\De
 0004dc 2ecf     +MOV R12 , R31
                  	__PUTW1R 11,12
                  ;    }
-                 ;    if((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level)>0)
+                 ;    if((signed int)(((signed int)potenciometro_velocidad)*4-level)>0)
                  _0x7F:
 0004dd 940e 07ca 	CALL SUBOPT_0x1D
 0004df 940e 09a5 	CALL __CPW01
-0004e1 f428      	BRSH _0x80
-                 ;        delay_ms((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level));
+0004e1 f42c      	BRGE _0x80
+                 ;        delay_ms((signed int)(((signed int)potenciometro_velocidad)*4-level));
 0004e2 940e 07ca 	CALL SUBOPT_0x1D
 0004e4 01df      	MOVW R26,R30
 0004e5 940e 07ff 	CALL _delay_ms
@@ -4511,8 +4511,8 @@ AT90USB1286 instruction use summary:
 .lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :  34 add   :  34 
 adiw  :  21 and   :   6 andi  :   8 asr   :   0 bclr  :   0 bld   :   2 
 brbc  :   0 brbs  :   0 brcc  :   1 brcs  :   0 break :   0 breq  :  32 
-brge  :  10 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :  10 
-brlt  :  16 brmi  :   5 brne  :  45 brpl  :   6 brsh  :  11 brtc  :   3 
+brge  :  11 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :  10 
+brlt  :  16 brmi  :   5 brne  :  45 brpl  :   6 brsh  :  10 brtc  :   3 
 brts  :   1 brvc  :   2 brvs  :   3 bset  :   0 bst   :   1 call  : 150 
 cbi   :   5 cbr   :   0 clc   :   1 clh   :   0 cli   :   1 cln   :   0 
 clr   :  36 cls   :   0 clt   :   4 clv   :   0 clz   :   0 com   :   6 
