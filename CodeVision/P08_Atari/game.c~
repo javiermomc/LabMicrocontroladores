@@ -1,6 +1,7 @@
 
 signed char i_game, j_game;
-signed char score, life, level, start_game;
+unsigned int level;
+signed char score, life, start_game;
 signed char next_x, next_y, is_collision_bar, is_collision_wall;
 
 signed char left_wall, right_wall, bottom_wall;
@@ -88,6 +89,7 @@ signed char collision_bar(signed char x, signed char y){
 void move_bar(signed char x, signed char y){
     bar_position_x = x;
     bar_position_y = y; 
+
     for(i_game=0; i_game<8; i_game++){
         if(i_game>=bar_position_x&&i_game<bar_position_x+bar_size)
             prender_led(i_game, y);
@@ -139,7 +141,7 @@ void play_game(){
         setup_game();
     }
 
-    move_bar(potenciometro_posicion*8/255, bar_position_y);
+    move_bar(potenciometro_posicion*1.4/51, bar_position_y);
     next_x = ball_position_x+ball_velocity_x;
     next_y = ball_position_y+ball_velocity_y;
     is_collision_bar = 1;
@@ -238,9 +240,14 @@ void play_game(){
             } 
         } 
         next_x = ball_position_x+ball_velocity_x;
-        next_y = ball_position_y+ball_velocity_y; 
-        is_collision_bar = collision_bar(next_x, next_y);
-        is_collision_wall = collision_wall(next_x, next_y);
+        next_y = ball_position_y+ball_velocity_y;
+        if(start_game==0){
+            is_collision_bar = 0;
+            is_collision_wall = 0;
+        }else{
+            is_collision_bar = collision_bar(next_x, next_y);
+            is_collision_wall = collision_wall(next_x, next_y);
+        } 
     }
     if(ball_velocity_x>1)
       ball_velocity_x = 1;
@@ -250,7 +257,8 @@ void play_game(){
       ball_velocity_y = 1;
     if(ball_velocity_y<-1)
       ball_velocity_y = -1;
-    move_ball(ball_position_x+ball_velocity_x, ball_position_y+ball_velocity_y);
+    if(start_game!=0)
+        move_ball(ball_position_x+ball_velocity_x, ball_position_y+ball_velocity_y);
     if(empty_matrix()==0){
       move_ball(5, 4);
       ball_velocity_y = -ball_velocity_y;

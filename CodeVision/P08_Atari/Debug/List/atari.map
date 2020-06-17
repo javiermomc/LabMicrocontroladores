@@ -1,6 +1,29 @@
 RAM Allocation [bytes]
 Variable                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
+columnas                                                                          0x0900       8
+filas                                                                             0x0908       8
+estado                                                                            0x0910      16
+start_game                                                                        0x0920       1
+next_x                                                                            0x0921       1
+next_y                                                                            0x0922       1
+is_collision_bar                                                                  0x0923       1
+is_collision_wall                                                                 0x0924       1
+left_wall                                                                         0x0925       1
+right_wall                                                                        0x0926       1
+bottom_wall                                                                       0x0927       1
+matrix_game                                                                       0x0928      64
+value_empty                                                                       0x0968       1
+bar_position_x                                                                    0x0969       1
+bar_position_y                                                                    0x096A       1
+bar_size                                                                          0x096B       1
+ball_position_x                                                                   0x096C       1
+ball_position_y                                                                   0x096D       1
+ball_velocity_x                                                                   0x096E       1
+ball_velocity_y                                                                   0x096F       1
+init_velocity_x                                                                   0x0970       1
+init_velocity_y                                                                   0x0971       1
+_seed                                                                             0x0972       4
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -9,8 +32,55 @@ Variable                                                                        
 Register Allocation
 Variable                                                                          Register  Size
 ------------------------------------------------------------------------------------------------
+processing_value                                                                  R4           1
+processing_confirm                                                                R3           1
+potenciometro_posicion                                                            R6           1
+potenciometro_velocidad                                                           R5           1
+i_animation                                                                       R8           1
+j_animation                                                                       R7           1
+i_game                                                                            R10          1
+j_game                                                                            R9           1
+level                                                                             R11,R12      2
+score                                                                             R14          1
+life                                                                              R13          1
 
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-main                                                                              0x0006A      2
+mandar_sonido                                                                     0x00139      7
+mandar_puntuacion                                                                 0x00140      7
+mandar_pelotas                                                                    0x00147      7
+mandar_fin                                                                        0x0014E     10
+read_adc                                                                          0x00158     26
+IniciaColumnas                                                                    0x00172     14
+IniciaFilas                                                                       0x00180     21
+IniciaEstado                                                                      0x00195     17
+MandaMax7219                                                                      0x001A6     29
+ConfiguraMax                                                                      0x001C3     18
+prender_led                                                                       0x001D5     26
+apagar_led                                                                        0x001EF     54
+updateADC                                                                         0x00225      7
+startAnimation                                                                    0x0022C     22
+endAnimation                                                                      0x00242     23
+init_wall                                                                         0x00259     12
+collision_wall                                                                    0x00265     36
+init_matrix                                                                       0x00289     30
+empty_matrix                                                                      0x002A7     31
+collision_matrix                                                                  0x002C6     27
+init_bar                                                                          0x002E1     29
+collision_bar                                                                     0x002FE     41
+move_bar                                                                          0x00327     31
+init_ball                                                                         0x00346     21
+setVelocity_ball                                                                  0x0035B      4
+move_ball                                                                         0x0035F     18
+setup_game                                                                        0x00371     28
+play_game                                                                         0x0038D    347
+main                                                                              0x004E8     65
+srand                                                                             0x00529     10
+rand                                                                              0x00533     23
+putchar                                                                           0x0054A     10
+put_usart_G101                                                                    0x00554     13
+_print_G101                                                                       0x00561    308
+printf                                                                            0x00695     37
+strlen                                                                            0x006BA     12
+strlenf                                                                           0x006C6     13

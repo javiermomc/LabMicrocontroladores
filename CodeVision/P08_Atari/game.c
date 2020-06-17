@@ -1,6 +1,7 @@
 
 signed char i_game, j_game;
-signed char score, life, level, start_game;
+unsigned int level;
+signed char score, life, start_game;
 signed char next_x, next_y, is_collision_bar, is_collision_wall;
 
 signed char left_wall, right_wall, bottom_wall;
@@ -265,6 +266,7 @@ void play_game(){
       ball_velocity_x = init_velocity_x;
       init_matrix();
       level += 200;
-    }
-    delay_ms(potenciometro_velocidad*4-level);
+    } 
+    if(potenciometro_velocidad*4-level>0)
+        delay_ms(potenciometro_velocidad*4-level);
 }
