@@ -1802,7 +1802,7 @@
 ;PCODE: $0000052C VOL: 0
 ;PCODE: $0000052D VOL: 0
 ;    }
-;    if(potenciometro_velocidad*4-level>0)
+;    if((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level)>0)
 ;PCODE: $0000052E VOL: 0
 ;PCODE: $0000052F VOL: 0
 ;PCODE: $00000530 VOL: 0
@@ -1810,7 +1810,7 @@
 ;PCODE: $00000532 VOL: 0
 ;PCODE: $00000533 VOL: 0
 ;PCODE: $00000534 VOL: 0
-;        delay_ms(potenciometro_velocidad*4-level);
+;        delay_ms((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level));
 ;PCODE: $00000535 VOL: 0
 ;PCODE: $00000536 VOL: 0
 ;PCODE: $00000537 VOL: 0

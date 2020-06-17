@@ -266,6 +266,7 @@ void play_game(){
       ball_velocity_x = init_velocity_x;
       init_matrix();
       level += 200;
-    }
-    delay_ms(potenciometro_velocidad*4-level);
+    } 
+    if(potenciometro_velocidad*4-level>0)
+        delay_ms(potenciometro_velocidad*4-level);
 }
