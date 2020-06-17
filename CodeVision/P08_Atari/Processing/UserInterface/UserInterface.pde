@@ -9,6 +9,7 @@ AudioSnippet wall1;
 AudioSnippet wall2;
 AudioSnippet win;
 AudioSnippet lose;
+AudioSnippet death;
 Minim minim; 
 
 
@@ -41,6 +42,7 @@ void setup () {
   wall2= minim.loadSnippet("wall2.mp3");
   win= minim.loadSnippet("win.mp3");
   lose= minim.loadSnippet("lose.mp3");
+  death= minim.loadSnippet("death.mp3");
   
   //port
   println(Serial.list());// List all the available serial ports
@@ -107,6 +109,10 @@ int[] data = int(split(inString,","));
   //lifes
   if(data[0]==3){
     life=data[1];
+    if(life!=5){
+    death.rewind();
+    death.play();
+    }
   }
   
   //finalizar partida
@@ -114,6 +120,7 @@ int[] data = int(split(inString,","));
     print("  _GAME OVER_  \n");
     topScore_update(score);
     score=0;
+    life=0;
     start=false;
   }
   
