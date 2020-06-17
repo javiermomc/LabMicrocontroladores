@@ -2675,10 +2675,10 @@ _0x7E:
 ;      ball_velocity_x = init_velocity_x;
 ;      init_matrix();
 	RCALL _init_matrix
-;      level += 200;
+;      level += 100;
 	__GETW1R 11,12
-	SUBI R30,LOW(-200)
-	SBCI R31,HIGH(-200)
+	SUBI R30,LOW(-100)
+	SBCI R31,HIGH(-100)
 	__PUTW1R 11,12
 ;    }
 ;    if((signed int)(((signed int)potenciometro_velocidad)*4-level)>0)

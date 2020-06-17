@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm Tue Jun 16 22:58:55 2020
+AVRASM ver. 2.1.30  D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm Tue Jun 16 23:08:52 2020
 
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm(1091): warning: Register r4 already defined by the .DEF directive
 D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\Debug\List\atari.asm(1092): warning: Register r3 already defined by the .DEF directive
@@ -2855,13 +2855,13 @@ D:\JavierJr\Documents\ISD\FebJun20\LabMicrocontroladores\CodeVision\P08_Atari\De
                  ;      ball_velocity_x = init_velocity_x;
                  ;      init_matrix();
 0004d6 ddb2      	RCALL _init_matrix
-                 ;      level += 200;
+                 ;      level += 100;
                 +
 0004d7 2deb     +MOV R30 , R11
 0004d8 2dfc     +MOV R31 , R12
                  	__GETW1R 11,12
-0004d9 53e8      	SUBI R30,LOW(-200)
-0004da 4fff      	SBCI R31,HIGH(-200)
+0004d9 59ec      	SUBI R30,LOW(-100)
+0004da 4fff      	SBCI R31,HIGH(-100)
                 +
 0004db 2ebe     +MOV R11 , R30
 0004dc 2ecf     +MOV R12 , R31

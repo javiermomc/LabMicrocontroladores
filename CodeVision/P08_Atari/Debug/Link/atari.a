@@ -1797,7 +1797,7 @@
 ;PCODE: $00000529 VOL: 0
 ;      init_matrix();
 ;PCODE: $0000052A VOL: 0
-;      level += 200;
+;      level += 100;
 ;PCODE: $0000052B VOL: 0
 ;PCODE: $0000052C VOL: 0
 ;PCODE: $0000052D VOL: 0

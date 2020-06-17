@@ -1,6 +1,6 @@
 
 signed char i_game, j_game;
-unsigned int level;
+signed int level;
 signed char score, life, start_game;
 signed char next_x, next_y, is_collision_bar, is_collision_wall;
 
@@ -267,6 +267,6 @@ void play_game(){
       init_matrix();
       level += 200;
     } 
-    if((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level)>0)
-        delay_ms((unsigned int)(((unsigned int)potenciometro_velocidad)*4-level));
+    if((signed int)(((signed int)potenciometro_velocidad)*4-level)>0)
+        delay_ms((signed int)(((signed int)potenciometro_velocidad)*4-level));
 }
